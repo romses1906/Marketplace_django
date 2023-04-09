@@ -1,0 +1,128 @@
+[
+  {
+    "model": "products.Category",
+    "pk": 1,
+    "fields": {
+      "name": "Телевизоры",
+      "description": "Телевизоры",
+      "is_active": true
+    }
+  },
+  {
+    "model": "products.Category",
+    "pk": 2,
+    "fields": {
+      "name": "Наушники",
+      "description": "Наушники",
+      "is_active": true
+    }
+  },
+  {
+    "model": "products.Category",
+    "pk": 3,
+    "fields": {
+      "name": "Стиральные машины",
+      "description": "Стиральные машины",
+      "is_active": true
+    }
+  },
+  {
+    "model": "products.Category",
+    "pk": 4,
+    "fields": {
+      "name": "Скидки",
+      "description": "Скидки",
+      "is_active": true
+    }
+  },
+    {
+    "model": "products.Category",
+    "pk": 5,
+    "fields": {
+      "name": "Электроника",
+      "description": "Электроника",
+      "is_active": true
+    }
+  },
+  {
+    "model": "products.Category",
+    "pk": 6,
+    "fields": {
+      "name": "Фотоаппараты",
+      "description": "Фотоаппараты",
+      "is_active": true
+    }
+  },
+  {
+    "model": "products.Category",
+    "pk": 7,
+    "fields": {
+      "name": "Фурнитура",
+      "description": "Фурнитура",
+      "is_active": true
+    }
+  },
+  {
+    "model": "products.Category",
+    "pk": 8,
+    "fields": {
+      "name": "Мобильные телефоны",
+      "description": "Мобильные телефоны",
+      "is_active": true
+    }
+  },
+  {
+    "model": "products.Category",
+    "pk": 9,
+    "fields": {
+      "name": "Микроволновые печи",
+      "description": "Микроволновые печи",
+      "is_active": true
+    }
+  },
+  {
+    "model": "products.Category",
+    "pk": 10,
+    "fields": {
+      "name": "Кухонная техника",
+      "description": "Кухонная техника",
+      "is_active": true
+    }
+  },
+  {
+    "model": "products.Category",
+    "pk": 11,
+    "fields": {
+      "name": "Торшеры",
+      "description": "Торшеры",
+      "is_active": true
+    }
+  },
+  {
+    "model": "products.Category",
+    "pk": 12,
+    "fields": {
+      "name": "Аксессуары",
+      "description": "Аксессуары",
+      "is_active": true
+    }
+  },
+  {
+    "model": "products.Category",
+    "pk": 13,
+    "fields": {
+      "name": "Сумки",
+      "description": "Сумки",
+      "is_active": true
+    }
+  },
+  {
+    "model": "products.Category",
+    "pk": 14,
+    "fields": {
+      "name": "Чехлы",
+      "description": "Чехлы",
+      "is_active": true
+    }
+  }
+]
