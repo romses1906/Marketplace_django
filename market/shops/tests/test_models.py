@@ -1,5 +1,7 @@
+import re
+
 from django.test import TestCase
-from shops.models import Shop, Offer
+from shops.models import Shop, Offer, phone_validate
 from products.models import Product, Property
 
 
@@ -30,6 +32,10 @@ class ShopModelTest(TestCase):
         field_verboses = {
             'name': 'название',
             'products': 'товары в магазине',
+            'description': 'описание магазина',
+            'phone_number': 'номер телефона',
+            'address': 'адрес',
+            'email': 'email',
         }
         for field, expected_value in field_verboses.items():
             with self.subTest(field=field):
@@ -39,6 +45,51 @@ class ShopModelTest(TestCase):
         shop = ShopModelTest.shop
         max_length = shop._meta.get_field('name').max_length
         self.assertEqual(max_length, 512)
+
+    def test_phone_number_max_length(self):
+        shop = ShopModelTest.shop
+        max_length = shop._meta.get_field('phone_number').max_length
+        self.assertEqual(max_length, 12)
+
+    def test_address_max_length(self):
+        shop = ShopModelTest.shop
+        max_length = shop._meta.get_field('address').max_length
+        self.assertEqual(max_length, 255)
+
+    def test_email_max_length(self):
+        shop = ShopModelTest.shop
+        max_length = shop._meta.get_field('email').max_length
+        self.assertEqual(max_length, 255)
+
+    def test_blank(self):
+        shop = ShopModelTest.shop
+        blank_fields = [
+            'description',
+            'phone_number',
+            'address',
+            'email'
+        ]
+        for field in blank_fields:
+            with self.subTest(field=field):
+                self.assertTrue(shop._meta.get_field(field_name=field).blank)
+
+    def test_null(self):
+        shop = ShopModelTest.shop
+        blank_fields = [
+            'description',
+            'phone_number',
+            'address',
+            'email'
+        ]
+        for field in blank_fields:
+            with self.subTest(field=field):
+                self.assertTrue(shop._meta.get_field(field_name=field).null)
+
+    def test_phone_number_validation(self):
+        shop = ShopModelTest.shop
+        field = shop._meta.get_field(field_name='phone_number')
+        self.assertIn(phone_validate, field.validators)
+        self.assertEqual(phone_validate.regex.pattern, r'^\+?[78]\d{10}$')
 
 
 class OfferModelTest(TestCase):
