@@ -4,8 +4,7 @@
     "pk": 1,
     "fields": {
       "name": "Телевизоры",
-      "description": "Телевизоры",
-      "is_active": true
+      "description": "Телевизоры"
     }
   },
   {
@@ -13,8 +12,7 @@
     "pk": 2,
     "fields": {
       "name": "Наушники",
-      "description": "Наушники",
-      "is_active": true
+      "description": "Наушники"
     }
   },
   {
@@ -22,8 +20,7 @@
     "pk": 3,
     "fields": {
       "name": "Стиральные машины",
-      "description": "Стиральные машины",
-      "is_active": true
+      "description": "Стиральные машины"
     }
   },
   {
@@ -31,8 +28,7 @@
     "pk": 4,
     "fields": {
       "name": "Скидки",
-      "description": "Скидки",
-      "is_active": true
+      "description": "Скидки"
     }
   },
     {
@@ -40,8 +36,7 @@
     "pk": 5,
     "fields": {
       "name": "Электроника",
-      "description": "Электроника",
-      "is_active": true
+      "description": "Электроника"
     }
   },
   {
@@ -49,8 +44,7 @@
     "pk": 6,
     "fields": {
       "name": "Фотоаппараты",
-      "description": "Фотоаппараты",
-      "is_active": true
+      "description": "Фотоаппараты"
     }
   },
   {
@@ -58,8 +52,7 @@
     "pk": 7,
     "fields": {
       "name": "Фурнитура",
-      "description": "Фурнитура",
-      "is_active": true
+      "description": "Фурнитура"
     }
   },
   {
@@ -67,8 +60,7 @@
     "pk": 8,
     "fields": {
       "name": "Мобильные телефоны",
-      "description": "Мобильные телефоны",
-      "is_active": true
+      "description": "Мобильные телефоны"
     }
   },
   {
@@ -76,8 +68,7 @@
     "pk": 9,
     "fields": {
       "name": "Микроволновые печи",
-      "description": "Микроволновые печи",
-      "is_active": true
+      "description": "Микроволновые печи"
     }
   },
   {
@@ -85,8 +76,7 @@
     "pk": 10,
     "fields": {
       "name": "Кухонная техника",
-      "description": "Кухонная техника",
-      "is_active": true
+      "description": "Кухонная техника"
     }
   },
   {
@@ -94,8 +84,7 @@
     "pk": 11,
     "fields": {
       "name": "Торшеры",
-      "description": "Торшеры",
-      "is_active": true
+      "description": "Торшеры"
     }
   },
   {
@@ -103,8 +92,7 @@
     "pk": 12,
     "fields": {
       "name": "Аксессуары",
-      "description": "Аксессуары",
-      "is_active": true
+      "description": "Аксессуары"
     }
   },
   {
@@ -113,7 +101,7 @@
     "fields": {
       "name": "Сумки",
       "description": "Сумки",
-      "is_active": true
+      "parent": 12
     }
   },
   {
@@ -122,7 +110,7 @@
     "fields": {
       "name": "Чехлы",
       "description": "Чехлы",
-      "is_active": true
+      "parent": 12
     }
   }
 ]
