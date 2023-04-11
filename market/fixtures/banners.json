@@ -44,10 +44,10 @@
         }
     },
     {
-        "model": "static/django-frontend/assets/img/content/home/slider.png",
+        "model": "shops.banner",
         "pk": 5,
         "fields": {
-            "image": "/assets/img/content/home/slider.png",
+            "image": "static/django-frontend/assets/img/content/home/slider.png",
             "title": "Баннер 5",
             "description": "Описание баннера 5",
             "is_active": false,
