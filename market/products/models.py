@@ -8,6 +8,8 @@ class Product(models.Model):
     """Продукт"""
     name = models.CharField(max_length=512, verbose_name=_("наименование"))
     property = models.ManyToManyField("Property", through="ProductProperty", verbose_name=_("характеристики"))
+    category = models.ForeignKey("Category", related_name='products', verbose_name=_("категория"),
+                                 on_delete=models.PROTECT)
 
 
 class Property(models.Model):
