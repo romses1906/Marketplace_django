@@ -84,25 +84,25 @@ class OfferModelTest(TestCase):
 class BannerManagerTestCase(TestCase):
     """Класс тестов менеджера баннеров"""
     def setUp(self):
-        banner1 = Banner.objects.create(
+        Banner.objects.create(
             title='Banner 1',
             description='Banner 1 description',
             is_active=True,
             link='https://example.com'
         )
-        banner2 = Banner.objects.create(
+        Banner.objects.create(
             title='Banner 2',
             description='Banner 2 description',
             is_active=True,
             link='https://example.com'
         )
-        banner3 = Banner.objects.create(
+        Banner.objects.create(
             title='Banner 3',
             description='Banner 3 description',
             is_active=False,
             link='https://example.com'
         )
-        banner4 = Banner.objects.create(
+        Banner.objects.create(
             title='Banner 4',
             description='Banner 4 description',
             is_active=True,
