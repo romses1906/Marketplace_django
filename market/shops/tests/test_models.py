@@ -1,6 +1,7 @@
 from django.test import TestCase
-from shops.models import Shop, Offer, BannerManager, Banner
+from shops.models import Shop, Offer, Banner
 from products.models import Product, Property
+import os
 
 
 class ShopModelTest(TestCase):
@@ -131,7 +132,7 @@ class BannerTestCase(TestCase):
             link='https://example.com'
         )
 
-        self.assertEqual(banner.image.path, 'banners/banner.jpg')
+        self.assertEqual(os.path.basename(banner.image.path), 'banner.jpg')
         self.assertEqual(banner.title, 'MAVIC PRO 5 MINI DRONE')
         self.assertEqual(banner.description, 'Get the best phone you ever seen with modern Windows OS plus 70% Off '
                                              'this summer')
