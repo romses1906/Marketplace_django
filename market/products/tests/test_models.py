@@ -1,5 +1,5 @@
 from django.test import TestCase
-from products.models import Product, Property, ProductProperty
+from products.models import Product, Property, ProductProperty, Category
 
 
 class ProductModelTest(TestCase):
@@ -9,8 +9,10 @@ class ProductModelTest(TestCase):
     def setUpClass(cls):
         super().setUpClass()
         cls.property = Property.objects.create(name='тестовая характеристика')
+        cls.category = Category.objects.create(name='тестовая категория', description='тестовое описание категории')
         cls.product = Product.objects.create(
             name='Тестовый продукт',
+            category=cls.category
         )
         cls.product.property.set([cls.property])
 
@@ -25,6 +27,7 @@ class ProductModelTest(TestCase):
         field_verboses = {
             'name': 'наименование',
             'property': 'характеристики',
+            'category': 'категория'
         }
         for field, expected_value in field_verboses.items():
             with self.subTest(field=field):
@@ -71,8 +74,10 @@ class ProductPropertyModelTest(TestCase):
     def setUpClass(cls):
         super().setUpClass()
         cls.property = Property.objects.create(name='тестовая характеристика')
+        cls.category = Category.objects.create(name='тестовая категория', description='тестовое описание категории')
         cls.product = Product.objects.create(
             name='Тестовый продукт',
+            category=cls.category
         )
         cls.product_property = ProductProperty.objects.create(product=cls.product, property=cls.property,
                                                               value='тестовое значение характеристики')

@@ -8,7 +8,7 @@ class Product(models.Model):
     """Продукт"""
     name = models.CharField(max_length=512, verbose_name=_("наименование"))
     property = models.ManyToManyField("Property", through="ProductProperty", verbose_name=_("характеристики"))
-    category = models.ForeignKey("Category", related_name='products', verbose_name=_("категория"),
+    category = models.ForeignKey("Category", default=None, related_name='products', verbose_name=_("категория"),
                                  on_delete=models.PROTECT)
 
 
@@ -28,7 +28,7 @@ class Category(SoftDeleteModel, MPTTModel):
     """Категория товара"""
     name = models.CharField(max_length=512, verbose_name=_("наименование"))
     description = models.CharField(max_length=512, verbose_name=_("описание"))
-    image = models.ImageField(upload_to='departments/', verbose_name=_("иконка"))
+    image = models.ImageField(upload_to='departments/', null=True, blank=True, verbose_name=_("иконка"))
     parent = TreeForeignKey('self', on_delete=models.PROTECT, null=True, blank=True, related_name='children',
                             db_index=True, verbose_name=_('родительская категория'))
 
