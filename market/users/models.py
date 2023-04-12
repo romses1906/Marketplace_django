@@ -7,7 +7,7 @@ from phonenumber_field.modelfields import PhoneNumberField
 class User(AbstractUser):
     """Абстрактная модель User, добавляет в стандартную модель дополнительные поля."""
     email = models.EmailField(unique=True, verbose_name=_('Электронная почта'))
-    surname = models.CharField(max_length=50, blank=False, null=False, verbose_name=_('отчество'))
+    surname = models.CharField(max_length=50, blank=True, null=True, verbose_name=_('отчество'))
     phone_number = PhoneNumberField(unique=True, null=True, blank=True, verbose_name=_('номер телефона'))
     photo = models.ImageField(upload_to='users_foto/', null=True, blank=True, verbose_name=_('фотография'))
 

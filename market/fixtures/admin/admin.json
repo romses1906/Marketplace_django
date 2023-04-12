@@ -1,0 +1,14 @@
+[
+    {
+    "model": "users.user",
+    "pk": 7,
+    "fields": {
+        "password": "admin",
+        "is_superuser": false,
+        "username": "admin",
+        "email": "admin@admin.ru",
+        "is_active": true
+    }
+}
+    ]
+

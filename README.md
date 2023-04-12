@@ -53,3 +53,17 @@ python manage.py runserver 0.0.0.0:8000
 # Цели проекта
 
 Код написан в учебных целях — это курс по Джанго на сайте [Skillbox](https://go.skillbox.ru/education/course/django-framework).  
+
+## Разработка
+### Приложение users:
+
+Загрузка данных в модель User загружается из папки `market/` следующими командами:
+
+- admin
+```shell
+python manage.py loaddata fixtures/admin/admin.json --app users.User
+```
+- users
+```shell
+python manage.py loaddata fixtures/users/users.json --app users.User
+```
