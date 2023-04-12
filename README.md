@@ -57,13 +57,8 @@ python manage.py runserver 0.0.0.0:8000
 ## Разработка
 ### Приложение users:
 
-Загрузка данных в модель User загружается из папки `market/` следующими командами:
+Загрузка данных в модель User выполняется из папки `market/` следующей командой:
 
-- admin
 ```shell
-python manage.py loaddata fixtures/admin/admin.json --app users.User
-```
-- users
-```shell
-python manage.py loaddata fixtures/users/users.json --app users.User
+python manage.py loaddata fixtures/model_users.json --app users.User
 ```
