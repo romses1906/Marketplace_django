@@ -62,3 +62,12 @@ python manage.py runserver 0.0.0.0:8000
 ```shell
 python manage.py loaddata fixtures/users.json --app users.User
 ```
+Для доступа к Админ-панели следующие данные:
+```
+email: admin@admin.ru password: admin
+```
+Данные двух обычных пользователей:
+```
+1. email: test-user@test.ru password: 1304test
+2. email: test-user-2@test.ru password: 1304test
+```
