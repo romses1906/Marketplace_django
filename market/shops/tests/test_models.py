@@ -1,6 +1,6 @@
 from django.test import TestCase
 from shops.models import Shop, Offer, Banner
-from products.models import Product, Property
+from products.models import Product, Property, Category
 import os
 
 
@@ -11,8 +11,10 @@ class ShopModelTest(TestCase):
     def setUpClass(cls):
         super().setUpClass()
         cls.property = Property.objects.create(name='тестовая характеристика')
+        cls.category = Category.objects.create(name='тестовая категория', description='тестовое описание категории')
         cls.product = Product.objects.create(
             name='тестовый продукт',
+            category=cls.category
         )
         cls.product.property.set([cls.property])
         cls.shop = Shop.objects.create(name='тестовый магазин')
@@ -48,8 +50,10 @@ class OfferModelTest(TestCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
+        cls.category = Category.objects.create(name='тестовая категория', description='тестовое описание категории')
         cls.product = Product.objects.create(
             name='тестовый продукт',
+            category=cls.category
         )
         cls.shop = Shop.objects.create(name='тестовый магазин')
         cls.offer = Offer.objects.create(shop=cls.shop, product=cls.product, price=35)

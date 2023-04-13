@@ -1,0 +1,226 @@
+[
+{
+  "model": "products.category",
+  "pk": 1,
+  "fields": {
+    "is_deleted": false,
+    "deleted_at": null,
+    "name": "Телевизоры",
+    "description": "Телевизоры",
+    "image": "",
+    "parent": null,
+    "lft": 1,
+    "rght": 2,
+    "tree_id": 8,
+    "level": 0
+  }
+},
+{
+  "model": "products.category",
+  "pk": 2,
+  "fields": {
+    "is_deleted": false,
+    "deleted_at": null,
+    "name": "Наушники",
+    "description": "Наушники",
+    "image": "",
+    "parent": null,
+    "lft": 1,
+    "rght": 2,
+    "tree_id": 5,
+    "level": 0
+  }
+},
+{
+  "model": "products.category",
+  "pk": 3,
+  "fields": {
+    "is_deleted": false,
+    "deleted_at": null,
+    "name": "Стиральные машины",
+    "description": "Стиральные машины",
+    "image": "",
+    "parent": null,
+    "lft": 1,
+    "rght": 2,
+    "tree_id": 7,
+    "level": 0
+  }
+},
+{
+  "model": "products.category",
+  "pk": 4,
+  "fields": {
+    "is_deleted": false,
+    "deleted_at": null,
+    "name": "Скидки",
+    "description": "Скидки",
+    "image": "",
+    "parent": null,
+    "lft": 1,
+    "rght": 2,
+    "tree_id": 6,
+    "level": 0
+  }
+},
+{
+  "model": "products.category",
+  "pk": 5,
+  "fields": {
+    "is_deleted": false,
+    "deleted_at": null,
+    "name": "Электроника",
+    "description": "Электроника",
+    "image": "",
+    "parent": null,
+    "lft": 1,
+    "rght": 2,
+    "tree_id": 12,
+    "level": 0
+  }
+},
+{
+  "model": "products.category",
+  "pk": 6,
+  "fields": {
+    "is_deleted": false,
+    "deleted_at": null,
+    "name": "Фотоаппараты",
+    "description": "Фотоаппараты",
+    "image": "",
+    "parent": null,
+    "lft": 1,
+    "rght": 2,
+    "tree_id": 10,
+    "level": 0
+  }
+},
+{
+  "model": "products.category",
+  "pk": 7,
+  "fields": {
+    "is_deleted": false,
+    "deleted_at": null,
+    "name": "Фурнитура",
+    "description": "Фурнитура",
+    "image": "",
+    "parent": null,
+    "lft": 1,
+    "rght": 2,
+    "tree_id": 11,
+    "level": 0
+  }
+},
+{
+  "model": "products.category",
+  "pk": 8,
+  "fields": {
+    "is_deleted": false,
+    "deleted_at": null,
+    "name": "Мобильные телефоны",
+    "description": "Мобильные телефоны",
+    "image": "",
+    "parent": null,
+    "lft": 1,
+    "rght": 2,
+    "tree_id": 4,
+    "level": 0
+  }
+},
+{
+  "model": "products.category",
+  "pk": 9,
+  "fields": {
+    "is_deleted": false,
+    "deleted_at": null,
+    "name": "Микроволновые печи",
+    "description": "Микроволновые печи",
+    "image": "",
+    "parent": 10,
+    "lft": 2,
+    "rght": 3,
+    "tree_id": 2,
+    "level": 1
+  }
+},
+{
+  "model": "products.category",
+  "pk": 10,
+  "fields": {
+    "is_deleted": false,
+    "deleted_at": null,
+    "name": "Кухонная техника",
+    "description": "Кухонная техника",
+    "image": "",
+    "parent": null,
+    "lft": 1,
+    "rght": 4,
+    "tree_id": 2,
+    "level": 0
+  }
+},
+{
+  "model": "products.category",
+  "pk": 11,
+  "fields": {
+    "is_deleted": false,
+    "deleted_at": null,
+    "name": "Торшеры",
+    "description": "Торшеры",
+    "image": "",
+    "parent": null,
+    "lft": 1,
+    "rght": 2,
+    "tree_id": 9,
+    "level": 0
+  }
+},
+{
+  "model": "products.category",
+  "pk": 12,
+  "fields": {
+    "is_deleted": false,
+    "deleted_at": null,
+    "name": "Аксессуары",
+    "description": "Аксессуары",
+    "image": "",
+    "parent": null,
+    "lft": 1,
+    "rght": 6,
+    "tree_id": 1,
+    "level": 0
+  }
+},
+{
+  "model": "products.category",
+  "pk": 13,
+  "fields": {
+    "is_deleted": false,
+    "deleted_at": null,
+    "name": "Сумки",
+    "description": "Сумки",
+    "image": "",
+    "parent": 12,
+    "lft": 2,
+    "rght": 3,
+    "tree_id": 1,
+    "level": 1
+  }
+},
+{
+  "model": "products.category",
+  "pk": 14,
+  "fields": {
+    "is_deleted": false,
+    "deleted_at": null,
+    "name": "Чехлы",
+    "description": "Чехлы",
+    "image": "",
+    "parent": 12,
+    "lft": 4,
+    "rght": 5,
+    "tree_id": 1,
+    "level": 1
+  }
+}
+]
