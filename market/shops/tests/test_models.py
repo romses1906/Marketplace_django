@@ -1,7 +1,8 @@
 import os
 
 from django.test import TestCase
-from products.models import Product, Property
+
+from products.models import Product, Property, Category
 from shops.models import Shop, Offer, Banner, phone_validate
 from users.models import User
 
@@ -13,8 +14,10 @@ class ShopModelTest(TestCase):
     def setUpClass(cls):
         super().setUpClass()
         cls.property = Property.objects.create(name='тестовая характеристика')
+        cls.category = Category.objects.create(name='тестовая категория', description='тестовое описание категории')
         cls.product = Product.objects.create(
             name='тестовый продукт',
+            category=cls.category
         )
         cls.product.property.set([cls.property])
         cls.user = User.objects.create_user(email="test@test.com", password="testpassword")
@@ -101,8 +104,10 @@ class OfferModelTest(TestCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
+        cls.category = Category.objects.create(name='тестовая категория', description='тестовое описание категории')
         cls.product = Product.objects.create(
             name='тестовый продукт',
+            category=cls.category
         )
         cls.shop = Shop.objects.create(name='тестовый магазин')
         cls.offer = Offer.objects.create(shop=cls.shop, product=cls.product, price=35)
