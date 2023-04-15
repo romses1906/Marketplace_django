@@ -1,7 +1,11 @@
-from django.test import TestCase
-from shops.models import Shop, Offer, Banner
-from products.models import Product, Property, Category
 import os
+
+from django.contrib.auth import get_user_model
+from django.test import TestCase
+
+from products.models import Product, Property, Category
+from shops.models import Shop, Offer, Banner, phone_validate
+from users.models import User
 
 
 class ShopModelTest(TestCase):
@@ -17,7 +21,8 @@ class ShopModelTest(TestCase):
             category=cls.category
         )
         cls.product.property.set([cls.property])
-        cls.shop = Shop.objects.create(name='тестовый магазин')
+        cls.user = User.objects.create_user(email="test@test.com", password="testpassword")
+        cls.shop = Shop.objects.create(name='тестовый магазин', user=cls.user)
         cls.offer = Offer.objects.create(shop=cls.shop, product=cls.product, price=25)
 
     @classmethod
@@ -25,6 +30,7 @@ class ShopModelTest(TestCase):
         super().tearDownClass()
         ShopModelTest.property.delete()
         ShopModelTest.product.delete()
+        ShopModelTest.user.delete()
         ShopModelTest.shop.delete()
         ShopModelTest.offer.delete()
 
@@ -33,6 +39,10 @@ class ShopModelTest(TestCase):
         field_verboses = {
             'name': 'название',
             'products': 'товары в магазине',
+            'description': 'описание магазина',
+            'phone_number': 'номер телефона',
+            'address': 'адрес',
+            'email': 'email',
         }
         for field, expected_value in field_verboses.items():
             with self.subTest(field=field):
@@ -43,27 +53,72 @@ class ShopModelTest(TestCase):
         max_length = shop._meta.get_field('name').max_length
         self.assertEqual(max_length, 512)
 
+    def test_phone_number_max_length(self):
+        shop = ShopModelTest.shop
+        max_length = shop._meta.get_field('phone_number').max_length
+        self.assertEqual(max_length, 12)
+
+    def test_address_max_length(self):
+        shop = ShopModelTest.shop
+        max_length = shop._meta.get_field('address').max_length
+        self.assertEqual(max_length, 255)
+
+    def test_email_max_length(self):
+        shop = ShopModelTest.shop
+        max_length = shop._meta.get_field('email').max_length
+        self.assertEqual(max_length, 255)
+
+    def test_blank(self):
+        shop = ShopModelTest.shop
+        blank_fields = [
+            'description',
+            'phone_number',
+            'address',
+            'email'
+        ]
+        for field in blank_fields:
+            with self.subTest(field=field):
+                self.assertTrue(shop._meta.get_field(field_name=field).blank)
+
+    def test_null(self):
+        shop = ShopModelTest.shop
+        blank_fields = [
+            'description',
+            'phone_number',
+            'address',
+            'email'
+        ]
+        for field in blank_fields:
+            with self.subTest(field=field):
+                self.assertTrue(shop._meta.get_field(field_name=field).null)
+
+    def test_phone_number_validation(self):
+        shop = ShopModelTest.shop
+        field = shop._meta.get_field(field_name='phone_number')
+        self.assertIn(phone_validate, field.validators)
+        self.assertEqual(phone_validate.regex.pattern, r'^\+?[78]\d{10}$')
+
 
 class OfferModelTest(TestCase):
     """Класс тестов модели Предложение магазина"""
 
     @classmethod
     def setUpClass(cls):
-        super().setUpClass()
+        cls.user = get_user_model().objects.create_user(email='admin@megano.ru', password='secret')
         cls.category = Category.objects.create(name='тестовая категория', description='тестовое описание категории')
         cls.product = Product.objects.create(
             name='тестовый продукт',
             category=cls.category
         )
-        cls.shop = Shop.objects.create(name='тестовый магазин')
+        cls.shop = Shop.objects.create(name='тестовый магазин', user=cls.user)
         cls.offer = Offer.objects.create(shop=cls.shop, product=cls.product, price=35)
 
     @classmethod
     def tearDownClass(cls):
-        super().tearDownClass()
-        OfferModelTest.product.delete()
-        OfferModelTest.shop.delete()
-        OfferModelTest.offer.delete()
+        cls.offer.delete()
+        cls.product.delete()
+        cls.shop.delete()
+        cls.user.delete()
 
     def test_verbose_name(self):
         offer = OfferModelTest.offer
@@ -87,6 +142,7 @@ class OfferModelTest(TestCase):
 
 class BannerManagerTestCase(TestCase):
     """Класс тестов менеджера баннеров"""
+
     def setUp(self):
         Banner.objects.create(
             title='Banner 1',
@@ -127,6 +183,7 @@ class BannerManagerTestCase(TestCase):
 
 class BannerTestCase(TestCase):
     """Класс тестов модели Баннер"""
+
     def test_create_banner(self):
         banner = Banner.objects.create(
             image='banners/banner.jpg',
@@ -143,3 +200,13 @@ class BannerTestCase(TestCase):
         self.assertTrue(banner.is_active)
         self.assertEqual(banner.link, 'https://example.com')
         self.assertEqual(str(banner), 'MAVIC PRO 5 MINI DRONE')
+
+
+class UsersShopsTests(TestCase):
+    fixtures = [
+        'users.json',
+        'shops.json'
+    ]
+
+    def test_create_user(self):
+        self.assertEqual(Shop.objects.count(), 5)

@@ -66,8 +66,15 @@ python manage.py loaddata fixtures/users.json --app users.User
 ```
 email: admin@admin.ru password: admin
 ```
-Данные двух обычных пользователей:
-```
-1. email: test-user@test.ru password: 1304test
-2. email: test-user-2@test.ru password: 1304test
-```
+#### Данные зарегистрированных пользователей:
+1. email: david@test.ru password: 1304test
+2. email: kevin@test.ru password: 1304test
+3. email: robert@test.ru password: 1304test
+4. email: skott@test.ru password: 1304test
+#### Данные зарегистрированных пользователей, у которых есть магазин:
+1. email: kenneth@test.ru password: 1304test
+2. email: willard@test.ru password: 1304test
+3. email: kyle@test.ru password: 1304test
+4. email: glenn@test.ru password: 1304test
+5. email: keith@test.ru password: 1304test  
+

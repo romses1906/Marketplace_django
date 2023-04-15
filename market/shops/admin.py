@@ -1,5 +1,6 @@
 from django.contrib import admin
-from .models import Banner
+
+from .models import Banner, Shop
 
 
 class BannerAdmin(admin.ModelAdmin):
@@ -14,4 +15,10 @@ class BannerAdmin(admin.ModelAdmin):
         return Banner.objects.get_active_banners()
 
 
+class ShopAdmin(admin.ModelAdmin):
+    """ Модель для отображения модели Shop в админке. """
+    list_display = ("name", "phone_number", "email")
+
+
+admin.site.register(Shop, ShopAdmin)
 admin.site.register(Banner, BannerAdmin)
