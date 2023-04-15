@@ -1,5 +1,6 @@
 import os
 
+from django.contrib.auth import get_user_model
 from django.test import TestCase
 
 from products.models import Product, Property, Category
@@ -103,21 +104,21 @@ class OfferModelTest(TestCase):
 
     @classmethod
     def setUpClass(cls):
-        super().setUpClass()
+        cls.user = get_user_model().objects.create_user(email='admin@megano.ru', password='secret')
         cls.category = Category.objects.create(name='тестовая категория', description='тестовое описание категории')
         cls.product = Product.objects.create(
             name='тестовый продукт',
             category=cls.category
         )
-        cls.shop = Shop.objects.create(name='тестовый магазин')
+        cls.shop = Shop.objects.create(name='тестовый магазин', user=cls.user)
         cls.offer = Offer.objects.create(shop=cls.shop, product=cls.product, price=35)
 
     @classmethod
     def tearDownClass(cls):
-        super().tearDownClass()
-        OfferModelTest.product.delete()
-        OfferModelTest.shop.delete()
-        OfferModelTest.offer.delete()
+        cls.offer.delete()
+        cls.product.delete()
+        cls.shop.delete()
+        cls.user.delete()
 
     def test_verbose_name(self):
         offer = OfferModelTest.offer
@@ -199,3 +200,13 @@ class BannerTestCase(TestCase):
         self.assertTrue(banner.is_active)
         self.assertEqual(banner.link, 'https://example.com')
         self.assertEqual(str(banner), 'MAVIC PRO 5 MINI DRONE')
+
+
+class UsersShopsTests(TestCase):
+    fixtures = [
+        'users.json',
+        'shops.json'
+    ]
+
+    def test_create_user(self):
+        self.assertEqual(Shop.objects.count(), 5)

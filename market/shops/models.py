@@ -20,7 +20,8 @@ class Shop(models.Model):
                                     blank=True, null=True)
     address = models.CharField(max_length=255, verbose_name=_("адрес"), blank=True, null=True)
     email = models.EmailField(max_length=255, verbose_name=_("email"), blank=True, null=True)
-    user = models.OneToOneField(to=User, on_delete=models.CASCADE, default=None)
+    user = models.OneToOneField(to=User, on_delete=models.CASCADE)
+
 
 class Offer(models.Model):
     """Предложение магазина"""
