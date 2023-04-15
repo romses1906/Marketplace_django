@@ -22,6 +22,7 @@ class Shop(models.Model):
     email = models.EmailField(max_length=255, verbose_name=_("email"), blank=True, null=True)
     user = models.OneToOneField(to=User, on_delete=models.CASCADE)
 
+
 class Offer(models.Model):
     """Предложение магазина"""
     shop = models.ForeignKey(Shop, on_delete=models.PROTECT)
