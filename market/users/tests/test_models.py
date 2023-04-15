@@ -27,4 +27,4 @@ class UsersFixturesTests(TestCase):
 
     def test_create_user(self):
         user = get_user_model()
-        self.assertEqual(user.objects.count(), 3)
+        self.assertEqual(user.objects.count(), 10)

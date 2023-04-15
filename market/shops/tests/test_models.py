@@ -203,7 +203,10 @@ class BannerTestCase(TestCase):
 
 
 class UsersShopsTests(TestCase):
-    fixtures = ['shops.json']
+    fixtures = [
+        'users.json',
+        'shops.json'
+    ]
 
     def test_create_user(self):
         self.assertEqual(Shop.objects.count(), 5)
