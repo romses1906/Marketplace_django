@@ -1,0 +1,9 @@
+[
+{
+    "model": "products.property",
+    "pk": 1,
+    "fields": {
+        "name": "Автор"
+    }
+}
+]

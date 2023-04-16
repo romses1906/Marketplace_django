@@ -1,0 +1,47 @@
+[
+{
+    "model": "products.productproperty",
+    "pk": 1,
+    "fields": {
+        "product": 10,
+        "property": 1,
+        "value": "Бронислав Брониславович Виногродский"
+    }
+},
+{
+    "model": "products.productproperty",
+    "pk": 2,
+    "fields": {
+        "product": 9,
+        "property": 1,
+        "value": "Джордж Оруэлл"
+    }
+},
+{
+    "model": "products.productproperty",
+    "pk": 3,
+    "fields": {
+        "product": 8,
+        "property": 1,
+        "value": "Александр Сергеевич Пушкин"
+    }
+},
+{
+    "model": "products.productproperty",
+    "pk": 4,
+    "fields": {
+        "product": 7,
+        "property": 1,
+        "value": "Александр Сергеевич Пушкин"
+    }
+},
+{
+    "model": "products.productproperty",
+    "pk": 5,
+    "fields": {
+        "product": 6,
+        "property": 1,
+        "value": "Александр Сергеевич Пушкин"
+    }
+}
+]

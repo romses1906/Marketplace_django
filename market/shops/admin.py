@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Banner, Shop
+from .models import Banner, Shop, Offer
 
 
 class BannerAdmin(admin.ModelAdmin):
@@ -20,5 +20,11 @@ class ShopAdmin(admin.ModelAdmin):
     list_display = ("name", "phone_number", "email")
 
 
+class OfferAdmin(admin.ModelAdmin):
+    """ Модель для отображения модели Offer в админке. """
+    list_display = "shop", "product", "price", "in_stock"
+
+
 admin.site.register(Shop, ShopAdmin)
 admin.site.register(Banner, BannerAdmin)
+admin.site.register(Offer, OfferAdmin)
