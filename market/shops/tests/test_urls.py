@@ -27,7 +27,7 @@ class ShopDetailPageTest(TestCase):
         self.response = self.client.get(self.url)
 
     def test_page_uses_the_correct_URL(self):
-        self.assertURLEqual(self.url, f"/about--seller/{self.shop.id}/")
+        self.assertURLEqual(self.url, f"/shops/{self.shop.id}/")
 
     def test_URL_uses_the_desired_view(self):
         view = resolve(self.url)
