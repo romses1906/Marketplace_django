@@ -5,7 +5,7 @@
 Для работы микросервиса нужен Python версии не ниже 3.10 и установленное ПО для контейнеризации - [Docker](https://docs.docker.com/engine/install/).    
 
 Настройка переменных окружения  
-1. Переименуйте файл .env.dist в .env
+1. Скопируйте файл .env.dist в .env
 2. Заполните .env файл. Пример:  
 ```yaml
 DATABASE_URL = postgresql://skillbox:secret@127.0.0.1:5434/market
@@ -16,7 +16,7 @@ REDIS_URL = redis://127.0.0.1:6379/0
 ```shell
 docker run --name skillbox-db -e POSTGRES_USER=skillbox -e POSTGRES_PASSWORD=secret -e POSTGRES_DB=market -p 5434:5432 -d postgres
 ```
-Запуск брокера REDIS
+Запуск брокера сообщений REDIS
 ```shell
 docker run --name redis-db -d redis
 ```
@@ -31,6 +31,16 @@ pip install -r requirements\dev.txt
 python -m venv venv
 . venv/bin/activate
 pip install -r requirements/base.txt
+```  
+### Как удалить контейнеры
+СУБД Postgres  
+```
+ docker rm -f -v skillbox-db
+```
+
+Брокер сообщений REDIS  
+```
+ docker rm -f -v skillbox-db
 ```
 
 ## Проверка форматирования кода
@@ -62,19 +72,22 @@ python manage.py runserver 0.0.0.0:8000
 ```shell
 python manage.py loaddata fixtures/users.json --app users.User
 ```
-Для доступа к Админ-панели следующие данные:
-```
+
+#### Данные cуперпользователя:
+
 email: admin@admin.ru password: admin
-```
+
 #### Данные зарегистрированных пользователей:
+
 1. email: david@test.ru password: 1304test
 2. email: kevin@test.ru password: 1304test
 3. email: robert@test.ru password: 1304test
 4. email: skott@test.ru password: 1304test
+
 #### Данные зарегистрированных пользователей, у которых есть магазин:
+
 1. email: kenneth@test.ru password: 1304test
 2. email: willard@test.ru password: 1304test
 3. email: kyle@test.ru password: 1304test
 4. email: glenn@test.ru password: 1304test
 5. email: keith@test.ru password: 1304test  
-
