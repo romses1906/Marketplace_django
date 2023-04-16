@@ -22,6 +22,7 @@ from django.urls import path, include
 
 urlpatterns = [
     path("admin/", admin.site.urls),
+    path("about--seller/", include("shops.urls", namespace="shops")),
 ]
 
 if settings.DEBUG:
