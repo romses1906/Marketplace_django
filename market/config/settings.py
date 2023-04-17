@@ -47,7 +47,7 @@ INSTALLED_APPS = [
     "shops",
     "users",
     "mptt",
-
+    "django_mptt_admin",
 ]
 
 MIDDLEWARE = [
