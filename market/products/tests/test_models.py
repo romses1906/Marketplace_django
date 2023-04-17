@@ -1,4 +1,5 @@
 from django.test import TestCase
+
 from products.models import Product, Property, ProductProperty, Category
 
 
@@ -6,8 +7,7 @@ class ProductModelTest(TestCase):
     """Класс тестов модели Продукт"""
 
     @classmethod
-    def setUpClass(cls):
-        super().setUpClass()
+    def setUpTestData(cls):
         cls.property = Property.objects.create(name='тестовая характеристика')
         cls.category = Category.objects.create(name='тестовая категория', description='тестовое описание категории')
         cls.product = Product.objects.create(
@@ -15,12 +15,6 @@ class ProductModelTest(TestCase):
             category=cls.category
         )
         cls.product.property.set([cls.property])
-
-    @classmethod
-    def tearDownClass(cls):
-        super().tearDownClass()
-        ProductModelTest.property.delete()
-        ProductModelTest.product.delete()
 
     def test_verbose_name(self):
         product = ProductModelTest.product
@@ -71,8 +65,7 @@ class ProductPropertyModelTest(TestCase):
     """Класс тестов модели Значение свойства продукта"""
 
     @classmethod
-    def setUpClass(cls):
-        super().setUpClass()
+    def setUpTestData(cls):
         cls.property = Property.objects.create(name='тестовая характеристика')
         cls.category = Category.objects.create(name='тестовая категория', description='тестовое описание категории')
         cls.product = Product.objects.create(
@@ -81,13 +74,6 @@ class ProductPropertyModelTest(TestCase):
         )
         cls.product_property = ProductProperty.objects.create(product=cls.product, property=cls.property,
                                                               value='тестовое значение характеристики')
-
-    @classmethod
-    def tearDownClass(cls):
-        super().tearDownClass()
-        ProductPropertyModelTest.product.delete()
-        ProductPropertyModelTest.property.delete()
-        ProductPropertyModelTest.product_property.delete()
 
     def test_verbose_name(self):
         product_property = ProductPropertyModelTest.product_property

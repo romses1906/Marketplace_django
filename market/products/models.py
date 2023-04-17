@@ -21,7 +21,7 @@ class Product(SoftDeleteModel):
     name = models.CharField(max_length=512, verbose_name=_("наименование"))
     property = models.ManyToManyField("Property", through="ProductProperty", verbose_name=_("характеристики"))
     category = models.ForeignKey(
-        "Category", default=None, related_name='products', verbose_name=_("категория"), on_delete=models.PROTECT
+        "Category", related_name='products', verbose_name=_("категория"), on_delete=models.PROTECT
     )
     description = models.TextField(max_length=2048, blank=True, verbose_name=_('описание'))
     created = models.DateTimeField(auto_now_add=True, verbose_name=_('создан'))
