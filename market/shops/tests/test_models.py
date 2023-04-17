@@ -12,8 +12,7 @@ class ShopModelTest(TestCase):
     """Класс тестов модели Магазин"""
 
     @classmethod
-    def setUpClass(cls):
-        super().setUpClass()
+    def setUpTestData(cls):
         cls.property = Property.objects.create(name='тестовая характеристика')
         cls.category = Category.objects.create(name='тестовая категория', description='тестовое описание категории')
         cls.product = Product.objects.create(
@@ -24,15 +23,6 @@ class ShopModelTest(TestCase):
         cls.user = User.objects.create_user(email="test@test.com", password="testpassword")
         cls.shop = Shop.objects.create(name='тестовый магазин', user=cls.user)
         cls.offer = Offer.objects.create(shop=cls.shop, product=cls.product, price=25)
-
-    @classmethod
-    def tearDownClass(cls):
-        super().tearDownClass()
-        ShopModelTest.property.delete()
-        ShopModelTest.product.delete()
-        ShopModelTest.user.delete()
-        ShopModelTest.shop.delete()
-        ShopModelTest.offer.delete()
 
     def test_verbose_name(self):
         shop = ShopModelTest.shop

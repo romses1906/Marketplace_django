@@ -1,226 +1,274 @@
 [
 {
-  "model": "products.category",
-  "pk": 1,
-  "fields": {
-    "is_deleted": false,
-    "deleted_at": null,
-    "name": "Телевизоры",
-    "description": "Телевизоры",
-    "image": "",
-    "parent": null,
-    "lft": 1,
-    "rght": 2,
-    "tree_id": 8,
-    "level": 0
-  }
+    "model": "products.category",
+    "pk": 1,
+    "fields": {
+        "is_deleted": false,
+        "deleted_at": null,
+        "name": "Телевизоры",
+        "description": "Телевизоры",
+        "image": "",
+        "parent": null,
+        "lft": 1,
+        "rght": 2,
+        "tree_id": 11,
+        "level": 0
+    }
 },
 {
-  "model": "products.category",
-  "pk": 2,
-  "fields": {
-    "is_deleted": false,
-    "deleted_at": null,
-    "name": "Наушники",
-    "description": "Наушники",
-    "image": "",
-    "parent": null,
-    "lft": 1,
-    "rght": 2,
-    "tree_id": 5,
-    "level": 0
-  }
+    "model": "products.category",
+    "pk": 2,
+    "fields": {
+        "is_deleted": false,
+        "deleted_at": null,
+        "name": "Наушники",
+        "description": "Наушники",
+        "image": "",
+        "parent": null,
+        "lft": 1,
+        "rght": 2,
+        "tree_id": 7,
+        "level": 0
+    }
 },
 {
-  "model": "products.category",
-  "pk": 3,
-  "fields": {
-    "is_deleted": false,
-    "deleted_at": null,
-    "name": "Стиральные машины",
-    "description": "Стиральные машины",
-    "image": "",
-    "parent": null,
-    "lft": 1,
-    "rght": 2,
-    "tree_id": 7,
-    "level": 0
-  }
+    "model": "products.category",
+    "pk": 3,
+    "fields": {
+        "is_deleted": false,
+        "deleted_at": null,
+        "name": "Стиральные машины",
+        "description": "Стиральные машины",
+        "image": "",
+        "parent": null,
+        "lft": 1,
+        "rght": 2,
+        "tree_id": 10,
+        "level": 0
+    }
 },
 {
-  "model": "products.category",
-  "pk": 4,
-  "fields": {
-    "is_deleted": false,
-    "deleted_at": null,
-    "name": "Скидки",
-    "description": "Скидки",
-    "image": "",
-    "parent": null,
-    "lft": 1,
-    "rght": 2,
-    "tree_id": 6,
-    "level": 0
-  }
+    "model": "products.category",
+    "pk": 4,
+    "fields": {
+        "is_deleted": false,
+        "deleted_at": null,
+        "name": "Скидки",
+        "description": "Скидки",
+        "image": "",
+        "parent": null,
+        "lft": 1,
+        "rght": 2,
+        "tree_id": 9,
+        "level": 0
+    }
 },
 {
-  "model": "products.category",
-  "pk": 5,
-  "fields": {
-    "is_deleted": false,
-    "deleted_at": null,
-    "name": "Электроника",
-    "description": "Электроника",
-    "image": "",
-    "parent": null,
-    "lft": 1,
-    "rght": 2,
-    "tree_id": 12,
-    "level": 0
-  }
+    "model": "products.category",
+    "pk": 5,
+    "fields": {
+        "is_deleted": false,
+        "deleted_at": null,
+        "name": "Электроника",
+        "description": "Электроника",
+        "image": "",
+        "parent": null,
+        "lft": 1,
+        "rght": 2,
+        "tree_id": 15,
+        "level": 0
+    }
 },
 {
-  "model": "products.category",
-  "pk": 6,
-  "fields": {
-    "is_deleted": false,
-    "deleted_at": null,
-    "name": "Фотоаппараты",
-    "description": "Фотоаппараты",
-    "image": "",
-    "parent": null,
-    "lft": 1,
-    "rght": 2,
-    "tree_id": 10,
-    "level": 0
-  }
+    "model": "products.category",
+    "pk": 6,
+    "fields": {
+        "is_deleted": false,
+        "deleted_at": null,
+        "name": "Фотоаппараты",
+        "description": "Фотоаппараты",
+        "image": "",
+        "parent": null,
+        "lft": 1,
+        "rght": 2,
+        "tree_id": 13,
+        "level": 0
+    }
 },
 {
-  "model": "products.category",
-  "pk": 7,
-  "fields": {
-    "is_deleted": false,
-    "deleted_at": null,
-    "name": "Фурнитура",
-    "description": "Фурнитура",
-    "image": "",
-    "parent": null,
-    "lft": 1,
-    "rght": 2,
-    "tree_id": 11,
-    "level": 0
-  }
+    "model": "products.category",
+    "pk": 7,
+    "fields": {
+        "is_deleted": false,
+        "deleted_at": null,
+        "name": "Фурнитура",
+        "description": "Фурнитура",
+        "image": "",
+        "parent": null,
+        "lft": 1,
+        "rght": 2,
+        "tree_id": 14,
+        "level": 0
+    }
 },
 {
-  "model": "products.category",
-  "pk": 8,
-  "fields": {
-    "is_deleted": false,
-    "deleted_at": null,
-    "name": "Мобильные телефоны",
-    "description": "Мобильные телефоны",
-    "image": "",
-    "parent": null,
-    "lft": 1,
-    "rght": 2,
-    "tree_id": 4,
-    "level": 0
-  }
+    "model": "products.category",
+    "pk": 8,
+    "fields": {
+        "is_deleted": false,
+        "deleted_at": null,
+        "name": "Мобильные телефоны",
+        "description": "Мобильные телефоны",
+        "image": "",
+        "parent": null,
+        "lft": 1,
+        "rght": 2,
+        "tree_id": 6,
+        "level": 0
+    }
 },
 {
-  "model": "products.category",
-  "pk": 9,
-  "fields": {
-    "is_deleted": false,
-    "deleted_at": null,
-    "name": "Микроволновые печи",
-    "description": "Микроволновые печи",
-    "image": "",
-    "parent": 10,
-    "lft": 2,
-    "rght": 3,
-    "tree_id": 2,
-    "level": 1
-  }
+    "model": "products.category",
+    "pk": 9,
+    "fields": {
+        "is_deleted": false,
+        "deleted_at": null,
+        "name": "Микроволновые печи",
+        "description": "Микроволновые печи",
+        "image": "",
+        "parent": 10,
+        "lft": 2,
+        "rght": 3,
+        "tree_id": 4,
+        "level": 1
+    }
 },
 {
-  "model": "products.category",
-  "pk": 10,
-  "fields": {
-    "is_deleted": false,
-    "deleted_at": null,
-    "name": "Кухонная техника",
-    "description": "Кухонная техника",
-    "image": "",
-    "parent": null,
-    "lft": 1,
-    "rght": 4,
-    "tree_id": 2,
-    "level": 0
-  }
+    "model": "products.category",
+    "pk": 10,
+    "fields": {
+        "is_deleted": false,
+        "deleted_at": null,
+        "name": "Кухонная техника",
+        "description": "Кухонная техника",
+        "image": "",
+        "parent": null,
+        "lft": 1,
+        "rght": 4,
+        "tree_id": 4,
+        "level": 0
+    }
 },
 {
-  "model": "products.category",
-  "pk": 11,
-  "fields": {
-    "is_deleted": false,
-    "deleted_at": null,
-    "name": "Торшеры",
-    "description": "Торшеры",
-    "image": "",
-    "parent": null,
-    "lft": 1,
-    "rght": 2,
-    "tree_id": 9,
-    "level": 0
-  }
+    "model": "products.category",
+    "pk": 11,
+    "fields": {
+        "is_deleted": false,
+        "deleted_at": null,
+        "name": "Торшеры",
+        "description": "Торшеры",
+        "image": "",
+        "parent": null,
+        "lft": 1,
+        "rght": 2,
+        "tree_id": 12,
+        "level": 0
+    }
 },
 {
-  "model": "products.category",
-  "pk": 12,
-  "fields": {
-    "is_deleted": false,
-    "deleted_at": null,
-    "name": "Аксессуары",
-    "description": "Аксессуары",
-    "image": "",
-    "parent": null,
-    "lft": 1,
-    "rght": 6,
-    "tree_id": 1,
-    "level": 0
-  }
+    "model": "products.category",
+    "pk": 12,
+    "fields": {
+        "is_deleted": false,
+        "deleted_at": null,
+        "name": "Аксессуары",
+        "description": "Аксессуары",
+        "image": "",
+        "parent": null,
+        "lft": 1,
+        "rght": 6,
+        "tree_id": 1,
+        "level": 0
+    }
 },
 {
-  "model": "products.category",
-  "pk": 13,
-  "fields": {
-    "is_deleted": false,
-    "deleted_at": null,
-    "name": "Сумки",
-    "description": "Сумки",
-    "image": "",
-    "parent": 12,
-    "lft": 2,
-    "rght": 3,
-    "tree_id": 1,
-    "level": 1
-  }
+    "model": "products.category",
+    "pk": 13,
+    "fields": {
+        "is_deleted": false,
+        "deleted_at": null,
+        "name": "Сумки",
+        "description": "Сумки",
+        "image": "",
+        "parent": 12,
+        "lft": 2,
+        "rght": 3,
+        "tree_id": 1,
+        "level": 1
+    }
 },
 {
-  "model": "products.category",
-  "pk": 14,
-  "fields": {
-    "is_deleted": false,
-    "deleted_at": null,
-    "name": "Чехлы",
-    "description": "Чехлы",
-    "image": "",
-    "parent": 12,
-    "lft": 4,
-    "rght": 5,
-    "tree_id": 1,
-    "level": 1
-  }
+    "model": "products.category",
+    "pk": 14,
+    "fields": {
+        "is_deleted": false,
+        "deleted_at": null,
+        "name": "Чехлы",
+        "description": "Чехлы",
+        "image": "",
+        "parent": 12,
+        "lft": 4,
+        "rght": 5,
+        "tree_id": 1,
+        "level": 1
+    }
+},
+{
+    "model": "products.category",
+    "pk": 15,
+    "fields": {
+        "is_deleted": false,
+        "deleted_at": null,
+        "name": "Сад и огород",
+        "description": "В категории \"Сад и огород\" нашего интернет-магазина вы найдете все необходимое для ухода за своим участком. Мы предлагаем большой выбор семян, растений, почвы, средств защиты от вредителей и удобрений. Здесь вы сможете подобрать нужный инструмент для работы на приусадебном участке: грабли, лопаты, секаторы и многое другое. Убедитесь сами - ухаживать за садом и огородом с нашим интернет-магазином легко и приятно!",
+        "image": "",
+        "parent": null,
+        "lft": 1,
+        "rght": 2,
+        "tree_id": 8,
+        "level": 0
+    }
+},
+{
+    "model": "products.category",
+    "pk": 16,
+    "fields": {
+        "is_deleted": false,
+        "deleted_at": null,
+        "name": "Еда",
+        "description": "В категории Еда нашего интернет-магазина вы найдете широкий ассортимент продуктов питания: от свежих фруктов и овощей до мяса, рыбы и молочных продуктов. Мы бережно отбираем качественные продукты от проверенных поставщиков и предлагаем их по доступным ценам. У нас вы всегда найдете что-то новое и вкусное для себя и своей семьи.",
+        "image": "",
+        "parent": null,
+        "lft": 1,
+        "rght": 2,
+        "tree_id": 2,
+        "level": 0
+    }
+},
+{
+    "model": "products.category",
+    "pk": 17,
+    "fields": {
+        "is_deleted": false,
+        "deleted_at": null,
+        "name": "Книги",
+        "description": "Категория \"Книги\" в нашем интернет-магазине представлена широким ассортиментом классической и современной литературы, романов, научных работ, художественных и детских книг. Вы найдете у нас книги на любой вкус и интерес, которые помогут расширить кругозор и открыть новые грани мира. Удобный поиск и фильтры помогут быстро выбрать нужную книгу. Быстрая доставка и приятные цены - еще одно преимущество нашего магазина.",
+        "image": "",
+        "parent": null,
+        "lft": 1,
+        "rght": 2,
+        "tree_id": 3,
+        "level": 0
+    }
 }
 ]
