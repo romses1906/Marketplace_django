@@ -4,92 +4,100 @@ from django.urls import reverse
 
 
 class LoginViewTests(TestCase):
-	"""Тестирование аутентификации пользователя"""
+    """Тестирование представления аутентификации пользователя."""
 
-	@classmethod
-	def setUpClass(cls):
-		super(LoginViewTests, cls).setUpClass()
-		user_model = get_user_model()
-		cls.user = user_model.objects.create_user(email='test@test.ru', password='test')
-		cls.url = reverse('users:login_user')
+    @classmethod
+    def setUpClass(cls):
+        super(LoginViewTests, cls).setUpClass()
+        user_model = get_user_model()
+        cls.user = user_model.objects.create_user(email='test@test.ru', password='test')
+        cls.url = reverse('users:login_user')
 
-	def test_login(self):
-		response = self.client.post(
-			self.url,
-			{
-				'email': self.user.email,
-				'password': self.user.password
-			},
-			follow=True
-		)
-		self.assertEqual(response.status_code, 200)
+    def test_login(self):
+        """Тестирование аутентификации пользователя."""
+        response = self.client.post(
+            self.url,
+            {
+                'email': self.user.email,
+                'password': self.user.password
+            },
+            follow=True
+        )
+        self.assertEqual(response.status_code, 200)
 
-	def test_view_renders_desired_template(self):
-		self.assertTemplateUsed(self.client.get(self.url), 'users/login.html')
+    def test_view_renders_desired_template(self):
+        """Тестирование используемого шаблона."""
+        self.assertTemplateUsed(self.client.get(self.url), 'users/login.html')
 
 
 class RegisterViewTests(TestCase):
-	"""Тестирование регистрации пользователя"""
+    """Тестирование представления регистрации пользователя."""
 
-	@classmethod
-	def setUpClass(cls):
-		super(RegisterViewTests, cls).setUpClass()
-		cls.url = reverse('users:register_user')
+    @classmethod
+    def setUpClass(cls):
+        super(RegisterViewTests, cls).setUpClass()
+        cls.url = reverse('users:register_user')
 
-	def test_register_user(self):
-		response = self.client.post(
-			self.url,
-			{
-				'email': 'test@test.ru',
-				'password': 'test'
-			},
-			follow=True
-		)
-		self.assertEqual(response.status_code, 200)
+    def test_register_user(self):
+        """Проверка запроса на регистрацию пользователя."""
+        response = self.client.post(
+            self.url,
+            {
+                'email': 'test@test.ru',
+                'password': 'test'
+            },
+            follow=True
+        )
+        self.assertEqual(response.status_code, 200)
 
-	def test_view_renders_desired_template(self):
-		self.assertTemplateUsed(self.client.get(self.url), 'users/register.html')
+    def test_view_renders_desired_template(self):
+        """Тестирование используемого шаблона."""
+        self.assertTemplateUsed(self.client.get(self.url), 'users/register.html')
 
 
 class ResetPasswordViewTests(TestCase):
-	"""Тестирование регистрации пользователя"""
+    """Тестирование представления сброса пароля пользователя."""
 
-	@classmethod
-	def setUpClass(cls):
-		super(ResetPasswordViewTests, cls).setUpClass()
-		cls.url = reverse('users:password_reset')
+    @classmethod
+    def setUpClass(cls):
+        super(ResetPasswordViewTests, cls).setUpClass()
+        cls.url = reverse('users:password_reset')
 
-	def test_register_user(self):
-		response = self.client.post(
-			self.url,
-			{
-				'email': 'test@test.ru',
-			},
-			follow=True
-		)
-		self.assertEqual(response.status_code, 200)
+    def test_register_user(self):
+        """Проверка запроса на сброс пароля."""
+        response = self.client.post(
+            self.url,
+            {
+                'email': 'test@test.ru',
+            },
+            follow=True
+        )
+        self.assertEqual(response.status_code, 200)
 
-	def test_view_renders_desired_template(self):
-		self.assertTemplateUsed(self.client.get(self.url), 'users/e-mail.html')
+    def test_view_renders_desired_template(self):
+        """Тестирование используемого шаблона."""
+        self.assertTemplateUsed(self.client.get(self.url), 'users/e-mail.html')
 
 
 class SetNewPasswordViewTests(TestCase):
-	"""Тестирование регистрации пользователя"""
+    """Тестирование представления смены пароля пользователя."""
 
-	@classmethod
-	def setUpClass(cls):
-		super(SetNewPasswordViewTests, cls).setUpClass()
-		cls.url = reverse('users:set_new_password', args=('uidb64', 'token'))
+    @classmethod
+    def setUpClass(cls):
+        super(SetNewPasswordViewTests, cls).setUpClass()
+        cls.url = reverse('users:set_new_password', args=('uidb64', 'token'))
 
-	def test_register_user(self):
-		response = self.client.post(
-			self.url,
-			{
-				'email': 'test@test.ru',
-			},
-			follow=True
-		)
-		self.assertEqual(response.status_code, 200)
+    def test_register_user(self):
+        """Проверка установки нового пароля."""
+        response = self.client.post(
+            self.url,
+            {
+                'email': 'test@test.ru',
+            },
+            follow=True
+        )
+        self.assertEqual(response.status_code, 200)
 
-	def test_view_renders_desired_template(self):
-		self.assertTemplateUsed(self.client.get(self.url), 'users/password.html')
+    def test_view_renders_desired_template(self):
+        """Тестирование используемого шаблона."""
+        self.assertTemplateUsed(self.client.get(self.url), 'users/password.html')
