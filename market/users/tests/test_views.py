@@ -25,7 +25,7 @@ class LoginViewTests(TestCase):
         )
         self.assertEqual(response.status_code, 200)
 
-    def test_view_renders_desired_template(self):
+    def test_used_template(self):
         """Тестирование используемого шаблона."""
         self.assertTemplateUsed(self.client.get(self.url), 'users/login.html')
 
@@ -50,7 +50,7 @@ class RegisterViewTests(TestCase):
         )
         self.assertEqual(response.status_code, 200)
 
-    def test_view_renders_desired_template(self):
+    def test_used_template(self):
         """Тестирование используемого шаблона."""
         self.assertTemplateUsed(self.client.get(self.url), 'users/register.html')
 
@@ -63,7 +63,7 @@ class ResetPasswordViewTests(TestCase):
         super(ResetPasswordViewTests, cls).setUpClass()
         cls.url = reverse('users:password_reset')
 
-    def test_register_user(self):
+    def test_reset_password_user(self):
         """Проверка запроса на сброс пароля."""
         response = self.client.post(
             self.url,
@@ -74,7 +74,7 @@ class ResetPasswordViewTests(TestCase):
         )
         self.assertEqual(response.status_code, 200)
 
-    def test_view_renders_desired_template(self):
+    def test_used_template(self):
         """Тестирование используемого шаблона."""
         self.assertTemplateUsed(self.client.get(self.url), 'users/e-mail.html')
 
@@ -87,7 +87,7 @@ class SetNewPasswordViewTests(TestCase):
         super(SetNewPasswordViewTests, cls).setUpClass()
         cls.url = reverse('users:set_new_password', args=('uidb64', 'token'))
 
-    def test_register_user(self):
+    def test_set_password_user(self):
         """Проверка установки нового пароля."""
         response = self.client.post(
             self.url,
@@ -98,6 +98,6 @@ class SetNewPasswordViewTests(TestCase):
         )
         self.assertEqual(response.status_code, 200)
 
-    def test_view_renders_desired_template(self):
+    def test_used_template(self):
         """Тестирование используемого шаблона."""
         self.assertTemplateUsed(self.client.get(self.url), 'users/password.html')
