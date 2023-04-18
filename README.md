@@ -65,6 +65,10 @@ python manage.py runserver 0.0.0.0:8000
 Код написан в учебных целях — это курс по Джанго на сайте [Skillbox](https://go.skillbox.ru/education/course/django-framework).  
 
 ## Разработка
+### Работа в оболочке
+```shell
+python manage.py shell -i ipython
+```
 ### Приложение users:
 
 Загрузка данных в модель User выполняется из папки `market/` следующей командой:
