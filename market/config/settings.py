@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "django.contrib.sites",
     "phonenumber_field",
     "products",
     "shops",
@@ -49,6 +50,7 @@ INSTALLED_APPS = [
     "mptt",
     "django_mptt_admin",
 ]
+SITE_ID = 1
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
@@ -145,3 +147,15 @@ FIXTURE_DIRS = [
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 MEDIA_URL = '/media/'
+
+LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/'
+
+
+# Данные для отправки сообщений на почту пользователя.
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = "service.megano@gmail.com"
+EMAIL_HOST_PASSWORD = "riuqnqydepsshhmj"
+EMAIL_USE_TLS = True
+EMAIL_USE_SSL = False
