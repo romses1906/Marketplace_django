@@ -8,7 +8,7 @@ class LoginViewTests(TestCase):
 
     @classmethod
     def setUpClass(cls):
-        super(LoginViewTests, cls).setUpClass()
+        super().setUpClass()
         user_model = get_user_model()
         cls.user = user_model.objects.create_user(email='test@test.ru', password='test')
         cls.url = reverse('users:login_user')
@@ -35,7 +35,7 @@ class RegisterViewTests(TestCase):
 
     @classmethod
     def setUpClass(cls):
-        super(RegisterViewTests, cls).setUpClass()
+        super().setUpClass()
         cls.url = reverse('users:register_user')
 
     def test_register_user(self):
@@ -60,7 +60,7 @@ class ResetPasswordViewTests(TestCase):
 
     @classmethod
     def setUpClass(cls):
-        super(ResetPasswordViewTests, cls).setUpClass()
+        super().setUpClass()
         cls.url = reverse('users:password_reset')
 
     def test_reset_password_user(self):
@@ -84,7 +84,7 @@ class SetNewPasswordViewTests(TestCase):
 
     @classmethod
     def setUpClass(cls):
-        super(SetNewPasswordViewTests, cls).setUpClass()
+        super().setUpClass()
         cls.url = reverse('users:set_new_password', args=('uidb64', 'token'))
 
     def test_set_password_user(self):

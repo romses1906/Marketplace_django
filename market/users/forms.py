@@ -1,5 +1,4 @@
 from django.contrib.auth.forms import UserCreationForm
-from django.utils.translation import gettext_lazy as _
 from .models import User
 
 
@@ -9,4 +8,4 @@ class CustomUserCreationForm(UserCreationForm):
     class Meta:
         """Класс, определяющий некоторые параметры формы."""
         model = User
-        fields = _('first_name'), _('email'), _('password1'), _('password2')
+        fields = 'first_name', 'email', 'password1', 'password2'
