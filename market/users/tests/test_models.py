@@ -3,7 +3,7 @@ from django.test import TestCase
 
 
 class UsersModelTests(TestCase):
-    """“естирование кастомной модели пользователей."""
+    """“естирование кастомной модели User."""
 
     @classmethod
     def setUpClass(cls):
