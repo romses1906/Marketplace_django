@@ -5,12 +5,12 @@ from reviews.models import Reviews
 class ReviewsFixturesTests(TestCase):
     """Тестирование добавления фикстуры отзывов."""
     fixtures = [
-        'users.json',
-        'shops.json',
-        'categories.json',
-        'products.json',
-        'offers.json',
-        'reviews_product.json'
+        '005_users.json',
+        '010_shops.json',
+        '015_categories.json',
+        '020_products.json',
+        '030_offers.json',
+        '045_reviews_product.json'
     ]
 
     def test_create_reviews(self):
