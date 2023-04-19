@@ -8,7 +8,7 @@ from shops.models import Offer
 class CategoriesListViewTest(TestCase):
     """ Тестирование представления меню категорий каталога"""
     fixtures = [
-        "categories.json",
+        "015_categories.json",
     ]
 
     def setUp(self):
@@ -30,11 +30,11 @@ class CategoriesListViewTest(TestCase):
 class ProductsByCategoryViewTest(TestCase):
     """ Тестирование представления для отображения товаров конкретной категории """
     fixtures = [
-        "users.json",
-        "categories.json",
-        "products.json",
-        "shops.json",
-        "offers.json",
+        "005_users.json",
+        "015_categories.json",
+        "020_products.json",
+        "010_shops.json",
+        "030_offers.json",
     ]
 
     def setUp(self):

@@ -33,7 +33,7 @@ class ProductsByCategoryPageTest(TestCase):
         cls.response = cls.client.get(cls.url)
 
     def test_page_uses_the_correct_URL(self):
-        category_pk = ProductsByCategoryPageTest.category.pk
+        category_pk = self.category.pk
         self.assertURLEqual(self.url, f"/catalog/{category_pk}/")
 
     def test_URL_uses_the_desired_view(self):
