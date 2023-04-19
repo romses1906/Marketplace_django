@@ -1,17 +1,17 @@
 from django.contrib.auth import get_user_model
-from django.test import TestCase
+from django.test import TestCase, Client
 from django.urls import reverse
 
 
 class LoginViewTests(TestCase):
     """Тестирование представления аутентификации пользователя."""
 
-    @classmethod
-    def setUpClass(cls):
-        super().setUpClass()
+    def setUp(self):
+        self.client = Client()
         user_model = get_user_model()
-        cls.user = user_model.objects.create_user(email='test@test.ru', password='test')
-        cls.url = reverse('users:login_user')
+        self.user = user_model.objects.create_user(email='test@test.ru', password='test')
+        self.url = reverse('users:login_user')
+        self.response = self.client.get(self.url)
 
     def test_login(self):
         """Тестирование аутентификации пользователя."""
@@ -27,16 +27,16 @@ class LoginViewTests(TestCase):
 
     def test_used_template(self):
         """Тестирование используемого шаблона."""
-        self.assertTemplateUsed(self.client.get(self.url), 'users/login.html')
+        self.assertTemplateUsed(self.response, 'users/login.html')
 
 
 class RegisterViewTests(TestCase):
     """Тестирование представления регистрации пользователя."""
 
-    @classmethod
-    def setUpClass(cls):
-        super().setUpClass()
-        cls.url = reverse('users:register_user')
+    def setUp(self):
+        self.client = Client()
+        self.url = reverse('users:register_user')
+        self.response = self.client.get(self.url)
 
     def test_register_user(self):
         """Проверка запроса на регистрацию пользователя."""
@@ -52,16 +52,16 @@ class RegisterViewTests(TestCase):
 
     def test_used_template(self):
         """Тестирование используемого шаблона."""
-        self.assertTemplateUsed(self.client.get(self.url), 'users/register.html')
+        self.assertTemplateUsed(self.response, 'users/register.html')
 
 
 class ResetPasswordViewTests(TestCase):
     """Тестирование представления сброса пароля пользователя."""
 
-    @classmethod
-    def setUpClass(cls):
-        super().setUpClass()
-        cls.url = reverse('users:password_reset')
+    def setUp(self):
+        self.client = Client()
+        self.url = reverse('users:password_reset')
+        self.response = self.client.get(self.url)
 
     def test_reset_password_user(self):
         """Проверка запроса на сброс пароля."""
@@ -76,16 +76,16 @@ class ResetPasswordViewTests(TestCase):
 
     def test_used_template(self):
         """Тестирование используемого шаблона."""
-        self.assertTemplateUsed(self.client.get(self.url), 'users/e-mail.html')
+        self.assertTemplateUsed(self.response, 'users/e-mail.html')
 
 
 class SetNewPasswordViewTests(TestCase):
     """Тестирование представления смены пароля пользователя."""
 
-    @classmethod
-    def setUpClass(cls):
-        super().setUpClass()
-        cls.url = reverse('users:set_new_password', args=('uidb64', 'token'))
+    def setUp(self):
+        self.client = Client()
+        self.url = reverse('users:set_new_password', args=('uidb64', 'token'))
+        self.response = self.client.get(self.url)
 
     def test_set_password_user(self):
         """Проверка установки нового пароля."""
@@ -100,4 +100,4 @@ class SetNewPasswordViewTests(TestCase):
 
     def test_used_template(self):
         """Тестирование используемого шаблона."""
-        self.assertTemplateUsed(self.client.get(self.url), 'users/password.html')
+        self.assertTemplateUsed(self.response, 'users/password.html')
