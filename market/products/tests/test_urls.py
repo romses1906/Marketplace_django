@@ -1,7 +1,8 @@
 from django.test import TestCase, Client
 from django.urls import reverse, resolve
 
-from products.views import CategoriesListView
+from products.views import CategoriesListView, ProductsByCategoryView
+from products.models import Category
 
 
 class CategoriesListPageTest(TestCase):
@@ -18,4 +19,24 @@ class CategoriesListPageTest(TestCase):
     def test_URL_uses_the_desired_view(self):
         view = resolve(self.url)
         desired_view = CategoriesListView.as_view().__name__
+        self.assertEqual(view.func.__name__, desired_view)
+
+
+class ProductsByCategoryPageTest(TestCase):
+    """ Тестирование URL товаров конкретной категории """
+
+    @classmethod
+    def setUpTestData(cls):
+        cls.category = Category.objects.create(name='тестовая категория', description='тестовое описание категории')
+        cls.client = Client()
+        cls.url = reverse("products:products_by_category", kwargs={'pk': cls.category.pk})
+        cls.response = cls.client.get(cls.url)
+
+    def test_page_uses_the_correct_URL(self):
+        category_pk = self.category.pk
+        self.assertURLEqual(self.url, f"/catalog/{category_pk}/")
+
+    def test_URL_uses_the_desired_view(self):
+        view = resolve(self.url)
+        desired_view = ProductsByCategoryView.as_view().__name__
         self.assertEqual(view.func.__name__, desired_view)

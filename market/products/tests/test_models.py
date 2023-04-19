@@ -17,7 +17,7 @@ class ProductModelTest(TestCase):
         cls.product.property.set([cls.property])
 
     def test_verbose_name(self):
-        product = ProductModelTest.product
+        product = self.product
         field_verboses = {
             'name': 'наименование',
             'property': 'характеристики',
@@ -28,7 +28,7 @@ class ProductModelTest(TestCase):
                 self.assertEqual(product._meta.get_field(field).verbose_name, expected_value)
 
     def test_name_max_length(self):
-        product = ProductModelTest.product
+        product = self.product
         max_length = product._meta.get_field('name').max_length
         self.assertEqual(max_length, 512)
 
@@ -41,13 +41,8 @@ class PropertyModelTest(TestCase):
         super().setUpClass()
         cls.property = Property.objects.create(name='тестовая характеристика')
 
-    @classmethod
-    def tearDownClass(cls):
-        super().tearDownClass()
-        PropertyModelTest.property.delete()
-
     def test_verbose_name(self):
-        property = ProductModelTest.property
+        property = self.property
         field_verboses = {
             'name': 'наименование',
         }
@@ -56,7 +51,7 @@ class PropertyModelTest(TestCase):
                 self.assertEqual(property._meta.get_field(field).verbose_name, expected_value)
 
     def test_name_max_length(self):
-        property = ProductModelTest.property
+        property = self.property
         max_length = property._meta.get_field('name').max_length
         self.assertEqual(max_length, 512)
 
@@ -76,7 +71,7 @@ class ProductPropertyModelTest(TestCase):
                                                               value='тестовое значение характеристики')
 
     def test_verbose_name(self):
-        product_property = ProductPropertyModelTest.product_property
+        product_property = self.product_property
         field_verboses = {
             'value': 'значение',
         }
@@ -85,7 +80,7 @@ class ProductPropertyModelTest(TestCase):
                 self.assertEqual(product_property._meta.get_field(field).verbose_name, expected_value)
 
     def test_value_max_length(self):
-        product_property = ProductPropertyModelTest.product_property
+        product_property = self.product_property
         max_length = product_property._meta.get_field('value').max_length
         self.assertEqual(max_length, 128)
 
@@ -101,12 +96,8 @@ class CategoryModelTest(TestCase):
                                                      description='тестовое описание вложенной категории',
                                                      parent=cls.category)
 
-    @classmethod
-    def tearDownClass(cls):
-        super().tearDownClass()
-
     def test_verbose_name(self):
-        category = CategoryModelTest.category
+        category = self.category
         field_verboses = {
             'name': 'наименование',
             'description': 'описание',
@@ -117,17 +108,17 @@ class CategoryModelTest(TestCase):
                 self.assertEqual(category._meta.get_field(field).verbose_name, expected_value)
 
     def test_name_max_length(self):
-        category = CategoryModelTest.category
+        category = self.category
         max_length = category._meta.get_field('name').max_length
         self.assertEqual(max_length, 512)
 
     def test_description_max_length(self):
-        category = CategoryModelTest.category
+        category = self.category
         max_length = category._meta.get_field('description').max_length
         self.assertEqual(max_length, 512)
 
     def test_blank_fields(self):
-        category = CategoryModelTest.category
+        category = self.category
         blank_fields = [
             'image',
             'parent',
@@ -137,7 +128,7 @@ class CategoryModelTest(TestCase):
                 self.assertTrue(category._meta.get_field(field_name=field).blank)
 
     def test_null_fields(self):
-        category = CategoryModelTest.category
+        category = self.category
         null_fields = [
             'image',
             'parent',
@@ -147,7 +138,7 @@ class CategoryModelTest(TestCase):
                 self.assertTrue(category._meta.get_field(field_name=field).blank)
 
     def test_parent_field(self):
-        category = CategoryModelTest.category
-        category_child = CategoryModelTest.category_child
+        category = self.category
+        category_child = self.category_child
         name_category_parent = category_child.parent.name
         self.assertEqual(name_category_parent, category.name)

@@ -23,7 +23,7 @@ class UsersModelTests(TestCase):
 
 
 class UsersFixturesTests(TestCase):
-    fixtures = ['users.json']
+    fixtures = ['005_users.json']
 
     def test_create_user(self):
         user = get_user_model()
