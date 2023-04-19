@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     "users",
     "mptt",
     "django_mptt_admin",
+    "django_jinja",
 ]
 
 MIDDLEWARE = [
@@ -67,6 +68,12 @@ if DEBUG:
 ROOT_URLCONF = "config.urls"
 
 TEMPLATES = [
+    {
+        "BACKEND": "django_jinja.backend.Jinja2",
+        "DIRS": [Path(BASE_DIR).joinpath("templates")],
+        "APP_DIRS": True,
+        "OPTIONS": {}
+    },
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
         "DIRS": [BASE_DIR / "templates"],
