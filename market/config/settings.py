@@ -43,13 +43,17 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "django.contrib.sites",
+    "mptt",
+    "django_mptt_admin",
     "phonenumber_field",
     "products",
     "shops",
     "users",
-    "mptt",
-    "django_mptt_admin",
+    "reviews",
+    "cart",
+
 ]
+
 SITE_ID = 1
 
 MIDDLEWARE = [
@@ -159,3 +163,6 @@ EMAIL_HOST_USER = "service.megano@gmail.com"
 EMAIL_HOST_PASSWORD = "riuqnqydepsshhmj"
 EMAIL_USE_TLS = True
 EMAIL_USE_SSL = False
+
+CART_SESSION_ID = 'cart'
+DELIVERY_SESSION_ID = 'delivery_id'
