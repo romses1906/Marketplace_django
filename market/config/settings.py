@@ -69,10 +69,12 @@ ROOT_URLCONF = "config.urls"
 
 TEMPLATES = [
     {
-        "BACKEND": "django_jinja.backend.Jinja2",
-        "DIRS": [Path(BASE_DIR).joinpath("templates")],
-        "APP_DIRS": True,
-        "OPTIONS": {}
+        "BACKEND": "django.template.backends.jinja2.Jinja2",
+        "DIRS": [Path(BASE_DIR).joinpath("templates/jinja2")],
+        "APP_DIRS": False,
+        "OPTIONS": {
+            "environment": "jinja_2.CustomEnvironment",
+        }
     },
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
@@ -134,6 +136,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 STATIC_URL = "static/"
+STATICFILES_DIRS = [BASE_DIR / "static"]
 
 INTERNAL_IPS = [
     "127.0.0.1"
