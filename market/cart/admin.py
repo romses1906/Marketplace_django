@@ -19,7 +19,7 @@ class OrderAdmin(admin.ModelAdmin):
     """Используется для настройки отображения
          и поведения модели заказа в Django Admin."""
     list_display = ('id', 'user', 'created', 'updated', 'status', 'payment_date',
-                    'delivery', 'delivery_address', 'get_total_cost')
+                    'delivery', 'delivery_address', 'total_cost')
     list_filter = ('status', 'created', 'updated')
     inlines = [OrderItemInline]
     search_fields = ('user__username', 'delivery_address')

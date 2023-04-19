@@ -9,6 +9,7 @@ from users.models import User
 
 class CartTestCase(TestCase):
     """Класс теста корзины пользователя"""
+
     @classmethod
     def setUpTestData(cls):
         cls.user = User.objects.create(username='ivan', email='ivan@mail.ru', password='Password123')
@@ -28,11 +29,13 @@ class CartTestCase(TestCase):
         cls.cart = Cart(cls.request)
 
     def test_add_to_cart(self):
+        """Тестирование функции add класса Cart"""
         self.cart.add(self.offer)
         self.assertEqual(len(self.cart), 1)
         self.assertEqual(self.cart.get_total_price(), self.offer.price)
 
     def test_update_cart(self):
+        """Тестирование функции update класса Cart"""
         self.cart.add(self.offer)
         self.cart.add(self.offer, quantity=2, update_quantity=True)
 
@@ -40,6 +43,7 @@ class CartTestCase(TestCase):
         self.assertEqual(self.cart.get_total_price(), self.offer.price * 2)
 
     def test_remove_from_cart(self):
+        """Тестирование функции remove класса Cart"""
         self.cart.add(self.offer)
         self.cart.remove(self.offer)
 
@@ -47,6 +51,7 @@ class CartTestCase(TestCase):
         self.assertEqual(self.cart.get_total_price(), Decimal('0'))
 
     def test_clear_cart(self):
+        """Тестирование функции clear класса Cart"""
         self.cart.add(self.offer)
         self.cart.remove(self.offer)
         self.cart.clear()

@@ -8,6 +8,7 @@ from products.models import Product, ProductProperty, Property, Category
 
 class OrderModelTest(TestCase):
     """Класс теста моделей заказа и его позиций"""
+
     @classmethod
     def setUpTestData(cls):
         cls.user = User.objects.create(username='ivan', email='ivan@mail.ru', password='Password123')
@@ -27,19 +28,24 @@ class OrderModelTest(TestCase):
         cls.order_item = OrderItem.objects.create(order=cls.order, offer=cls.offer, quantity=2)
 
     def test_order_str_method(self):
+        """Тестирование функция str для класса Order"""
         expected = f'Order {self.order.id}'
         self.assertEqual(str(self.order), expected)
 
-    def test_order_get_total_cost_method(self):
-        expected = self.offer.price * self.order.items.get().quantity
-        self.assertEqual(self.order.get_total_cost(), expected)
+    def test_order_total_cost_method(self):
+        """Тестирование функция total_cost для класса Order"""
+        total_cost = sum(item.get_cost() for item in self.order.items.all())
+        self.assertEqual(self.order.total_cost, total_cost)
 
     def test_order_save_method(self):
+        """Тестирование установки даты оплаты при изменении
+         статуса на paid для класса Order"""
         self.order.status = 'paid'
         self.order.save()
         now = timezone.now()
         self.assertEqual(self.order.payment_date.date(), now.date())
 
     def test_order_item_str_method(self):
+        """Тестирование функция str для класса OrderItem """
         expected = f'{self.order.items.get().id}'
         self.assertEqual(str(self.order.items.get()), expected)

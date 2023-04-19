@@ -8,15 +8,21 @@ from users.models import User
 
 class Delivery(models.Model):
     """Доставка заказа."""
+
     DELIVERY_OPTIONS = (
         ('Delivery', 'Доставка'),
         ('Express Delivery', 'Экспресс-доставка'),
     )
+
+    MIN_ORDER_TOTAL_FOR_FREE_DELIVERY = 2000
+    DELIVERY_FEE = 200
+
     delivery_option = models.CharField(max_length=20, choices=DELIVERY_OPTIONS, verbose_name=_('способ доставки'))
-    order_total_for_free_delivery = models.PositiveIntegerField(default=2000, verbose_name=_('минимальная стоимость '
-                                                                                             'заказа для бесплатной '
-                                                                                             'доставки'))
-    delivery_fee = models.PositiveIntegerField(default=200, verbose_name=_('стоимость доставки'))
+    order_total_for_free_delivery = models.PositiveIntegerField(
+        default=MIN_ORDER_TOTAL_FOR_FREE_DELIVERY,
+        verbose_name=_('минимальная стоимость заказа для бесплатной доставки')
+    )
+    delivery_fee = models.PositiveIntegerField(default=DELIVERY_FEE, verbose_name=_('стоимость доставки'))
 
     def __str__(self):
         return f'{self.delivery_option} ({self.delivery_fee} руб.)'
@@ -48,7 +54,8 @@ class Order(models.Model):
     def __str__(self):
         return f'Order {self.id}'
 
-    def get_total_cost(self):
+    @property
+    def total_cost(self):
         return sum(item.get_cost() for item in self.items.all())
 
     def save(self, *args, **kwargs):
