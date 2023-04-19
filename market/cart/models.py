@@ -6,6 +6,10 @@ from shops.models import Offer
 from users.models import User
 
 
+MIN_ORDER_TOTAL_FOR_FREE_DELIVERY = 2000
+DELIVERY_FEE = 200
+
+
 class Delivery(models.Model):
     """Доставка заказа."""
 
@@ -13,9 +17,6 @@ class Delivery(models.Model):
         ('Delivery', 'Доставка'),
         ('Express Delivery', 'Экспресс-доставка'),
     )
-
-    MIN_ORDER_TOTAL_FOR_FREE_DELIVERY = 2000
-    DELIVERY_FEE = 200
 
     delivery_option = models.CharField(max_length=20, choices=DELIVERY_OPTIONS, verbose_name=_('способ доставки'))
     order_total_for_free_delivery = models.PositiveIntegerField(
