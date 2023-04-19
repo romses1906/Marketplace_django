@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="Category-title">
+    <div class="Category-icon"><img src="#" alt="#"/>
+    </div>
+    <span class="Category-text"><h1>Товары из категории {{ title }}</h1></span>
+</div>
+
+<div class="Cards">
+    {% for offer in offers %}
+    <div class="Card"><a class="Card-picture" href="#"><img src="#" alt="#"/></a>
+        <div class="Card-content">
+            <strong class="Card-title"><a href="#">{{ offer }}</a>
+            </strong>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+{% endblock %}

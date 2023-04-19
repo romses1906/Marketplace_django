@@ -74,7 +74,7 @@ python manage.py shell -i ipython
 Загрузка данных в модель User выполняется из папки `market/` следующей командой:
 
 ```shell
-python manage.py loaddata fixtures/users.json --app users.User
+python manage.py loaddata fixtures/005_users.json --app users.User
 ```
 
 #### Данные cуперпользователя:
