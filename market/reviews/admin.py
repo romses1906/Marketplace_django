@@ -1,4 +1,5 @@
 from django.contrib import admin
+from django.utils.translation import gettext_lazy as _
 from .models import Reviews
 
 
@@ -14,3 +15,5 @@ class ReviewsAdmin(admin.ModelAdmin):
         if len(obj.content) < 38:
             return obj.content
         return obj.content[:38] + "..."
+
+    content_short.short_description = _('содержимое отзыва')

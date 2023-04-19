@@ -14,4 +14,5 @@ class ReviewsFixturesTests(TestCase):
     ]
 
     def test_create_reviews(self):
+        """Проверка кол-во записей в БД."""
         self.assertEqual(Reviews.objects.count(), 1)
