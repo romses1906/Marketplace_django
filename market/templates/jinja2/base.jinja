@@ -1,12 +1,32 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Megano</title>
+    <meta name="description" content="Описание страницы">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
+    <link href="{{ static('favicon.ico') }}" rel="shortcut icon">
+    <link rel="preload" href="{{ static('fonts/Roboto/Roboto-Regular.woff') }}" as="font">
+    <link rel="preload" href="{{ static('fonts/Roboto/Roboto-Italic.woff') }}" as="font">
+    <link rel="preload" href="{{ static('fonts/Roboto/Roboto-Bold.woff') }}" as="font">
+    <link rel="preload" href="{{ static('fonts/Roboto/Roboto-Bold_Italic.woff') }}" as="font">
+    <link rel="preload" href="{{ static('fonts/Roboto/Roboto-Light.woff') }}" as="font">
+    <link rel="preload" href="{{ static('fonts/Roboto/Roboto-Light_Italic.woff') }}" as="font">
+    <link rel="stylesheet" href="{{ static('css/fonts.css') }}">
+    <link rel="stylesheet" href="{{ static('css/basic.css') }}">
+    <link rel="stylesheet" href="{{ static('css/extra.css') }}">
 </head>
+
 <body>
-{% block content %}
-<img src="{{ static('1.jpeg') }}" alt="Company Logo">
-{% endblock content %}
+    <header class="Header">
+        {% include "includes/control_panel.jinja" %}
+        {% include "includes/wrap.jinja" %}
+        {% include "includes/header_search_wrap.jinja" %}
+        {% include "includes/header_slider.jinja" %}
+    </header>
+    {% block content %}
+    {% endblock content %}
 </body>
+
 </html>
