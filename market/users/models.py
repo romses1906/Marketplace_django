@@ -19,9 +19,11 @@ class User(AbstractUser):
     objects = CustomUserManager()
 
     class Meta:
+        """Класс, определяющий некоторые параметры модели."""
         verbose_name = _('пользователь')
         verbose_name_plural = _('пользователи')
         ordering = '-is_superuser', '-date_joined', '-is_active'
 
     def __str__(self):
+        """Переопределение __str__, для отображения email в названии объекта."""
         return self.email

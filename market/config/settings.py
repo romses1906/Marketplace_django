@@ -42,15 +42,19 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "django.contrib.sites",
+    "mptt",
+    "django_mptt_admin",
     "phonenumber_field",
     "products",
     "shops",
     "users",
     "reviews",
-    "mptt",
-    "django_mptt_admin",
     "cart",
+
 ]
+
+SITE_ID = 1
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
@@ -79,7 +83,6 @@ TEMPLATES = [
                 "django.template.context_processors.request",
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
-                'cart.context_processors.cart',
             ],
         },
     },
@@ -148,6 +151,18 @@ FIXTURE_DIRS = [
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 MEDIA_URL = '/media/'
+
+LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/'
+
+
+# Данные для отправки сообщений на почту пользователя.
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = "service.megano@gmail.com"
+EMAIL_HOST_PASSWORD = "riuqnqydepsshhmj"
+EMAIL_USE_TLS = True
+EMAIL_USE_SSL = False
 
 CART_SESSION_ID = 'cart'
 DELIVERY_SESSION_ID = 'delivery_id'
