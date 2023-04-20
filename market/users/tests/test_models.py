@@ -3,16 +3,16 @@ from django.test import TestCase
 
 
 class UsersModelTests(TestCase):
-    """ Тестирование модели пользователя. """
+    """РўРµСЃС‚РѕРІС‹Р№ РєР»Р°СЃСЃ РїСЂРѕРІРµСЂРєРё РїРѕР»СЊР·РѕРІР°С‚РµР»СЊСЃРєРѕР№ РјРѕРґРµР»Рё"""
 
     @classmethod
     def setUpClass(cls):
-        """Добавление атрибутов класса."""
+        """РЎРѕР·РґР°РµС‚ С„РёРєСЃС‚СѓСЂСѓ РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ."""
         user_model = get_user_model()
         cls.user = user_model.objects.create_user(email='test@test.ru', password='test')
 
     def test_create_user(self):
-        """Проверка добавленного пользователя."""
+        """РџСЂРѕРІРµСЂСЏРµС‚ Р°С‚СЂРёР±СѓСЊС‹ С„РёРєСЃС‚СѓСЂРЅРѕРіРѕ РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ РІ Р±Р°Р·Рµ РґР°РЅРЅС‹С…"""
         self.assertEqual(self.user.email, 'test@test.ru')
         self.assertTrue(self.user.is_active)
         self.assertFalse(self.user.is_staff)
@@ -20,15 +20,15 @@ class UsersModelTests(TestCase):
 
     @classmethod
     def tearDownClass(cls):
-        """Удаление пользователя из базы."""
+        """РЈРґР°Р»СЏРµС‚ С„РёРєСЃС‚СѓСЂРЅРѕРіРѕ РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ."""
         cls.user.delete()
 
 
 class UsersFixturesTests(TestCase):
-    """Тестирование фикстуры."""
+    """РўРµСЃС‚РѕРІС‹Р№ РєР»Р°СЃСЃ РїСЂРѕРІРµСЂРєРё С„Р°Р№Р»Р° СЃ С„РёРєСЃС‚СѓСЂР°РјРё РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ."""
     fixtures = ['005_users.json']
 
     def test_create_user(self):
-        """Проверка кол-ва добавленных пользователей из фикстуры."""
+        """РџСЂРѕРІРµСЂСЏРµС‚, РІСЃРµ Р»Рё РїРѕР»СЊР·РѕРІР°С‚РµР»Рё РёР· С„Р°Р№Р»Р° СЃ С„РёРєСЃС‚СѓСЂР°РјРё Р·Р°РіСЂСѓР¶РµРЅС‹."""
         user = get_user_model()
         self.assertEqual(user.objects.count(), 10)
