@@ -8,4 +8,4 @@ class CustomUserCreationForm(UserCreationForm):
     class Meta:
         """Класс, определяющий некоторые параметры формы."""
         model = User
-        fields = 'first_name', 'email', 'password1', 'password2'
+        fields = 'username', 'email', 'password1', 'password2'
