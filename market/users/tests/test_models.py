@@ -26,7 +26,10 @@ class UsersModelTests(TestCase):
 
 class UsersFixturesTests(TestCase):
     """Тестовый класс проверки файла с фикстурами пользователя."""
-    fixtures = ['005_users.json']
+    fixtures = [
+        '004_groups.json',
+        '005_users.json'
+    ]
 
     def test_create_user(self):
         """Проверяет, все ли пользователи из файла с фикстурами загружены."""

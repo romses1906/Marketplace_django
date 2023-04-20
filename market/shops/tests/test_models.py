@@ -194,6 +194,7 @@ class BannerTestCase(TestCase):
 
 class UsersShopsTests(TestCase):
     fixtures = [
+        '004_groups.json',
         '005_users.json',
         '010_shops.json'
     ]
