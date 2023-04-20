@@ -3,6 +3,7 @@ from django.contrib.auth.views import LoginView, PasswordResetView, PasswordRese
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.views.generic import CreateView
+from django.contrib.auth.models import Group
 from .models import User
 from .forms import CustomUserCreationForm
 
@@ -15,18 +16,27 @@ class LoginUserView(LoginView):
 class RegisterView(CreateView):
     """
     Регистрация пользователя. При методе POST, функция сохраняет полученные данные в кастомной модели User.
-    :return: После регистрации, пользователь аутентифицируется и переадресовывается на главную страницу.
     """
     template_name = 'users/register.html'
     form_class = CustomUserCreationForm
     queryset = User.objects.all()
 
     def form_valid(self, form):
+        """
+        После регистрации, пользователь аутентифицируется и переадресовывается на главную страницу.
+        А также добавляется группа с разрешениями "покупатель".
+        """
         form.save()
+
         email = form.cleaned_data.get('email')
         password = form.cleaned_data.get('password1')
         user = authenticate(email=email, password=password)
         login(self.request, user)
+
+        group = Group.objects.get(name='buyer')
+        user = User.objects.get(email=email)
+        user.groups.add(group)
+
         return redirect('/')
 
 
