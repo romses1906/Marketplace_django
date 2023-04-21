@@ -1,9 +1,13 @@
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.views import LoginView, PasswordResetView, PasswordResetConfirmView
+from django.http import HttpResponse, HttpResponseForbidden, HttpResponseBadRequest
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.views.generic import CreateView
 from django.contrib.auth.models import Group
+from django.utils.translation import gettext_lazy as _
+from django.db import transaction
+
 from .models import User
 from .forms import CustomUserCreationForm
 
@@ -26,18 +30,19 @@ class RegisterView(CreateView):
         После регистрации, пользователь аутентифицируется и переадресовывается на главную страницу.
         А также добавляется группа с разрешениями "покупатель".
         """
-        form.save()
-
         email = form.cleaned_data.get('email')
         password = form.cleaned_data.get('password1')
-        user = authenticate(email=email, password=password)
-        login(self.request, user)
-
-        group = Group.objects.get(name='buyer')
-        user = User.objects.get(email=email)
-        user.groups.add(group)
-
-        return redirect('/')
+        try:
+            with transaction.atomic():
+                form.save()
+                user = authenticate(email=email, password=password)
+                login(self.request, user)
+                group = Group.objects.get(name='buyer')
+                user = User.objects.get(email=email)
+                user.groups.add(group)
+                return redirect('/')
+        except Exception:
+            return HttpResponse(_('К сожалению запрос не удался, попробуйте позже!'))
 
 
 class PasswordResetRequestView(PasswordResetView):

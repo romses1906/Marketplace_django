@@ -7,13 +7,13 @@ from .models import User
 class UserRegAdmin(UserAdmin):
     """Регистрация модели User в админке"""
 
-    list_display = 'email', 'is_superuser', 'is_staff', 'is_active'
+    list_display = 'email', 'is_superuser', 'is_staff', 'is_active',
     fieldsets = (
-        (None, {'fields': ('email', 'password')}),
-        (_('Персональная информация'),
-         {'fields': ('username', 'first_name', 'last_name', 'surname', 'phone_number', 'photo')}),
+        (None, {'fields': ('email', 'password',)}),
+        (_('персональная информация'),
+         {'fields': ('username', 'first_name', 'last_name', 'surname', 'phone_number', 'photo',)}),
         (
-            _('Разрешения'),
+            _('разрешения'),
             {
                 'fields': (
                     'is_active',
@@ -24,18 +24,18 @@ class UserRegAdmin(UserAdmin):
                 ),
             },
         ),
-        (_('Важные даты'), {'fields': ('last_login', 'date_joined')}),
+        (_('важные даты'), {'fields': ('last_login', 'date_joined',)}),
     )
     add_fieldsets = (
         (
             None,
             {
                 'classes': ('wide',),
-                'fields': ('email', 'password1', 'password2'),
+                'fields': ('email', 'password1', 'password2',),
             },
         ),
     )
-    ordering = '-is_superuser', '-is_staff'
+    ordering = '-is_superuser', '-is_staff',
 
 
 admin.site.register(User, UserRegAdmin)
