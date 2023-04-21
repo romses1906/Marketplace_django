@@ -1,5 +1,6 @@
 from django.test import TestCase, Client
 from django.urls import reverse
+from django.db.models import Q
 
 from products.models import Category
 from shops.models import Offer
@@ -7,6 +8,7 @@ from shops.models import Offer
 
 class CategoriesListViewTest(TestCase):
     """ Тестирование представления меню категорий каталога"""
+
     fixtures = [
         "015_categories.json",
     ]
@@ -29,11 +31,12 @@ class CategoriesListViewTest(TestCase):
 
 class ProductsByCategoryViewTest(TestCase):
     """ Тестирование представления для отображения товаров конкретной категории """
+
     fixtures = [
         "005_users.json",
+        "010_shops.json",
         "015_categories.json",
         "020_products.json",
-        "010_shops.json",
         "030_offers.json",
     ]
 
@@ -41,8 +44,8 @@ class ProductsByCategoryViewTest(TestCase):
         self.client = Client()
         self.category = Category.objects.get(id=15)
         self.offers = Offer.objects.select_related('shop', 'product').filter(product__category=self.category)
-        url = reverse("products:products_by_category", kwargs={'pk': self.category.pk})
-        self.response = self.client.get(url)
+        self.url = reverse("products:products_by_category", kwargs={'pk': self.category.pk})
+        self.response = self.client.get(self.url)
 
     def test_view_returns_correct_HTTP_status(self):
         self.assertEqual(self.response.status_code, 200)
@@ -51,4 +54,69 @@ class ProductsByCategoryViewTest(TestCase):
         self.assertTemplateUsed(self.response, "products/products.html")
 
     def test_products_by_category_count_is_correct(self):
-        self.assertTrue(len(self.response.context['offers']) == self.offers.count())
+        self.assertTrue(len(self.response.context['filter'].qs) == self.offers.count())
+
+    def test_products_filtering_by_name(self):
+        response = self.client.get(self.url + "?price_min=&price_max=&product_name=лопата#")
+        desired_offers = self.offers.filter(product__name__icontains='лопата')
+        for offer in desired_offers:
+            self.assertContains(response, offer.product.name)
+        undesired_offers = self.offers.exclude(product__name__icontains='лопата')
+        for offer in undesired_offers:
+            self.assertNotContains(response, offer.product.name)
+
+    def test_products_filtering_by_price(self):
+        response = self.client.get(self.url + "?price_min=300&price_max=600&product_name=#")
+        desired_offers = self.offers.filter(price__gte=300, price__lte=600)
+        for offer in desired_offers:
+            self.assertContains(response, offer.product.name)
+        undesired_offers = self.offers.filter(Q(price__gte=600) | Q(price__lte=300))
+        for offer in undesired_offers:
+            self.assertNotContains(response, offer.product.name)
+
+    def test_products_filtering_by_shop(self):
+        response = self.client.get(self.url + "?price_min=&price_max=&product_name=&multiple_shops=1#")
+        desired_offers = self.offers.filter(shop__id__in=['1'])
+        for offer in desired_offers:
+            self.assertContains(response, offer.product.name)
+        undesired_offers = self.offers.exclude(shop__id__in=['1'])
+        for offer in undesired_offers:
+            self.assertNotContains(response, offer.product.name)
+
+    def test_products_filtering_by_name_and_price(self):
+        response = self.client.get(self.url + "?price_min=400&price_max=600&product_name=лопата#")
+        desired_offers = self.offers.filter(price__gte=400, price__lte=600, product__name__icontains='лопата')
+        for offer in desired_offers:
+            self.assertContains(response, offer.product.name)
+        undesired_offers = self.offers.exclude(price__gte=400, price__lte=600, product__name__icontains='лопата')
+        for offer in undesired_offers:
+            self.assertNotContains(response, offer.product.name)
+
+    def test_products_filtering_by_name_and_shop(self):
+        response = self.client.get(self.url + "?price_min=&price_max=&product_name=лопата&multiple_shops=1#")
+        desired_offers = self.offers.filter(shop__id__in=['1'], product__name__icontains='лопата')
+        for offer in desired_offers:
+            self.assertContains(response, offer.product.name)
+        undesired_offers = self.offers.exclude(shop__id__in=['1'], product__name__icontains='лопата')
+        for offer in undesired_offers:
+            self.assertNotContains(response, offer.product.name)
+
+    def test_products_filtering_by_price_and_shop(self):
+        response = self.client.get(self.url + "?price_min=500&price_max=600&product_name=&multiple_shops=1#")
+        desired_offers = self.offers.filter(shop__id__in=['1'], price__gte=500, price__lte=600)
+        for offer in desired_offers:
+            self.assertContains(response, offer.product.name)
+        undesired_offers = self.offers.exclude(shop__id__in=['1'], price__gte=500, price__lte=600)
+        for offer in undesired_offers:
+            self.assertNotContains(response, offer.product.name)
+
+    def test_products_filtering_by_name_and_price_and_shop(self):
+        response = self.client.get(self.url + "?price_min=500&price_max=600&product_name=лопата&multiple_shops=1#")
+        desired_offers = self.offers.filter(product__name__icontains='лопата', shop__id__in=['1'], price__gte=500,
+                                            price__lte=600)
+        for offer in desired_offers:
+            self.assertContains(response, offer.product.name)
+        undesired_offers = self.offers.exclude(product__name__icontains='лопата', shop__id__in=['1'], price__gte=500,
+                                               price__lte=600)
+        for offer in undesired_offers:
+            self.assertNotContains(response, offer.product.name)
