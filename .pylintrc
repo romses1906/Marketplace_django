@@ -86,6 +86,11 @@ disable=raw-checker-failed,
         useless-suppression,
         deprecated-pragma,
         use-symbolic-message-instead,
+        no-name-in-module,
+        import-error,
+        trailing-comma-tuple,
+        invalid-str-returned,
+        protected-access,
         # TODO customization
         missing-module-docstring,
         no-self-use,
@@ -450,7 +455,7 @@ name-group=
 
 # Regular expression which should only match function or class names that do
 # not require a docstring.
-no-docstring-rgx=^_
+no-docstring-rgx=^_|^Meta|^MPTTMeta|^.+AppConfig.+
 
 # List of decorators that produce properties, such as abc.abstractproperty. Add
 # to this list to register other decorators that produce valid properties.
