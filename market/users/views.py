@@ -7,6 +7,7 @@ from django.contrib.auth.models import Group
 from django.utils.translation import gettext_lazy as _
 from django.db import transaction
 from django.contrib.messages.views import SuccessMessageMixin
+from django.core.exceptions import ObjectDoesNotExist
 
 from .models import User
 from .forms import CustomUserCreationForm
@@ -26,15 +27,10 @@ class RegisterView(SuccessMessageMixin, CreateView):
     queryset = User.objects.all()
     success_url = reverse_lazy('users:register_user')
 
-    def get_success_url(self, save=False):
+    def get_success_url(self):
         """
-        Метод класса, определяющий в зависимости от выполнения запроса отправляемое сообщение.
+        Метод класса, возвращающий URl.
         """
-        if save:
-            messages.add_message(self.request, messages.INFO, _('Вы успешно зарегистрированы!'))
-        else:
-            messages.add_message(self.request, messages.INFO, _('К сожалению запрос не удался, попробуйте позже!'))
-
         return self.success_url
 
     def form_valid(self, form):
@@ -49,8 +45,10 @@ class RegisterView(SuccessMessageMixin, CreateView):
                 group = Group.objects.get(name='buyer')
                 user = User.objects.get(email=email)
                 user.groups.add(group)
-                return HttpResponseRedirect(self.get_success_url(save=True))
-        except Exception:
+                messages.add_message(self.request, messages.INFO, _('Вы успешно зарегистрированы!'))
+                return HttpResponseRedirect(self.get_success_url())
+        except ObjectDoesNotExist:
+            messages.add_message(self.request, messages.INFO, _('К сожалению запрос не удался, попробуйте позже!'))
             return HttpResponseRedirect(self.get_success_url())
 
 
