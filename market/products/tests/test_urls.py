@@ -26,6 +26,7 @@ class ProductsByCategoryPageTest(TestCase):
     """ Тестирование URL товаров конкретной категории """
 
     fixtures = [
+        "004_groups.json",
         "005_users.json",
         "015_categories.json",
         "020_products.json",

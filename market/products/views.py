@@ -14,7 +14,7 @@ class CategoriesListView(generic.ListView):
 
 class ProductsByCategoryView(FilterView):
     """ Представление для отображения каталога товаров """
-    model = Offer
+
     template_name = 'products/products.html'
     paginate_by = 20
     filterset_class = ProductFilter
