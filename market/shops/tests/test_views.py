@@ -7,6 +7,7 @@ from shops.models import Shop
 class ShopDetailViewTest(TestCase):
     """ Тестирование детального представления магазина """
     fixtures = [
+        "004_groups.json",
         "005_users.json",
         "010_shops.json"
     ]
