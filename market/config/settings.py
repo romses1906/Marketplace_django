@@ -14,6 +14,7 @@ from pathlib import Path
 from dotenv import dotenv_values
 
 import dj_database_url
+import pygments.formatters
 
 config = dotenv_values(os.path.join("..", ".env"))
 
@@ -182,6 +183,5 @@ SHELL_PLUS_SQLPARSE_FORMAT_KWARGS = dict(
 )
 
 # Specify Pygments formatter and configuration options when printing sql queries to the console
-import pygments.formatters
 SHELL_PLUS_PYGMENTS_FORMATTER = pygments.formatters.TerminalFormatter
 SHELL_PLUS_PYGMENTS_FORMATTER_KWARGS = {}
