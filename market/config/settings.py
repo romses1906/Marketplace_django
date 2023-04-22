@@ -167,3 +167,21 @@ EMAIL_USE_SSL = False
 
 CART_SESSION_ID = 'cart'
 DELIVERY_SESSION_ID = 'delivery_id'
+
+# Always use IPython for shell_plus
+SHELL_PLUS = "ipython"
+SHELL_PLUS_PRINT_SQL = True
+
+# To disable truncation of sql queries use
+SHELL_PLUS_PRINT_SQL_TRUNCATE = None
+
+# Specify sqlparse configuration options when printing sql queries to the console
+SHELL_PLUS_SQLPARSE_FORMAT_KWARGS = dict(
+  reindent_aligned=True,
+  truncate_strings=500,
+)
+
+# Specify Pygments formatter and configuration options when printing sql queries to the console
+import pygments.formatters
+SHELL_PLUS_PYGMENTS_FORMATTER = pygments.formatters.TerminalFormatter
+SHELL_PLUS_PYGMENTS_FORMATTER_KWARGS = {}
