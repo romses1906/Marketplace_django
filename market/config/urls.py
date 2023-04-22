@@ -23,7 +23,7 @@ from django.views.generic import TemplateView
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path("", TemplateView.as_view(template_name="home.jinja")),
+    path("", TemplateView.as_view(template_name="home.j2"), name="home"),
     path("shops/", include("shops.urls", namespace="shops")),
     path("catalog/", include("products.urls", namespace="products")),
 

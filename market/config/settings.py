@@ -69,11 +69,20 @@ ROOT_URLCONF = "config.urls"
 
 TEMPLATES = [
     {
-        "BACKEND": "django.template.backends.jinja2.Jinja2",
-        "DIRS": [Path(BASE_DIR).joinpath("templates/jinja2")],
-        "APP_DIRS": False,
+        "BACKEND": "django_jinja.backend.Jinja2",
+        "DIRS": [Path(BASE_DIR).joinpath("templates")],
+        "APP_DIRS": True,
         "OPTIONS": {
-            "environment": "jinja_2.CustomEnvironment",
+            # django-jinja defaults
+            "match_extension": ".j2",
+            "match_regex": None,
+            "app_dirname": "templates",
+            "constants": {},
+            "globals": {},
+            "context_processors": [
+                "django.contrib.messages.context_processors.messages",
+            ],
+
         }
     },
     {
@@ -90,6 +99,7 @@ TEMPLATES = [
         },
     },
 ]
+
 
 WSGI_APPLICATION = "config.wsgi.application"
 

@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 
 <head>
-    <title>Megano</title>
+    <title>{% block title %}Megano{% endblock title %}</title>
     <meta name="description" content="Описание страницы">
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
@@ -20,13 +20,32 @@
 
 <body>
     <header class="Header">
-        {% include "includes/control_panel.jinja" %}
-        {% include "includes/wrap.jinja" %}
-        {% include "includes/header_search_wrap.jinja" %}
-        {% include "includes/header_slider.jinja" %}
+        {% block header %}
+        {% include "includes/header/control_panel.j2" %}
+        {% include "includes/header/wrap.j2" %}
+        {% include "includes/header/header_search_wrap.j2" %}
+        {% endblock header %}
     </header>
+
     {% block content %}
     {% endblock content %}
+
+    <footer class="Footer">
+        <div class="wrap">
+            <div class="row Footer-main">
+                {% include "includes/footer/logo.j2" %}
+                {% include "includes/footer/menu.j2" %}
+                {% include "includes/footer/contacts.j2" %}
+            </div>
+        </div>
+    </footer>
+
+    <script src="{{ static('plg/jQuery/jquery-3.5.0.slim.min.js') }}"></script>
+    <script src="{{ static('plg/form/jquery.form.js') }}"></script>
+    <script src="{{ static('plg/form/jquery.maskedinput.min.js') }}"></script>
+    <script src="{{ static('plg/range/ion.rangeSlider.min.js') }}"></script>
+    <script src="{{ static('plg/Slider/slick.min.js') }}"></script>
+    <script src="{{ static('js/scripts.') }}"></script>
 </body>
 
 </html>
