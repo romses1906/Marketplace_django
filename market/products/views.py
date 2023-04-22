@@ -1,6 +1,8 @@
 from products.models import Category
 from shops.models import Offer
 from django.views import generic
+from django_filters.views import FilterView
+from products.filters import ProductFilter
 
 
 class CategoriesListView(generic.ListView):
@@ -10,12 +12,12 @@ class CategoriesListView(generic.ListView):
     context_object_name = 'categories'
 
 
-class ProductsByCategoryView(generic.ListView):
+class ProductsByCategoryView(FilterView):
     """ Представление для отображения каталога товаров """
-    model = Offer
+
     template_name = 'products/products.html'
-    context_object_name = 'offers'
     paginate_by = 20
+    filterset_class = ProductFilter
 
     def get_queryset(self):
         self.category = Category.objects.get(id=self.kwargs['pk'])
@@ -26,4 +28,5 @@ class ProductsByCategoryView(generic.ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = self.category
+        context['categories'] = Category.objects.all()
         return context

@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     "django_extensions",
     "mptt",
     "django_mptt_admin",
+    "django_filters",
     "phonenumber_field",
     "products",
     "shops",

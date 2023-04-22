@@ -25,9 +25,18 @@ class CategoriesListPageTest(TestCase):
 class ProductsByCategoryPageTest(TestCase):
     """ Тестирование URL товаров конкретной категории """
 
+    fixtures = [
+        "004_groups.json",
+        "005_users.json",
+        "015_categories.json",
+        "020_products.json",
+        "010_shops.json",
+        "030_offers.json",
+    ]
+
     @classmethod
     def setUpTestData(cls):
-        cls.category = Category.objects.create(name='тестовая категория', description='тестовое описание категории')
+        cls.category = Category.objects.get(id=17)
         cls.client = Client()
         cls.url = reverse("products:products_by_category", kwargs={'pk': cls.category.pk})
         cls.response = cls.client.get(cls.url)
