@@ -12,7 +12,7 @@ class UsersModelTests(TestCase):
         cls.user = user_model.objects.create_user(email='test@test.ru', password='test')
 
     def test_create_user(self):
-        """Проверяет атрибуьы фикстурного пользователя в базе данных"""
+        """Проверяет атрибуты фикстурного пользователя в базе данных"""
         self.assertEqual(self.user.email, 'test@test.ru')
         self.assertTrue(self.user.is_active)
         self.assertFalse(self.user.is_staff)
@@ -26,9 +26,12 @@ class UsersModelTests(TestCase):
 
 class UsersFixturesTests(TestCase):
     """Тестовый класс проверки файла с фикстурами пользователя."""
-    fixtures = ['005_users.json']
+    fixtures = [
+        '004_groups.json',
+        '005_users.json'
+    ]
 
-    def test_create_user(self):
+    def test_load_users_fixtures_success(self):
         """Проверяет, все ли пользователи из файла с фикстурами загружены."""
         user = get_user_model()
         self.assertEqual(user.objects.count(), 10)

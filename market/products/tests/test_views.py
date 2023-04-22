@@ -33,6 +33,7 @@ class ProductsByCategoryViewTest(TestCase):
     """ Тестирование представления для отображения товаров конкретной категории """
 
     fixtures = [
+        "004_groups.json",
         "005_users.json",
         "010_shops.json",
         "015_categories.json",

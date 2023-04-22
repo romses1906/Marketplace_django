@@ -67,7 +67,7 @@ python manage.py runserver 0.0.0.0:8000
 ## Разработка
 ### Работа в оболочке
 ```shell
-python manage.py shell -i ipython
+python manage.py shell_plus
 ```
 ### Приложение users:
 

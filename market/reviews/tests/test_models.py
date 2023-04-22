@@ -5,6 +5,7 @@ from reviews.models import Reviews
 class ReviewsFixturesTests(TestCase):
     """Тестирование добавления фикстуры отзывов."""
     fixtures = [
+        '004_groups.json',
         '005_users.json',
         '010_shops.json',
         '015_categories.json',

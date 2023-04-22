@@ -1,0 +1,73 @@
+[
+{
+    "model": "auth.group",
+    "pk": 1,
+    "fields": {
+        "name": "administrator",
+        "permissions": [
+            37,
+            38,
+            39,
+            40,
+            25,
+            26,
+            27,
+            28,
+            41,
+            42,
+            43,
+            44,
+            33,
+            34,
+            35,
+            36,
+            29,
+            30,
+            31,
+            32,
+            51,
+            52,
+            24,
+            59,
+            60
+        ]
+    }
+},
+{
+    "model": "auth.group",
+    "pk": 2,
+    "fields": {
+        "name": "buyer",
+        "permissions": [
+            65,
+            68,
+            69,
+            72,
+            76,
+            40,
+            61,
+            64,
+            48,
+            49,
+            52,
+            24
+        ]
+    }
+},
+{
+    "model": "auth.group",
+    "pk": 3,
+    "fields": {
+        "name": "seller",
+        "permissions": [
+            70,
+            71,
+            28,
+            45,
+            46,
+            47,
+            50
+        ]
+    }
+}
+]
