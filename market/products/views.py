@@ -1,8 +1,12 @@
-from products.models import Category
-from shops.models import Offer
+from django.db.models import Min, Count
+from django.shortcuts import get_list_or_404
+from django.utils.translation import gettext_lazy as _
 from django.views import generic
 from django_filters.views import FilterView
 from products.filters import ProductFilter
+
+from products.models import Category, Product
+from shops.models import Offer
 
 
 class CategoriesListView(generic.ListView):
@@ -29,4 +33,22 @@ class ProductsByCategoryView(FilterView):
         context = super().get_context_data(**kwargs)
         context['title'] = self.category
         context['categories'] = Category.objects.all()
+        return context
+
+
+class ProductDetailView(generic.DetailView):
+    """ Представление для отображения детальной страницы продукта """
+    template_name = 'products/product.html'
+    context_object_name = 'product'
+
+    def get_queryset(self):
+        queryset = Product.objects.annotate(
+            min_price=Min('offers__price')).annotate(num_reviews=Count('offers__reviews')).prefetch_related(
+            'product_properties', 'product_images', 'offers', 'offers__reviews')
+        return queryset
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['default_alt'] = _('Изображение продукта')
+        context['categories'] = get_list_or_404(Category)
         return context
