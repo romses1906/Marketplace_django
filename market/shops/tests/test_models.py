@@ -25,7 +25,7 @@ class ShopModelTest(TestCase):
         cls.offer = Offer.objects.create(shop=cls.shop, product=cls.product, price=25)
 
     def test_verbose_name(self):
-        shop = ShopModelTest.shop
+        shop = self.shop
         field_verboses = {
             'name': 'название',
             'products': 'товары в магазине',
@@ -39,27 +39,27 @@ class ShopModelTest(TestCase):
                 self.assertEqual(shop._meta.get_field(field).verbose_name, expected_value)
 
     def test_name_max_length(self):
-        shop = ShopModelTest.shop
+        shop = self.shop
         max_length = shop._meta.get_field('name').max_length
         self.assertEqual(max_length, 512)
 
     def test_phone_number_max_length(self):
-        shop = ShopModelTest.shop
+        shop = self.shop
         max_length = shop._meta.get_field('phone_number').max_length
         self.assertEqual(max_length, 12)
 
     def test_address_max_length(self):
-        shop = ShopModelTest.shop
+        shop = self.shop
         max_length = shop._meta.get_field('address').max_length
         self.assertEqual(max_length, 255)
 
     def test_email_max_length(self):
-        shop = ShopModelTest.shop
+        shop = self.shop
         max_length = shop._meta.get_field('email').max_length
         self.assertEqual(max_length, 255)
 
     def test_blank(self):
-        shop = ShopModelTest.shop
+        shop = self.shop
         blank_fields = [
             'description',
             'phone_number',
@@ -71,7 +71,7 @@ class ShopModelTest(TestCase):
                 self.assertTrue(shop._meta.get_field(field_name=field).blank)
 
     def test_null(self):
-        shop = ShopModelTest.shop
+        shop = self.shop
         blank_fields = [
             'description',
             'phone_number',
@@ -83,7 +83,7 @@ class ShopModelTest(TestCase):
                 self.assertTrue(shop._meta.get_field(field_name=field).null)
 
     def test_phone_number_validation(self):
-        shop = ShopModelTest.shop
+        shop = self.shop
         field = shop._meta.get_field(field_name='phone_number')
         self.assertIn(phone_validate, field.validators)
         self.assertEqual(phone_validate.regex.pattern, r'^\+?[78]\d{10}$')
@@ -111,7 +111,7 @@ class OfferModelTest(TestCase):
         cls.user.delete()
 
     def test_verbose_name(self):
-        offer = OfferModelTest.offer
+        offer = self.offer
         field_verboses = {
             'price': 'цена',
         }
@@ -120,12 +120,12 @@ class OfferModelTest(TestCase):
                 self.assertEqual(offer._meta.get_field(field).verbose_name, expected_value)
 
     def test_price_max_digits(self):
-        offer = OfferModelTest.offer
+        offer = self.offer
         max_digits = offer._meta.get_field('price').max_digits
         self.assertEqual(max_digits, 10)
 
     def test_price_decimal_places(self):
-        offer = OfferModelTest.offer
+        offer = self.offer
         decimal_places = offer._meta.get_field('price').decimal_places
         self.assertEqual(decimal_places, 2)
 
@@ -194,8 +194,9 @@ class BannerTestCase(TestCase):
 
 class UsersShopsTests(TestCase):
     fixtures = [
-        'users.json',
-        'shops.json'
+        '004_groups.json',
+        '005_users.json',
+        '010_shops.json'
     ]
 
     def test_create_user(self):

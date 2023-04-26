@@ -1,0 +1,134 @@
+[
+{
+  "model": "shops.offer",
+  "pk": 1,
+  "fields": {
+    "shop": 1,
+    "product": 1,
+    "created": "2023-04-16T15:51:58.620Z",
+    "updated": "2023-04-16T15:51:58.620Z",
+    "price": "350.00",
+    "in_stock": 50
+  }
+},
+{
+  "model": "shops.offer",
+  "pk": 2,
+  "fields": {
+    "shop": 1,
+    "product": 2,
+    "created": "2023-04-16T15:52:38.154Z",
+    "updated": "2023-04-16T15:52:38.154Z",
+    "price": "525.00",
+    "in_stock": 30
+  }
+},
+{
+  "model": "shops.offer",
+  "pk": 3,
+  "fields": {
+    "shop": 1,
+    "product": 3,
+    "created": "2023-04-16T15:53:14.351Z",
+    "updated": "2023-04-16T15:53:14.351Z",
+    "price": "13500.00",
+    "in_stock": 10
+  }
+},
+{
+  "model": "shops.offer",
+  "pk": 4,
+  "fields": {
+    "shop": 3,
+    "product": 4,
+    "created": "2023-04-16T15:53:38.970Z",
+    "updated": "2023-04-16T15:53:38.970Z",
+    "price": "150.00",
+    "in_stock": 50
+  }
+},
+{
+  "model": "shops.offer",
+  "pk": 5,
+  "fields": {
+    "shop": 3,
+    "product": 5,
+    "created": "2023-04-16T15:54:10.842Z",
+    "updated": "2023-04-16T15:54:10.842Z",
+    "price": "120.00",
+    "in_stock": 30
+  }
+},
+{
+  "model": "shops.offer",
+  "pk": 6,
+  "fields": {
+    "shop": 4,
+    "product": 6,
+    "created": "2023-04-16T15:54:41.944Z",
+    "updated": "2023-04-16T15:54:41.944Z",
+    "price": "300.00",
+    "in_stock": 15
+  }
+},
+{
+  "model": "shops.offer",
+  "pk": 7,
+  "fields": {
+    "shop": 4,
+    "product": 7,
+    "created": "2023-04-16T15:55:05.134Z",
+    "updated": "2023-04-16T15:55:05.134Z",
+    "price": "400.00",
+    "in_stock": 10
+  }
+},
+{
+  "model": "shops.offer",
+  "pk": 8,
+  "fields": {
+    "shop": 4,
+    "product": 8,
+    "created": "2023-04-16T15:55:31.710Z",
+    "updated": "2023-04-16T15:55:31.710Z",
+    "price": "500.00",
+    "in_stock": 25
+  }
+},
+{
+  "model": "shops.offer",
+  "pk": 9,
+  "fields": {
+    "shop": 4,
+    "product": 9,
+    "created": "2023-04-16T15:55:51.879Z",
+    "updated": "2023-04-16T15:55:51.879Z",
+    "price": "800.00",
+    "in_stock": 10
+  }
+},
+{
+  "model": "shops.offer",
+  "pk": 10,
+  "fields": {
+    "shop": 4,
+    "product": 10,
+    "created": "2023-04-16T15:56:06.573Z",
+    "updated": "2023-04-16T15:56:06.573Z",
+    "price": "1500.00",
+    "in_stock": 12
+  }
+},
+{
+  "model": "shops.offer",
+  "pk": 11,
+  "fields": {
+    "shop": 5,
+    "product": 11,
+    "created": "2023-04-21T19:14:42.210Z",
+    "updated": "2023-04-21T19:14:42.210Z",
+    "price": "125.00",
+    "in_stock": 10
+  }
+}
+]

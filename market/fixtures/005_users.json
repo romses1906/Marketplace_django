@@ -37,7 +37,9 @@
         "surname": null,
         "phone_number": null,
         "photo": "",
-        "groups": [],
+        "groups": [
+            2
+        ],
         "user_permissions": []
     }
 },
@@ -58,7 +60,9 @@
         "surname": null,
         "phone_number": null,
         "photo": "",
-        "groups": [],
+        "groups": [
+            2
+        ],
         "user_permissions": []
     }
 },
@@ -79,7 +83,9 @@
         "surname": null,
         "phone_number": null,
         "photo": "",
-        "groups": [],
+        "groups": [
+            2
+        ],
         "user_permissions": []
     }
 },
@@ -100,7 +106,9 @@
         "surname": null,
         "phone_number": null,
         "photo": "",
-        "groups": [],
+        "groups": [
+            2
+        ],
         "user_permissions": []
     }
 },
@@ -121,7 +129,10 @@
         "surname": null,
         "phone_number": null,
         "photo": "",
-        "groups": [],
+        "groups": [
+            3,
+            2
+        ],
         "user_permissions": []
     }
 },
@@ -142,7 +153,10 @@
         "surname": null,
         "phone_number": null,
         "photo": "",
-        "groups": [],
+        "groups": [
+            3,
+            2
+        ],
         "user_permissions": []
     }
 },
@@ -163,7 +177,10 @@
         "surname": null,
         "phone_number": null,
         "photo": "",
-        "groups": [],
+        "groups": [
+            3,
+            2
+        ],
         "user_permissions": []
     }
 },
@@ -184,7 +201,10 @@
         "surname": null,
         "phone_number": null,
         "photo": "",
-        "groups": [],
+        "groups": [
+            3,
+            2
+        ],
         "user_permissions": []
     }
 },
@@ -205,7 +225,10 @@
         "surname": null,
         "phone_number": null,
         "photo": "",
-        "groups": [],
+        "groups": [
+            3,
+            2
+        ],
         "user_permissions": []
     }
 }

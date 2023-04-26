@@ -1,11 +1,47 @@
 <!DOCTYPE html>
-<html lang="en">
+{% load static %}
+{% load i18n %}
+
+
+<html class="ie7" lang="ru">
+<html class="ie8" lang="ru">
+<html class="ie9" lang="ru">
+<html class="ie10" lang="ru">
+<html class="ie11" lang="ru">
+<html lang="ru">
+
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Megano</title>
+    <meta charset="utf-8">
+    <meta name="description" content="{% trans 'Описание страницы' %}">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
+    <link href='{% static "favicon.ico" %}' rel="shortcut icon">
+    <link rel="stylesheet" href='{% static "assets/css/fonts.css" %}'>
+    <link rel="stylesheet" href='{% static "assets/css/basic.css" %}'>
+    <link rel="stylesheet" href='{% static "assets/css/extra.css" %}'>
+    <link rel="preload" href='{% static "assets/fonts/Roboto/Roboto-Regular.woff" %}' as="font">
+    <link rel="preload" href='{% static "assets/fonts/Roboto/Roboto-Italic.woff" %}' as="font">
+    <link rel="preload" href='{% static "assets/fonts/Roboto/Roboto-Bold.woff" %}' as="font">
+    <link rel="preload" href='{% static "assets/fonts/Roboto/Roboto-Bold_Italic.woff" %}' as="font">
+    <link rel="preload" href='{% static "assets/fonts/Roboto/Roboto-Light.woff" %}' as="font">
+    <link rel="preload" href='{% static "assets/fonts/Roboto/Roboto-Light_Italic.woff" %}' as="font">
+
+    <script src='{% static "assets/plg/CountDown/countdown.js" %}'></script>
+    <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
 </head>
-<body>
-{% block content %}
-{% endblock content %}
+
+<body class="Site">
+    {% block header %}{% include 'header.html' %}{% endblock %}
+
+    {% block content %}{% endblock %}
+
+    {% block footer %}{% include 'footer.html' %}{% endblock %}
+
+    <script src='{% static "assets/plg/jQuery/jquery-3.5.0.slim.min.js" %}'></script>
+    <script src='{% static "assets/plg/form/jquery.form.js" %}'></script>
+    <script src='{% static "assets/plg/form/jquery.maskedinput.min.js" %}'></script>
+    <script src='{% static "assets/plg/range/ion.rangeSlider.min.js" %}'></script>
+    <script src='{% static "assets/plg/Slider/slick.min.js" %}'></script>
+    <script src='{% static "assets/js/scripts.js" %}'></script>
 </body>
 </html>

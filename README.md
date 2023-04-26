@@ -67,14 +67,14 @@ python manage.py runserver 0.0.0.0:8000
 ## Разработка
 ### Работа в оболочке
 ```shell
-python manage.py shell -i ipython
+python manage.py shell_plus
 ```
 ### Приложение users:
 
 Загрузка данных в модель User выполняется из папки `market/` следующей командой:
 
 ```shell
-python manage.py loaddata fixtures/users.json --app users.User
+python manage.py loaddata fixtures/005_users.json --app users.User
 ```
 
 #### Данные cуперпользователя:
@@ -95,3 +95,7 @@ email: admin@admin.ru password: admin
 3. email: kyle@test.ru password: 1304test
 4. email: glenn@test.ru password: 1304test
 5. email: keith@test.ru password: 1304test  
+
+#### Данные для доступа к серверной электронной почте:
+
+email: service.megano@gmail.com password: 2023Django
