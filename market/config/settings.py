@@ -54,7 +54,7 @@ INSTALLED_APPS = [
     "users",
     "reviews",
     "cart",
-    "taggit"
+    "taggit",
     "django_jinja",
 ]
 
