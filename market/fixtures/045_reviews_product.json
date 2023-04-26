@@ -9,5 +9,27 @@
         "update_at": "2023-04-19T05:49:58.541Z",
         "content": "I have been visiting this supermarket for a long time now. Generally satisfied. There are questions, of course, to the department with fruits and berries ... there is a lot of spoiled product. Plus, it happens in the department where the fish is without tears you won�t look at the red fish. BUT! The most annoying thing lately is the mismatch between the price on the price tag and at the checkout. It's happened more than once. You have to run around the hall with goods and look for a scanner to check the price! This was not the case before. Now this is a real problem. Last time I checked all the goods except for one ... and it was he who did not match the price tag"
     }
+},
+{
+    "model": "reviews.reviews",
+    "pk": 2,
+    "fields": {
+        "product": 6,
+        "author": 2,
+        "created_at": "2023-04-21T16:18:31.303Z",
+        "update_at": "2023-04-22T11:10:24.804Z",
+        "content": "Плохая книжка, не понравилось."
+    }
+},
+{
+    "model": "reviews.reviews",
+    "pk": 3,
+    "fields": {
+        "product": 6,
+        "author": 9,
+        "created_at": "2023-04-21T20:08:28.913Z",
+        "update_at": "2023-04-22T11:09:46.668Z",
+        "content": "Хорошая книга, читал 2 раза."
+    }
 }
 ]

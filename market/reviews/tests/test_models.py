@@ -1,3 +1,5 @@
+import json
+
 from django.test import TestCase
 from reviews.models import Reviews
 
@@ -16,4 +18,8 @@ class ReviewsFixturesTests(TestCase):
 
     def test_create_reviews(self):
         """Проверка кол-во записей в БД."""
-        self.assertEqual(Reviews.objects.count(), 1)
+
+        with open('fixtures/045_reviews_product.json', 'r') as file:
+            num_reviews = len(json.load(file))
+
+        self.assertEqual(Reviews.objects.count(), num_reviews)

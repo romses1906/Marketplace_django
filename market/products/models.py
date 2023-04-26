@@ -6,6 +6,7 @@ from django.urls import reverse
 from django.utils import timezone
 import os
 from datetime import datetime
+from taggit.managers import TaggableManager
 
 
 def upload_product_image(instance, filename):
@@ -19,13 +20,16 @@ def upload_product_image(instance, filename):
 class Product(SoftDeleteModel):
     """Продукт"""
     name = models.CharField(max_length=512, verbose_name=_("наименование"))
-    property = models.ManyToManyField("Property", through="ProductProperty", verbose_name=_("характеристики"))
+    property = models.ManyToManyField(
+        "Property", through="ProductProperty", related_name='products', verbose_name=_("характеристики")
+    )
     category = models.ForeignKey(
         "Category", related_name='products', verbose_name=_("категория"), on_delete=models.PROTECT
     )
     description = models.TextField(max_length=2048, blank=True, verbose_name=_('описание'))
     created = models.DateTimeField(auto_now_add=True, verbose_name=_('создан'))
     updated = models.DateTimeField(auto_now=True, verbose_name=_('обновлён'))
+    tags = models.ManyToManyField('ProductTag', blank=True, related_name='products', verbose_name=_("теги"))
 
     class Meta:
         verbose_name = _('продукт')
@@ -40,11 +44,17 @@ class Product(SoftDeleteModel):
 
 class ProductImage(models.Model):
     """ Изображение продукта """
-    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='images', verbose_name=_('продукт'))
+    product = models.ForeignKey(
+        Product, on_delete=models.CASCADE, related_name='product_images', verbose_name=_('продукт')
+    )
     image = models.ImageField(upload_to=upload_product_image, verbose_name=_('изображение'))
     description = models.TextField(blank=True, max_length=2048, verbose_name=_('описание'))
+    ord_number = models.PositiveSmallIntegerField(
+        unique=True, null=True, blank=True, verbose_name=_('порядковый номер')
+    )
 
     class Meta:
+        ordering = ["ord_number"]
         verbose_name = _('изображение')
         verbose_name_plural = _('изображения')
 
@@ -94,5 +104,19 @@ class Category(SoftDeleteModel, MPTTModel):
         verbose_name = _('категория')
         verbose_name_plural = _('категории')
 
+    def get_absolute_url(self):
+        return reverse('products:products_by_category', kwargs={'pk': self.pk})
+
     def __str__(self):
         return self.name
+
+
+class ProductTag(models.Model):
+    tags = TaggableManager(verbose_name=_('теги'), help_text=_('Список тегов, разделенных запятыми.'))
+
+    class Meta:
+        verbose_name = _('тэг')
+        verbose_name_plural = _('тэги')
+
+    def __str__(self):
+        return ', '.join(self.tags.names())
