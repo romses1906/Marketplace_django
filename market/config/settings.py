@@ -54,8 +54,8 @@ INSTALLED_APPS = [
     "users",
     "reviews",
     "cart",
-    "taggit"
-
+    "taggit",
+    "django_jinja",
 ]
 
 SITE_ID = 1
@@ -77,6 +77,23 @@ if DEBUG:
 ROOT_URLCONF = "config.urls"
 
 TEMPLATES = [
+    {
+        "BACKEND": "django_jinja.backend.Jinja2",
+        "DIRS": [Path(BASE_DIR).joinpath("templates")],
+        "APP_DIRS": True,
+        "OPTIONS": {
+            # django-jinja defaults
+            "match_extension": ".j2",
+            "match_regex": None,
+            "app_dirname": "templates",
+            "constants": {},
+            "globals": {},
+            "context_processors": [
+                "django.contrib.messages.context_processors.messages",
+            ],
+
+        }
+    },
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
         "DIRS": [BASE_DIR / "templates"],

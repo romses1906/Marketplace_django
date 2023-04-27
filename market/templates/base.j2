@@ -1,0 +1,82 @@
+<!--END-->
+<!--END-->
+<!DOCTYPE html>
+<!--[if IE 7]>
+<html class="ie7" lang="ru">
+<![endif]-->
+<!--[if IE 8]>
+<html class="ie8" lang="ru">
+<![endif]-->
+<!--[if IE 9]>
+<html class="ie9" lang="ru">
+<![endif]-->
+<!--[if IE 10]>
+<html class="ie10" lang="ru">
+<![endif]-->
+<!--[if IE 11]>
+<html class="ie11" lang="ru">
+<![endif]-->
+<!--[if gt IE 11]><!-->
+<html lang="ru">
+<!--<![endif]-->
+
+<head>
+    <title>{% block title %}Megano{% endblock title %}</title>
+    <meta name="description" content="Описание страницы">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
+    <link href="{{ static('favicon.ico') }}" rel="shortcut icon">
+    <link rel="preload" href="{{ static('fonts/Roboto/Roboto-Regular.woff') }}" as="font">
+    <link rel="preload" href="{{ static('fonts/Roboto/Roboto-Italic.woff') }}" as="font">
+    <link rel="preload" href="{{ static('fonts/Roboto/Roboto-Bold.woff') }}" as="font">
+    <link rel="preload" href="{{ static('fonts/Roboto/Roboto-Bold_Italic.woff') }}" as="font">
+    <link rel="preload" href="{{ static('fonts/Roboto/Roboto-Light.woff') }}" as="font">
+    <link rel="preload" href="{{ static('fonts/Roboto/Roboto-Light_Italic.woff') }}" as="font">
+    <link rel="stylesheet" href="{{ static('css/fonts.css') }}">
+    <link rel="stylesheet" href="{{ static('css/basic.css') }}">
+    <link rel="stylesheet" href="{{ static('css/extra.css') }}">
+    <script src="{{ static('plg/CountDown/countdown.js') }}"></script>
+    <!--[if lt IE 9]>
+    <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+</head>
+
+<body class="Site">
+    <!--if lt IE 8
+    p.error-browser
+      | Ваш браузер&nbsp;
+      em устарел!&nbsp;
+      a(href="http://browsehappy.com/") Выберите новую версию
+          +s
+          | браузера здесь&nbsp;
+      | для правильного отображения сайта.
+  -->
+    <header class="Header">
+        {% block header %}
+        {% include "includes/header/control_panel.j2" %}
+        {% include "includes/header/wrap.j2" %}
+        {% include "includes/header/header_search_wrap.j2" %}
+        {% endblock header %}
+    </header>
+
+    {% block content %}
+    {% endblock content %}
+
+    <footer class="Footer">
+        <div class="wrap">
+            <div class="row Footer-main">
+                {% include "includes/footer/logo.j2" %}
+                {% include "includes/footer/menu.j2" %}
+                {% include "includes/footer/contacts.j2" %}
+            </div>
+        </div>
+    </footer>
+
+    <script type="text/javascript" src="{{ static('plg/jQuery/jquery-3.5.0.slim.min.js') }}"></script>
+    <script type="text/javascript" src="{{ static('plg/form/jquery.form.js') }}"></script>
+    <script type="text/javascript" src="{{ static('plg/form/jquery.maskedinput.min.js') }}"></script>
+    <script type="text/javascript" src="{{ static('plg/range/ion.rangeSlider.min.js') }}"></script>
+    <script type="text/javascript" src="{{ static('plg/Slider/slick.min.js') }}"></script>
+    <script type="text/javascript" src="{{ static('js/scripts.') }}"></script>
+</body>
+
+</html>
