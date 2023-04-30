@@ -11,6 +11,8 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 import os
 from pathlib import Path
+
+from django.urls import reverse_lazy
 from dotenv import dotenv_values
 
 import dj_database_url
@@ -180,6 +182,7 @@ LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
 
 
+
 # Данные для отправки сообщений на почту пользователя.
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
@@ -207,3 +210,5 @@ SHELL_PLUS_SQLPARSE_FORMAT_KWARGS = dict(
 # Specify Pygments formatter and configuration options when printing sql queries to the console
 SHELL_PLUS_PYGMENTS_FORMATTER = pygments.formatters.TerminalFormatter
 SHELL_PLUS_PYGMENTS_FORMATTER_KWARGS = {}
+
+LOGIN_URL = reverse_lazy('users:login_user')
