@@ -182,7 +182,6 @@ LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
 
 
-
 # Данные для отправки сообщений на почту пользователя.
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
