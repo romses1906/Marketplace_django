@@ -136,8 +136,8 @@ class ProductDetailViewTest(TestCase):
     def setUp(self):
         self.client = Client()
         self.product = Product.objects.annotate(
-            min_price=Min('offers__price')).annotate(num_reviews=Count('offers__reviews')).prefetch_related(
-            'product_properties', 'product_images', 'offers', 'offers__reviews').get(id=6)
+            min_price=Min('offers__price')).annotate(num_reviews=Count('product_reviews')).prefetch_related(
+            'product_properties', 'product_images', 'offers', 'product_reviews').get(id=6)
         self.response = self.client.get(self.product.get_absolute_url())
 
     def test_view_returns_correct_HTTP_status(self):

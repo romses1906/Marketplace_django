@@ -43,8 +43,8 @@ class ProductDetailView(generic.DetailView):
 
     def get_queryset(self):
         queryset = Product.objects.annotate(
-            min_price=Min('offers__price')).annotate(num_reviews=Count('offers__reviews')).prefetch_related(
-            'product_properties', 'product_images', 'offers', 'offers__reviews')
+            min_price=Min('offers__price')).annotate(num_reviews=Count('product_reviews')).prefetch_related(
+            'product_properties', 'product_images', 'offers', 'product_reviews')
         return queryset
 
     def get_context_data(self, **kwargs):
