@@ -9,22 +9,18 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.db import transaction
 from django.db.utils import IntegrityError
 from django.http import HttpResponseRedirect
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 from django.utils.translation import gettext_lazy as _
-from django.views.generic import CreateView
+from django.views.generic import FormView
 
-from .models import User
 from .forms import CustomSetPasswordForm
+from .models import User
 
 
 class LoginUserView(SuccessMessageMixin, LoginView):
     """Аутентификация пользователя"""
     template_name = 'users/login.j2'
     success_url = reverse_lazy('home')
-
-    def get_success_url(self):
-        """Метод класса, возвращающий URl."""
-        return self.success_url
 
     def post(self, request, *args, **kwargs):
         """Метод, проверяющий существование пользователя и перенаправляющий его на соответствующую страницу."""
@@ -33,23 +29,19 @@ class LoginUserView(SuccessMessageMixin, LoginView):
         user = authenticate(email=email, password=password)
         if user is not None:
             login(request, user)
-            return HttpResponseRedirect(self.get_success_url())
+            return HttpResponseRedirect(self.success_url)
 
         messages.add_message(
             self.request, messages.INFO, _('Неверный логин или пароль. Проверьте введённые данные'))
-        return HttpResponseRedirect(reverse_lazy('users:login_user'))
+        return HttpResponseRedirect(reverse('users:login_user'))
 
 
-class RegisterView(SuccessMessageMixin, CreateView):
+class RegisterView(SuccessMessageMixin, FormView):
     """Регистрация пользователя. При методе POST, функция сохраняет полученные данные в кастомной модели User."""
     template_name = 'users/register.j2'
     form_class = UserCreationForm
     queryset = User.objects.all()
     success_url = reverse_lazy('users:login_user')
-
-    def get_success_url(self):
-        """Метод класса, возвращающий URl."""
-        return self.success_url
 
     def post(self, request, *args, **kwargs):
         """После регистрации, пользователю добавляется группа с разрешениями "покупатель"."""
@@ -67,13 +59,13 @@ class RegisterView(SuccessMessageMixin, CreateView):
                 group = Group.objects.get(name='buyer')
                 user.groups.add(group)
                 messages.add_message(self.request, messages.INFO, _('Вы успешно зарегистрированы!'))
-                return HttpResponseRedirect(self.get_success_url())
+                return HttpResponseRedirect(self.success_url)
         except ObjectDoesNotExist:
             messages.add_message(self.request, messages.INFO, _('К сожалению запрос не удался, попробуйте позже!'))
-            return HttpResponseRedirect(reverse_lazy('users:register_user'))
+            return HttpResponseRedirect(reverse('users:register_user'))
         except IntegrityError:
             messages.add_message(self.request, messages.INFO, _('Вы уже зарегистрированы!'))
-            return HttpResponseRedirect(self.get_success_url())
+            return HttpResponseRedirect(self.success_url)
 
 
 class PasswordResetRequestView(SuccessMessageMixin, PasswordResetView):
