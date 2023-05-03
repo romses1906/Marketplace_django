@@ -5,14 +5,14 @@ from products.models import Product, Category
 from reviews.views import CreateReviewsView
 
 
-class ProductDetailPageTest(TestCase):
+class ReviewsCreateTest(TestCase):
     """Тестирование URL добавления отзывов на продукт."""
 
     @classmethod
     def setUpTestData(cls):
         cls.client = Client()
-        cls.category = Category.objects.create(name='тестовая категория', description='тестовое описание категории')
-        cls.product = Product.objects.create(name='тестовый продукт', category=cls.category)
+        cls.category = Category.objects.create(name='тест', description='тестовое описание')
+        cls.product = Product.objects.create(name='продукт', category=cls.category)
         cls.url = reverse('reviews:product_reviews', kwargs={'pk': cls.product.pk})
         cls.response = cls.client.get(cls.url)
 
