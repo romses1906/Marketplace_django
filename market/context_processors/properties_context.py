@@ -17,7 +17,7 @@ def properties(request):
                 names_properties[value[0]] = {value[1]}
             else:
                 names_properties[value[0]].add(value[1])
-    except (IndexError, UnboundLocalError):
+    except (IndexError, UnboundLocalError, ValueError):
         pass
 
     return {
