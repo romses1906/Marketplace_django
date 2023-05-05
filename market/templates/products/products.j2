@@ -11,11 +11,29 @@
                         </header>
                         <div class="Section-columnContent">
                             <form class="form" action="{{ url('products:products_by_category', category.pk) }}" method="get">
-                                {% for field in filter.form %}
-                                <li>
-                                    {{ field.label_tag() }}
-                                    {{ field }}
-                                </li>
+                                {{ filter.form.price.label_tag() }}
+                                {{ filter.form.price }}
+                                {{ filter.form.product_name.label_tag() }}
+                                {{ filter.form.product_name }}
+                                {{ filter.form.multiple_shops.label_tag() }}
+                                {{ filter.form.multiple_shops }}
+                                <p></p>
+                                {{ filter.form.multiple_properties.label }}:
+                                <p></p>
+                                {% for key, value in names_properties.items() %}
+                                    {% if key != None %}
+                                        <li>{{ key }}</li>
+                                    {% endif %}
+                                    {% for field in filter.form.multiple_properties %}
+                                        {% for val in value %}
+                                            {% if field.choice_label == val and val != None %}
+                                                {{ field }}
+                                            {% endif %}
+                                        {% endfor %}
+                                    {% endfor %}
+
+                                <p></p>
+
                                 {% endfor %}
                                     <div class="form-group">
                                         <div class="buttons"><input type="submit" class="btn btn_square btn_dark btn_narrow" value="Фильтр"></div>
@@ -42,7 +60,8 @@
                         </div>
                     </div>
           <div class="Cards">
-              {% for offer in filter.qs %}
+              {% for offer in object_list %}
+
                   <div class="Card"><a class="Card-picture" href="{{ offer.product.get_absolute_url() }}"><img src="#" alt="#"/></a>
                     <div class="Card-content">
                     <strong class="Card-title"><a href="{{ offer.product.get_absolute_url() }}">{{ offer }}</a>
@@ -65,7 +84,7 @@
                 </div>
               {% endfor %}
           </div>
-
+         {% include('pagination.j2') %}
         </div>
       </div>
     </div>

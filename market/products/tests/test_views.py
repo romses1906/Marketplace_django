@@ -38,15 +38,21 @@ class ProductsByCategoryViewTest(TestCase):
         "010_shops.json",
         "015_categories.json",
         "020_products.json",
+        "025_properties.json",
         "030_offers.json",
+        "035_products_properties.json",
     ]
 
     def setUp(self):
         self.client = Client()
         self.category = Category.objects.get(id=15)
-        self.offers = Offer.objects.select_related('shop', 'product').filter(product__category=self.category)
+        self.offers = Offer.objects.select_related('shop', 'product__category').filter(product__category=self.category)
         self.url = reverse("products:products_by_category", kwargs={'pk': self.category.pk})
         self.response = self.client.get(self.url)
+        self.category_books = Category.objects.get(id=17)
+        self.offers_books = Offer.objects.select_related('shop', 'product__category').filter(
+            product__category=self.category_books)
+        self.url_books = reverse("products:products_by_category", kwargs={'pk': self.category_books.pk})
 
     def test_view_returns_correct_HTTP_status(self):
         """ Тестирование возврата корректного http-кода при открытии страницы товаров конкретной категории """
@@ -139,6 +145,96 @@ class ProductsByCategoryViewTest(TestCase):
             self.assertContains(response, offer.product.name)
         undesired_offers = self.offers.exclude(product__name__icontains='лопата', shop__id__in=['1'], price__gte=500,
                                                price__lte=600)
+        for offer in undesired_offers:
+            self.assertNotContains(response, offer.product.name)
+
+    def test_products_filtering_by_property_success(self):
+        """ Тестирование корректности фильтрации товаров по значению характеристики """
+
+        response = self.client.get(
+            self.url + "?price_min=&price_max=&product_name=&multiple_properties=Ручной+инструмент#")
+        desired_offers = self.offers.filter(product__product_properties__value__in=['Ручной инструмент'])
+        for offer in desired_offers:
+            self.assertContains(response, offer.product.name)
+
+    def test_products_filtering_by_property_failure(self):
+        """ Тестирование невхождения неподходящих товаров в искомые при фильтрации по значению характеристики """
+
+        response = self.client.get(
+            self.url + "?price_min=&price_max=&product_name=&multiple_properties=Ручной+инструмент#")
+        undesired_offers = self.offers.exclude(product__product_properties__value__in=['Ручной инструмент'])
+        for offer in undesired_offers:
+            self.assertNotContains(response, offer.product.name)
+
+    def test_products_filtering_by_properties_success(self):
+        """ Тестирование корректности фильтрации товаров по значениям нескольких характеристик одновременно """
+
+        response = self.client.get(
+            self.url_books + "?price_min=&price_max=&product_name=&multiple_properties=Александр+Сергеевич+Пушкин&"
+                             "multiple_properties=Бронислав+Брониславович+Виногродский&multiple_properties=Тонкий&"
+                             "multiple_properties=Роман")
+        names_properties = {'Автор': {'Александр Сергеевич Пушкин', 'Бронислав Брониславович Виногродский'},
+                            'Переплет': {'Тонкий'}, 'Жанр': {'Роман'}}
+        for key, value in names_properties.items():
+            desired_offers = self.offers_books.select_related('shop', 'product__category').filter(
+                product__product_properties__value__in=value).order_by('product__id').distinct(
+                'product__id')
+        self.assertEqual(len(desired_offers), len(response.context_data['offer_list']))
+        for offer in desired_offers:
+            self.assertContains(response, offer.product.name)
+
+    def test_products_filtering_by_properties_failure(self):
+        """ Тестирование невхождения неподходящих товаров в искомые при фильтрации по
+        значениям нескольких характеристик одновременно """
+
+        response = self.client.get(
+            self.url_books + "?price_min=&price_max=&product_name=&multiple_properties=Александр+Сергеевич+Пушкин&"
+                             "multiple_properties=Бронислав+Брониславович+Виногродский&multiple_properties=Тонкий&"
+                             "multiple_properties=Роман")
+
+        names_properties = {'Переплет': {'Твердый'}, 'Жанр': {'Проза', 'Антиутопия', 'Философия'}}
+        for key, value in names_properties.items():
+            undesired_offers = self.offers_books.select_related('shop', 'product__category').filter(
+                product__product_properties__value__in=value).order_by('product__id').distinct(
+                'product__id')
+        self.assertEqual(len(undesired_offers), len(self.offers_books) - len(response.context_data['offer_list']))
+        for offer in undesired_offers:
+            self.assertNotContains(response, offer.product.name)
+
+    def test_products_filtering_by_properties_and_price_and_name_success(self):
+        """ Тестирование корректности фильтрации товаров по значениям нескольких характеристик, цене,
+        названию товара одновременно """
+
+        response = self.client.get(
+            self.url_books + "?price_min=&price_max=500&product_name=дочка&multiple_properties="
+                             "Александр+Сергеевич+Пушкин&multiple_properties=Бронислав+Брониславович+Виногродский&"
+                             "multiple_properties=Тонкий&multiple_properties=Роман")
+        names_properties = {'Автор': {'Александр Сергеевич Пушкин', 'Бронислав Брониславович Виногродский'},
+                            'Переплет': {'Тонкий'}, 'Жанр': {'Роман'}}
+        for key, value in names_properties.items():
+            desired_offers = self.offers_books.select_related('shop', 'product__category').filter(
+                product__name__icontains='дочка', price__lte=500,
+                product__product_properties__value__in=value).order_by('product__id').distinct(
+                'product__id')
+        self.assertEqual(len(desired_offers), len(response.context_data['offer_list']))
+        for offer in desired_offers:
+            self.assertContains(response, offer.product.name)
+
+    def test_products_filtering_by_properties_and_price_and_name_failure(self):
+        """ Тестирование невхождения неподходящих товаров в искомые при фильтрации по значениям нескольких
+        характеристик, цене, названию товара одновременно """
+
+        response = self.client.get(
+            self.url_books + "?price_min=&price_max=500&product_name=дочка&multiple_properties="
+                             "Александр+Сергеевич+Пушкин&multiple_properties=Бронислав+Брониславович+Виногродский&"
+                             "multiple_properties=Тонкий&multiple_properties=Роман")
+        names_properties = {'Переплет': {'Твердый', 'Тонкий'}, 'Жанр': {'Проза', 'Антиутопия', 'Философия', 'Роман'}}
+        for key, value in names_properties.items():
+            undesired_offers = self.offers_books.select_related('shop', 'product__category').filter(
+                product__product_properties__value__in=value).order_by('product__id').distinct(
+                'product__id')
+        undesired_offers = undesired_offers.exclude(product__name__icontains='дочка', price__lte=500)
+        self.assertEqual(len(undesired_offers), len(self.offers_books) - len(response.context_data['offer_list']))
         for offer in undesired_offers:
             self.assertNotContains(response, offer.product.name)
 
