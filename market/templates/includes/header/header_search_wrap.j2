@@ -8,6 +8,7 @@
               <div class="CategoriesButton-arrow">
               </div>
             </div>
+            <div class="CategoriesButton-content">
             {% for category in categories recursive %}
                 {% set children = category.get_children() %}
                 {% set pk = category.pk %}
@@ -24,6 +25,7 @@
                                 {{ loop(children) }}
                             </div>
                         {% endif %}
+                </div>
                 </div>
             {% endfor %}
           </div>

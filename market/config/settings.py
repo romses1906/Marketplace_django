@@ -91,6 +91,7 @@ TEMPLATES = [
             "globals": {},
             "context_processors": [
                 "context_processors.categories_context.categories",
+                "context_processors.properties_context.properties",
                 "django.contrib.messages.context_processors.messages",
             ],
 
