@@ -1,9 +1,9 @@
 from decimal import Decimal
-
 from django.test import TestCase, Client
+
 from products.models import Product, Property, ProductProperty, Category
 from shops.models import Shop, Offer
-from cart.cart import Cart
+from cart.cart import CartServices
 from users.models import User
 
 
@@ -26,25 +26,25 @@ class CartTestCase(TestCase):
         cls.client = Client()
         cls.request = cls.client.request().wsgi_request
         cls.request.session.update(cls.session)
-        cls.cart = Cart(cls.request)
+        cls.cart = CartServices(cls.request)
 
     def test_add_to_cart(self):
         """Тестирование функции add класса Cart"""
-        self.cart.add(self.offer)
+        self.cart.update(self.offer)
         self.assertEqual(len(self.cart), 1)
         self.assertEqual(self.cart.get_total_price(), self.offer.price)
 
     def test_update_cart(self):
         """Тестирование функции update класса Cart"""
-        self.cart.add(self.offer)
-        self.cart.add(self.offer, quantity=2, update_quantity=True)
+        self.cart.update(self.offer)
+        self.cart.update(self.offer, quantity=2, update_quantity=True)
 
         self.assertEqual(len(self.cart), 2)
         self.assertEqual(self.cart.get_total_price(), self.offer.price * 2)
 
     def test_remove_from_cart(self):
         """Тестирование функции remove класса Cart"""
-        self.cart.add(self.offer)
+        self.cart.update(self.offer)
         self.cart.remove(self.offer)
 
         self.assertEqual(len(self.cart), 0)
@@ -52,7 +52,7 @@ class CartTestCase(TestCase):
 
     def test_clear_cart(self):
         """Тестирование функции clear класса Cart"""
-        self.cart.add(self.offer)
+        self.cart.update(self.offer)
         self.cart.remove(self.offer)
         self.cart.clear()
 

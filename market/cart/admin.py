@@ -1,38 +1,25 @@
 from django.contrib import admin
-from cart.models import Delivery, Order, OrderItem
+
+from cart.models import Cart, ProductInCart
 
 
-class DeliveryAdmin(admin.ModelAdmin):
-    """Используется для настройки отображения
-         и поведения модели доставки в Django Admin."""
-    list_display = ('delivery_option', 'delivery_fee', 'order_total_for_free_delivery')
-
-
-class OrderItemInline(admin.TabularInline):
+class ProductInCartInline(admin.TabularInline):
     """Используется для редактирования экземпляров
-    OrderItem в модели Order в Django Admin."""
-    model = OrderItem
-    raw_id_fields = ('offer',)
+    ProductInCart в модели Cart в Django Admin."""
+    model = ProductInCart
 
 
-class OrderAdmin(admin.ModelAdmin):
+class CartAdmin(admin.ModelAdmin):
     """Используется для настройки отображения
-         и поведения модели заказа в Django Admin."""
-    list_display = ('id', 'user', 'created', 'updated', 'status', 'payment_date',
-                    'delivery', 'delivery_address', 'total_cost')
-    list_filter = ('status', 'created', 'updated')
-    inlines = [OrderItemInline]
-    search_fields = ('user__username', 'delivery_address')
+         и поведения модели корзины в Django Admin."""
+    list_display = ('id', 'user', 'is_active')
 
 
-class OrderItemAdmin(admin.ModelAdmin):
+class ProductInCartAdmin(admin.ModelAdmin):
     """Используется для настройки отображения
-         и поведения модели позиции заказа в Django Admin."""
-    list_display = ('id', 'order', 'offer', 'quantity', 'get_cost')
-    list_filter = ('order__status', 'date_added')
-    search_fields = ('offer__product',)
+         и поведения модели позиций корзины в Django Admin."""
+    list_display = ('offer', 'cart', 'quantity', 'date_added')
 
 
-admin.site.register(Delivery, DeliveryAdmin)
-admin.site.register(Order, OrderAdmin)
-admin.site.register(OrderItem, OrderItemAdmin)
+admin.site.register(Cart, CartAdmin)
+admin.site.register(ProductInCart, ProductInCartAdmin)
