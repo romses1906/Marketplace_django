@@ -3,7 +3,7 @@ from django.contrib.auth import login, authenticate
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth.models import Group
-from django.contrib.auth.views import LoginView, PasswordResetView, PasswordResetConfirmView
+from django.contrib.auth.views import LoginView, PasswordResetView, PasswordResetConfirmView, LogoutView
 from django.contrib.messages.views import SuccessMessageMixin
 from django.core.exceptions import ObjectDoesNotExist
 from django.db import transaction
@@ -34,6 +34,11 @@ class LoginUserView(SuccessMessageMixin, LoginView):
         messages.add_message(
             self.request, messages.INFO, _('Неверный логин или пароль. Проверьте введённые данные'))
         return HttpResponseRedirect(reverse('users:login_user'))
+
+
+class LogoutUserView(LogoutView):
+    """Представления для выхода пользователя из аккаунта."""
+    template_name = 'includes/header/wrap.j2'
 
 
 class RegisterView(SuccessMessageMixin, FormView):
