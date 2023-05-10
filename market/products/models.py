@@ -8,6 +8,8 @@ import os
 from datetime import datetime
 from taggit.managers import TaggableManager
 
+UPLOAD_TO_CATEGORY_IMAGE = './static/img/icons/departments/'
+
 
 def upload_product_image(instance, filename):
     """ Формирование пути к изображению продукта """
@@ -89,11 +91,12 @@ class ProductProperty(models.Model):
         return f'{self.product} | {self.property}'
 
 
-class Category(SoftDeleteModel, MPTTModel):
+class Category(MPTTModel, SoftDeleteModel):
     """Категория товара"""
     name = models.CharField(max_length=512, verbose_name=_("наименование"))
     description = models.CharField(max_length=512, verbose_name=_("описание"))
-    image = models.ImageField(upload_to='departments/', null=True, blank=True, verbose_name=_("иконка"))
+    image = models.ImageField(upload_to=UPLOAD_TO_CATEGORY_IMAGE, null=True, blank=True,
+                              verbose_name=_("иконка"))
     parent = TreeForeignKey('self', on_delete=models.PROTECT, null=True, blank=True, related_name='children',
                             db_index=True, verbose_name=_('родительская категория'))
 

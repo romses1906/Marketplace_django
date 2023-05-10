@@ -11,6 +11,8 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 import os
 from pathlib import Path
+
+from django.urls import reverse_lazy
 from dotenv import dotenv_values
 
 import dj_database_url
@@ -20,7 +22,6 @@ config = dotenv_values(os.path.join("..", ".env"))
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
@@ -32,7 +33,6 @@ SECRET_KEY = "django-insecure-=e-i4dlx_qq&ra7un4)u8bdr#08q)gc_*yyy4@7--kt(0(p#!(
 DEBUG = True
 
 ALLOWED_HOSTS = []
-
 
 # Application definition
 
@@ -46,6 +46,8 @@ INSTALLED_APPS = [
     "django.contrib.sites",
     "django_extensions",
     "mptt",
+    "taggit",
+    "django_jinja",
     "django_mptt_admin",
     "django_filters",
     "phonenumber_field",
@@ -91,6 +93,8 @@ TEMPLATES = [
             "constants": {},
             "globals": {},
             "context_processors": [
+                "context_processors.categories_context.categories",
+                "context_processors.properties_context.properties",
                 "django.contrib.messages.context_processors.messages",
             ],
 
@@ -107,12 +111,12 @@ TEMPLATES = [
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
             ],
+
         },
     },
 ]
 
 WSGI_APPLICATION = "config.wsgi.application"
-
 
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
@@ -139,7 +143,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/4.2/topics/i18n/
 
@@ -150,7 +153,6 @@ TIME_ZONE = "UTC"
 USE_I18N = True
 
 USE_TZ = True
-
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
@@ -175,12 +177,11 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 AUTH_USER_MODEL = 'users.User'
 
 FIXTURE_DIRS = [
-    BASE_DIR/'fixtures',
+    BASE_DIR / 'fixtures',
 ]
 
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
-
 
 # Данные для отправки сообщений на почту пользователя.
 EMAIL_HOST = 'smtp.gmail.com'
@@ -202,10 +203,12 @@ SHELL_PLUS_PRINT_SQL_TRUNCATE = None
 
 # Specify sqlparse configuration options when printing sql queries to the console
 SHELL_PLUS_SQLPARSE_FORMAT_KWARGS = dict(
-  reindent_aligned=True,
-  truncate_strings=500,
+    reindent_aligned=True,
+    truncate_strings=500,
 )
 
 # Specify Pygments formatter and configuration options when printing sql queries to the console
 SHELL_PLUS_PYGMENTS_FORMATTER = pygments.formatters.TerminalFormatter
 SHELL_PLUS_PYGMENTS_FORMATTER_KWARGS = {}
+
+LOGIN_URL = reverse_lazy('users:login_user')

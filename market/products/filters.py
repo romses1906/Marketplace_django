@@ -1,6 +1,6 @@
 import django_filters
 from django import forms
-
+from products.models import ProductProperty
 from shops.models import Offer
 
 
@@ -15,22 +15,40 @@ class ProductFilter(django_filters.FilterSet):
                                                          widget=forms.CheckboxSelectMultiple(
                                                              attrs={"class": "form-control"}))
 
+    multiple_properties = django_filters.MultipleChoiceFilter(choices=[], label="Характеристики",
+                                                              method="multiple_properties_method",
+                                                              widget=forms.CheckboxSelectMultiple(
+                                                                  attrs={"class": "form-control"}))
+
     class Meta:
         model = Offer
-        fields = ['price', 'product_name', 'multiple_shops']
+        fields = ['price', 'product_name', 'multiple_shops', 'multiple_properties']
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.category = kwargs['queryset'][0].product.category
         self.form.fields['multiple_shops'].choices = self.get_multiple_shops_choices()
+        self.form.fields['multiple_properties'].choices = self.get_multiple_properties_choices()
+        self.kwargs = kwargs
 
     def get_multiple_shops_choices(self):
         """ Метод для получения параметров выбора для фильтрации товаров по продавцам """
 
         shops_choices = list(
             Offer.objects.select_related('shop', 'product').filter(product__category=self.category).values_list(
-                'shop__id', 'shop__name').distinct('shop__id'))
+                'shop__id', 'shop__name').distinct('shop__id').order_by('shop__id'))
+
         return shops_choices
+
+    def get_multiple_properties_choices(self):
+        """ Метод для получения параметров выбора для фильтрации товаров по характеристикам """
+
+        properties_choices = list(
+            Offer.objects.select_related('shop', 'product').filter(product__category=self.category).values_list(
+                'product__product_properties__value', 'product__product_properties__value').distinct(
+                'product__product_properties__value').order_by('product__product_properties__value'))
+
+        return properties_choices
 
     def multiple_shops_method(self, queryset, name, value):
         """ Метод фильтрации товаров по выбранным пользователем продавцам """
@@ -41,6 +59,31 @@ class ProductFilter(django_filters.FilterSet):
                 ids.append(item)
         if len(ids):
             qs = queryset.filter(shop__in=ids)
+        else:
+            qs = queryset
+        return qs
+
+    def multiple_properties_method(self, queryset, name, value):
+        """ Метод фильтрации товаров по выбранным пользователем значениям характеристик """
+
+        names_properties = {}
+        values = []
+        for item in value:
+            if item != "":
+                values.append(item)
+        if len(values):
+            for value in values:
+                name_property = list(ProductProperty.objects.select_related('property').filter(
+                    value=value).values_list('property__name'))[0][0]
+                if name_property not in names_properties:
+                    names_properties[name_property] = {value}
+                else:
+                    names_properties[name_property].add(value)
+            qs = queryset
+            for key, value in names_properties.items():
+                qs = qs.select_related('shop', 'product__category').filter(
+                    product__product_properties__value__in=value).order_by('product__id').distinct(
+                    'product__id')
         else:
             qs = queryset
         return qs

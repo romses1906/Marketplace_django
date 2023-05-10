@@ -1,9 +1,30 @@
 [
 {
-    "model": "products.property",
-    "pk": 1,
-    "fields": {
-        "name": "Автор"
-    }
+  "model": "products.property",
+  "pk": 1,
+  "fields": {
+    "name": "Автор"
+  }
+},
+{
+  "model": "products.property",
+  "pk": 2,
+  "fields": {
+    "name": "Переплет"
+  }
+},
+{
+  "model": "products.property",
+  "pk": 3,
+  "fields": {
+    "name": "Жанр"
+  }
+},
+{
+  "model": "products.property",
+  "pk": 4,
+  "fields": {
+    "name": "Вид инструмента"
+  }
 }
 ]

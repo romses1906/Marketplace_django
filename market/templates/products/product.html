@@ -151,8 +151,7 @@
                                 </h3>
                             </header>
                             <div class="Comments">
-                                {% for offer in product.offers.all %}
-                                    {% for review in offer.reviews.all %}
+                                {% for review in product.product_reviews.all %}
                                     <div class="Comment">
                                         <div class="Comment-column Comment-column_pict">
                                             <div class="Comment-avatar">
@@ -169,7 +168,6 @@
                                             </div>
                                         </div>
                                     </div>
-                                    {% endfor %}
                                 {% endfor %}
                             </div>
                             <header class="Section-header Section-header_product">
@@ -177,7 +175,8 @@
                                 </h3>
                             </header>
                             <div class="Tabs-addComment">
-                                <form class="form" action="#" method="post">
+                                <form class="form" action="{% url 'reviews:product_reviews' pk=product.id %}" method="post">
+                                    {% csrf_token %}
                                     <div class="form-group">
                                         <textarea class="form-textarea" name="review" id="review" placeholder='{% trans "Отзыв" %}'></textarea>
                                     </div>
