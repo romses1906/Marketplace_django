@@ -30,7 +30,7 @@
             </div>
         </nav>
         <div class="row-block">
-
+        {% if request.user.is_authenticated %}
             <div class="CartBlock">
                 <div class="dropdown">
                     <button class="dropbtn">
@@ -38,13 +38,13 @@
                             alt="loon-icon.svg" />
                     </button>
                     <div class="dropdown-content">
-                        <a class="dropdown-content-a" href="account.html">
+                        <a class="dropdown-content-a" href="{{ url('account:account_user', request.user.pk) }}">
                             Личный кабинет
                         </a>
                         <a class="dropdown-content-a" href="account.html">
                             Административный раздел
                         </a>
-                        <a class="dropdown-content-a" href="account.html">
+                        <a class="dropdown-content-a" href="{{ url('users:logout_user') }}">
                             Выход
                         </a>
                     </div>
@@ -62,6 +62,7 @@
 
                 </div>
             </div>
+        {% endif %}
         </div>
         <div class="row-block Header-trigger">
             <a class="menuTrigger" href="#navigate">
