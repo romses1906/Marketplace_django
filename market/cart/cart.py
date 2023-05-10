@@ -262,8 +262,12 @@ class CartServices:
         :return:
         """
         if only_session:
-            del self.session[settings.CART_SESSION_ID]
-            self.session.modified = True
+            if settings.CART_SESSION_ID in self.session:
+                del self.session[settings.CART_SESSION_ID]
+                self.session.modified = True
         else:
             if self.qs:
                 self.qs.delete()
+            if settings.CART_SESSION_ID in self.session:
+                del self.session[settings.CART_SESSION_ID]
+                self.session.modified = True

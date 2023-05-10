@@ -2,6 +2,7 @@ from django.http import JsonResponse
 from django.views.generic.base import RedirectView, TemplateView, View
 from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy
+from django.views.generic.detail import SingleObjectMixin
 
 from cart.cart import CartServices
 from shops.models import Offer
@@ -29,6 +30,7 @@ class UpdateCartView(View):
     """
     Обнавляет количество товара в корзине
     """
+
     def post(self, request):
         cart = CartServices(request)
         product_id = request.POST.get('product_id', None)
@@ -49,6 +51,7 @@ class UpdateCartView(View):
                 'product_quantity': str(quantity),
                 'product_total_price': str(total_price),
                 'cart_total_price': str(cart.get_total_price()),
+                'cart_len': str(cart.__len__()),
             }
             return JsonResponse(data)
 
