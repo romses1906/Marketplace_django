@@ -1,0 +1,121 @@
+[
+{
+  "model": "order.order",
+  "pk": 1,
+  "fields": {
+    "user": 1,
+    "full_name": "Admin Admin Admin",
+    "created": "2023-05-03T07:48:31.813Z",
+    "updated": "2023-05-03T07:48:31.896Z",
+    "status": "created",
+    "payment_date": null,
+    "delivery_option": "Delivery",
+    "delivery_address": "Truda, 4",
+    "delivery_city": "Minsk",
+    "payment_option": "Another card",
+    "comment": "Yes"
+  }
+},
+{
+  "model": "order.order",
+  "pk": 2,
+  "fields": {
+    "user": 2,
+    "full_name": "Mashina Natasha Nikolaevna",
+    "created": "2023-05-03T07:50:32.617Z",
+    "updated": "2023-05-03T07:50:32.643Z",
+    "status": "created",
+    "payment_date": null,
+    "delivery_option": "Delivery",
+    "delivery_address": "Nina, 4",
+    "delivery_city": "NewYork",
+    "payment_option": "Another card",
+    "comment": "no"
+  }
+},
+{
+  "model": "order.order",
+  "pk": 3,
+  "fields": {
+    "user": 1,
+    "full_name": "Mashina Dasha Nikolaevna",
+    "created": "2023-05-03T07:52:03.299Z",
+    "updated": "2023-05-03T07:52:03.324Z",
+    "status": "created",
+    "payment_date": null,
+    "delivery_option": "Delivery",
+    "delivery_address": "Nina, 7",
+    "delivery_city": "NewYork",
+    "payment_option": "Another card",
+    "comment": "bad"
+  }
+},
+{
+  "model": "order.order",
+  "pk": 4,
+  "fields": {
+    "user": 3,
+    "full_name": "Ahmed Takrian Valhond",
+    "created": "2023-05-03T07:59:06.121Z",
+    "updated": "2023-05-03T07:59:06.146Z",
+    "status": "created",
+    "payment_date": null,
+    "delivery_option": "Delivery",
+    "delivery_address": "Nina, 4",
+    "delivery_city": "NewYork",
+    "payment_option": "Another card",
+    "comment": "ok"
+  }
+},
+{
+  "model": "order.order",
+  "pk": 5,
+  "fields": {
+    "user": 4,
+    "full_name": "Ahmed Musaly Buradey",
+    "created": "2023-05-03T08:22:09.037Z",
+    "updated": "2023-05-03T08:22:09.073Z",
+    "status": "created",
+    "payment_date": null,
+    "delivery_option": "Express Delivery",
+    "delivery_address": "Newstreet, 1",
+    "delivery_city": "Damask",
+    "payment_option": "Another card",
+    "comment": "LoL"
+  }
+},
+{
+  "model": "order.order",
+  "pk": 6,
+  "fields": {
+    "user": 1,
+    "full_name": "Petrov Petr Petrovich",
+    "created": "2023-05-03T18:21:37.857Z",
+    "updated": "2023-05-03T18:21:37.966Z",
+    "status": "created",
+    "payment_date": null,
+    "delivery_option": "Delivery",
+    "delivery_address": "Mira, 2",
+    "delivery_city": "Moscow",
+    "payment_option": "Another card",
+    "comment": "Ups"
+  }
+},
+{
+  "model": "order.order",
+  "pk": 7,
+  "fields": {
+    "user": 5,
+    "full_name": "Ivanov Ivan Ivanovich",
+    "created": "2023-05-04T11:45:44.380Z",
+    "updated": "2023-05-04T11:45:44.545Z",
+    "status": "created",
+    "payment_date": null,
+    "delivery_option": "Delivery",
+    "delivery_address": "Mira, 1",
+    "delivery_city": "Novgorod",
+    "payment_option": "Another card",
+    "comment": "Cry"
+  }
+}
+]

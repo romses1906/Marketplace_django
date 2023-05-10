@@ -1,0 +1,42 @@
+[
+{
+  "model": "cart.productincart",
+  "pk": 6,
+  "fields": {
+    "offer": 3,
+    "cart": 2,
+    "quantity": 6,
+    "date_added": "2023-05-05T07:53:18.363Z"
+  }
+},
+{
+  "model": "cart.productincart",
+  "pk": 7,
+  "fields": {
+    "offer": 2,
+    "cart": 3,
+    "quantity": 8,
+    "date_added": "2023-05-05T07:53:18.381Z"
+  }
+},
+{
+  "model": "cart.productincart",
+  "pk": 42,
+  "fields": {
+    "offer": 6,
+    "cart": 1,
+    "quantity": 2,
+    "date_added": "2023-05-09T07:47:17.597Z"
+  }
+},
+{
+  "model": "cart.productincart",
+  "pk": 43,
+  "fields": {
+    "offer": 7,
+    "cart": 1,
+    "quantity": 2,
+    "date_added": "2023-05-09T07:47:37.786Z"
+  }
+}
+]

@@ -56,8 +56,10 @@ INSTALLED_APPS = [
     "users",
     "reviews",
     "cart",
-    "account",
-
+    "account"
+    "order",
+    "taggit",
+    "django_jinja",
 ]
 
 SITE_ID = 1
