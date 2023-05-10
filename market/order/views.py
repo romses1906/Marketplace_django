@@ -28,6 +28,7 @@ class Step1View(LoginRequiredMixin, FormView):
         user_data = {'full_name': form.cleaned_data['full_name'],
                      'email': form.cleaned_data['email'],
                      'phone_number': form.cleaned_data['phone_number']}
+        print(user_data)
         cart = CartServices(self.request)
         cart.add_user_data(form)
         return super().form_valid(form)
@@ -54,7 +55,7 @@ class Step2View(LoginRequiredMixin, FormView):
             'delivery_address': form.cleaned_data['delivery_address'],
             'delivery_city': form.cleaned_data['delivery_city']
         }
-
+        print(shipping_data)
         cart = CartServices(self.request)
         cart.add_shipping_data(form)
 
@@ -74,6 +75,7 @@ class Step3View(LoginRequiredMixin, FormView):
         payment_data = {
             'payment_option': form.cleaned_data['payment_option'],
         }
+        print(payment_data)
         cart = CartServices(self.request)
         cart.add_payment_data(form)
         return super().form_valid(form)
