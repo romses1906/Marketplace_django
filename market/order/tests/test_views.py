@@ -64,3 +64,52 @@ class TestOrderViews(TestCase):
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
 
+
+class Step4ViewTestCase(TestCase):
+    """
+    Тест представления 4 шага оформления заказа
+    """
+
+    fixtures = [
+        "004_groups.json",
+        "005_users.json",
+        "010_shops.json",
+        "015_categories.json",
+        "020_products.json",
+        "030_offers.json",
+        "050_cart.json",
+        "055_productincart.json",
+    ]
+
+    @classmethod
+    def setUpTestData(cls):
+        cls.url = reverse('order:step4')
+
+    def test_view_redirects_if_not_logged_in(self):
+        response = self.client.get(self.url)
+        self.assertRedirects(response, f'/users/login_user/?next={self.url}')
+
+    def test_view_creates_order_object_when_form_is_valid(self):
+        self.client.login(username='admin@admin.ru', password='admin')
+        session = self.client.session
+
+        session['user_data'] = {
+            'full_name': "Ivanov Ivan Ivanovich",
+            'email': "ivan@mail.ru",
+            'phone_number': "+79223891654"
+        }
+        session.save()
+        session['shipping_data'] = {
+            'delivery_option': "Delivery",
+            'delivery_address': "Mira, 2",
+            'delivery_city': "Minsk"
+        }
+        session.save()
+        session['payment_data'] = {'payment_option': "Online Card"}
+        session.save()
+
+        response = self.client.post(self.url, {
+            'comment': 'This is a test comment',
+        })
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(Order.objects.count(), 1)

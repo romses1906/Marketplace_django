@@ -65,4 +65,3 @@ class RemoveFromCartView(RedirectView):
         offer = Offer.objects.get(id=product_id)
         cart.remove(offer=offer)
         return super().get_redirect_url(*args, **kwargs)
-

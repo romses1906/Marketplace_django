@@ -1,11 +1,11 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db import transaction
-from django.shortcuts import render, redirect
+from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views.generic import FormView, CreateView, DetailView, ListView
 
 from cart.cart import CartServices
-from cart.models import Cart, ProductInCart
+from cart.models import ProductInCart
 from order.models import Order, OrderItem
 from order.forms import UserForm, DeliveryForm, PaymentForm, CommentForm
 
@@ -46,6 +46,7 @@ class Step2View(LoginRequiredMixin, FormView):
     template_name = 'order/step2.j2'
     form_class = DeliveryForm
     success_url = reverse_lazy('order:step3')
+    login_url = reverse_lazy('users:login_user')
 
     def form_valid(self, form):
         shipping_data = {
@@ -67,6 +68,7 @@ class Step3View(LoginRequiredMixin, FormView):
     template_name = 'order/step3.j2'
     form_class = PaymentForm
     success_url = reverse_lazy('order:step4')
+    login_url = reverse_lazy('users:login_user')
 
     def form_valid(self, form):
         payment_data = {
@@ -85,6 +87,7 @@ class Step4View(LoginRequiredMixin, CreateView):
     form_class = CommentForm
     template_name = 'order/step4.j2'
     success_url = reverse_lazy('order:history')
+    login_url = reverse_lazy('users:login_user')
 
     def get_queryset(self):
         cart = CartServices(self.request)
@@ -124,13 +127,14 @@ class Step4View(LoginRequiredMixin, CreateView):
         return context
 
 
-class OrderDetailView(DetailView):
+class OrderDetailView(LoginRequiredMixin, DetailView):
     """
     Отображает детальную страницу заказа
     """
     model = Order
     template_name = 'order/detail_order.j2'
     context_object_name = 'order'
+    login_url = reverse_lazy('users:login_user')
 
     def get_queryset(self):
         return Order.objects.select_related('user').prefetch_related('offer__product', 'items__offer__product')
@@ -143,6 +147,7 @@ class OrderListView(LoginRequiredMixin, ListView):
     model = Order
     template_name = 'order/history.j2'
     context_object_name = 'orders'
+    login_url = reverse_lazy('users:login_user')
 
     def get_queryset(self):
         return Order.objects.select_related('user').filter(user=self.request.user)

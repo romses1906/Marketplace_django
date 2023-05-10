@@ -12,6 +12,9 @@ from users.models import User
 
 
 class CartServices:
+    """
+    Класс корзины пользователя
+    """
 
     def __init__(self, request):
         self.use_db = False
