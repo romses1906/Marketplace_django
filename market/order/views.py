@@ -25,10 +25,9 @@ class Step1View(LoginRequiredMixin, FormView):
         return {'full_name': full_name, 'email': user.email, 'phone_number': user.phone_number}
 
     def form_valid(self, form):
-        user_data = {'full_name': form.cleaned_data['full_name'],
+        user_data = {'full_name': form.cleaned_data['full_name'],  # noqa F841
                      'email': form.cleaned_data['email'],
                      'phone_number': form.cleaned_data['phone_number']}
-        print(user_data)
         cart = CartServices(self.request)
         cart.add_user_data(form)
         return super().form_valid(form)
@@ -50,12 +49,11 @@ class Step2View(LoginRequiredMixin, FormView):
     login_url = reverse_lazy('users:login_user')
 
     def form_valid(self, form):
-        shipping_data = {
+        shipping_data = {   # noqa F841
             'delivery_option': form.cleaned_data['delivery_option'],
             'delivery_address': form.cleaned_data['delivery_address'],
             'delivery_city': form.cleaned_data['delivery_city']
         }
-        print(shipping_data)
         cart = CartServices(self.request)
         cart.add_shipping_data(form)
 
@@ -72,10 +70,9 @@ class Step3View(LoginRequiredMixin, FormView):
     login_url = reverse_lazy('users:login_user')
 
     def form_valid(self, form):
-        payment_data = {
+        payment_data = {  # noqa F841
             'payment_option': form.cleaned_data['payment_option'],
         }
-        print(payment_data)
         cart = CartServices(self.request)
         cart.add_payment_data(form)
         return super().form_valid(form)
