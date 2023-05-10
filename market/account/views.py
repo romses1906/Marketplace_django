@@ -13,8 +13,8 @@ class AccountUser(DetailView):
     """Представления для отображения информации о пользователе на странице аккаунта. """
 
     template_name = 'account/account.j2'
-    queryset = User.objects.all()
     context_object_name = 'user'
+    model = User
 
 
 class ProfileUser(SuccessMessageMixin, UpdateView):
