@@ -58,6 +58,7 @@ INSTALLED_APPS = [
     "cart",
     "account",
     "order",
+
 ]
 
 SITE_ID = 1
@@ -93,6 +94,7 @@ TEMPLATES = [
             "context_processors": [
                 "context_processors.categories_context.categories",
                 "context_processors.properties_context.properties",
+                "context_processors.cart_context.cart",
                 "django.contrib.messages.context_processors.messages",
             ],
 

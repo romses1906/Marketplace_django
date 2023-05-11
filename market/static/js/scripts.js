@@ -879,6 +879,12 @@
       } else {
         console.error('Общая цена товаров в корзине  отсутствует в объекте данных');
       }
+      // Проверка, существует ли общее количество товаров в корзине в объекте данных
+      if (data.hasOwnProperty('cart_len')) {
+        $('#cart-len').text(data.cart_len);
+      } else {
+        console.error('Общая цена товаров в корзине  отсутствует в объекте данных');
+      }
     }
 
     function getCookie(name) {

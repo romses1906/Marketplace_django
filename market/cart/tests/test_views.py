@@ -37,7 +37,8 @@ class CartViewTest(TestCase):
             'product_id': '6',
             'product_quantity': '1',
             'product_total_price': '300.00',
-            'cart_total_price': '300.00'
+            'cart_total_price': '300.00',
+            'cart_len': '1'
         })
 
     def test_remove_from_cart_view(self):
