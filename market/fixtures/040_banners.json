@@ -3,7 +3,7 @@
         "model": "shops.banner",
         "pk": 1,
         "fields": {
-            "image": "img/content/home/slider.png",
+            "image": "banners/slider.png",
             "title": "MAVIC PRO 5 MINI DRONE",
             "description": "Get the best phone you ever seen with modern Windows OS plus 70% Off this summer.",
             "is_active": true,
@@ -14,7 +14,7 @@
         "model": "shops.banner",
         "pk": 2,
         "fields": {
-            "image": "img/content/home/slider.png",
+            "image": "banners/slider.png",
             "title": "MAVIC PRO 5 MINI DRONE",
             "description": "Get the best phone you ever seen with modern Windows OS plus 70% Off this summer",
             "is_active": true,
@@ -25,7 +25,7 @@
         "model": "shops.banner",
         "pk": 3,
         "fields": {
-            "image": "img/content/home/slider.png",
+            "image": "banners/slider.png",
             "title": "Баннер 3",
             "description": "Описание баннера 3",
             "is_active": true,
@@ -36,7 +36,7 @@
         "model": "shops.banner",
         "pk": 4,
         "fields": {
-            "image": "img/content/home/slider.png",
+            "image": "banners/slider.png",
             "title": "Баннер 4",
             "description": "Описание баннера 4",
             "is_active": false,
@@ -47,7 +47,7 @@
         "model": "shops.banner",
         "pk": 5,
         "fields": {
-            "image": "img/content/home/slider.png",
+            "image": "banners/slider.png",
             "title": "Баннер 5",
             "description": "Описание баннера 5",
             "is_active": true,
