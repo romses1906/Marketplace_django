@@ -875,7 +875,13 @@
 
       // Проверка, существует ли общая цена товаров корзине в объекте данных
       if (data.hasOwnProperty('cart_total_price')) {
-        $('#total-cart-price').text(data.cart_total_price);
+        $('#cart_total_price').text(data.cart_total_price);
+      } else {
+        console.error('Общая цена товаров в корзине  отсутствует в объекте данных');
+      }
+      // Проверка, существует ли общая цена товаров корзине в объекте данных
+      if (data.hasOwnProperty('cart_total_price')) {
+        $('#total_cart_price').text(data.cart_total_price);
       } else {
         console.error('Общая цена товаров в корзине  отсутствует в объекте данных');
       }

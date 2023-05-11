@@ -1,0 +1,50 @@
+<div class="Account-group">
+    <div class="Account-column Account-column_full">
+        {% if last_order %}
+            <div class="Order Order_anons">
+                <div class="Order-personal">
+                    <div class="row">
+                        <div class="row-block"><a class="Order-title"
+                                                  href="{{ url('order:detail_order', last_order.id) }}">Заказ&#32;<span
+                                class="Order-numberOrder">№{{ last_order.id }}</span>&#32;от&#32;<span
+                                class="Order-dateOrder">{{ last_order.created.strftime("%d.%m.%Y") }}</span></a>
+                            <div class="Account-editLink"><a
+                                    href="{{ url('order:history') }}">История
+                                заказов</a>
+                            </div>
+                        </div>
+                        <div class="row-block">
+                            <div class="Order-info Order-info_delivery">
+                                <div class="Order-infoType">Тип доставки:
+                                </div>
+                                <div class="Order-infoContent">{{ last_order.delivery_option }}
+                                </div>
+                            </div>
+                            <div class="Order-info Order-info_pay">
+                                <div class="Order-infoType">Оплата:
+                                </div>
+                                <div class="Order-infoContent">{{ last_order.payment_option }}
+                                </div>
+                            </div>
+                            <div class="Order-info">
+                                <div class="Order-infoType">Общая стоимость:
+                                </div>
+                                <div class="Order-infoContent">${{ last_order.total_cost }}
+                                </div>
+                            </div>
+                            <div class="Order-info Order-info_status">
+                                <div class="Order-infoType">Статус:
+                                </div>
+                                <div class="Order-infoContent">{{ last_order.status }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% else %}
+            <span class="Order-title">У Вас пока ещё нет заказов. Перейдите в <a
+                    href="{{ url('products:catalog') }}">каталог</a>, чтобы совершить покупки.</span>
+        {% endif %}
+    </div>
+</div>
