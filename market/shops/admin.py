@@ -10,10 +10,6 @@ class BannerAdmin(admin.ModelAdmin):
     list_filter = ('is_active',)
     search_fields = ('title', 'description',)
 
-    def get_queryset(self, request):
-        """Фильтрует список и включает только активные баннеры."""
-        return Banner.objects.get_active_banners()
-
 
 class ShopAdmin(admin.ModelAdmin):
     """ Модель для отображения модели Shop в админке. """

@@ -2,6 +2,7 @@ from django.core.validators import RegexValidator
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 from django.urls import reverse
+from django.templatetags.static import static
 
 from users.models import User
 
@@ -53,7 +54,7 @@ class BannerManager(models.Manager):
     """Менеджер,для отображения активных баннеров на главной странице."""
 
     def get_active_banners(self):
-        return self.filter(is_active=True).order_by('?')[:3]
+        return self.filter(is_active=True)[:3]
 
 
 class Banner(models.Model):
@@ -62,8 +63,18 @@ class Banner(models.Model):
     title = models.CharField(max_length=100)
     description = models.TextField()
     is_active = models.BooleanField(default=False)
-    link = models.URLField()
+    link = models.CharField(blank=True)
     objects = BannerManager()
+
+    class Meta:
+        verbose_name = _('баннер')
+        verbose_name_plural = _('баннеры')
 
     def __str__(self):
         return self.title
+
+    def get_absolute_url(self):
+        return reverse('catalog:product_detail', args=[str(self.id)])
+
+    def get_image_url(self):
+        return static(self.image)

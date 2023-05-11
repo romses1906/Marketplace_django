@@ -3,55 +3,55 @@
         "model": "shops.banner",
         "pk": 1,
         "fields": {
-            "image": "static/django-frontend/assets/img/content/home/slider.png",
+            "image": "img/content/home/slider.png",
             "title": "MAVIC PRO 5 MINI DRONE",
             "description": "Get the best phone you ever seen with modern Windows OS plus 70% Off this summer.",
             "is_active": true,
-            "link": "/product/1/"
+            "link": "catalog/item/1/"
         }
     },
     {
         "model": "shops.banner",
         "pk": 2,
         "fields": {
-            "image": "static/django-frontend/assets/img/content/home/slider.png",
+            "image": "img/content/home/slider.png",
             "title": "MAVIC PRO 5 MINI DRONE",
             "description": "Get the best phone you ever seen with modern Windows OS plus 70% Off this summer",
-            "is_active": false,
-            "link": "/product/2/"
+            "is_active": true,
+            "link": "catalog/item/2/"
         }
     },
     {
         "model": "shops.banner",
         "pk": 3,
         "fields": {
-            "image": "static/django-frontend/assets/img/content/home/slider.png",
+            "image": "img/content/home/slider.png",
             "title": "Баннер 3",
             "description": "Описание баннера 3",
-            "is_active": false,
-            "link": "/product/3/"
+            "is_active": true,
+            "link": "catalog/item/3/"
         }
     },
     {
         "model": "shops.banner",
         "pk": 4,
         "fields": {
-            "image": "static/django-frontend/assets/img/content/home/slider.png",
+            "image": "img/content/home/slider.png",
             "title": "Баннер 4",
             "description": "Описание баннера 4",
             "is_active": false,
-            "link": "/product/4/"
+            "link": "catalog/item/4/"
         }
     },
     {
         "model": "shops.banner",
         "pk": 5,
         "fields": {
-            "image": "static/django-frontend/assets/img/content/home/slider.png",
+            "image": "img/content/home/slider.png",
             "title": "Баннер 5",
             "description": "Описание баннера 5",
-            "is_active": false,
-            "link": "/product/5/"
+            "is_active": true,
+            "link": "catalog/item/5/"
         }
     }
 ]
