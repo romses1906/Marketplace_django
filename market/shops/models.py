@@ -54,7 +54,7 @@ class BannerManager(models.Manager):
     """Менеджер,для отображения активных баннеров на главной странице."""
 
     def get_active_banners(self):
-        return self.filter(is_active=True)[:3]
+        return self.filter(is_active=True).order_by('?')[:3]
 
 
 class Banner(models.Model):
