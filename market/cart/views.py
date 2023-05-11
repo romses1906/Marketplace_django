@@ -2,7 +2,6 @@ from django.http import JsonResponse
 from django.views.generic.base import RedirectView, TemplateView, View
 from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy
-from django.views.generic.detail import SingleObjectMixin
 
 from cart.cart import CartServices
 from shops.models import Offer
