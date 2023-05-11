@@ -932,24 +932,24 @@
             console.log('ID товара ', productId);
             console.log('Количество товара ', quantity);
 
-            if (quantity <= 1) {
+            if (quantity < 1) {
                 console.log('кол-во равно 1, нельзя уменьшить');
                 $(e.currentTarget).siblings('.Amount-input').val(1);
-            } else {
-                $.ajax({
-                    type: 'POST',
-                    url: '/cart/update/',
-                    headers: {'X-CSRFToken': csrftoken,},
-                    data: {
-                        product_id: productId,
-                        quantity: quantity,
-                    },
-                    success: function (data) {
-                        console.log('data', data);
-                        updateProduct(data);
-                    },
-                });
+                quantity = 1;
             }
+            $.ajax({
+                type: 'POST',
+                url: '/cart/update/',
+                headers: {'X-CSRFToken': csrftoken,},
+                data: {
+                    product_id: productId,
+                    quantity: quantity,
+                },
+                success: function (data) {
+                    console.log('data', data);
+                    updateProduct(data);
+                },
+            });
         });
         $('.Amount-input').on('change', (e) => {
             console.log('значение кол-во изменилось');
