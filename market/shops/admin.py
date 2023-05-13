@@ -18,7 +18,7 @@ class ShopAdmin(admin.ModelAdmin):
 
 class OfferAdmin(admin.ModelAdmin):
     """ Модель для отображения модели Offer в админке. """
-    list_display = "shop", "product", "price", "in_stock"
+    list_display = "shop", "product", "price", "in_stock", "limited_edition", 'index'
 
 
 admin.site.register(Shop, ShopAdmin)
