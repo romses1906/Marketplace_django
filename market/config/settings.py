@@ -16,6 +16,8 @@ from dotenv import dotenv_values
 import dj_database_url
 import pygments.formatters
 
+from django.urls import reverse
+
 config = dotenv_values(os.path.join("..", ".env"))
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -56,6 +58,7 @@ INSTALLED_APPS = [
     "cart",
     "taggit",
     "django_jinja",
+    "comparison",
 ]
 
 SITE_ID = 1
@@ -190,6 +193,9 @@ EMAIL_USE_SSL = False
 
 CART_SESSION_ID = 'cart'
 DELIVERY_SESSION_ID = 'delivery_id'
+
+# The key for comparing products
+COMPARE_SESSION_ID = "compare"
 
 # Always use IPython for shell_plus
 SHELL_PLUS = "ipython"

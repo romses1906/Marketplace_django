@@ -26,8 +26,8 @@ urlpatterns = [
     path("", TemplateView.as_view(template_name="home.j2"), name="home"),
     path("shops/", include("shops.urls", namespace="shops")),
     path("catalog/", include("products.urls", namespace="products")),
-    path("users/", include("users.urls", namespace="users"))
-
+    path("users/", include("users.urls", namespace="users")),
+    path("compare/", include("comparison.urls", namespace="comparison")),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 if settings.DEBUG:
