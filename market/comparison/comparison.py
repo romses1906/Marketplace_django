@@ -123,5 +123,5 @@ class Comparison:
     def save(self) -> None:
         """ Сохранение изменений в сессии. """
 
-        self.session[settings.COMPARE_ID] = self.compare
+        # self.session[settings.COMPARE_SESSION_ID] = self.compare
         self.session.modified = True
