@@ -52,15 +52,6 @@ class Order(models.Model):
     def total_cost(self):
         return sum(item.get_cost() for item in self.items.all())
 
-    def add_items_from_cart(self, cart):
-        cart_items = cart.qs
-        order_items = [OrderItem(
-            order=self,
-            offer=item.offer,
-            quantity=item.quantity,
-        ) for item in cart_items]
-        OrderItem.objects.bulk_create(order_items)
-
     def save(self, *args, **kwargs):
         if self.status == 'paid' and not self.payment_date:
             self.payment_date = datetime.now()
