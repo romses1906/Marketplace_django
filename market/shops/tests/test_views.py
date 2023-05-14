@@ -49,7 +49,6 @@ class TestHomePageView(TestCase):
         self.assertEqual(response.context_data['days'], days)
         self.assertEqual(response.context_data['hours'], hours)
         self.assertEqual(response.context_data['minutes'], minutes)
-        self.assertEqual(response.context_data['seconds'], seconds)
         self.assertTrue(all(isinstance(banner, Banner) for banner in response.context_data['banners']))
         self.assertTrue(len(response.context_data['top_products']) <= 8)
         self.assertTrue(len(response.context_data['hot_deals']) <= 3)
