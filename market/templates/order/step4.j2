@@ -1,0 +1,93 @@
+{% extends 'order/order.j2' %}
+{% block step_list %}
+  <li class="menu-item">
+    <a class="menu-link" href="#">Шаг 1. Параметры пользователя</a>
+  </li>
+  <li class="menu-item">
+    <a class="menu-link" href="#">Шаг 2. Способ доставки</a>
+  </li>
+  <li class="menu-item">
+    <a class="menu-link" href="#">Шаг 3. Способ оплаты</a>
+  </li>
+  <li class="menu-item_ACTIVE menu-item">
+    <a class="menu-link" href="#">Шаг 4. Подтверждение заказа</a>
+  </li>
+{% endblock %}
+
+{% block step_form %}
+    <div class="Order-personal">
+      <div class="row">
+        <div class="row-block">
+          <div class="Order-info">
+            <div class="Order-infoType">ФИО:</div>
+            <div class="Order-infoContent">{{ user_data.full_name }}</div>
+          </div>
+          <div class="Order-info">
+            <div class="Order-infoType">Телефон:</div>
+            <div class="Order-infoContent">{{ user_data.email }}</div>
+          </div>
+          <div class="Order-info">
+            <div class="Order-infoType">E-mail:</div>
+            <div class="Order-infoContent">{{ user_data.phone_number }}</div>
+          </div>
+        </div>
+        <div class="row-block">
+          <div class="Order-info Order-info_delivery">
+            <div class="Order-infoType">Тип доставки:
+            </div>
+            <div class="Order-infoContent">{{ shipping_data.delivery_option }}</div>
+          </div>
+          <div class="Order-info">
+            <div class="Order-infoType">Город:</div>
+            <div class="Order-infoContent">{{ shipping_data.delivery_address }}</div>
+          </div>
+          <div class="Order-info">
+            <div class="Order-infoType">Адрес:</div>
+            <div class="Order-infoContent">{{ shipping_data.delivery_city }}</div>
+          </div>
+          <div class="Order-info Order-info_pay">
+            <div class="Order-infoType">Оплата:</div>
+            <div class="Order-infoContent">{{ payment_data.payment_option }}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="Cart Cart_order">
+      {% for item in order_items %}
+        <div class="Cart-product">
+          <div class="Cart-block Cart-block_row">
+            {% with product=item.offer.product %}
+                <div class="Cart-block Cart-block_pict">
+                  <a class="Cart-pict" href="#">
+                    <img class="Cart-img" src="#" alt="card.jpg"/>
+                  </a>
+                </div>
+                <div class="Cart-block Cart-block_info">
+                  <a class="Cart-title" href="#">{{ product.name }}</a>
+                    <div class="Cart-desc">{{ product.description|truncate(200) }}</div>
+                </div>
+                <div class="Cart-block Cart-block_price">
+                  <div class="Cart-price">{{ item.offer.price }}$</div>
+                </div>
+            {% endwith %}
+          </div>
+          <div class="Cart-block Cart-block_row">
+            <div class="Cart-block Cart-block_amount">{{ item.quantity }} шт.</div>
+          </div>
+        </div>
+      {% endfor %}
+      <div class="Cart-total">
+        <div class="Cart-block Cart-block_total">
+            <strong class="Cart-title">Итого:</strong>
+            <div class="Cart-price">{{ get_total_price }}$</div>
+        </div>
+        <form class="form" method="post">{% csrf_token %}
+          <div class="Cart-block">
+            <button class="btn btn_primary btn_lg" type="submit">Оплатить</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+{% endblock %}

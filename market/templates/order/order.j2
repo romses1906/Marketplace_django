@@ -1,0 +1,46 @@
+{% extends "base.j2" %}
+
+{% block title %}
+    Оформление заказа
+{% endblock %}
+
+
+{% block content %}
+
+  <div class="Middle Middle_top">
+    <div class="Middle-top">
+      <div class="wrap">
+        <div class="Middle-header">
+          <h1 class="Middle-title">Оформление заказа
+          </h1>
+          <ul class="breadcrumbs Middle-breadcrumbs">
+            <li class="breadcrumbs-item"><a href="#">home</a>
+            </li>
+            <li class="breadcrumbs-item breadcrumbs-item_current"><span>Оформление заказа</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="Section Section_column Section_columnRight Section_columnWide Order">
+      <div class="wrap">
+        <div class="Section-column">
+          <div class="Section-columnSection">
+            <header class="Section-header">
+              <strong class="Section-title">Прогресс заполнения
+              </strong>
+            </header>
+            <div class="Section-columnContent">
+              <ul class="menu menu_vt Order-navigate">
+                {% block step_list %}{% endblock %}
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="Section-content">
+          {% block step_form %}{% endblock %}
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

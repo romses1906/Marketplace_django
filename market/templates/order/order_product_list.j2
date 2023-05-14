@@ -1,0 +1,49 @@
+{% for item in order.items.all() %}
+    <div class="Cart Cart_order">
+    <div class="Cart-product">
+        {% with product=item.offer.product %}
+        <div class="Cart-block Cart-block_row">
+                <div class="Cart-block Cart-block_pict">
+                    <a class="Cart-pict" href="{{ product.get_absolute_url }}">
+                        {% if product.product_images.url %}
+                            <img class="Cart-img" src="{{ product.product_images.url }}" alt="product-image.png"/>
+                        {% else %}
+                            <img class="Cart-img" src="#" alt="{{ product.name }}"/>
+                        {% endif %}
+                    </a>
+                </div>
+            <div class="Cart-block Cart-block_info">
+                <a class="Cart-title" href="#">
+                    {{ product.name }}
+                </a>
+                <div class="Cart-desc">
+                    {{ product.description|truncatewords(20) }}
+                </div>
+            </div>
+            <div class="Cart-block Cart-block_price">
+                <div class="Cart-price">
+                    ${{ item.offer.price }}
+                </div>
+            </div>
+        </div>
+        {% endwith %}
+        <div class="Cart-block Cart-block_row">
+            <div class="Cart-block Cart-block_amount">
+                {{ item.quantity }} шт.
+            </div>
+        </div>
+    </div>
+{% endfor %}
+
+<div class="Cart-total">
+    <div class="Cart-block Cart-block_total">
+        <strong class="Cart-title">
+            Итого:
+            <span class="Cart-price">
+                ${{ order.total_cost }}
+            </span>
+        </strong>
+    </div>
+
+</div>
+</div>

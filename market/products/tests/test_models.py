@@ -17,6 +17,8 @@ class ProductModelTest(TestCase):
         cls.product.property.set([cls.property])
 
     def test_verbose_name(self):
+        """ Тестирование verbose_name полей модели Продукт """
+
         product = self.product
         field_verboses = {
             'name': 'наименование',
@@ -28,6 +30,7 @@ class ProductModelTest(TestCase):
                 self.assertEqual(product._meta.get_field(field).verbose_name, expected_value)
 
     def test_name_max_length(self):
+        """ Тестирование максимально возможной длины для ввода поля name модели Продукт """
         product = self.product
         max_length = product._meta.get_field('name').max_length
         self.assertEqual(max_length, 512)
@@ -42,6 +45,8 @@ class PropertyModelTest(TestCase):
         cls.property = Property.objects.create(name='тестовая характеристика')
 
     def test_verbose_name(self):
+        """ Тестирование verbose_name полей модели Свойство продукта """
+
         property = self.property
         field_verboses = {
             'name': 'наименование',
@@ -51,6 +56,8 @@ class PropertyModelTest(TestCase):
                 self.assertEqual(property._meta.get_field(field).verbose_name, expected_value)
 
     def test_name_max_length(self):
+        """ Тестирование максимально возможной длины для ввода поля name модели Свойство продукта """
+
         property = self.property
         max_length = property._meta.get_field('name').max_length
         self.assertEqual(max_length, 512)
@@ -71,6 +78,8 @@ class ProductPropertyModelTest(TestCase):
                                                               value='тестовое значение характеристики')
 
     def test_verbose_name(self):
+        """ Тестирование verbose_name полей модели Значение свойства продукта """
+
         product_property = self.product_property
         field_verboses = {
             'value': 'значение',
@@ -80,6 +89,8 @@ class ProductPropertyModelTest(TestCase):
                 self.assertEqual(product_property._meta.get_field(field).verbose_name, expected_value)
 
     def test_value_max_length(self):
+        """ Тестирование максимально возможной длины для ввода поля value модели Значение свойства продукта """
+
         product_property = self.product_property
         max_length = product_property._meta.get_field('value').max_length
         self.assertEqual(max_length, 128)
@@ -97,6 +108,8 @@ class CategoryModelTest(TestCase):
                                                      parent=cls.category)
 
     def test_verbose_name(self):
+        """ Тестирование verbose_name полей модели Категория """
+
         category = self.category
         field_verboses = {
             'name': 'наименование',
@@ -108,16 +121,22 @@ class CategoryModelTest(TestCase):
                 self.assertEqual(category._meta.get_field(field).verbose_name, expected_value)
 
     def test_name_max_length(self):
+        """ Тестирование максимально возможной длины для ввода поля name модели Категория """
+
         category = self.category
         max_length = category._meta.get_field('name').max_length
         self.assertEqual(max_length, 512)
 
     def test_description_max_length(self):
+        """ Тестирование максимально возможной длины для ввода поля description модели Категория """
+
         category = self.category
         max_length = category._meta.get_field('description').max_length
         self.assertEqual(max_length, 512)
 
     def test_blank_fields(self):
+        """ Тестирование свойства blank полей модели Категория """
+
         category = self.category
         blank_fields = [
             'image',
@@ -128,6 +147,8 @@ class CategoryModelTest(TestCase):
                 self.assertTrue(category._meta.get_field(field_name=field).blank)
 
     def test_null_fields(self):
+        """ Тестирование свойства null полей модели Категория """
+
         category = self.category
         null_fields = [
             'image',
@@ -135,9 +156,11 @@ class CategoryModelTest(TestCase):
         ]
         for field in null_fields:
             with self.subTest(field=field):
-                self.assertTrue(category._meta.get_field(field_name=field).blank)
+                self.assertTrue(category._meta.get_field(field_name=field).null)
 
     def test_parent_field(self):
+        """ Тестирование корректного функционирования поля parent модели Категория """
+
         category = self.category
         category_child = self.category_child
         name_category_parent = category_child.parent.name

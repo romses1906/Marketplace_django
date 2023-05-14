@@ -27,7 +27,7 @@ class LoginViewTests(TestCase):
 
     def test_used_template(self):
         """Тестирование используемого шаблона."""
-        self.assertTemplateUsed(self.response, 'users/login.html')
+        self.assertTemplateUsed(self.response, 'users/login.j2')
 
 
 class RegisterViewTests(TestCase):
@@ -52,7 +52,7 @@ class RegisterViewTests(TestCase):
 
     def test_used_template(self):
         """Тестирование используемого шаблона."""
-        self.assertTemplateUsed(self.response, 'users/register.html')
+        self.assertTemplateUsed(self.response, 'users/register.j2')
 
 
 class ResetPasswordViewTests(TestCase):
@@ -76,7 +76,7 @@ class ResetPasswordViewTests(TestCase):
 
     def test_used_template(self):
         """Тестирование используемого шаблона."""
-        self.assertTemplateUsed(self.response, 'users/e-mail.html')
+        self.assertTemplateUsed(self.response, 'users/e-mail.j2')
 
 
 class SetNewPasswordViewTests(TestCase):
@@ -100,4 +100,4 @@ class SetNewPasswordViewTests(TestCase):
 
     def test_used_template(self):
         """Тестирование используемого шаблона."""
-        self.assertTemplateUsed(self.response, 'users/password.html')
+        self.assertTemplateUsed(self.response, 'users/password.j2')

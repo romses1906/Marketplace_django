@@ -1,0 +1,34 @@
+{% extends 'order/order.j2' %}
+{% block step_list %}
+  <li class="menu-item">
+    <a class="menu-link" href="#">Шаг 1. Параметры пользователя</a>
+  </li>
+  <li class=" menu-item">
+    <a class="menu-link" href="#">Шаг 2. Способ доставки</a>
+  </li>
+  <li class="menu-item_ACTIVE menu-item">
+    <a class="menu-link" href="#">Шаг 3. Способ оплаты</a>
+  </li>
+  <li class="menu-item">
+    <a class="menu-link" href="#">Шаг 4. Подтверждение заказа</a>
+  </li>
+{% endblock %}
+
+{% block step_form %}
+  <form class="form" action="" method="post">{% csrf_token %}
+    <div class="Order-block Order-block_OPEN" id="step3">
+      <header class="Section-header Section-header_sm">
+        <h2 class="Section-title">Шаг 3. Способ оплаты
+        </h2>
+      </header>
+      <div class="form-group">
+        {{ form.payment_option }}
+      </div>
+      <div class="Order-footer">
+        <button class="btn btn_success" type="submit">Дальше</button>
+      </div>
+    </div>
+  </form>
+{% endblock %}
+
+

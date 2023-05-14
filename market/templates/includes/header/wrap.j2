@@ -30,7 +30,7 @@
             </div>
         </nav>
         <div class="row-block">
-
+        {% if request.user.is_authenticated %}
             <div class="CartBlock">
                 <div class="dropdown">
                     <button class="dropbtn">
@@ -38,30 +38,31 @@
                             alt="loon-icon.svg" />
                     </button>
                     <div class="dropdown-content">
-                        <a class="dropdown-content-a" href="account.html">
+                        <a class="dropdown-content-a" href="{{ url('account:account_user', request.user.pk) }}">
                             Личный кабинет
                         </a>
                         <a class="dropdown-content-a" href="account.html">
                             Административный раздел
                         </a>
-                        <a class="dropdown-content-a" href="account.html">
+                        <a class="dropdown-content-a" href="{{ url('users:logout_user') }}">
                             Выход
                         </a>
                     </div>
                 </div>
-                <a class="CartBlock-block" href="cart.html">
+                <a class="CartBlock-block" href="{{ url('cart:cart') }}">
                     <img class="CartBlock-img" src="{{ static('img/icons/cart.svg') }}" alt="cart.svg" />
-                    <span class="CartBlock-amount">
-                        0
+                    <span id="cart-len"class="CartBlock-amount">
+                        {{ cart.__len__() }}
                     </span>
                 </a>
                 <div class="CartBlock-block">
-                    <span class="CartBlock-price">
-                        0.00$
+                    <span id="total-cart-price" class="CartBlock-price">
+                        {{ cart.get_total_price() }}$
                     </span>
 
                 </div>
             </div>
+        {% endif %}
         </div>
         <div class="row-block Header-trigger">
             <a class="menuTrigger" href="#navigate">

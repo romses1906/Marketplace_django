@@ -11,12 +11,12 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 import os
 from pathlib import Path
+
+from django.urls import reverse_lazy
 from dotenv import dotenv_values
 
 import dj_database_url
 import pygments.formatters
-
-from django.urls import reverse
 
 config = dotenv_values(os.path.join("..", ".env"))
 
@@ -48,6 +48,8 @@ INSTALLED_APPS = [
     "django.contrib.sites",
     "django_extensions",
     "mptt",
+    "taggit",
+    "django_jinja",
     "django_mptt_admin",
     "django_filters",
     "phonenumber_field",
@@ -56,8 +58,8 @@ INSTALLED_APPS = [
     "users",
     "reviews",
     "cart",
-    "taggit",
-    "django_jinja",
+    "account",
+    "order",
     "comparison",
 ]
 
@@ -92,6 +94,9 @@ TEMPLATES = [
             "constants": {},
             "globals": {},
             "context_processors": [
+                "context_processors.categories_context.categories",
+                "context_processors.properties_context.properties",
+                "context_processors.cart_context.cart",
                 "django.contrib.messages.context_processors.messages",
             ],
 
@@ -176,7 +181,7 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 AUTH_USER_MODEL = 'users.User'
 
 FIXTURE_DIRS = [
-    BASE_DIR/'fixtures',
+    BASE_DIR / 'fixtures',
 ]
 
 LOGIN_REDIRECT_URL = '/'
@@ -206,10 +211,12 @@ SHELL_PLUS_PRINT_SQL_TRUNCATE = None
 
 # Specify sqlparse configuration options when printing sql queries to the console
 SHELL_PLUS_SQLPARSE_FORMAT_KWARGS = dict(
-  reindent_aligned=True,
-  truncate_strings=500,
+    reindent_aligned=True,
+    truncate_strings=500,
 )
 
 # Specify Pygments formatter and configuration options when printing sql queries to the console
 SHELL_PLUS_PYGMENTS_FORMATTER = pygments.formatters.TerminalFormatter
 SHELL_PLUS_PYGMENTS_FORMATTER_KWARGS = {}
+
+LOGIN_URL = reverse_lazy('users:login_user')

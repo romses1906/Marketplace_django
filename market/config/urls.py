@@ -27,6 +27,10 @@ urlpatterns = [
     path("shops/", include("shops.urls", namespace="shops")),
     path("catalog/", include("products.urls", namespace="products")),
     path("users/", include("users.urls", namespace="users")),
+    path("cart/", include("cart.urls", namespace="cart")),
+    path("order/", include("order.urls", namespace="order")),
+    path("reviews/", include("reviews.urls", namespace="reviews")),
+    path("account/", include("account.urls", namespace="account")),
     path("compare/", include("comparison.urls", namespace="comparison")),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
