@@ -14,20 +14,32 @@
         <div class="row-block">
           <div class="form-group">
             <label class="form-label" for="name">ФИО
-              <div>{{ form.full_name }}</div>
-              <div style="color: red;">{{ form.full_name.errors }}</div>
+              {% if request.user.is_authenticated %}
+                  <div>{{ form.full_name }}</div>
+                  <div style="color: red;">{{ form.full_name.errors }}</div>
+              {% else %}
+                <input class="form-input" id="name" name="name" type="text" placeholder="Фамилия Имя Отчество" />
+              {% endif %}
             </label>
           </div>
           <div class="form-group">
             <label class="form-label" for="phone">Телефон
-              <div>{{ form.phone_number }}</div>
-              <div style="color: red;">{{ form.phone_number.errors }}</div>
+                {% if request.user.is_authenticated %}
+                    <div>{{ form.phone_number }}</div>
+                    <div style="color: red;">{{ form.phone_number.errors }}</div>
+                {% else %}
+                    <input class="form-input" id="phone" name="phone" type="text" placeholder="Телефон" />
+                {% endif %}
             </label>
           </div>
           <div class="form-group">
             <label class="form-label" for="mail">E-mail
-              <div>{{ form.email }}</div>
-              <div style="color: red;">{{ form.email.errors }}</div>
+                {% if request.user.is_authenticated %}
+                  <div>{{ form.email }}</div>
+                  <div style="color: red;">{{ form.email.errors }}</div>
+                {% else %}
+                    <input class="form-input" id="mail" name="mail" type="text" placeholder="Электронная почта" data-validate="require" />
+                {% endif %}
             </label>
           </div>
         </div>

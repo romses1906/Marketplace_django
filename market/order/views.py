@@ -1,6 +1,10 @@
+from django.contrib import messages
+from django.contrib.auth import authenticate, login
+from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.models import Group
 from django.db import transaction
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views.generic import FormView, CreateView, DetailView, ListView
 
@@ -9,6 +13,7 @@ from cart.models import ProductInCart
 from order.models import Order
 from order.forms import UserForm, DeliveryForm, PaymentForm, CommentForm
 from order.services import add_items_from_cart
+from users.models import User
 
 
 class Step1View(LoginRequiredMixin, FormView):
@@ -18,7 +23,7 @@ class Step1View(LoginRequiredMixin, FormView):
     template_name = 'order/step1.j2'
     form_class = UserForm
     success_url = reverse_lazy('order:step2')
-    login_url = reverse_lazy('users:register_user')
+    login_url = reverse_lazy('order:step1na')
 
     def get_initial(self):
         user = self.request.user
@@ -39,6 +44,68 @@ class Step1View(LoginRequiredMixin, FormView):
         context_data['form'] = form
         return render(request, self.template_name, context=context_data)
 
+    def dispatch(self, request, *args, **kwargs):
+        if self.request.user.is_authenticated:
+            if 'from_step1' in request.GET:
+                return redirect('order:step2')
+            return super().dispatch(request, *args, **kwargs)
+        else:
+            return redirect('order:step1na')
+
+
+class Step1NAView(FormView):
+    """
+    Отображает страницу первого шага заказа
+    """
+    template_name = 'order/step1_na.j2'
+    form_class = UserCreationForm
+    success_url = reverse_lazy('order:step2')
+
+    def post(self, request, *args, **kwargs):
+        """После регистрации, пользователю добавляется группа с разрешениями "покупатель"."""
+        full_name = request.POST.get('name')
+        last_name, first_name, surname = full_name.split(' ')
+        email = request.POST.get('mail')
+        phone_number = request.POST.get('phone')
+        password1 = request.POST.get('password')
+        password2 = request.POST.get('passwordReply')
+
+        if User.objects.filter(email=email).exists():
+            messages.add_message(request, messages.INFO,
+                                 'Пользователь с указанным email уже существует, вы можете авторизоваться.')
+            return redirect('login')
+
+        if password1 != password2:
+            messages.add_message(request, messages.INFO, 'Пароли не совпадают!')
+            return redirect('register')
+
+        with transaction.atomic():
+            user = User.objects.create_user(
+                username=email,
+                last_name=last_name,
+                first_name=first_name,
+                surname=surname,
+                email=email,
+                phone_number=phone_number,
+                password=password1
+            )
+            group = Group.objects.get(name='buyer')
+            user.groups.add(group)
+
+            user = authenticate(email=email, password=password1)
+            login(request, user)
+
+            user_data = {'full_name': full_name,
+                         'email': email,
+                         'phone_number': phone_number}
+            user_form = UserForm(user_data)
+            if user_form.is_valid():
+                user_form.cleaned_data = user_data
+                cart = CartServices(self.request)
+                cart.add_user_data(user_form)
+
+            return redirect(self.success_url)
+
 
 class Step2View(LoginRequiredMixin, FormView):
     """
@@ -50,7 +117,7 @@ class Step2View(LoginRequiredMixin, FormView):
     login_url = reverse_lazy('users:login_user')
 
     def form_valid(self, form):
-        shipping_data = {   # noqa F841
+        shipping_data = {  # noqa F841
             'delivery_option': form.cleaned_data['delivery_option'],
             'delivery_address': form.cleaned_data['delivery_address'],
             'delivery_city': form.cleaned_data['delivery_city']
