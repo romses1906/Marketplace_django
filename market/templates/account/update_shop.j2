@@ -17,10 +17,15 @@
                                 <ul class="menu menu_vt">
                                     <li class="menu-item"><a class="menu-link" href="{{ url('account:account_user', request.user.pk) }}">Личный кабинет</a>
                                     </li>
-                                    <li class="menu-item_ACTIVE menu-item"><a class="menu-link" href="{{ url('account:profile_user', request.user.pk) }}">Профиль</a>
+                                    <li class="menu-item"><a class="menu-link" href="{{ url('account:profile_user', request.user.pk) }}">Профиль</a>
+                                    </li>
+                                    <li class="menu-item_ACTIVE menu-item"><a class="menu-link" href="#">Редактировать магазин</a>
+                                    </li>
+                                    <li class="menu-item"><a class="menu-link" href="{{ url('imports:upload_file', request.user.pk) }}">Импорт товаров</a>
                                     </li>
                                     <li class="menu-item"><a class="menu-link" href="#">История заказов</a>
                                     </li>
+
                                 </ul>
                             </div>
                         </div>
@@ -28,49 +33,40 @@
                 </div>
                 <div class="Section-content">
                     <div class="Profile">
-                        <form class="form Profile-form" method="post" enctype="multipart/form-data">
+                        <form class="form Profile-form" method="post">
                             {% csrf_token %}
                             <div class="row">
                                 <div class="row-block">
                                     <div class="form-group">
-                                        <label class="form-label" for="avatar">Аватар
-                                        </label>
-                                        <div class="Profile-avatar Profile-avatar_noimg">
+                                    </div>
 
-                                            <label class="Profile-fileLabel" for="avatar"><img src="{{ static('assets/img/icons/upload.png') }}" alt="#.png" />Загрузить фото
-                                            </label>
-                                            
-                                            <input class="Profile-file form-input" id="avatar" name="avatar" type="file" data-validate="onlyImgAvatar" />
-                                        </div>
+                                    <div class="form-group">
+                                        <label class="form-label" for="name">Название магазина
+                                        </label>
+                                        <input class="form-input" id="name" name="name" type="text" value="{{ shop.name }}" data-validate="require"/>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="form-label" for="description">Описание
+                                        </label>
+                                        <input class="form-input" id="description" name="description" type="text" value="{{ shop.description }}" data-validate="require">
                                     </div>
                                     <div class="form-group">
-                                        <label class="form-label" for="name">ФИО
+                                        <label class="form-label" for="address">Адрес
                                         </label>
-                                        <input class="form-input" id="name" name="name" type="text"
-                                        placeholder="{{user.last_name}} {{user.first_name}} {{user.surname}}"" data-validate="require"/>
+                                        <input class="form-input" id="address" name="address" type="text" value="{{ shop.address }}" data-validate="require"/>
                                     </div>
-                                </div>
-                                <div class="row-block">
                                     <div class="form-group">
-                                        <label class="form-label" for="phone">Телефон
+                                        <label class="form-label" for="phone">Номер телефона
                                         </label>
-                                        <input class="form-input" id="phone" name="phone" type="text" value="{{ user.phone_number }}" placeholder="+7(988)000-00-00" />
+                                        <input class="form-input" id="phone" name="phone" type="tel" value="{{ shop.phone_number }}" data-validate="require"/>
                                     </div>
                                     <div class="form-group">
                                         <label class="form-label" for="mail">E-mail
                                         </label>
-                                        <input class="form-input" id="mail" name="mail" type="text" value="{{ user.email }}" data-validate="require" />
+                                        <input class="form-input" id="mail" name="mail" type="text" value="{{ shop.email }}" data-validate="require" />
                                     </div>
-                                    <div class="form-group">
-                                        <label class="form-label" for="password">Пароль
-                                        </label>
-                                        <input class="form-input" id="password" name="password" type="password" placeholder="Тут можно изменить пароль" />
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="form-label" for="passwordReply">Подтверждение пароля
-                                        </label>
-                                        <input class="form-input" id="passwordReply" name="passwordReply" type="password" placeholder="Введите пароль повторно" />
-                                    </div>
+
                                     <div class="form-group">
                                         <div class="Profile-btn">
                                             <button class="btn btn_success" type="submit">Сохранить
