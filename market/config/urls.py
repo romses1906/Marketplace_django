@@ -31,6 +31,7 @@ urlpatterns = [
     path("order/", include("order.urls", namespace="order")),
     path("reviews/", include("reviews.urls", namespace="reviews")),
     path("account/", include("account.urls", namespace="account")),
+    path("imports/", include("imports.urls", namespace="imports")),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
