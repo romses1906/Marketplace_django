@@ -1,0 +1,72 @@
+[
+{
+  "model": "order.orderitem",
+  "pk": 1,
+  "fields": {
+    "order": 7,
+    "offer": 7,
+    "quantity": 2,
+    "date_added": "2023-05-13T19:24:45.374Z"
+  }
+},
+{
+  "model": "order.orderitem",
+  "pk": 2,
+  "fields": {
+    "order": 7,
+    "offer": 3,
+    "quantity": 2,
+    "date_added": "2023-05-13T19:24:45.384Z"
+  }
+},
+{
+  "model": "order.orderitem",
+  "pk": 3,
+  "fields": {
+    "order": 7,
+    "offer": 4,
+    "quantity": 2,
+    "date_added": "2023-05-13T19:24:45.389Z"
+  }
+},
+{
+  "model": "order.orderitem",
+  "pk": 4,
+  "fields": {
+    "order": 6,
+    "offer": 3,
+    "quantity": 3,
+    "date_added": "2023-05-13T19:25:59.303Z"
+  }
+},
+{
+  "model": "order.orderitem",
+  "pk": 5,
+  "fields": {
+    "order": 6,
+    "offer": 1,
+    "quantity": 4,
+    "date_added": "2023-05-13T19:25:59.307Z"
+  }
+},
+{
+  "model": "order.orderitem",
+  "pk": 6,
+  "fields": {
+    "order": 4,
+    "offer": 9,
+    "quantity": 2,
+    "date_added": "2023-05-13T19:26:39.016Z"
+  }
+},
+{
+  "model": "order.orderitem",
+  "pk": 7,
+  "fields": {
+    "order": 4,
+    "offer": 8,
+    "quantity": 2,
+    "date_added": "2023-05-13T19:26:39.021Z"
+  }
+}
+]

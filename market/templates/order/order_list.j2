@@ -45,7 +45,7 @@
             </div>
         {% else %}
             <span class="Order-title">У Вас пока ещё нет заказов. Перейдите в <a
-                    href="#">каталог</a>, чтобы совершить покупки.</span>
+                    href="{{ url('products:catalog') }}">каталог</a>, чтобы совершить покупки.</span>
         {% endfor %}
     </div>
 </div>

@@ -3,6 +3,7 @@ from django.shortcuts import get_list_or_404
 from django.utils.translation import gettext_lazy as _
 from django.views import generic
 from django_filters.views import FilterView
+
 from products.filters import ProductFilter
 from products.models import Category, Product
 from shops.models import Offer

@@ -1,7 +1,10 @@
-{% extends "base.j2" %}
+{% extends 'order/order.j2' %}
 
-{% block content %}
+{% block step_list %}
+    {% include "order/step_list.j2" %}
+{% endblock %}
 
+{% block step_form %}
   <form class="form" action="" method="post">{% csrf_token %}
     <div class="Order-block Order-block_OPEN" id="step1">
       <header class="Section-header Section-header_sm">

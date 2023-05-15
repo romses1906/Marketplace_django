@@ -5,6 +5,7 @@ from django.urls import reverse_lazy
 from django.utils.translation import gettext_lazy as _
 from django.views.generic import DetailView, UpdateView
 
+from order.models import Order
 from users.models import User
 from .services import change_profile
 
@@ -15,6 +16,11 @@ class AccountUser(DetailView):
     template_name = 'account/account.j2'
     context_object_name = 'user'
     model = User
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['last_order'] = Order.objects.select_related('user').filter(user=self.request.user).last()
+        return context
 
 
 class ProfileUser(SuccessMessageMixin, UpdateView):

@@ -6,8 +6,9 @@ from django.views.generic import FormView, CreateView, DetailView, ListView
 
 from cart.cart import CartServices
 from cart.models import ProductInCart
-from order.models import Order, OrderItem
+from order.models import Order
 from order.forms import UserForm, DeliveryForm, PaymentForm, CommentForm
+from order.services import add_items_from_cart
 
 
 class Step1View(LoginRequiredMixin, FormView):
@@ -105,13 +106,7 @@ class Step4View(LoginRequiredMixin, CreateView):
             self.object.payment_option = cart.get_payment_data()['payment_option']
             self.object.comment = form.cleaned_data['comment']
             self.object.save()
-            cart_items = cart.qs
-            order_items = [OrderItem(
-                order=self.object,
-                offer=item.offer,
-                quantity=item.quantity,
-            ) for item in cart_items]
-            OrderItem.objects.bulk_create(order_items)
+            add_items_from_cart(self.object, cart)
             cart.clear()
         return super().form_valid(form)
 

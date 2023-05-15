@@ -8,7 +8,8 @@
     "created": "2023-04-16T15:51:58.620Z",
     "updated": "2023-04-16T15:51:58.620Z",
     "price": "350.00",
-    "in_stock": 50
+    "in_stock": 50,
+    "limited_edition": "True"
   }
 },
 {
@@ -20,7 +21,8 @@
     "created": "2023-04-16T15:52:38.154Z",
     "updated": "2023-04-16T15:52:38.154Z",
     "price": "525.00",
-    "in_stock": 30
+    "in_stock": 30,
+    "limited_edition": "True"
   }
 },
 {
@@ -32,7 +34,8 @@
     "created": "2023-04-16T15:53:14.351Z",
     "updated": "2023-04-16T15:53:14.351Z",
     "price": "13500.00",
-    "in_stock": 10
+    "in_stock": 10,
+    "limited_edition": "True"
   }
 },
 {
@@ -44,7 +47,8 @@
     "created": "2023-04-16T15:53:38.970Z",
     "updated": "2023-04-16T15:53:38.970Z",
     "price": "150.00",
-    "in_stock": 50
+    "in_stock": 50,
+    "limited_edition": "False"
   }
 },
 {
@@ -56,7 +60,8 @@
     "created": "2023-04-16T15:54:10.842Z",
     "updated": "2023-04-16T15:54:10.842Z",
     "price": "120.00",
-    "in_stock": 30
+    "in_stock": 30,
+    "limited_edition": "False"
   }
 },
 {
@@ -68,7 +73,8 @@
     "created": "2023-04-16T15:54:41.944Z",
     "updated": "2023-04-16T15:54:41.944Z",
     "price": "300.00",
-    "in_stock": 15
+    "in_stock": 15,
+    "limited_edition": "False"
   }
 },
 {
@@ -80,7 +86,8 @@
     "created": "2023-04-16T15:55:05.134Z",
     "updated": "2023-04-16T15:55:05.134Z",
     "price": "400.00",
-    "in_stock": 10
+    "in_stock": 10,
+    "limited_edition": "False"
   }
 },
 {
@@ -92,7 +99,8 @@
     "created": "2023-04-16T15:55:31.710Z",
     "updated": "2023-04-16T15:55:31.710Z",
     "price": "500.00",
-    "in_stock": 25
+    "in_stock": 0,
+    "limited_edition": "True"
   }
 },
 {
@@ -104,7 +112,8 @@
     "created": "2023-04-16T15:55:51.879Z",
     "updated": "2023-04-16T15:55:51.879Z",
     "price": "800.00",
-    "in_stock": 10
+    "in_stock": 0,
+    "limited_edition": "False"
   }
 },
 {
@@ -116,7 +125,8 @@
     "created": "2023-04-16T15:56:06.573Z",
     "updated": "2023-04-16T15:56:06.573Z",
     "price": "1500.00",
-    "in_stock": 12
+    "in_stock": 12,
+    "limited_edition": "False"
   }
 },
 {
@@ -128,7 +138,8 @@
     "created": "2023-04-21T19:14:42.210Z",
     "updated": "2023-04-21T19:14:42.210Z",
     "price": "125.00",
-    "in_stock": 10
+    "in_stock": 10,
+    "limited_edition": "False"
   }
 }
 ]
