@@ -9,9 +9,9 @@
                 <div class="Middle-header">
                     <h1 class="Middle-title">Заказ {{ order.id }}</h1>
                     <ul class="breadcrumbs Middle-breadcrumbs">
-                        <li class="breadcrumbs-item"><a href="#">Главная</a>
+                        <li class="breadcrumbs-item"><a href="{{ url("shops:home") }}">Главная</a>
                         </li>
-                        <li class="breadcrumbs-item"><a href="#">История заказов</a>
+                        <li class="breadcrumbs-item"><a href="{{ url("order:history") }}">История заказов</a>
                         </li>
                         <li class="breadcrumbs-item breadcrumbs-item_current"><span>Заказ {{ order.id }}</span>
                         </li>

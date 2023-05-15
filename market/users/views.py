@@ -20,7 +20,7 @@ from .models import User
 class LoginUserView(SuccessMessageMixin, LoginView):
     """Аутентификация пользователя"""
     template_name = 'users/login.j2'
-    success_url = reverse_lazy('home')
+    success_url = reverse_lazy('shops:home')
 
     def post(self, request, *args, **kwargs):
         """Метод, проверяющий существование пользователя и перенаправляющий его на соответствующую страницу."""

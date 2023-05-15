@@ -10,9 +10,9 @@
                 <div class="Cart-product">
                     {% if item.quantity > 0 %}
                     <div class="Cart-block Cart-block_row">
-                        <div class="Cart-block Cart-block_pict"><a class="Cart-pict" href="#"><img class="Cart-img" src="assets/img/content/home/card.jpg" alt="card.jpg" /></a>
+                        <div class="Cart-block Cart-block_pict"><a class="Cart-pict" href="{{ url("products:product_detail", product.id) }}"><img class="Cart-img" src="assets/img/content/home/card.jpg" alt="card.jpg" /></a>
                         </div>
-                        <div class="Cart-block Cart-block_info"><a class="Cart-title" href="#">{{ product.name }}</a>
+                        <div class="Cart-block Cart-block_info"><a class="Cart-title" href="{{ url("products:product_detail", product.id) }}">{{ product.name }}</a>
                             <div class="Cart-desc"> {{ product.description }}
                             </div>
                         </div>
@@ -40,7 +40,7 @@
                         </div>
                         <div class="Cart-block Cart-block_delete">
                             <a class="Cart-delete" href="{{ url('cart:remove_from_cart', product.id) }}">
-                                <img src="assets/img/icons/card/delete.svg" alt="delete.svg" />
+                                <img src="{{ static('img/icons/card/delete.svg') }}" alt="delete.svg" />
                             </a>
                         </div>
                     </div>
@@ -51,7 +51,7 @@
                 <div class="Cart-total">
                     <div class="Cart-block Cart-block_total">
                         <strong class="Cart-title">Итого:</strong>
-                        <div id="total-cart-price" class="Cart-price">{{ cart_total_price }}</div>
+                        <div id="total_cart_price" class="Cart-price">{{ cart_total_price }}</div>
                     </div>
                     <div class="Cart-block"><a class="btn btn_success btn_lg" href="{{ url('order:step1') }}">Оформить заказ</a>
                     </div>
