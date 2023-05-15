@@ -34,7 +34,7 @@
                                         <li class="menu-item"><a class="menu-link" href="{{ url('account:reg_shop', request.user.pk) }}">Зарегистрировать магазин</a>
                                         </li>
                                     {% endif %}
-                                    <li class="menu-item"><a class="menu-link" href="#">История заказов</a>
+                                    <li class="menu-item"><a class="menu-link" href="{{ url("order:history") }}">История заказов</a>
                                     </li>
                                 </ul>
                             </div>

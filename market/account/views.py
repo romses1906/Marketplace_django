@@ -6,6 +6,7 @@ from django.urls import reverse_lazy
 from django.utils.translation import gettext_lazy as _
 from django.views.generic import DetailView, UpdateView, CreateView
 
+from order.models import Order
 from shops.models import Shop
 from users.models import User
 from .services import change_profile, create_shop, update_shop
@@ -21,6 +22,7 @@ class AccountUser(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         user = User.objects.get(pk=self.request.user.pk)
+        context['last_order'] = Order.objects.select_related('user').filter(user=self.request.user).last()
         if hasattr(user, 'shop'):
             context['shop'] = True
             return context
