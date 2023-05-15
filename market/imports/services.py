@@ -30,7 +30,7 @@ def logging_info(file_name: str):
     logger = logging.getLogger(f'{file_name}')
     logger.setLevel(logging.INFO)
     handler = logging.FileHandler(f'imports/files/logs/{file_name}.log', encoding='utf-8')
-    formatter = logging.Formatter(f'[%(asctime)s] - [%(levelname)s] - [%(message)s]')
+    formatter = logging.Formatter('[%(asctime)s] - [%(levelname)s] - [%(message)s]')
     handler.setFormatter(formatter)
     logger.addHandler(handler)
     return logger
