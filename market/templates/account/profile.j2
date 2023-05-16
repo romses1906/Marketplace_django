@@ -46,8 +46,12 @@
                                     <div class="form-group">
                                         <label class="form-label" for="name">ФИО
                                         </label>
+                                        {% if user.last_name %}
                                         <input class="form-input" id="name" name="name" type="text"
-                                        placeholder="{{user.last_name}} {{user.first_name}} {{user.surname}}"" data-validate="require"/>
+                                        value="{{user.last_name}} {{user.first_name}} {{user.surname}}"" data-validate="require"/>
+                                        {% else %}
+                                        <input class="form-input" id="name" name="name" type="text" data-validate="require"/>
+                                        {% endif %}
                                     </div>
                                 </div>
                                 <div class="row-block">

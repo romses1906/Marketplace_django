@@ -1,4 +1,3 @@
-from django.contrib import messages
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth.models import Group
@@ -54,7 +53,7 @@ def change_profile(request: HttpRequest, user: QuerySet):
             user_login = authenticate(email=email, password=password)
             login(request, user_login)
         except ValidationError:
-            messages.add_message(request, messages.INFO, _('Email не соответствует требованиям!'))
+            return _('Email не соответствует требованиям!')
 
     # изменение пароля
     if request.POST.get('password') and request.POST.get('passwordReply'):
@@ -68,21 +67,21 @@ def change_profile(request: HttpRequest, user: QuerySet):
             user_login = authenticate(email=email, password=password1)
             login(request, user_login)
         else:
-            messages.add_message(request, messages.INFO, _('Пароли не совпадают!'))
+            return _('Пароли не совпадают!')
+    return _('Профиль успешно изменён.')
 
 
-class Shops:
+class ShopManager:
     """Класс для добавления или редактирования магазина."""
 
-    def __init__(self, request: HttpRequest):
+    def __init__(self, data, user_pk):
         """Инициализация класса."""
-        self.request = request
-        self.name = request.POST.get('name')
-        self.description = request.POST.get('description')
-        self.phone_number = request.POST.get('phone')
-        self.address = request.POST.get('address')
-        self.email = request.POST.get('mail')
-        self.user = User.objects.get(pk=request.user.pk)
+        self.name = data.get('name')
+        self.description = data.get('description')
+        self.phone_number = data.get('phone')
+        self.address = data.get('address')
+        self.email = data.get('mail')
+        self.user = User.objects.get(pk=user_pk)
 
     def create(self):
         """Добавление магазина."""
@@ -100,22 +99,15 @@ class Shops:
 
     def update(self):
         """Редактирование магазина."""
-        # изменение наименования магазина
-        if self.name:
-            Shop.objects.filter(user_id=self.user).update(name=self.name)
-        # изменение описания магазина
-        if self.description:
-            Shop.objects.filter(user_id=self.user).update(description=self.description)
-        # изменение номера телефона магазина
-        if self.phone_number:
-            Shop.objects.filter(user_id=self.user).update(phone_number=self.phone_number)
-        # изменение адреса магазина
-        if self.address:
-            Shop.objects.filter(user_id=self.user).update(address=self.address)
-        # изменение электронной почты магазина
-        if self.email:
-            try:
-                validate_email(self.email)
-                Shop.objects.filter(user_id=self.user).update(email=self.email)
-            except ValidationError:
-                messages.add_message(self.request, messages.INFO, _('Email не соответствует требованиям!'))
+        try:
+            validate_email(self.email)
+            Shop.objects.filter(user_id=self.user).update(
+                name=self.name,
+                email=self.email,
+                description=self.description,
+                phone_number=self.phone_number,
+                address=self.address
+            )
+        except ValidationError:
+            return _('Email не соответствует требованиям!')
+        return _('Магазин успешно редактирован')
