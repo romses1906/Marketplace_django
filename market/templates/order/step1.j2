@@ -14,36 +14,40 @@
         <div class="row-block">
           <div class="form-group">
             <label class="form-label" for="name">ФИО
-              {% if request.user.is_authenticated %}
-                  <div>{{ form.full_name }}</div>
-                  <div style="color: red;">{{ form.full_name.errors }}</div>
-              {% else %}
-                <input class="form-input" id="name" name="name" type="text" placeholder="Фамилия Имя Отчество" />
-              {% endif %}
+              <div>{{ form.full_name }}</div>
+              <div style="color: red;">{{ form.full_name.errors }}</div>
             </label>
           </div>
           <div class="form-group">
             <label class="form-label" for="phone">Телефон
-                {% if request.user.is_authenticated %}
-                    <div>{{ form.phone_number }}</div>
-                    <div style="color: red;">{{ form.phone_number.errors }}</div>
-                {% else %}
-                    <input class="form-input" id="phone" name="phone" type="text" placeholder="Телефон" />
-                {% endif %}
+              <div>{{ form.phone_number }}</div>
+              <div style="color: red;">{{ form.phone_number.errors }}</div>
             </label>
           </div>
           <div class="form-group">
             <label class="form-label" for="mail">E-mail
-                {% if request.user.is_authenticated %}
-                  <div>{{ form.email }}</div>
-                  <div style="color: red;">{{ form.email.errors }}</div>
-                {% else %}
-                    <input class="form-input" id="mail" name="mail" type="text" placeholder="Электронная почта" data-validate="require" />
-                {% endif %}
+              <div>{{ form.email }}</div>
+              <div style="color: red;">{{ form.email.errors }}</div>
             </label>
           </div>
         </div>
       </div>
+      {% if not request.user.is_authenticated %}
+      <div class="row-block">
+        <div class="form-group">
+            <label class="form-label" for="password">Пароль
+            </label>
+            <input class="form-input" id="password" name="password" type="password" placeholder="Тут можно изменить пароль" />
+        </div>
+        <div class="form-group">
+            <label class="form-label" for="passwordReply">Подтверждение пароля
+            </label>
+            <input class="form-input" id="passwordReply" name="passwordReply" type="password" placeholder="Введите пароль повторно" />
+        </div>
+        <div class="form-group"><a class="btn btn_muted Order-btnReg" href="{{ url('users:login_user') }}">Я уже зарегистрирован</a>
+        </div>
+      </div>
+      {% endif %}
       <div class="Order-footer">
         <button class="btn btn_success" type="submit">Дальше</button>
       </div>
