@@ -6,7 +6,7 @@ from django.utils.translation import gettext_lazy as _
 from django.views.generic import FormView
 
 from .forms import UploadFileForm
-from .services import save_file
+from .services import Imports
 
 
 class FileUploadView(SuccessMessageMixin, FormView):
@@ -23,7 +23,7 @@ class FileUploadView(SuccessMessageMixin, FormView):
         file = form.cleaned_data.get('file')
         if file.name.lower().endswith('.json'):
             username = self.request.user.username
-            save_info = save_file(file=file, username=username)
+            save_info = Imports.save_file(file=file, username=username)
             messages.add_message(
                 self.request, messages.INFO, save_info)
             return HttpResponseRedirect(self.get_success_url())

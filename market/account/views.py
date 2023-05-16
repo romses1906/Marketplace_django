@@ -4,12 +4,13 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy
 from django.utils.translation import gettext_lazy as _
+from django.views import View
 from django.views.generic import DetailView, UpdateView, CreateView
 
 from order.models import Order
 from shops.models import Shop
 from users.models import User
-from .services import change_profile, create_shop, update_shop
+from .services import change_profile, Shops
 
 
 class AccountUser(DetailView):
@@ -67,9 +68,10 @@ class RegShopView(SuccessMessageMixin, CreateView):
 
     def post(self, request, *args, **kwargs):
         """Добавление магазина."""
-        message = create_shop(request=request)
+        shop = Shops(self.request)
+        shop_create = shop.create()
 
-        messages.add_message(self.request, messages.INFO, message)
+        messages.add_message(self.request, messages.INFO, shop_create)
         return HttpResponseRedirect(self.get_success_url())
 
 
@@ -91,6 +93,7 @@ class UpdateShopView(SuccessMessageMixin, UpdateView):
 
     def post(self, request, *args, **kwargs):
         """Редактирование магазина."""
-        update_shop(request=request)
+        shop = Shops(self.request)
+        shop.update()
         messages.add_message(self.request, messages.INFO, _('Магазин успешно редактирован'))
         return HttpResponseRedirect(self.get_success_url())

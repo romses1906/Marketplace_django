@@ -71,60 +71,51 @@ def change_profile(request: HttpRequest, user: QuerySet):
             messages.add_message(request, messages.INFO, _('Пароли не совпадают!'))
 
 
-def create_shop(request: HttpRequest):
-    """Добавление магазина в БД."""
-    name = request.POST.get('name')
-    description = request.POST.get('description')
-    phone_number = request.POST.get('phone')
-    address = request.POST.get('address')
-    email = request.POST.get('mail')
-    user = User.objects.get(pk=request.user.pk)
+class Shops:
+    """Класс для добавления или редактирования магазина."""
 
-    if Shop.objects.filter(user_id=user.pk).exists():
-        return _('Регистрация возможна только одного магазина!')
+    def __init__(self, request: HttpRequest):
+        """Инициализация класса."""
+        self.request = request
+        self.name = request.POST.get('name')
+        self.description = request.POST.get('description')
+        self.phone_number = request.POST.get('phone')
+        self.address = request.POST.get('address')
+        self.email = request.POST.get('mail')
+        self.user = User.objects.get(pk=request.user.pk)
 
-    Shop.objects.create(
-        name=name,
-        description=description,
-        phone_number=phone_number,
-        address=address,
-        email=email,
-        user=user
-    )
-    group = Group.objects.get(name='seller')
-    user.groups.add(group)
-    return _('Магазин успешно добавлен!')
+    def create(self):
+        """Добавление магазина."""
+        Shop.objects.create(
+            name=self.name,
+            description=self.description,
+            phone_number=self.phone_number,
+            address=self.address,
+            email=self.email,
+            user=self.user
+        )
+        group = Group.objects.get(name='seller')
+        self.user.groups.add(group)
+        return _('Магазин успешно добавлен!')
 
-
-def update_shop(request: HttpRequest):
-    """Редактирование магазина."""
-    # изменение наименования магазина
-    if request.POST.get('name'):
-        Shop.objects.filter(user_id=request.user.pk).update(
-            name=request.POST.get('name')
-        )
-    # изменение описания магазина
-    if request.POST.get('description'):
-        Shop.objects.filter(user_id=request.user.pk).update(
-            description=request.POST.get('description')
-        )
-    # изменение номера телефона магазина
-    if request.POST.get('phone'):
-        Shop.objects.filter(user_id=request.user.pk).update(
-            phone_number=request.POST.get('phone')
-        )
-    # изменение адреса магазина
-    if request.POST.get('address'):
-        Shop.objects.filter(user_id=request.user.pk).update(
-            address=request.POST.get('address')
-        )
-    # изменение электронной почты магазина
-    if request.POST.get('mail'):
-        email = request.POST.get('mail')
-        try:
-            validate_email(email)
-            Shop.objects.filter(user_id=request.user.pk).update(
-                email=request.POST.get('mail')
-            )
-        except ValidationError:
-            messages.add_message(request, messages.INFO, _('Email не соответствует требованиям!'))
+    def update(self):
+        """Редактирование магазина."""
+        # изменение наименования магазина
+        if self.name:
+            Shop.objects.filter(user_id=self.user).update(name=self.name)
+        # изменение описания магазина
+        if self.description:
+            Shop.objects.filter(user_id=self.user).update(description=self.description)
+        # изменение номера телефона магазина
+        if self.phone_number:
+            Shop.objects.filter(user_id=self.user).update(phone_number=self.phone_number)
+        # изменение адреса магазина
+        if self.address:
+            Shop.objects.filter(user_id=self.user).update(address=self.address)
+        # изменение электронной почты магазина
+        if self.email:
+            try:
+                validate_email(self.email)
+                Shop.objects.filter(user_id=self.user).update(email=self.email)
+            except ValidationError:
+                messages.add_message(self.request, messages.INFO, _('Email не соответствует требованиям!'))

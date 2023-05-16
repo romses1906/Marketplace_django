@@ -27,8 +27,6 @@
                                     </li>
                                     <li class="menu-item"><a class="menu-link" href="{{ url('account:profile_user', request.user.pk) }}">Профиль</a>
                                     </li>
-                                    <li class="menu-item"><a class="menu-link" href="{{ url('account:profile_user', user.pk) }}">Профиль</a>
-                                    </li>
                                     <li class="menu-item"><a class="menu-link" href="{{ url("order:history") }}">История заказов</a>
                                     {% if shop %}
                                         <li class="menu-item"><a class="menu-link" href="{{ url('account:update_shop', request.user.pk) }}">Редактировать магазин</a>
