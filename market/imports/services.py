@@ -61,26 +61,25 @@ class Imports:
                     if not data['price']:
                         raise KeyError
 
+                    if Product.objects.filter(name=data['name']).exists():
+                        product = Product.objects.get(name=data['name'])
                     else:
-                        if Product.objects.filter(name=data['name']).exists():
-                            product = Product.objects.get(name=data['name'])
-                        else:
-                            raise IntegrityError(f'Товара с наименованием `{data["name"]}` не существует!')
+                        raise IntegrityError(f'Товара с наименованием `{data["name"]}` не существует!')
 
-                        if Offer.objects.filter(shop=shop).filter(product=product).exists():
-                            Offer.objects.filter(shop=shop).filter(product=product).update(
-                                price=float(data['price']),
-                                in_stock=F('in_stock') + int(data['in_stock'])
-                            )
-                            logger.info(f'Продукт `{data["name"]}` обновлён')
-                        else:
-                            Offer.objects.update_or_create(
-                                shop=shop,
-                                product=product,
-                                in_stock=int(data['in_stock']),
-                                price=float(data['price'])
-                            )
-                            logger.info(f'Продукт `{data["name"]}` добавлен')
+                    if Offer.objects.filter(shop=shop).filter(product=product).exists():
+                        Offer.objects.filter(shop=shop).filter(product=product).update(
+                            price=float(data['price']),
+                            in_stock=F('in_stock') + int(data['in_stock'])
+                        )
+                        logger.info(f'Продукт `{data["name"]}` обновлён')
+                    else:
+                        Offer.objects.update_or_create(
+                            shop=shop,
+                            product=product,
+                            in_stock=int(data['in_stock']),
+                            price=float(data['price'])
+                        )
+                        logger.info(f'Продукт `{data["name"]}` добавлен')
 
             file_new_path = os.path.join(os.path.dirname(__file__), 'files', 'completed')
             shutil.move(file_path, file_new_path)
