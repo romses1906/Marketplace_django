@@ -3,10 +3,11 @@ from django.contrib.messages.views import SuccessMessageMixin
 from django.http import HttpResponseRedirect
 from django.urls import reverse_lazy
 from django.utils.translation import gettext_lazy as _
-from django.views.generic import DetailView, UpdateView
+from django.views.generic import DetailView, UpdateView, ListView
 
 from users.models import User
 from .services import change_profile
+from account.models import HistorySearch
 
 
 class AccountUser(DetailView):
@@ -39,3 +40,13 @@ class ProfileUser(SuccessMessageMixin, UpdateView):
 
         messages.add_message(self.request, messages.INFO, _('Профиль успешно сохранен'))
         return HttpResponseRedirect(self.get_success_url())
+
+
+class HistorySearchView(ListView):
+    """ Представление для отображения страницы истории просмотров пользователя """
+    template_name = 'account/history.j2'
+    context_object_name = 'history'
+
+    def get_queryset(self):
+        queryset = HistorySearch.objects.get(user=self.request.user.pk)
+        return queryset
