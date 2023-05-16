@@ -99,3 +99,45 @@ email: admin@admin.ru password: admin
 #### Данные для доступа к серверной электронной почте:
 
 email: service.megano@gmail.com password: 2023Django
+
+### Приложение imports:
+
+Команды для выполнения импорта:
+
+- выполнения импорта всех файлов
+````shell
+python manage.py imports all
+````
+- выполнения импорта одного файла
+````shell
+python manage.py imports <имя файла>
+````
+- выполнения импорта нескольких файлов
+````shell
+python manage.py imports <имена файлов через пробел>
+````
+
+#### CELERY
+
+Также импорт можно поставить на периодическое выполнение задачи.
+Для настройки времени периодов выполнения задач необходимо задать требуемые параметры 
+в админ панели, подробнее можно посмотреть в статье [Сергея Климова](https://habr.com/ru/articles/711590/).
+
+Команды запуска выполнения задач в фоновом режиме:
+
+- Запуск брокера сообщений Redis
+````shell
+redis-server
+````
+- Запуск Celery для выполнения задачи по импорту
+````shell
+celery -A config worker -l info
+````
+- Запускаем службу beat
+````shell
+celery -A config beat -l info
+````
+- Запускаем сервер
+````shell
+python manage.py runserver
+````
