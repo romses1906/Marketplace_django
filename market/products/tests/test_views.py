@@ -1,7 +1,7 @@
 import os
 
 from config.settings import FIXTURE_DIRS
-from django.db.models import Min, Count
+from django.db.models import Min, Count, Max
 from django.db.models import Q
 from django.shortcuts import get_list_or_404
 from django.test import TestCase, Client
@@ -41,6 +41,7 @@ class ProductsByCategoryViewTest(TestCase):
         "025_properties.json",
         "030_offers.json",
         "035_products_properties.json",
+        "045_reviews_product.json",
     ]
 
     def setUp(self):
@@ -237,6 +238,66 @@ class ProductsByCategoryViewTest(TestCase):
         self.assertEqual(len(undesired_offers), len(self.offers_books) - len(response.context_data['offer_list']))
         for offer in undesired_offers:
             self.assertNotContains(response, offer.product.name)
+
+    def test_products_sorting_by_price_is_correct(self):
+        """ Тестирование корректности сортировки товаров по цене """
+
+        response = self.client.get(
+            self.url_books + "?sort_by=price")
+        min_price_of_book = self.offers_books.aggregate(Min('price'))
+        first_elem_in_queryset = response.context_data['offer_list'].first()
+        second_elem_in_queryset = response.context_data['offer_list'][1]
+        self.assertEqual(first_elem_in_queryset.price, min_price_of_book['price__min'])
+        self.assertTrue(first_elem_in_queryset.price <= second_elem_in_queryset.price)
+        response = self.client.get(
+            self.url_books + "?sort_by=-price")
+        max_price_of_book = self.offers_books.aggregate(Max('price'))
+        first_elem_in_queryset = response.context_data['offer_list'].first()
+        second_elem_in_queryset = response.context_data['offer_list'][1]
+        self.assertEqual(first_elem_in_queryset.price, max_price_of_book['price__max'])
+        self.assertTrue(first_elem_in_queryset.price >= second_elem_in_queryset.price)
+
+    def test_products_sorting_by_created_is_correct(self):
+        """ Тестирование корректности сортировки товаров по дате создания """
+
+        response = self.client.get(
+            self.url_books + "?sort_by=created")
+        old_created_of_book = self.offers_books.aggregate(Min('created'))
+        first_elem_in_queryset = response.context_data['offer_list'].first()
+        second_elem_in_queryset = response.context_data['offer_list'][1]
+        self.assertEqual(first_elem_in_queryset.created, old_created_of_book['created__min'])
+        self.assertTrue(first_elem_in_queryset.created <= second_elem_in_queryset.created)
+        response = self.client.get(
+            self.url_books + "?sort_by=-created")
+        new_created_of_book = self.offers_books.aggregate(Max('created'))
+        first_elem_in_queryset = response.context_data['offer_list'].first()
+        second_elem_in_queryset = response.context_data['offer_list'][1]
+        self.assertEqual(first_elem_in_queryset.created, new_created_of_book['created__max'])
+        self.assertTrue(first_elem_in_queryset.created >= second_elem_in_queryset.created)
+
+    def test_products_sorting_by_reviews_count_is_correct(self):
+        """ Тестирование корректности сортировки товаров по количеству отзывов """
+
+        response = self.client.get(
+            self.url_books + "?sort_by=reviews")
+        min_reviews_of_book = self.offers_books.annotate(Count('product__product_reviews')).aggregate(
+            cnt=Min('product__product_reviews__count'))
+        first_elem_in_queryset = response.context_data['offer_list'].first()
+        second_elem_in_queryset = response.context_data['offer_list'][1]
+        self.assertEqual(first_elem_in_queryset.product.product_reviews.count(), min_reviews_of_book['cnt'])
+        self.assertTrue(
+            first_elem_in_queryset.product.product_reviews.count() <= second_elem_in_queryset.product.
+            product_reviews.count())
+        response = self.client.get(
+            self.url_books + "?sort_by=-reviews")
+        max_reviews_of_book = self.offers_books.annotate(Count('product__product_reviews')).aggregate(
+            cnt=Max('product__product_reviews__count'))
+        first_elem_in_queryset = response.context_data['offer_list'].first()
+        second_elem_in_queryset = response.context_data['offer_list'][1]
+        self.assertEqual(first_elem_in_queryset.product.product_reviews.count(), max_reviews_of_book['cnt'])
+        self.assertTrue(
+            first_elem_in_queryset.product.product_reviews.count() >= second_elem_in_queryset.product.
+            product_reviews.count())
 
 
 class ProductDetailViewTest(TestCase):
