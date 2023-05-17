@@ -1,3 +1,4 @@
+from django.contrib.auth import authenticate, login
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db import transaction
 from django.shortcuts import render, redirect
@@ -43,7 +44,11 @@ class Step1View(View):
                 'phone_number': form.cleaned_data['phone_number']
             }
             if not request.user.is_authenticated:
-                create_user(request, user_data)
+                password = request.POST.get('password')
+                create_user(password, user_data)
+                authenticated_user = authenticate(request, email=user_data['email'], password=password)
+                if authenticated_user is not None:
+                    login(request, authenticated_user)
             cart = CartServices(request)
             cart.add_user_data(form)
             return redirect('order:step2')
