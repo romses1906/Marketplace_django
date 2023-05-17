@@ -3,8 +3,10 @@
    {% set cur_path = request.get_full_path() %}
    {% if page_obj.has_previous() %}
         {% if 'page' in cur_path %}
-            {% set cur_path_without_num_page = cur_path[:-1] %}
-            <a class="Pagination-element Pagination-element_prev" href="{{ cur_path_without_num_page }}{{ page_obj.previous_page_number() }}"><img src="{{ static('img/icons/prevPagination.svg') }}" alt="prevPagination.svg" /></a>
+            {% set num_cur_page = page_obj.number %}
+            {% set cur_path_dynamic = cur_path|replace('page=' +  num_cur_page|string, 'page=' +  page_obj.previous_page_number()|string) %}
+            <a class="Pagination-element Pagination-element_prev" href="{{ cur_path_dynamic }}"><img src="{{ static('img/icons/prevPagination.svg') }}" alt="prevPagination.svg" /></a>
+
         {% else %}
             <a class="Pagination-element Pagination-element_prev" href="{{ cur_path }}?page={{ page_obj.previous_page_number() }}"><img src="{{ static('img/icons/prevPagination.svg') }}" alt="prevPagination.svg" /></a>
         {% endif %}
@@ -25,9 +27,10 @@
                             <span class="Pagination-text">{{ p }}</span>
                         {% else %}
                             {% if 'page' in cur_path %}
-                                {% set cur_path_without_num_page = cur_path[:-1] %}
+                                {% set num_cur_page = page_obj.number %}
+                                {% set cur_path_dynamic = cur_path|replace('page=' +  num_cur_page|string, 'page=' +  p|string) %}
                                 <a class="Pagination-element"
-                               href="{{ cur_path_without_num_page }}{{ p }}">
+                               href="{{ cur_path_dynamic }}">
                                 <span class="Pagination-text">{{ p }}</span>
                             {% else %}
                                 <a class="Pagination-element"
@@ -45,8 +48,11 @@
             <a class="Pagination-element Pagination-element_prev" href="{{ cur_path }}?page={{ page_obj.next_page_number() }}"><img src="{{ static('img/icons/nextPagination.svg') }}" alt="nextPagination.svg" /></a>
         {% else %}
             {% if 'page' in cur_path %}
-                 {% set cur_path_without_num_page = cur_path[:-1] %}
-                 <a class="Pagination-element Pagination-element_prev" href="{{ cur_path }}{{ page_obj.next_page_number() }}"><img src="{{ static('img/icons/nextPagination.svg') }}" alt="nextPagination.svg" /></a>
+                 {% set num_cur_page = page_obj.number %}
+                 {% set cur_path_dynamic = cur_path|replace('page=' +  num_cur_page|string, 'page=' +  page_obj.next_page_number()|string) %}
+
+                 <a class="Pagination-element Pagination-element_prev" href="{{ cur_path_dynamic }}"><img src="{{ static('img/icons/nextPagination.svg') }}" alt="nextPagination.svg" /></a>
+
             {% else %}
                   <a class="Pagination-element Pagination-element_prev" href="{{ cur_path }}&page={{ page_obj.next_page_number() }}"><img src="{{ static('img/icons/nextPagination.svg') }}" alt="nextPagination.svg" /></a>
             {% endif %}

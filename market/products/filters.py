@@ -2,10 +2,23 @@ import django_filters
 from django import forms
 from products.models import ProductProperty
 from shops.models import Offer
+from django.db.models import Count
 
 
 class ProductFilter(django_filters.FilterSet):
     """ Класс для фильтрации товаров в конкретной категории по различным параметрам """
+
+    SORT_BY_CHOICES = (
+        ('price', 'По возрастанию цены'),
+        ('-price', 'По убыванию цены'),
+        ('reviews', 'По возрастанию кол-ва отзывов'),
+        ('-reviews', 'По убыванию кол-ва отзывов'),
+        ('created', 'Сначала старые'),
+        ('-created', 'Сначала новые'),
+        ('popularity', 'По возрастанию кол-ва покупок'),
+        ('-popularity', 'По убыванию кол-ва покупок'),
+
+    )
 
     price = django_filters.RangeFilter()
     product_name = django_filters.CharFilter(label="Название продукта", field_name="product__name",
@@ -20,9 +33,14 @@ class ProductFilter(django_filters.FilterSet):
                                                               widget=forms.CheckboxSelectMultiple(
                                                                   attrs={"class": "form-control"}))
 
+    sort_by = django_filters.MultipleChoiceFilter(choices=SORT_BY_CHOICES, label="Сортировка",
+                                                  method="multiple_sorting_method",
+                                                  widget=forms.CheckboxSelectMultiple(
+                                                      attrs={"class": "form-control"}))
+
     class Meta:
         model = Offer
-        fields = ['price', 'product_name', 'multiple_shops', 'multiple_properties']
+        fields = ['price', 'product_name', 'multiple_shops', 'multiple_properties', 'sort_by']
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -87,3 +105,29 @@ class ProductFilter(django_filters.FilterSet):
         else:
             qs = queryset
         return qs
+
+    def multiple_sorting_method(self, queryset, name, value):
+        """ Метод сортировки товаров по выбранным пользователем характеристикам """
+
+        order_by = ""
+        distinct_on = ""
+        if value[0] == self.SORT_BY_CHOICES[0][0]:
+            order_by = "price"
+            distinct_on = "price"
+        elif value[0] == self.SORT_BY_CHOICES[1][0]:
+            order_by = "-price"
+            distinct_on = "price"
+        elif value[0] == self.SORT_BY_CHOICES[4][0]:
+            order_by = "created"
+            distinct_on = "created"
+        elif value[0] == self.SORT_BY_CHOICES[5][0]:
+            order_by = "-created"
+            distinct_on = "created"
+        elif value[0] == self.SORT_BY_CHOICES[2][0]:
+            queryset = queryset.annotate(cnt=Count('product__product_reviews')).order_by('cnt').distinct()
+            return queryset
+        elif value[0] == self.SORT_BY_CHOICES[3][0]:
+            queryset = queryset.annotate(cnt=Count('product__product_reviews')).order_by('-cnt').distinct()
+            return queryset
+
+        return queryset.order_by(order_by).distinct(distinct_on)
