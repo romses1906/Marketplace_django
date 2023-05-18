@@ -67,3 +67,15 @@ class RemoveFromCartView(RedirectView):
         offer = Offer.objects.get(id=product_id)
         cart.remove(offer=offer)
         return super().get_redirect_url(*args, **kwargs)
+
+
+class AddToCartView(RedirectView):
+    url = reverse_lazy('cart:cart')
+
+    def get_redirect_url(self, *args, **kwargs):
+        product_id = self.kwargs['product_id']
+        quantity = int(self.request.GET.get('quantity', 1))
+        cart = CartServices(self.request)
+        offer = Offer.objects.get(id=product_id)
+        cart.update(offer=offer, quantity=quantity, update_quantity=False)
+        return super().get_redirect_url(*args, **kwargs)

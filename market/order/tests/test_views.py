@@ -25,7 +25,7 @@ class TestOrderViews(TestCase):
         cls.payment_data = {'payment_option': 'Online Card'}
 
         cls.order = Order.objects.create(user=cls.user, status='created', delivery_option='Delivery',
-                                         delivery_address='Novgorod', delivery_city='Moscow',
+                                         delivery_address='Novgorodskay, 1', delivery_city='Moscow',
                                          payment_option='Online Card',
                                          comment='Comment 1')
 
@@ -36,6 +36,20 @@ class TestOrderViews(TestCase):
 
         response = self.client.post(reverse('order:step1'), data=self.user_data)
         self.assertRedirects(response, reverse('order:step2'))
+
+    def test_checkout_step1_by_an_unauthorized_user(self):
+        response = self.client.get(reverse('order:step1'))
+        self.assertEqual(response.status_code, 200)
+
+        response = self.client.post(reverse('order:step1'), data=self.user_data)
+
+        # Проверяем, что был создан новый пользователь
+        self.assertTrue(User.objects.filter(email=self.user_data['email']).exists())
+        new_user = User.objects.filter(email=self.user_data['email']).first()
+        self.assertEqual(new_user.first_name, 'Ivanovich')
+        self.assertEqual(new_user.last_name, 'Ivan')
+        self.assertEqual(new_user.surname, 'Ivanov')
+        self.assertEqual(new_user.phone_number, '+79072223340')
 
     def test_step2_view(self):
         self.client.login(username='test@test.ru', password='2304test')

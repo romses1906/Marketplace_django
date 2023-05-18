@@ -855,25 +855,6 @@
     });
 
     // ++ Для теста ++ //
-    function countdown() {
-      var now = new Date();
-      var endOfDay = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1, 0, 0, 0, 0);
-      var timeLeft = endOfDay - now;
-
-      var days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
-      var hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-      var minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
-      var seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
-
-      document.getElementById("days").innerHTML = days;
-      document.getElementById("hours").innerHTML = hours;
-      document.getElementById("minutes").innerHTML = minutes;
-      document.getElementById("seconds").innerHTML = seconds;
-
-      setTimeout(countdown, 1000);
-    }
-
-    countdown();
 
     function updateProduct(data) {
       console.log('updateProduct', data);
@@ -1009,5 +990,25 @@
             });
         });
     });
+
+    function countdown() {
+      var now = new Date();
+      var endOfDay = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1, 0, 0, 0, 0);
+      var timeLeft = endOfDay - now;
+
+      var days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
+      var hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      var minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+      var seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
+
+      document.getElementById("days").innerHTML = days;
+      document.getElementById("hours").innerHTML = hours;
+      document.getElementById("minutes").innerHTML = minutes;
+      document.getElementById("seconds").innerHTML = seconds;
+
+      setTimeout(countdown, 1000);
+    }
+
+    countdown();
     // Конец теста //
 })(jQuery);
