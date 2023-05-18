@@ -2,7 +2,7 @@ import django_filters
 from django import forms
 from products.models import ProductProperty
 from shops.models import Offer
-from django.db.models import Count
+from django.db.models import Count, Sum
 
 
 class ProductFilter(django_filters.FilterSet):
@@ -128,6 +128,14 @@ class ProductFilter(django_filters.FilterSet):
             return queryset
         elif value[0] == self.SORT_BY_CHOICES[3][0]:
             queryset = queryset.annotate(cnt=Count('product__product_reviews')).order_by('-cnt').distinct()
+            return queryset
+        elif value[0] == self.SORT_BY_CHOICES[6][0]:
+            queryset = queryset.filter(order__status='paid').annotate(
+                total_quantity=Sum('orderitem__quantity')).order_by('total_quantity').distinct()
+            return queryset
+        elif value[0] == self.SORT_BY_CHOICES[7][0]:
+            queryset = queryset.filter(order__status='paid').annotate(
+                total_quantity=Sum('orderitem__quantity')).order_by('-total_quantity').distinct()
             return queryset
 
         return queryset.order_by(order_by).distinct(distinct_on)
