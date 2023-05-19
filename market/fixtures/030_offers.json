@@ -9,7 +9,8 @@
     "updated": "2023-04-16T15:51:58.620Z",
     "price": "350.00",
     "in_stock": 50,
-    "limited_edition": "True"
+    "limited_edition": true,
+    "index": 0
   }
 },
 {
@@ -22,7 +23,8 @@
     "updated": "2023-04-16T15:52:38.154Z",
     "price": "525.00",
     "in_stock": 30,
-    "limited_edition": "True"
+    "limited_edition": true,
+    "index": 0
   }
 },
 {
@@ -35,7 +37,8 @@
     "updated": "2023-04-16T15:53:14.351Z",
     "price": "13500.00",
     "in_stock": 10,
-    "limited_edition": "True"
+    "limited_edition": true,
+    "index": 0
   }
 },
 {
@@ -48,7 +51,8 @@
     "updated": "2023-04-16T15:53:38.970Z",
     "price": "150.00",
     "in_stock": 50,
-    "limited_edition": "False"
+    "limited_edition": false,
+    "index": 0
   }
 },
 {
@@ -61,7 +65,8 @@
     "updated": "2023-04-16T15:54:10.842Z",
     "price": "120.00",
     "in_stock": 30,
-    "limited_edition": "False"
+    "limited_edition": false,
+    "index": 0
   }
 },
 {
@@ -74,7 +79,8 @@
     "updated": "2023-04-16T15:54:41.944Z",
     "price": "300.00",
     "in_stock": 15,
-    "limited_edition": "False"
+    "limited_edition": false,
+    "index": 0
   }
 },
 {
@@ -87,7 +93,8 @@
     "updated": "2023-04-16T15:55:05.134Z",
     "price": "400.00",
     "in_stock": 10,
-    "limited_edition": "False"
+    "limited_edition": false,
+    "index": 0
   }
 },
 {
@@ -100,7 +107,8 @@
     "updated": "2023-04-16T15:55:31.710Z",
     "price": "500.00",
     "in_stock": 0,
-    "limited_edition": "True"
+    "limited_edition": true,
+    "index": 0
   }
 },
 {
@@ -113,7 +121,8 @@
     "updated": "2023-04-16T15:55:51.879Z",
     "price": "800.00",
     "in_stock": 0,
-    "limited_edition": "False"
+    "limited_edition": false,
+    "index": 0
   }
 },
 {
@@ -126,85 +135,64 @@
     "updated": "2023-04-16T15:56:06.573Z",
     "price": "1500.00",
     "in_stock": 12,
-    "limited_edition": "False"
+    "limited_edition": false,
+    "index": 0
   }
 },
 {
   "model": "shops.offer",
-  "pk": 11,
+  "pk": 17,
+  "fields": {
+    "shop": 3,
+    "product": 12,
+    "created": "2023-05-19T19:09:36.443Z",
+    "updated": "2023-05-19T19:09:36.443Z",
+    "price": "100.00",
+    "in_stock": 100,
+    "limited_edition": true,
+    "index": 1
+  }
+},
+{
+  "model": "shops.offer",
+  "pk": 18,
   "fields": {
     "shop": 5,
-    "product": 11,
-    "created": "2023-04-21T19:14:42.210Z",
-    "updated": "2023-04-21T19:14:42.210Z",
-    "price": "125.00",
-    "in_stock": 10,
-    "limited_edition": "False"
+    "product": 12,
+    "created": "2023-05-19T19:10:20.023Z",
+    "updated": "2023-05-19T19:10:20.023Z",
+    "price": "102.00",
+    "in_stock": 100,
+    "limited_edition": true,
+    "index": 2
   }
 },
 {
   "model": "shops.offer",
-  "pk": 12,
+  "pk": 19,
   "fields": {
-    "shop": 3,
-    "product": 2,
-    "created": "2023-04-16T15:51:58.620Z",
-    "updated": "2023-04-16T15:51:58.620Z",
-    "price": "350.00",
-    "in_stock": 50,
-    "limited_edition": "True"
-  }
-},
-{
-  "model": "shops.offer",
-  "pk": 13,
-  "fields": {
-    "shop": 4,
-    "product": 3,
-    "created": "2023-04-16T15:51:58.620Z",
-    "updated": "2023-04-16T15:51:58.620Z",
-    "price": "350.00",
-    "in_stock": 50,
-    "limited_edition": "True"
-  }
-},
-{
-  "model": "shops.offer",
-  "pk": 14,
-  "fields": {
-    "shop": 1,
+    "shop": 5,
     "product": 4,
-    "created": "2023-04-16T15:51:58.620Z",
-    "updated": "2023-04-16T15:51:58.620Z",
-    "price": "350.00",
-    "in_stock": 50,
-    "limited_edition": "True"
+    "created": "2023-05-19T19:10:35.593Z",
+    "updated": "2023-05-19T19:10:35.593Z",
+    "price": "200.00",
+    "in_stock": 200,
+    "limited_edition": true,
+    "index": 3
   }
 },
 {
   "model": "shops.offer",
-  "pk": 15,
+  "pk": 20,
   "fields": {
-    "shop": 3,
-    "product": 7,
-    "created": "2023-04-16T15:51:58.620Z",
-    "updated": "2023-04-16T15:51:58.620Z",
-    "price": "350.00",
-    "in_stock": 50,
-    "limited_edition": "True"
-  }
-},
-{
-  "model": "shops.offer",
-  "pk": 16,
-  "fields": {
-    "shop": 1,
-    "product": 6,
-    "created": "2023-04-16T15:51:58.620Z",
-    "updated": "2023-04-16T15:51:58.620Z",
-    "price": "350.00",
-    "in_stock": 50,
-    "limited_edition": "True"
+    "shop": 5,
+    "product": 5,
+    "created": "2023-05-19T19:10:57.499Z",
+    "updated": "2023-05-19T19:10:57.499Z",
+    "price": "150.00",
+    "in_stock": 150,
+    "limited_edition": true,
+    "index": 4
   }
 }
 ]

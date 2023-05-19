@@ -15,12 +15,9 @@ def hot_deals():
     queryset = Offer.objects.filter(limited_edition=True, in_stock__gte=1)
     num_products = SiteSettings.load().hot_deals
     ids = list(queryset.values_list("id", flat=True))
-    print(ids)
     if len(ids) <= num_products:
         return queryset
     random_ids = random.sample(ids, k=num_products)
-    print(random_ids)
-    print(queryset.filter(id__in=random_ids))
     return queryset.filter(id__in=random_ids)
 
 
