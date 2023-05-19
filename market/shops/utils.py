@@ -4,6 +4,7 @@ from datetime import datetime, timedelta
 from django.db.models import Sum
 
 from shops.models import Offer
+from settings.models import SiteSettings
 
 
 def hot_deals():
@@ -12,7 +13,7 @@ def hot_deals():
      пока в таком виде её надо будет доработать когда появяться акции.
     """
     queryset = Offer.objects.filter(limited_edition=True, in_stock__gte=1)
-    num_products = 3
+    num_products = SiteSettings.objects.first().hot_deals
     ids = list(queryset.values_list("product_id", flat=True))
     if len(ids) <= num_products:
         return queryset.select_related("product")
@@ -51,13 +52,16 @@ def get_top_products():
     """
     Функция возвращает список 8 саммых популярных товаров
     """
-    return Offer.objects.annotate(total_quantity=Sum('orderitem__quantity')).order_by('-index', '-total_quantity')[:8]
+    count = SiteSettings.objects.first().top_product_count
+    return Offer.objects.annotate(
+        total_quantity=Sum('orderitem__quantity')).order_by('-index', '-total_quantity')[:count]
 
 
 def limited_edition_products():
     """
     Функция возвращает список товаров ограниченного тиража
     """
+    count = SiteSettings.objects.first().limited_edition_count
     return Offer.objects.filter(limited_edition=True, in_stock__gte=1).exclude(
         id=get_offer_of_the_day().id if get_offer_of_the_day() else -1
-    )
+    )[:count]

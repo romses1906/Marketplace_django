@@ -37,6 +37,7 @@ class UserRegAdmin(UserAdmin):
         ),
     )
     ordering = '-is_superuser', '-is_staff',
+    search_fields = ("username",)
 
 
 admin.site.register(User, UserRegAdmin)

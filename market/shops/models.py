@@ -25,6 +25,10 @@ class Shop(models.Model):
     email = models.EmailField(max_length=255, verbose_name=_("email"), blank=True, null=True)
     user = models.OneToOneField(to=User, on_delete=models.CASCADE)
 
+    class Meta:
+        verbose_name = _('магазин')
+        verbose_name_plural = _('магазины')
+
     def __str__(self):
         return self.name
 

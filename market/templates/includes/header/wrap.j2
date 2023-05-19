@@ -30,13 +30,14 @@
             </div>
         </nav>
         <div class="row-block">
-        {% if request.user.is_authenticated %}
+
             <div class="CartBlock">
                 <div class="dropdown">
                     <button class="dropbtn">
                         <img class="CartBlock-img" src="{{ static('img/icons/loon-icon.svg') }}"
                             alt="loon-icon.svg" />
                     </button>
+                    {% if request.user.is_authenticated %}
                     <div class="dropdown-content">
                         <a class="dropdown-content-a" href="{{ url('account:account_user', request.user.pk) }}">
                             Личный кабинет
@@ -48,6 +49,7 @@
                             Выход
                         </a>
                     </div>
+                    {% endif %}
                 </div>
                 <a class="CartBlock-block" href="{{ url('cart:cart') }}">
                     <img class="CartBlock-img" src="{{ static('img/icons/cart.svg') }}" alt="cart.svg" />
@@ -62,7 +64,7 @@
 
                 </div>
             </div>
-        {% endif %}
+
         </div>
         <div class="row-block Header-trigger">
             <a class="menuTrigger" href="#navigate">

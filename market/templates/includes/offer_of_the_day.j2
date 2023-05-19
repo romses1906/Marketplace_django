@@ -1,78 +1,78 @@
-   <div class="Section-column">
-      <div class="Section-columnSection Section-columnSection_mark">
-        <header class="Section-columnHeader">
-          <strong class="Section-columnTitle">
-            ОГРАНИЧЕННЫЕ ПРЕДЛОЖЕНИЯ
-          </strong>
-        </header>
-        {% if offer_of_the_day %}
-            {% with product=offer_of_the_day.product %}
-            <div class="Card">
-              <a class="Card-picture" href="{{ url('products:product_detail', product.pk) }}">
-                <img src="{{ static('img/content/home/card.jpg') }}" alt="card.jpg">
-              </a>
-              <div class="Card-content">
-                <strong class="Card-title">
-                  <a href="{{ url('products:product_detail', product.pk) }}">{{ product.name }}</a>
-                </strong>
-                <div class="Card-description">
-                  <div class="Card-cost">
-                    <span class="Card-priceOld">
-                      ${{ offer_of_the_day.price }}
-                    </span>
-                    <span class="Card-price">
-                      ${{ offer_of_the_day.price }}
-                    </span>
+<div class="Section-column">
+  <div class="Section-columnSection Section-columnSection_mark">
+    <header class="Section-columnHeader">
+      <strong class="Section-columnTitle">
+        ОГРАНИЧЕННЫЕ ПРЕДЛОЖЕНИЯ
+      </strong>
+    </header>
+    {% if offer_of_the_day %}
+        {% with product=offer_of_the_day.product %}
+        <div class="Card">
+          <a class="Card-picture" href="{{ url('products:product_detail', product.pk) }}">
+            <img src="{{ static('img/content/home/card.jpg') }}" alt="card.jpg">
+          </a>
+          <div class="Card-content">
+            <strong class="Card-title">
+              <a href="{{ url('products:product_detail', product.pk) }}">{{ product.name }}</a>
+            </strong>
+            <div class="Card-description">
+              <div class="Card-cost">
+                <span class="Card-priceOld">
+                  ${{ offer_of_the_day.price }}
+                </span>
+                <span class="Card-price">
+                  ${{ offer_of_the_day.price }}
+                </span>
+              </div>
+              <div class="Card-category">
+                {{ product.category }}
+              </div>
+            </div>
+            <div class="CountDown" data-date="{{ offer_of_the_day.created.strftime('%H:%M %Y-%m-%d') }}">
+              <div class="CountDown-block">
+                <div class="CountDown-wrap">
+                  <div class="CountDown-days" id="days">
+                    {{ days }}
                   </div>
-                  <div class="Card-category">
-                    {{ product.category }}
-                  </div>
+                  <span class="CountDown-label">
+                    days
+                  </span>
                 </div>
-                <div class="CountDown" data-date="{{ offer_of_the_day.created.strftime('%H:%M %Y-%m-%d') }}">
-                  <div class="CountDown-block">
-                    <div class="CountDown-wrap">
-                      <div class="CountDown-days" id="days">
-                        {{ days }}
-                      </div>
-                      <span class="CountDown-label">
-                        days
-                      </span>
-                    </div>
+              </div>
+              <div class="CountDown-block">
+                <div class="CountDown-wrap">
+                  <div class="CountDown-hours" id="hours">
+                    {{ hours }}
                   </div>
-                  <div class="CountDown-block">
-                    <div class="CountDown-wrap">
-                      <div class="CountDown-hours" id="hours">
-                        {{ hours }}
-                      </div>
-                      <span class="CountDown-label">
-                        hours
-                      </span>
-                    </div>
+                  <span class="CountDown-label">
+                    hours
+                  </span>
+                </div>
+              </div>
+              <div class="CountDown-block">
+                <div class="CountDown-wrap">
+                  <div class="CountDown-minutes" id="minutes">
+                    {{ minutes }}
                   </div>
-                  <div class="CountDown-block">
-                    <div class="CountDown-wrap">
-                      <div class="CountDown-minutes" id="minutes">
-                        {{ minutes }}
-                      </div>
-                      <span class="CountDown-label">
-                        mins
-                      </span>
-                    </div>
+                  <span class="CountDown-label">
+                    mins
+                  </span>
+                </div>
+              </div>
+              <div class="CountDown-block">
+                <div class="CountDown-wrap">
+                  <div class="CountDown-secs" id="seconds">
+                    {{ seconds }}
                   </div>
-                  <div class="CountDown-block">
-                    <div class="CountDown-wrap">
-                      <div class="CountDown-secs" id="seconds">
-                        {{ seconds }}
-                      </div>
-                      <span class="CountDown-label">
-                        secs
-                      </span>
-                    </div>
-                  </div>
+                  <span class="CountDown-label">
+                    secs
+                  </span>
                 </div>
               </div>
             </div>
-            {% endwith %}
-        {% endif %}
-      </div>
-    </div>
+          </div>
+        </div>
+        {% endwith %}
+    {% endif %}
+  </div>
+</div>

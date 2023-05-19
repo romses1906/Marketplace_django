@@ -9,6 +9,9 @@ from users.models import User
 
 class CartTestCase(TestCase):
     """Класс теста корзины пользователя"""
+    fixtures = [
+        "070_settings_site.json"
+    ]
 
     @classmethod
     def setUpTestData(cls):
