@@ -44,7 +44,6 @@ class TestHomePageView(TestCase):
         url = reverse('shops:home')
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
-
         days, hours, minutes, seconds = get_time_left()
         self.assertEqual(response.context_data['days'], days)
         self.assertEqual(response.context_data['hours'], hours)

@@ -30,6 +30,7 @@ urlpatterns = [
     path("reviews/", include("reviews.urls", namespace="reviews")),
     path("account/", include("account.urls", namespace="account")),
     path("imports/", include("imports.urls", namespace="imports")),
+    path("settings/", include("settings.urls", namespace="settings")),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
