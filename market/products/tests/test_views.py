@@ -1,7 +1,7 @@
 import os
 
 from config.settings import FIXTURE_DIRS
-from django.db.models import Min, Count, Max
+from django.db.models import Min, Count, Max, Sum
 from django.db.models import Q
 from django.shortcuts import get_list_or_404
 from django.test import TestCase, Client
@@ -42,6 +42,8 @@ class ProductsByCategoryViewTest(TestCase):
         "030_offers.json",
         "035_products_properties.json",
         "045_reviews_product.json",
+        "060_order.json",
+        "065_orderitem.json",
     ]
 
     def setUp(self):
@@ -298,6 +300,34 @@ class ProductsByCategoryViewTest(TestCase):
         self.assertTrue(
             first_elem_in_queryset.product.product_reviews.count() >= second_elem_in_queryset.product.
             product_reviews.count())
+
+    def test_products_sorting_by_popularity_is_correct(self):
+        """ Тестирование корректности сортировки товаров по популярности """
+
+        response = self.client.get(
+            self.url_books + "?sort_by=popularity")
+        min_purchases_of_book = self.offers_books.filter(order__status='paid').annotate(
+            Sum('orderitem__quantity')).aggregate(
+            cnt=Min('orderitem__quantity__sum'))
+        max_purchases_of_book = self.offers_books.filter(order__status='paid').annotate(
+            Sum('orderitem__quantity')).aggregate(
+            cnt=Max('orderitem__quantity__sum'))
+
+        first_elem_in_queryset_total_purchases = response.context_data['offer_list'].first().total_purchases()
+        second_elem_in_queryset_total_purchases = response.context_data['offer_list'][1].total_purchases()
+        self.assertEqual(first_elem_in_queryset_total_purchases, min_purchases_of_book['cnt'])
+        self.assertTrue(
+            first_elem_in_queryset_total_purchases <= second_elem_in_queryset_total_purchases)
+        response = self.client.get(
+            self.url_books + "?sort_by=-popularity")
+        max_purchases_of_book = self.offers_books.filter(order__status='paid').annotate(
+            Sum('orderitem__quantity')).aggregate(
+            cnt=Max('orderitem__quantity__sum'))
+        first_elem_in_queryset_total_purchases = response.context_data['offer_list'].first().total_purchases()
+        second_elem_in_queryset_total_purchases = response.context_data['offer_list'][1].total_purchases()
+        self.assertEqual(first_elem_in_queryset_total_purchases, max_purchases_of_book['cnt'])
+        self.assertTrue(
+            first_elem_in_queryset_total_purchases >= second_elem_in_queryset_total_purchases)
 
 
 class ProductDetailViewTest(TestCase):

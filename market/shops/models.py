@@ -1,6 +1,6 @@
 from django.core.validators import RegexValidator
 from django.db import models
-from django.db.models import Max
+from django.db.models import Max, Sum
 from django.utils.translation import gettext_lazy as _
 from django.urls import reverse
 from django.templatetags.static import static
@@ -59,7 +59,19 @@ class Offer(models.Model):
         super().save(*args, **kwargs)
 
     def __str__(self):
-        return f'{self.shop} | {self.product} | {_("цена")}: {self.price} | {_("наличие")}: {self.in_stock}'
+        return f'{self.shop} | {self.product} | {_("цена")}: {self.price} | {_("наличие")}: {self.in_stock} | ' \
+               f'{_("уже купили")}: {self.total_purchases() if self.total_purchases() else 0}'
+
+    def total_purchases(self):
+        """
+        Метод получения количества покупок товара
+        """
+
+        offers = Offer.objects.select_related('shop', 'product__category').filter(order__status='paid').annotate(
+            total_purchases=Sum('orderitem__quantity'))
+        for offer in offers:
+            if offer.id == self.id:
+                return offer.total_purchases
 
 
 class BannerManager(models.Manager):
