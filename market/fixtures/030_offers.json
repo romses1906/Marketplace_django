@@ -141,5 +141,70 @@
     "in_stock": 10,
     "limited_edition": "False"
   }
+},
+{
+  "model": "shops.offer",
+  "pk": 12,
+  "fields": {
+    "shop": 3,
+    "product": 2,
+    "created": "2023-04-16T15:51:58.620Z",
+    "updated": "2023-04-16T15:51:58.620Z",
+    "price": "350.00",
+    "in_stock": 50,
+    "limited_edition": "True"
+  }
+},
+{
+  "model": "shops.offer",
+  "pk": 13,
+  "fields": {
+    "shop": 4,
+    "product": 3,
+    "created": "2023-04-16T15:51:58.620Z",
+    "updated": "2023-04-16T15:51:58.620Z",
+    "price": "350.00",
+    "in_stock": 50,
+    "limited_edition": "True"
+  }
+},
+{
+  "model": "shops.offer",
+  "pk": 14,
+  "fields": {
+    "shop": 1,
+    "product": 4,
+    "created": "2023-04-16T15:51:58.620Z",
+    "updated": "2023-04-16T15:51:58.620Z",
+    "price": "350.00",
+    "in_stock": 50,
+    "limited_edition": "True"
+  }
+},
+{
+  "model": "shops.offer",
+  "pk": 15,
+  "fields": {
+    "shop": 3,
+    "product": 7,
+    "created": "2023-04-16T15:51:58.620Z",
+    "updated": "2023-04-16T15:51:58.620Z",
+    "price": "350.00",
+    "in_stock": 50,
+    "limited_edition": "True"
+  }
+},
+{
+  "model": "shops.offer",
+  "pk": 16,
+  "fields": {
+    "shop": 1,
+    "product": 6,
+    "created": "2023-04-16T15:51:58.620Z",
+    "updated": "2023-04-16T15:51:58.620Z",
+    "price": "350.00",
+    "in_stock": 50,
+    "limited_edition": "True"
+  }
 }
 ]

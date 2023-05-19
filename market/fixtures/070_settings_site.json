@@ -1,7 +1,7 @@
 [
 {
   "model": "settings.sitesettings",
-  "pk": 2,
+  "pk": 1,
   "fields": {
     "min_order_price_for_free_shipping": "2000.00",
     "standard_order_price": "200.00",
