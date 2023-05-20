@@ -13,12 +13,12 @@ def hot_deals():
      пока в таком виде её надо будет доработать когда появяться акции.
     """
     queryset = Offer.objects.filter(limited_edition=True, in_stock__gte=1)
-    num_products = SiteSettings.objects.first().hot_deals
-    ids = list(queryset.values_list("product_id", flat=True))
+    num_products = SiteSettings.load().hot_deals
+    ids = list(queryset.values_list("id", flat=True))
     if len(ids) <= num_products:
-        return queryset.select_related("product")
+        return queryset
     random_ids = random.sample(ids, k=num_products)
-    return queryset.filter(product_id__in=random_ids).select_related("product")
+    return queryset.filter(id__in=random_ids)
 
 
 def get_time_left():
@@ -52,7 +52,7 @@ def get_top_products():
     """
     Функция возвращает список 8 саммых популярных товаров
     """
-    count = SiteSettings.objects.first().top_product_count
+    count = SiteSettings.load().top_product_count
     return Offer.objects.annotate(
         total_quantity=Sum('orderitem__quantity')).order_by('-index', '-total_quantity')[:count]
 
@@ -61,7 +61,7 @@ def limited_edition_products():
     """
     Функция возвращает список товаров ограниченного тиража
     """
-    count = SiteSettings.objects.first().limited_edition_count
+    count = SiteSettings.load().limited_edition_count
     return Offer.objects.filter(limited_edition=True, in_stock__gte=1).exclude(
         id=get_offer_of_the_day().id if get_offer_of_the_day() else -1
     )[:count]
