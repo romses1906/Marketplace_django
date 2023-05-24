@@ -32,14 +32,14 @@ class UpdateCartView(View):
 
     def post(self, request):
         cart = CartServices(request)
-        product_id = request.POST.get('product_id', None)
-        user_quantity = request.POST.get('quantity', None)
+        product_id = request.POST.get('product_id', None)  # Fixme второй атрибут None можно не указывать
+        user_quantity = request.POST.get('quantity', None)  # Fixme второй атрибут None можно не указывать
         offer = get_object_or_404(Offer, id=product_id)
         if product_id and user_quantity:
             cart.update(offer=offer, quantity=int(user_quantity), update_quantity=True)
 
         else:
-            return JsonResponse({}, status=400)
+            return JsonResponse({}, status=400)   # fixme указать в ответе причину ошибки
 
         product_data = cart.get_product_data(product_id)
         if product_data:

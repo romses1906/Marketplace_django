@@ -54,7 +54,7 @@ class CartServices:
         for key, value in cart.items():
             if cart_exists:
                 try:
-                    with transaction.atomic():
+                    with transaction.atomic():  # FIXME убрать, применять при сохранении более чем в одну модель
                         product = ProductInCart.objects.filter(cart=cart_).select_for_update().get(offer=key)
                         product.quantity += cart[key]['quantity']
                         product.save()
@@ -66,6 +66,7 @@ class CartServices:
                     )
             else:
                 offer = Offer.objects.get(id=key)
+                # TODO здесь можно применить transaction.atomic()
                 cart_ = Cart.objects.create(user=user)
                 ProductInCart.objects.create(
                     offer=offer,

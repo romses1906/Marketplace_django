@@ -6,13 +6,13 @@ from django.core.files.storage import FileSystemStorage
 from django.core.validators import validate_email
 from django.db.models import QuerySet
 from django.http import HttpRequest
-from django.utils.translation import gettext_lazy as _
+from django.utils.translation import gettext_lazy as _  # FIXME изменить на gettext
 
 from shops.models import Shop
 from users.models import User
 
 
-def change_profile(request: HttpRequest, user: QuerySet):
+def change_profile(request: HttpRequest, user: QuerySet):  # NOTE желательно вместо request передавать готовый набор данных
     """Функция принимающая данные метода POST на странице профиля пользователя и вносящая изменение в модель User."""
 
     # изменение ФИО

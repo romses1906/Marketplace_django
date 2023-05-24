@@ -19,7 +19,7 @@ class CreateReviewsView(LoginRequiredMixin, CreateView):
     def get_success_url(self):
         """Возвращаемый URL при успешном выполнении методов."""
 
-        return reverse_lazy('products:product_detail', kwargs={'pk': self.kwargs['pk']})
+        return reverse_lazy('products:product_detail', kwargs={'pk': self.kwargs['pk']})  # FIXME использовать reverse
 
     def handle_no_permission(self):
         """Переопределение метода по возвращению на страницу товара после успешной аутентификации."""

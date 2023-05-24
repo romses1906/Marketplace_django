@@ -31,7 +31,7 @@ class Imports:
     @classmethod
     def logging_info(cls, file_name: str):
         """Настройки логирования для импорта."""
-        logger = logging.getLogger(f'{file_name}')
+        logger = logging.getLogger(f'{file_name}')  # FIXME логгер принято объявлять на уровне модуля (глоьальная переменная)
         logger.setLevel(logging.INFO)
         handler = logging.FileHandler(f'imports/files/logs/{file_name}.log', encoding='utf-8')
         formatter = logging.Formatter('[%(asctime)s] - [%(levelname)s] - [%(message)s]')

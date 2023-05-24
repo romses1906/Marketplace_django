@@ -49,6 +49,7 @@ class RegisterViewTests(TestCase):
             follow=True
         )
         self.assertEqual(response.status_code, 200)
+        # TODO сделать проверку на то, что новый пользователь появился в БД
 
     def test_used_template(self):
         """Тестирование используемого шаблона."""
@@ -97,6 +98,7 @@ class SetNewPasswordViewTests(TestCase):
             follow=True
         )
         self.assertEqual(response.status_code, 200)
+        # TODO сделать проверку на то, что старое и новое значения различаются
 
     def test_used_template(self):
         """Тестирование используемого шаблона."""

@@ -5,7 +5,7 @@ from celery import shared_task
 from imports.services import Imports
 
 
-@shared_task(name="Импорт товаров")
+@shared_task(name="Импорт товаров")  # FIXME перенести имя задачи в сеттингсы
 def imports_all_files_task(*args, **kwargs):
     """Задача на импорт всех файлов в директории `loaded`."""
     imports = Imports()

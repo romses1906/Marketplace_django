@@ -37,11 +37,11 @@ class ProfileUser(SuccessMessageMixin, View):
 
     def get_success_url(self):
         """Возвращаемый URL при успешном выполнении методов."""
-        return reverse_lazy('account:profile_user', kwargs={'pk': self.kwargs['pk']})
+        return reverse_lazy('account:profile_user', kwargs={'pk': self.kwargs['pk']})  # FIXME использовать reverse
 
     def get_queryset(self):
         """Queryset модели пользователя."""
-        user = User.objects.filter(pk=self.request.user.pk)
+        user = User.objects.filter(pk=self.request.user.pk)  # FIXME использовать get_object_or_404(MyModel, pk=pk)
         return user
 
     def get(self, request, *args, **kwargs):
@@ -67,7 +67,7 @@ class RegShopView(SuccessMessageMixin, View):
 
     def get_success_url(self):
         """Возвращаемый URL при успешном выполнении методов."""
-        return reverse_lazy('account:account_user', kwargs={'pk': self.kwargs['pk']})
+        return reverse_lazy('account:account_user', kwargs={'pk': self.kwargs['pk']})  # FIXME использовать reverse
 
     def get(self, request, *args, **kwargs):
         """Получение страницы для добавления магазина."""
@@ -90,9 +90,9 @@ class UpdateShopView(SuccessMessageMixin, View):
 
     template_name = 'account/update_shop.j2'
 
-    def get_queryset(self, queryset=None):
+    def get_queryset(self, queryset=None):  # м.б. назвать get_object
         """Возвращение объекта магазина."""
-        return Shop.objects.filter(user_id=self.kwargs.get('pk')).get()
+        return Shop.objects.filter(user_id=self.kwargs.get('pk')).get()  # FIXME использовать get_object_or_404(MyModel, pk=pk)
 
     def get_success_url(self):
         """Возвращаемый URL при успешном выполнении методов."""
