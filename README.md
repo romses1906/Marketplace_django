@@ -18,7 +18,7 @@ docker run --name skillbox-db -e POSTGRES_USER=skillbox -e POSTGRES_PASSWORD=sec
 ```
 Запуск брокера сообщений REDIS
 ```shell
-docker run --name redis-db -d redis
+docker run --name redis-db -p 6379:6379 -d redis 
 ```
 Установка виртуального окружения для среды разработки на примере ОС Windows
 ```shell
