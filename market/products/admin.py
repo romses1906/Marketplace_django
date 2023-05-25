@@ -27,7 +27,7 @@ class PropertyAdmin(admin.ModelAdmin):
 
 class ProductAdmin(admin.ModelAdmin):
     """Регистрация модели Product в админке"""
-    list_display = 'name', 'category'
+    list_display = 'name', 'category', "id"
     list_filter = 'name', 'created', 'category'
     search_fields = 'name', 'category'
     inlines = [ProductPropertyInline, ImageInline]

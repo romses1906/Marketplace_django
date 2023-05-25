@@ -24,7 +24,7 @@
                                 <div class="Card-category">{{ item.product.category }}
                                 </div>
                                 <div class="Card-hover">
-                                    <a class="Card-btn" href="{{ url('cart:add_to_cart', item.product.pk) }}" tabindex="-1">
+                                    <a class="Card-btn" href="{{ url('cart:add_to_cart', item.pk) }}" tabindex="-1">
                                         <img src="{{ static('img/icons/card/cart.svg') }}" alt="cart.svg"></a>
                                 </div>
                             </div>
