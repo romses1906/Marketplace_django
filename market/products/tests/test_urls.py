@@ -3,6 +3,7 @@ from django.urls import reverse, resolve
 
 from products.views import ProductsByCategoryView, ProductDetailView
 from products.models import Category, Product
+from users.models import User
 
 
 class ProductsByCategoryPageTest(TestCase):
@@ -44,6 +45,8 @@ class ProductDetailPageTest(TestCase):
     @classmethod
     def setUpTestData(cls):
         cls.client = Client()
+        cls.user = User.objects.create_user(email='test@test.ru', password='test')
+        cls.client.login(email='test@test.ru', password='test')
         cls.category = Category.objects.create(name='тестовая категория', description='тестовое описание категории')
         cls.product = Product.objects.create(name='тестовый продукт', category=cls.category)
         cls.url = reverse("products:product_detail", kwargs={'pk': cls.product.pk})

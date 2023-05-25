@@ -10,6 +10,7 @@ from django.urls import reverse
 from jinja2 import Template as Jinja2Template
 from products.models import Category, Product
 from shops.models import Offer
+from users.models import User
 
 ORIGINAL_JINJA2_RENDERER = Jinja2Template.render
 
@@ -336,6 +337,8 @@ class ProductDetailViewTest(TestCase):
 
     def setUp(self):
         self.client = Client()
+        self.user = User.objects.create_user(email='test@test.ru', password='test')
+        self.client.login(email='test@test.ru', password='test')
         self.product = Product.objects.annotate(
             min_price=Min('offers__price')).annotate(num_reviews=Count('product_reviews')).prefetch_related(
             'product_properties', 'product_images', 'offers', 'product_reviews').get(id=6)

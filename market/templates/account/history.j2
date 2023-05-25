@@ -1,0 +1,19 @@
+{% extends "base.j2" %}
+
+{% block content %}
+    <link rel="stylesheet" href="{{ static('history.css') }}">
+    <h1>История просмотров</h1>
+    <h2><span>Дата проcмотра</span><span class="right">Продукт</span></h2>
+    {% for view in history.history_products.all() %}
+        <ol class="ol-list">
+            <div class="block flex">
+                <div class="flex list">
+                    {{ view.date }}
+                </div>
+                <div class="flex list">
+                    <a href='{{view.product.get_absolute_url()}}'>{{view.product}}</a>
+                </div>
+            </div>
+        </ol>
+    {% endfor %}
+{% endblock %}

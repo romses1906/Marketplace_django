@@ -4,6 +4,7 @@ from django.utils.translation import gettext_lazy as _
 from django.views import generic
 from django_filters.views import FilterView
 
+from account.models import HistorySearch, HistorySearchProduct
 from products.filters import ProductFilter
 from products.models import Category, Product
 from shops.models import Offer
@@ -39,6 +40,7 @@ class ProductDetailView(generic.DetailView):
         queryset = Product.objects.annotate(
             min_price=Min('offers__price')).annotate(num_reviews=Count('product_reviews')).prefetch_related(
             'product_properties', 'product_images', 'offers', 'product_reviews')
+        self.add_product_to_user_search_history(queryset)
         return queryset
 
     def get_context_data(self, **kwargs):
@@ -46,3 +48,8 @@ class ProductDetailView(generic.DetailView):
         context['default_alt'] = _('Изображение продукта')
         context['categories'] = get_list_or_404(Category)
         return context
+
+    def add_product_to_user_search_history(self, queryset) -> None:
+        """ Добавляет запись в историю просмотра пользователя """
+        history, create = HistorySearch.objects.get_or_create(user=self.request.user)
+        HistorySearchProduct.objects.create(history=history, product=queryset.get(pk=self.kwargs['pk']))

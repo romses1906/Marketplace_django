@@ -4,11 +4,12 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views import View
-from django.views.generic import DetailView
+from django.views.generic import DetailView, ListView
 
 from order.models import Order
 from shops.models import Shop
 from users.models import User
+from account.models import HistorySearch
 from .services import change_profile, ShopManager
 
 
@@ -115,3 +116,13 @@ class UpdateShopView(SuccessMessageMixin, View):
 
         messages.add_message(self.request, messages.INFO, shop_update)
         return HttpResponseRedirect(self.get_success_url())
+
+
+class HistorySearchView(ListView):
+    """ Представление для отображения страницы истории просмотров пользователя """
+    template_name = 'account/history.j2'
+    context_object_name = 'history'
+
+    def get_queryset(self):
+        queryset = HistorySearch.objects.get(user=self.request.user.pk)
+        return queryset
