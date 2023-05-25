@@ -1,7 +1,7 @@
 <div class="wrap">
     <div class="row Header-rowMain">
         <div class="row-block Header-logo">
-            <a class="logo" href="{{ url('home') }}">
+            <a class="logo" href="{{ url('shops:home') }}">
                 <img class="logo-image" src="{{ static('img/logo.png') }}" alt="logo.png" />
             </a>
         </div>
@@ -9,7 +9,7 @@
             <div class="menuModal" id="navigate">
                 <ul class="menu menu_main">
                     <li class="menu-item">
-                        <a class="menu-link" href="{{ url('home') }}">
+                        <a class="menu-link" href="{{ url('shops:home') }}">
                             Главная
                         </a>
                     </li>
@@ -30,13 +30,14 @@
             </div>
         </nav>
         <div class="row-block">
-        {% if request.user.is_authenticated %}
+
             <div class="CartBlock">
                 <div class="dropdown">
                     <button class="dropbtn">
                         <img class="CartBlock-img" src="{{ static('img/icons/loon-icon.svg') }}"
                             alt="loon-icon.svg" />
                     </button>
+                    {% if request.user.is_authenticated %}
                     <div class="dropdown-content">
                         <a class="dropdown-content-a" href="{{ url('account:account_user', request.user.pk) }}">
                             Личный кабинет
@@ -48,6 +49,7 @@
                             Выход
                         </a>
                     </div>
+                    {% endif %}
                 </div>
                 <a class="CartBlock-block" href="{{ url('cart:cart') }}">
                     <img class="CartBlock-img" src="{{ static('img/icons/cart.svg') }}" alt="cart.svg" />
@@ -56,13 +58,13 @@
                     </span>
                 </a>
                 <div class="CartBlock-block">
-                    <span id="total-cart-price" class="CartBlock-price">
+                    <span id="cart_total_price" class="CartBlock-price">
                         {{ cart.get_total_price() }}$
                     </span>
 
                 </div>
             </div>
-        {% endif %}
+
         </div>
         <div class="row-block Header-trigger">
             <a class="menuTrigger" href="#navigate">

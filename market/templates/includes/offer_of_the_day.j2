@@ -1,36 +1,38 @@
-    <div class="Section-column">
-      <div class="Section-columnSection Section-columnSection_mark">
-        <header class="Section-columnHeader">
-          <strong class="Section-columnTitle">
-            ОГРАНИЧЕННЫЕ ПРЕДЛОЖЕНИЯ
-          </strong>
-        </header>
+<div class="Section-column">
+  <div class="Section-columnSection Section-columnSection_mark">
+    <header class="Section-columnHeader">
+      <strong class="Section-columnTitle">
+        ОГРАНИЧЕННЫЕ ПРЕДЛОЖЕНИЯ
+      </strong>
+    </header>
+    {% if offer_of_the_day %}
+        {% with product=offer_of_the_day.product %}
         <div class="Card">
-          <a class="Card-picture" href="#">
-            <img src="assets/img/content/home/card.jpg" alt="card.jpg">
+          <a class="Card-picture" href="{{ url('products:product_detail', product.pk) }}">
+            <img src="{{ static('img/content/home/card.jpg') }}" alt="card.jpg">
           </a>
           <div class="Card-content">
             <strong class="Card-title">
-              <a href="#">Corsair Carbide Series Arctic White Steel</a>
+              <a href="{{ url('products:product_detail', product.pk) }}">{{ product.name }}</a>
             </strong>
             <div class="Card-description">
               <div class="Card-cost">
                 <span class="Card-priceOld">
-                  $115.00
+                  ${{ offer_of_the_day.price }}
                 </span>
                 <span class="Card-price">
-                  $85.00
+                  ${{ offer_of_the_day.price }}
                 </span>
               </div>
               <div class="Card-category">
-                News / xbox
+                {{ product.category }}
               </div>
             </div>
-            <div class="CountDown" data-date="31.09.2020 03:59">
+            <div class="CountDown" data-date="{{ offer_of_the_day.created.strftime('%H:%M %Y-%m-%d') }}">
               <div class="CountDown-block">
                 <div class="CountDown-wrap">
-                  <div class="CountDown-days">
-                    -936
+                  <div class="CountDown-days" id="days">
+                    {{ days }}
                   </div>
                   <span class="CountDown-label">
                     days
@@ -39,8 +41,8 @@
               </div>
               <div class="CountDown-block">
                 <div class="CountDown-wrap">
-                  <div class="CountDown-hours">
-                    -11
+                  <div class="CountDown-hours" id="hours">
+                    {{ hours }}
                   </div>
                   <span class="CountDown-label">
                     hours
@@ -49,8 +51,8 @@
               </div>
               <div class="CountDown-block">
                 <div class="CountDown-wrap">
-                  <div class="CountDown-minutes">
-                    -37
+                  <div class="CountDown-minutes" id="minutes">
+                    {{ minutes }}
                   </div>
                   <span class="CountDown-label">
                     mins
@@ -59,8 +61,8 @@
               </div>
               <div class="CountDown-block">
                 <div class="CountDown-wrap">
-                  <div class="CountDown-secs">
-                    -56
+                  <div class="CountDown-secs" id="seconds">
+                    {{ seconds }}
                   </div>
                   <span class="CountDown-label">
                     secs
@@ -70,5 +72,7 @@
             </div>
           </div>
         </div>
-      </div>
-    </div>
+        {% endwith %}
+    {% endif %}
+  </div>
+</div>

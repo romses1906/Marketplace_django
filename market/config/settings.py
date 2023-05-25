@@ -51,6 +51,8 @@ INSTALLED_APPS = [
     "django_mptt_admin",
     "django_filters",
     "phonenumber_field",
+    "django_celery_results",
+    "django_celery_beat",
     "products",
     "shops",
     "users",
@@ -58,6 +60,8 @@ INSTALLED_APPS = [
     "cart",
     "account",
     "order",
+    "imports",
+    "settings",
 
 ]
 
@@ -212,3 +216,25 @@ SHELL_PLUS_PYGMENTS_FORMATTER = pygments.formatters.TerminalFormatter
 SHELL_PLUS_PYGMENTS_FORMATTER_KWARGS = {}
 
 LOGIN_URL = reverse_lazy('users:login_user')
+
+# CELERY
+CELERY_BROKER_URL = REDIS_URL  # для rabbitmq, поменяйте адрес брокера на amqp://guest:guest@127.0.0.1:5672
+CELERY_TASK_TRACK_STARTED = True  # запускает трекинг задач Celery
+
+# Планировщик задач
+
+# Celery настроен на использование планировщика из базы данных
+CELERY_BEAT_SCHEDULER = 'django_celery_beat.schedulers:DatabaseScheduler'
+
+CELERY_BROKER_TRANSPORT_OPTION = {'visibility_timeout': 3600}  # время ожидания видимости 1 час
+CELERY_RESULT_BACKEND = 'django-db'  # указание для django_celery_results куда записывать результат выполнения задач
+CELERY_ACCEPT_CONTENT = ['application/json']  # это тип содержимого, разрешенный к получению
+CELERY_TASK_SERIALIZER = 'json'  # это строка, используемая для определения метода сериализации по умолчанию
+CELERY_RESULT_SERIALIZER = 'json'  # является типом формата сериализации результатов
+
+CELERY_TASK_DEFAULT_QUEUE = 'default'  # celery будет использовать это имя очереди
+
+# Данные почты получателя уведомлений о проведённом импорте
+RECIPIENTS_EMAIL = ['service.megano@gmail.com']   # список получателей по умолчанию
+DEFAULT_FROM_EMAIL = 'service.megano@gmail.com'  # почта администратора
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'

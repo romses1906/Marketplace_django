@@ -19,18 +19,18 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include
-from django.views.generic import TemplateView
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path("", TemplateView.as_view(template_name="home.j2"), name="home"),
-    path("shops/", include("shops.urls", namespace="shops")),
+    path("", include("shops.urls", namespace="shops")),
     path("catalog/", include("products.urls", namespace="products")),
     path("users/", include("users.urls", namespace="users")),
     path("cart/", include("cart.urls", namespace="cart")),
     path("order/", include("order.urls", namespace="order")),
     path("reviews/", include("reviews.urls", namespace="reviews")),
     path("account/", include("account.urls", namespace="account")),
+    path("imports/", include("imports.urls", namespace="imports")),
+    path("settings/", include("settings.urls", namespace="settings")),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

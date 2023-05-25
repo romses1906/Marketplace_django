@@ -117,5 +117,56 @@
     "payment_option": "Another card",
     "comment": "Cry"
   }
+},
+{
+  "model": "order.order",
+  "pk": 8,
+  "fields": {
+    "user": 4,
+    "full_name": "Сидоров Петр Иванович",
+    "created": "2023-05-18T12:56:07.065Z",
+    "updated": "2023-05-18T12:56:07.065Z",
+    "status": "paid",
+    "payment_date": "2023-05-18T12:56:07.065Z",
+    "delivery_option": "Delivery",
+    "delivery_address": "Улица Георгия Исакова",
+    "delivery_city": "Барнаул",
+    "payment_option": "Online Card",
+    "comment": "no comments"
+  }
+},
+{
+  "model": "order.order",
+  "pk": 9,
+  "fields": {
+    "user": 2,
+    "full_name": "Роджер Роджерович Федерер",
+    "created": "2023-05-18T12:58:10.073Z",
+    "updated": "2023-05-18T12:58:10.073Z",
+    "status": "paid",
+    "payment_date": "2023-05-18T12:58:10.073Z",
+    "delivery_option": "Delivery",
+    "delivery_address": "ул. Бернская, 19",
+    "delivery_city": "Берн",
+    "payment_option": "Online Card",
+    "comment": "no comments"
+  }
+},
+{
+  "model": "order.order",
+  "pk": 10,
+  "fields": {
+    "user": 8,
+    "full_name": "Рафаэль Надалевич Надаль",
+    "created": "2023-05-18T13:23:47.107Z",
+    "updated": "2023-05-18T13:23:47.107Z",
+    "status": "paid",
+    "payment_date": "2023-05-18T13:23:47.107Z",
+    "delivery_option": "Delivery",
+    "delivery_address": "Брно, улица Ческа, 18",
+    "delivery_city": "Брно",
+    "payment_option": "Online Card",
+    "comment": "no comments"
+  }
 }
 ]

@@ -1,0 +1,16 @@
+[
+{
+  "model": "settings.sitesettings",
+  "pk": 1,
+  "fields": {
+    "min_order_price_for_free_shipping": "2000.00",
+    "standard_order_price": "200.00",
+    "express_order_price": "500.00",
+    "banners_count": 3,
+    "top_product_count": 8,
+    "limited_edition_count": 16,
+    "hot_deals": 3,
+    "product_cache_time": 1
+  }
+}
+]

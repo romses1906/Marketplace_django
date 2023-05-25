@@ -56,7 +56,24 @@
                     <div class="Sort">
                         <div class="Sort-title">Сортировать по:
                         </div>
-                        <div class="Sort-variants"><a class="Sort-sortBy Sort-sortBy_dec" href="#">Популярности</a><a class="Sort-sortBy" href="#">Цене</a><a class="Sort-sortBy" href="#">Отзывам</a><a class="Sort-sortBy Sort-sortBy_inc" href="#">Новизне</a>
+                        <div class="Sort-variants">
+                        {% set cur_path = request.get_full_path() %}
+                        {% if 'sort_by' in cur_path %}
+                            <a class="Sort-sortBy {% if sorting =='-price' %}Sort-sortBy_inc{% else %}Sort-sortBy_dec{% endif %}" href="{% if sorting != 'price' %}{{ cur_path|replace('sort_by=' +  sorting|string, 'sort_by=price') }}{% else %}{{ cur_path|replace('sort_by=' +  sorting|string, 'sort_by=-price') }}{% endif %}">Цене</a>
+                            <a class="Sort-sortBy {% if sorting =='-created' %}Sort-sortBy_inc{% else %}Sort-sortBy_dec{% endif %}" href="{% if sorting != 'created' %}{{ cur_path|replace('sort_by=' +  sorting|string, 'sort_by=created') }}{% else %}{{ cur_path|replace('sort_by=' +  sorting|string, 'sort_by=-created') }}{% endif %}">Новизне</a>
+                            <a class="Sort-sortBy {% if sorting =='-reviews' %}Sort-sortBy_inc{% else %}Sort-sortBy_dec{% endif %}" href="{% if sorting != 'reviews' %}{{ cur_path|replace('sort_by=' +  sorting|string, 'sort_by=reviews') }}{% else %}{{ cur_path|replace('sort_by=' +  sorting|string, 'sort_by=-reviews') }}{% endif %}">Отзывам</a>
+                            <a class="Sort-sortBy {% if sorting =='-popularity' %}Sort-sortBy_inc{% else %}Sort-sortBy_dec{% endif %}" href="{% if sorting != 'popularity' %}{{ cur_path|replace('sort_by=' +  sorting|string, 'sort_by=popularity') }}{% else %}{{ cur_path|replace('sort_by=' +  sorting|string, 'sort_by=-popularity') }}{% endif %}">Популярности</a>
+                        {% elif '?' in cur_path %}
+                            <a class="Sort-sortBy Sort-sortBy_inc" href="{{ cur_path }}&sort_by=price">Цене</a>
+                            <a class="Sort-sortBy Sort-sortBy_inc" href="{{ cur_path }}&sort_by=created">Новизне</a>
+                            <a class="Sort-sortBy Sort-sortBy_inc" href="{{ cur_path }}&sort_by=reviews">Отзывам</a>
+                            <a class="Sort-sortBy Sort-sortBy_inc" href="{{ cur_path }}&sort_by=popularity">Популярности</a>
+                        {% else %}
+                            <a class="Sort-sortBy Sort-sortBy_inc" href="{{ cur_path }}?sort_by=price">Цене</a>
+                            <a class="Sort-sortBy Sort-sortBy_inc" href="{{ cur_path }}?sort_by=created">Новизне</a>
+                            <a class="Sort-sortBy Sort-sortBy_inc" href="{{ cur_path }}?sort_by=reviews">Отзывам</a>
+                            <a class="Sort-sortBy Sort-sortBy_inc" href="{{ cur_path }}?sort_by=popularity">Популярности</a>
+                        {% endif %}
                         </div>
                     </div>
           <div class="Cards">

@@ -8,6 +8,8 @@ class ReviewsAdmin(admin.ModelAdmin):
     """Регистрация модели Отзывов в админ-панели."""
     list_display = 'product', 'author', 'content_short', 'created_at'
     list_filter = 'product',
+    search_fields = 'product', 'author'
+    ordering = 'product', 'created_at',
 
     @staticmethod
     def content_short(obj: Reviews) -> str:

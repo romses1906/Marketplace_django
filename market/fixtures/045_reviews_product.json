@@ -1,32 +1,122 @@
 [
 {
-    "model": "reviews.reviews",
-    "pk": 28,
-    "fields": {
-        "product": 1,
-        "author": 10,
-        "created_at": "2023-04-30T19:50:24.271Z",
-        "content": "снег чистить не удобно"
-    }
+  "model": "reviews.reviews",
+  "pk": 28,
+  "fields": {
+    "product": 1,
+    "author": 10,
+    "created_at": "2023-04-30T19:50:24.271Z",
+    "content": "снег чистить не удобно"
+  }
 },
 {
-    "model": "reviews.reviews",
-    "pk": 29,
-    "fields": {
-        "product": 11,
-        "author": 3,
-        "created_at": "2023-04-30T19:50:42.429Z",
-        "content": "выросли груши"
-    }
+  "model": "reviews.reviews",
+  "pk": 29,
+  "fields": {
+    "product": 11,
+    "author": 3,
+    "created_at": "2023-04-30T19:50:42.429Z",
+    "content": "выросли груши"
+  }
 },
 {
-    "model": "reviews.reviews",
-    "pk": 30,
-    "fields": {
-        "product": 5,
-        "author": 4,
-        "created_at": "2023-04-30T19:51:10.813Z",
-        "content": "не знаю что это такое"
-    }
+  "model": "reviews.reviews",
+  "pk": 30,
+  "fields": {
+    "product": 5,
+    "author": 4,
+    "created_at": "2023-04-30T19:51:10.813Z",
+    "content": "не знаю что это такое"
+  }
+},
+{
+  "model": "reviews.reviews",
+  "pk": 31,
+  "fields": {
+    "product": 11,
+    "author": 10,
+    "created_at": "2023-05-16T12:09:10.031Z",
+    "content": "Не пожалела, что купила именно эти саженцы!"
+  }
+},
+{
+  "model": "reviews.reviews",
+  "pk": 32,
+  "fields": {
+    "product": 11,
+    "author": 3,
+    "created_at": "2023-05-16T12:09:50.229Z",
+    "content": "Выросли очень вкусные яблоки!"
+  }
+},
+{
+  "model": "reviews.reviews",
+  "pk": 33,
+  "fields": {
+    "product": 1,
+    "author": 2,
+    "created_at": "2023-05-16T12:10:21.892Z",
+    "content": "Не очень удобна в использовании"
+  }
+},
+{
+  "model": "reviews.reviews",
+  "pk": 34,
+  "fields": {
+    "product": 6,
+    "author": 6,
+    "created_at": "2023-05-16T12:10:49.814Z",
+    "content": "Один из величайших романов в истории!"
+  }
+},
+{
+  "model": "reviews.reviews",
+  "pk": 35,
+  "fields": {
+    "product": 6,
+    "author": 5,
+    "created_at": "2023-05-16T12:11:21.078Z",
+    "content": "Пушкин топ!"
+  }
+},
+{
+  "model": "reviews.reviews",
+  "pk": 36,
+  "fields": {
+    "product": 6,
+    "author": 5,
+    "created_at": "2023-05-16T12:11:48.329Z",
+    "content": "Прекрасное произведение, рекомендую!"
+  }
+},
+{
+  "model": "reviews.reviews",
+  "pk": 37,
+  "fields": {
+    "product": 9,
+    "author": 4,
+    "created_at": "2023-05-16T12:12:07.735Z",
+    "content": "Живем в такой реальности)"
+  }
+},
+{
+  "model": "reviews.reviews",
+  "pk": 38,
+  "fields": {
+    "product": 9,
+    "author": 5,
+    "created_at": "2023-05-16T12:12:20.941Z",
+    "content": "Он что-то знал!"
+  }
+},
+{
+  "model": "reviews.reviews",
+  "pk": 39,
+  "fields": {
+    "product": 10,
+    "author": 2,
+    "created_at": "2023-05-16T12:12:49.029Z",
+    "content": "Интересная книженция))"
+  }
 }
 ]
