@@ -82,13 +82,10 @@ class CartServices:
         :return: Dict
         """
         if self.use_db:
-            product_ids = set()
             shops_by_product = defaultdict(set)
 
-            cart_items = ProductInCart.objects.filter(cart=self.cart, cart__is_active=True)
-            for item in cart_items:
-                product_id = item.offer.product_id
-                product_ids.add(product_id)
+            product_ids = ProductInCart.objects.filter(cart=self.cart, cart__is_active=True) \
+                .values_list('offer__product_id', flat=True).distinct()
 
             qs = Offer.objects.filter(product_id__in=product_ids, in_stock__gte=1).select_related('shop')
             for product_id in product_ids:
@@ -111,16 +108,17 @@ class CartServices:
 
     def update_shops_with_products(self, offer_id, shop_id) -> None:
         """
-        Обнавление предложения товара, в соответствии с выбранным продуктом.
+        Обновление предложения товара, в соответствии с выбранным продуктом.
         :param offer_id: id предложеия
         :param shop_id: id магазина
         :return: None
         """
-        offer = Offer.objects.get(id=offer_id)
+        offer = Offer.objects.select_related('product').get(id=offer_id)
         product_id = offer.product.id
-        new_offer = Offer.objects.filter(shop_id=shop_id, product_id=product_id).first()
+        new_offer = Offer.objects.filter(shop_id=shop_id, product_id=product_id).select_related('product').first()
+
         if self.use_db:
-            item_cart = ProductInCart.objects.filter(cart=self.cart, offer_id=offer.id).first()
+            item_cart = ProductInCart.objects.filter(cart=self.cart, offer_id=offer_id).select_related('offer').first()
             quantity = item_cart.quantity
         else:
             item_cart = self.cart[str(offer_id)]
