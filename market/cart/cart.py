@@ -1,3 +1,4 @@
+from collections import defaultdict
 from decimal import Decimal
 from typing import Dict
 
@@ -6,7 +7,7 @@ from django.db import transaction
 from django.db.models import Sum, F
 
 from django.conf import settings
-from shops.models import Offer
+from shops.models import Offer, Shop
 from cart.models import Cart, ProductInCart
 from users.models import User
 
@@ -54,10 +55,9 @@ class CartServices:
         for key, value in cart.items():
             if cart_exists:
                 try:
-                    with transaction.atomic():
-                        product = ProductInCart.objects.filter(cart=cart_).select_for_update().get(offer=key)
-                        product.quantity += cart[key]['quantity']
-                        product.save()
+                    product = ProductInCart.objects.filter(cart=cart_).get(offer=key)
+                    product.quantity += cart[key]['quantity']
+                    product.save()
                 except ObjectDoesNotExist:
                     ProductInCart.objects.create(
                         offer=Offer.objects.get(pk=key),
@@ -66,14 +66,67 @@ class CartServices:
                     )
             else:
                 offer = Offer.objects.get(id=key)
-                cart_ = Cart.objects.create(user=user)
-                ProductInCart.objects.create(
-                    offer=offer,
-                    cart=cart_,
-                    quantity=value['quantity'],
-                )
+                with transaction.atomic():
+                    cart_ = Cart.objects.create(user=user)
+                    ProductInCart.objects.create(
+                        offer=offer,
+                        cart=cart_,
+                        quantity=value['quantity'],
+                    )
 
         self.session.pop(settings.CART_SESSION_ID, None)
+
+    def get_shops_with_products(self) -> Dict:
+        """
+        Получения словаря магазинов, которые предлагают необходимый товар.
+        :return: Dict
+        """
+        if self.use_db:
+            shops_by_product = defaultdict(set)
+
+            product_ids = ProductInCart.objects.filter(cart=self.cart, cart__is_active=True) \
+                .values_list('offer__product_id', flat=True).distinct()
+
+            qs = Offer.objects.filter(product_id__in=product_ids, in_stock__gte=1).select_related('shop')
+            for product_id in product_ids:
+                for offer in qs.filter(product_id=product_id):
+                    shops_by_product[product_id].add(offer.shop)
+        else:
+            offer_ids = self.cart.keys()
+            product_ids = Offer.objects.filter(id__in=offer_ids).values_list('product_id', flat=True)
+            qs = Offer.objects.filter(product_id__in=product_ids, in_stock__gte=1).select_related('shop')
+            shops_by_product = defaultdict(set)
+            for product_id in product_ids:
+                for offer in qs.filter(product_id=product_id):
+                    if str(offer.id) in self.cart:
+                        shops_by_product[product_id].add(offer.shop)
+
+                for shop in Shop.objects.filter(offers__product_id=product_id):
+                    if shop not in shops_by_product[product_id]:
+                        shops_by_product[product_id].add(shop)
+        return shops_by_product
+
+    def update_shops_with_products(self, offer_id, shop_id) -> None:
+        """
+        Обновление предложения товара, в соответствии с выбранным продуктом.
+        :param offer_id: id предложеия
+        :param shop_id: id магазина
+        :return: None
+        """
+        offer = Offer.objects.select_related('product').get(id=offer_id)
+        product_id = offer.product.id
+        new_offer = Offer.objects.filter(shop_id=shop_id, product_id=product_id).select_related('product').first()
+
+        if self.use_db:
+            item_cart = ProductInCart.objects.filter(cart=self.cart, offer_id=offer_id).select_related('offer').first()
+            quantity = item_cart.quantity
+        else:
+            item_cart = self.cart[str(offer_id)]
+            quantity = item_cart["quantity"]
+        if quantity > 0:
+            with transaction.atomic():
+                self.update(offer=new_offer, quantity=quantity)
+                self.remove(offer)
 
     def add_user_data(self, form) -> None:
         """
@@ -222,7 +275,7 @@ class CartServices:
         """
         offer_ids = self.cart.keys()
         # получить объекты продукта и добавить их в корзину
-        offers = Offer.objects.filter(id__in=offer_ids)
+        offers = Offer.objects.filter(id__in=offer_ids, in_stock__gte=1)
         for offer in offers:
             self.cart[str(offer.id)]['offer'] = offer
 
