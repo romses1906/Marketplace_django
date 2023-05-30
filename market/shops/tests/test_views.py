@@ -41,6 +41,7 @@ class TestHomePageView(TestCase):
         self.client = Client()
 
     def test_homepage_view(self):
+        """ Тест главной страницы магазина """
         url = reverse('shops:home')
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)

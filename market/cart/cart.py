@@ -4,9 +4,11 @@ from typing import Dict
 
 from django.core.exceptions import ObjectDoesNotExist
 from django.db import transaction
-from django.db.models import Sum, F
+from django.db.models import Sum, F, QuerySet
 
 from django.conf import settings
+
+from settings.models import SiteSettings
 from shops.models import Offer, Shop
 from cart.models import Cart, ProductInCart
 from users.models import User
@@ -81,19 +83,14 @@ class CartServices:
         Получения словаря магазинов, которые предлагают необходимый товар.
         :return: Dict
         """
+        product_ids = self.get_products_id()
         if self.use_db:
             shops_by_product = defaultdict(set)
-
-            product_ids = ProductInCart.objects.filter(cart=self.cart, cart__is_active=True) \
-                .values_list('offer__product_id', flat=True).distinct()
-
             qs = Offer.objects.filter(product_id__in=product_ids, in_stock__gte=1).select_related('shop')
             for product_id in product_ids:
                 for offer in qs.filter(product_id=product_id):
                     shops_by_product[product_id].add(offer.shop)
         else:
-            offer_ids = self.cart.keys()
-            product_ids = Offer.objects.filter(id__in=offer_ids).values_list('product_id', flat=True)
             qs = Offer.objects.filter(product_id__in=product_ids, in_stock__gte=1).select_related('shop')
             shops_by_product = defaultdict(set)
             for product_id in product_ids:
@@ -137,7 +134,7 @@ class CartServices:
         self.session['user_data'] = form.cleaned_data
         self.save()
 
-    def add_shipping_data(self, form):
+    def add_shipping_data(self, form) -> None:
         """
         Добавить данные о доставке в корзину.
         :param form: Данные формы пользователя.
@@ -146,7 +143,7 @@ class CartServices:
         self.session['shipping_data'] = form.cleaned_data
         self.save()
 
-    def add_payment_data(self, form):
+    def add_payment_data(self, form) -> None:
         """
         Добавить данные об оплате в корзину.
         :param form: Данные формы пользователя.
@@ -154,6 +151,19 @@ class CartServices:
         """
         self.session['payment_data'] = form.cleaned_data
         self.save()
+
+    def get_products_id(self) -> QuerySet:
+        """
+        Получает id всех продуктов в корзине
+        :return: QuerySet
+        """
+        if self.use_db:
+            product_ids = ProductInCart.objects.filter(cart=self.cart, cart__is_active=True) \
+                .values_list('offer__product_id', flat=True).distinct()
+        else:
+            offer_ids = self.cart.keys()
+            product_ids = Offer.objects.filter(id__in=offer_ids).values_list('product_id', flat=True)
+        return product_ids
 
     def get_user_data(self) -> Dict:
         """
@@ -280,9 +290,10 @@ class CartServices:
             self.cart[str(offer.id)]['offer'] = offer
 
         for item in self.cart.values():
-            item['quantity'] = int(item['quantity'])
-            item['price'] = Decimal(item['offer'].price)
-            item['total_price'] = item['price'] * item['quantity']
+            if 'offer' in item:
+                item['quantity'] = int(item['quantity'])
+                item['price'] = Decimal(item['offer'].price)
+                item['total_price'] = item['price'] * item['quantity']
             yield item
 
     def __len__(self) -> int:
@@ -308,6 +319,44 @@ class CartServices:
             return total.quantize(Decimal('1.00'))
         else:
             return sum(Decimal(item['price']) * item['quantity'] for item in self.cart.values())
+
+    def get_delivery_cost(self) -> Decimal:
+        """
+        Получает стоимость доставки
+        :return: Decimal
+        """
+        try:
+            delivery_option = self.get_shipping_data()["delivery_option"]
+            delivery_cost = Decimal(0)
+            total_cost = self.get_total_price()
+            min_order_price_for_free_shipping = SiteSettings.load().min_order_price_for_free_shipping
+
+            if delivery_option == 'Delivery':
+                min_deliv_cost = SiteSettings.load().standard_order_price
+                if total_cost < min_order_price_for_free_shipping or not self.has_single_seller():
+                    delivery_cost = Decimal(min_deliv_cost).quantize(Decimal('1.00'))
+
+            elif delivery_option == 'Express Delivery':
+                express = SiteSettings.load().express_order_price
+                standard = SiteSettings.load().standard_order_price
+                min_deliv_cost = express + standard
+                if total_cost < min_order_price_for_free_shipping or not self.has_single_seller():
+                    delivery_cost = Decimal(min_deliv_cost).quantize(Decimal('1.00'))
+                else:
+                    delivery_cost = Decimal(express).quantize(Decimal('1.00'))
+            return delivery_cost
+        except TypeError:
+            return 'Небыл выбран способ доставки!'
+
+    def has_single_seller(self) -> bool:
+        """
+        В корзине все товары от одного продавца
+        :return: bool
+        """
+        product_ids = self.get_products_id()
+        offers = Offer.objects.filter(id__in=product_ids)
+        sellers = set(offers.values_list('shop_id', flat=True))
+        return len(sellers) == 1
 
     def clear(self, only_session: bool = False) -> None:
         """

@@ -1,5 +1,5 @@
 from django.test import TestCase, Client
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 
 from order.models import Order
 from users.models import User
@@ -37,7 +37,11 @@ class CartUrlsTest(TestCase):
 
     def test_url_step4_view(self):
         """Тестирование URL четвертого шага оформления заказа."""
+        self.shipping_data = {'delivery_option': 'Delivery',
+                              'delivery_address': '123 Main St',
+                              'delivery_city': 'New York'}
         self.client.login(username='test@test.ru', password='2304test')
+        self.client.post(reverse('order:step2'), data=self.shipping_data)
         response = self.client.get(reverse_lazy('order:step4'))
         self.assertEqual(response.status_code, 200)
 
