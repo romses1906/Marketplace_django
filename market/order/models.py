@@ -29,7 +29,7 @@ class Order(models.Model):
     )
 
     user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name=_('пользователь'), blank=True)
-    full_name = models.CharField(max_length=100, null=True, verbose_name=_('ФИО заказчика'))
+    full_name = models.CharField(max_length=100, null=True, verbose_name=_('ФИО получателя заказа'))
     phone_number = PhoneNumberField(unique=True, null=True, region='RU', verbose_name=_('номер телефона'))
     created = models.DateTimeField(auto_now_add=True, verbose_name=_('создано'))
     updated = models.DateTimeField(auto_now=True, verbose_name=_('обнавлено'))
