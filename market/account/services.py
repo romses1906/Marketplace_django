@@ -1,39 +1,36 @@
-from django.contrib.auth import authenticate, login
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth.models import Group
 from django.core.exceptions import ValidationError
 from django.core.files.storage import FileSystemStorage
 from django.core.validators import validate_email
-from django.db.models import QuerySet
-from django.http import HttpRequest
-from django.utils.translation import gettext_lazy as _
+from django.http import QueryDict
+from django.utils.translation import gettext as _
 
 from shops.models import Shop
 from users.models import User
 
 
-def change_profile(request: HttpRequest, user: QuerySet):
+def change_profile(data: QueryDict, user_id, file=None):
     """Функция принимающая данные метода POST на странице профиля пользователя и вносящая изменение в модель User."""
+    user = User.objects.filter(pk=user_id)
 
     # изменение ФИО
-    if request.POST.get('name'):
-        data = request.POST.get('name').split()
+    if data.get('name'):
+        name = data.get('name').split()
         user.update(
-            last_name=data[0],
-            first_name=data[1],
-            surname=data[2]
+            last_name=name[0],
+            first_name=name[1],
+            surname=name[2]
         )
 
     # изменение номера телефона
-    if request.POST.get('phone'):
-        phone = request.POST.get('phone')
+    if data.get('phone'):
         user.update(
-            phone_number=phone
+            phone_number=data.get('phone')
         )
 
     # изменение аватарки
-    if request.FILES:
-        file = request.FILES['avatar']
+    if file:
         fail_system = FileSystemStorage()
         filename = fail_system.save(file.name, file)
         user.update(
@@ -41,31 +38,24 @@ def change_profile(request: HttpRequest, user: QuerySet):
         )
 
     # изменение электронной почты
-    if request.POST.get('mail'):
-        email = request.POST.get('mail')
+    if data.get('mail'):
+        email = data.get('mail')
         try:
             validate_email(email)
             user.update(
                 email=email
             )
-
-            password = user.values('password')[0].get('password')
-            user_login = authenticate(email=email, password=password)
-            login(request, user_login)
         except ValidationError:
             return _('Email не соответствует требованиям!')
 
     # изменение пароля
-    if request.POST.get('password') and request.POST.get('passwordReply'):
-        password1 = request.POST.get('password')
-        password2 = request.POST.get('passwordReply')
+    if data.get('password') and data.get('passwordReply'):
+        password1 = data.get('password')
+        password2 = data.get('passwordReply')
         if password1 == password2:
             user.update(
                 password=make_password(password1)
             )
-            email = user.values('email')[0].get('email')
-            user_login = authenticate(email=email, password=password1)
-            login(request, user_login)
         else:
             return _('Пароли не совпадают!')
     return _('Профиль успешно изменён.')

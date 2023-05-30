@@ -15,6 +15,8 @@ from products.models import Product
 from shops.models import Shop, Offer
 from users.models import User
 
+logger = logging.getLogger()
+
 
 class Imports:
     """Класс взаимодействующий с проведением импортов товаров, а также сохранения загруженных файлов."""
@@ -31,7 +33,6 @@ class Imports:
     @classmethod
     def logging_info(cls, file_name: str):
         """Настройки логирования для импорта."""
-        logger = logging.getLogger(f'{file_name}')
         logger.setLevel(logging.INFO)
         handler = logging.FileHandler(f'imports/files/logs/{file_name}.log', encoding='utf-8')
         formatter = logging.Formatter('[%(asctime)s] - [%(levelname)s] - [%(message)s]')

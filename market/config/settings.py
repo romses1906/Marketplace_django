@@ -238,3 +238,5 @@ CELERY_TASK_DEFAULT_QUEUE = 'default'  # celery будет использова�
 RECIPIENTS_EMAIL = ['service.megano@gmail.com']   # список получателей по умолчанию
 DEFAULT_FROM_EMAIL = 'service.megano@gmail.com'  # почта администратора
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+
+CELERY_TASK_NAME_1 = 'Импорт товаров'
