@@ -1,6 +1,7 @@
 from django.test import TestCase, Client
 from django.urls import reverse
 
+from cart.cart import CartServices
 from order.models import Order
 from users.models import User
 
@@ -13,7 +14,12 @@ class TestOrderViews(TestCase):
     @classmethod
     def setUpTestData(cls):
         cls.user = User.objects.create_user(username='test@test.ru', email='test@test.ru', password='2304test')
+        cls.session = {}
         cls.client = Client()
+        cls.request = cls.client.request().wsgi_request
+        cls.request.session.update(cls.session)
+        cls.cart = CartServices(cls.request)
+
         cls.client.login(username='test@test.ru', password='2304test')
 
         cls.user_data = {'full_name': 'Ivan Ivanovich Ivanov',
@@ -60,8 +66,10 @@ class TestOrderViews(TestCase):
 
     def test_step3_view(self):
         self.client.login(username='test@test.ru', password='2304test')
+        self.client.get(reverse('order:step2'))
         response = self.client.get(reverse('order:step3'))
         self.assertEqual(response.status_code, 200)
+        self.client.post(reverse('order:step2'), data=self.shipping_data)
         response = self.client.post(reverse('order:step3'), data=self.payment_data)
         self.assertRedirects(response, reverse('order:step4'))
 

@@ -2,27 +2,26 @@ from django.test import TestCase, Client
 from django.urls import reverse
 
 from cart.models import User
-from products.models import Property, Category, Product, ProductProperty
-from shops.models import Offer, Shop
+from shops.models import Offer
 
 
 class CartURLTestCase(TestCase):
     """Тестирование URL корзины пользователя."""
+    fixtures = [
+        "004_groups.json",
+        "005_users.json",
+        "010_shops.json",
+        "015_categories.json",
+        "020_products.json",
+        "030_offers.json",
+    ]
 
     @classmethod
     def setUpTestData(cls):
         cls.user = User.objects.create(username='ivan', email='ivan@mail.ru', password='Password123')
-        cls.property = Property.objects.create(name='Property')
-        cls.category = Category.objects.create(name='Category', description="Description 1")
-        cls.product = Product.objects.create(name='Product', category=cls.category)
-        ProductProperty.objects.create(product=cls.product, property=cls.property, value=1)
-        cls.product.property.add(cls.property)
-        cls.shop = Shop.objects.create(name='Shop 1', user=cls.user)
-        Offer.objects.create(product=cls.product, shop=cls.shop, price=10.0)
-        cls.shop.products.add(cls.product)
-        cls.offer = Offer.objects.create(shop=cls.shop, product=cls.product, price=100, in_stock=10)
         cls.session = {}
         cls.client = Client()
+        cls.offer = Offer.objects.first()
         cls.cart_url = reverse('cart:cart')
         cls.update_url = reverse('cart:update_to_cart')
         cls.remove_url = reverse('cart:remove_from_cart', args=[cls.offer.pk])

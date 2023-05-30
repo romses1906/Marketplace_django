@@ -68,8 +68,14 @@
       {% endfor %}
       <div class="Cart-total">
         <div class="Cart-block Cart-block_total">
+            {% if get_delivery_cost %}
+                <strong class="Cart-title">Cтоимость доставки:</strong>
+                <div class="Cart-price">{{ get_delivery_cost }}$</div>
+            {% endif %}
+
             <strong class="Cart-title">Итого:</strong>
-            <div class="Cart-price">{{ get_total_price }}$</div>
+            <div class="Cart-price">{{ (get_total_price + get_delivery_cost)|floatformat(2) }}$</div>
+
         </div>
         <form class="form" method="post">{% csrf_token %}
           <div class="Cart-block">

@@ -10,7 +10,7 @@ from cart.cart import CartServices
 from cart.models import ProductInCart
 from order.models import Order
 from order.forms import UserForm, DeliveryForm, PaymentForm, CommentForm
-from order.services import add_items_from_cart
+from order.services import add_items_from_cart, format_number
 from users.models import User
 from users.services import create_user
 
@@ -38,11 +38,10 @@ class Step1View(View):
     def post(self, request, *args, **kwargs):
         form = self.form_class(request.POST)
         if form.is_valid():
-            user_data = {
-                'full_name': form.cleaned_data['full_name'],
-                'email': form.cleaned_data['email'],
-                'phone_number': form.cleaned_data['phone_number']
-            }
+            user_data = form.cleaned_data
+            user_data['full_name'] = user_data['full_name']
+            user_data['email'] = user_data['email']
+            user_data['phone_number'] = format_number(str(user_data['phone_number']))
             if not request.user.is_authenticated:
                 password = request.POST.get('password')
                 create_user(password, user_data)
@@ -115,6 +114,7 @@ class Step4View(LoginRequiredMixin, CreateView):
             self.object = form.save(commit=False)
             self.object.user = self.request.user
             self.object.full_name = cart.get_user_data()['full_name']
+            self.object.phone_number = cart.get_user_data()['phone_number']
             self.object.delivery_option = cart.get_shipping_data()['delivery_option']
             self.object.delivery_address = cart.get_shipping_data()['delivery_address']
             self.object.delivery_city = cart.get_shipping_data()['delivery_city']
@@ -130,6 +130,7 @@ class Step4View(LoginRequiredMixin, CreateView):
         cart = CartServices(self.request)
         context['order_items'] = cart.qs
         context['get_total_price'] = cart.get_total_price()
+        context['get_delivery_cost'] = cart.get_delivery_cost()
         context['user_data'] = cart.get_user_data()
         context['shipping_data'] = cart.get_shipping_data()
         context['payment_data'] = cart.get_payment_data()

@@ -6,7 +6,7 @@ class UserFormTest(TestCase):
     """Класс теста формы внесения данных пользователя в заказ"""
 
     def test_user_form_valid(self):
-        form_data = {'full_name': 'John Doe', 'email': 'john@example.com', 'phone_number': '1234567890'}
+        form_data = {'full_name': 'John Doe', 'email': 'john@example.com', 'phone_number': '9001002030'}
         form = UserForm(data=form_data)
         self.assertTrue(form.is_valid())
 
