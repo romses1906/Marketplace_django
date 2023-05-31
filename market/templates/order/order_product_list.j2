@@ -4,7 +4,7 @@
         {% with product=item.offer.product %}
         <div class="Cart-block Cart-block_row">
                 <div class="Cart-block Cart-block_pict">
-                    <a class="Cart-pict" href="{{ product.get_absolute_url }}">
+                    <a class="Cart-pict" href="{{ url("products:product_detail", product.id) }}">
                         {% if product.product_images.url %}
                             <img class="Cart-img" src="{{ product.product_images.url }}" alt="product-image.png"/>
                         {% else %}
@@ -13,7 +13,7 @@
                     </a>
                 </div>
             <div class="Cart-block Cart-block_info">
-                <a class="Cart-title" href="#">
+                <a class="Cart-title" href="{{ url("products:product_detail", product.id) }}">
                     {{ product.name }}
                 </a>
                 <div class="Cart-desc">

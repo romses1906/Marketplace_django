@@ -6,6 +6,7 @@ from products.models import Category, Product, ProductImage, ProductProperty, Pr
 class CategoryAdmin(DjangoMpttAdmin):
     """Регистрация модели Категория в админке"""
     list_display = ['name']
+    ordering = 'name',
 
 
 class ImageInline(admin.StackedInline):
@@ -20,13 +21,17 @@ class ProductPropertyInline(admin.StackedInline):
 
 class PropertyAdmin(admin.ModelAdmin):
     """Регистрация модели Property в админке"""
-    list_display = 'id', 'name'
+    list_display = 'name',
+    ordering = 'name',
 
 
 class ProductAdmin(admin.ModelAdmin):
     """Регистрация модели Product в админке"""
-    list_display = 'id', 'name', 'category'
+    list_display = 'name', 'category', "id"
+    list_filter = 'name', 'created', 'category'
+    search_fields = 'name', 'category'
     inlines = [ProductPropertyInline, ImageInline]
+    ordering = 'name',
 
 
 class ProductTagAdmin(admin.ModelAdmin):

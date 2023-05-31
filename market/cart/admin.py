@@ -12,13 +12,15 @@ class ProductInCartInline(admin.TabularInline):
 class CartAdmin(admin.ModelAdmin):
     """Используется для настройки отображения
          и поведения модели корзины в Django Admin."""
-    list_display = ('id', 'user', 'is_active')
+    list_display = ('user', 'is_active')
+    ordering = ('user', 'is_active')
 
 
 class ProductInCartAdmin(admin.ModelAdmin):
     """Используется для настройки отображения
          и поведения модели позиций корзины в Django Admin."""
     list_display = ('offer', 'cart', 'quantity', 'date_added')
+    ordering = ('cart',)
 
 
 admin.site.register(Cart, CartAdmin)

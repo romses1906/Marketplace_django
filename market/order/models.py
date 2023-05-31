@@ -1,6 +1,7 @@
 from django.db import models
 from datetime import datetime
 from django.utils.translation import gettext_lazy as _
+from phonenumber_field.modelfields import PhoneNumberField
 
 from shops.models import Offer
 from users.models import User
@@ -28,7 +29,8 @@ class Order(models.Model):
     )
 
     user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name=_('пользователь'), blank=True)
-    full_name = models.CharField(max_length=100, null=True, blank=True, verbose_name=_('ФИО заказчика'))
+    full_name = models.CharField(max_length=100, null=True, verbose_name=_('ФИО получателя заказа'))
+    phone_number = PhoneNumberField(unique=True, null=True, region='RU', verbose_name=_('номер телефона'))
     created = models.DateTimeField(auto_now_add=True, verbose_name=_('создано'))
     updated = models.DateTimeField(auto_now=True, verbose_name=_('обнавлено'))
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='created', verbose_name=_('статус'))
@@ -51,15 +53,6 @@ class Order(models.Model):
     @property
     def total_cost(self):
         return sum(item.get_cost() for item in self.items.all())
-
-    def add_items_from_cart(self, cart):
-        for item in cart:
-            order_item = OrderItem(
-                order=self,
-                offer=item['offer'],
-                quantity=item['quantity']
-            )
-            order_item.save()
 
     def save(self, *args, **kwargs):
         if self.status == 'paid' and not self.payment_date:

@@ -6,10 +6,14 @@
 {% block content %}
 {% include "includes/selected_product.j2" %}
 <div class="Section Section_column Section_columnLeft Section_columnDesktop">
-  <div class="wrap">
-    {% include "includes/offer_of_the_day.j2" %}
-    {% include "includes/top_products.j2" %}
-  </div>
+    <div class="wrap">
+        {% include "includes/offer_of_the_day.j2" %}
+        {% include "includes/top_products.j2" %}
+    </div>
 </div>
-{% include "includes/limited_edition.j2" %}
+<div class="Section Section_column Section_columnRight">
+    <div class="wrap">
+    {% include "includes/limited_edition.j2" %}
+   </div>
+</div>
 {% endblock content %}

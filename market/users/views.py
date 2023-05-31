@@ -20,7 +20,7 @@ from .models import User
 class LoginUserView(SuccessMessageMixin, LoginView):
     """Аутентификация пользователя"""
     template_name = 'users/login.j2'
-    success_url = reverse_lazy('home')
+    success_url = reverse_lazy('shops:home')
 
     def post(self, request, *args, **kwargs):
         """Метод, проверяющий существование пользователя и перенаправляющий его на соответствующую страницу."""
@@ -61,10 +61,15 @@ class RegisterView(SuccessMessageMixin, FormView):
                     email=email,
                     password=make_password(password)
                 )
+                user_auth = authenticate(email=email, password=password)
+                login(request, user_auth)
                 group = Group.objects.get(name='buyer')
                 user.groups.add(group)
-                messages.add_message(self.request, messages.INFO, _('Вы успешно зарегистрированы!'))
-                return HttpResponseRedirect(self.success_url)
+                messages.add_message(
+                    self.request, messages.INFO,
+                    _('Вы успешно зарегистрированы! Введите пожалуйста ФИО.')
+                )
+                return HttpResponseRedirect(reverse('account:profile_user', kwargs={'pk': user.pk}))
         except ObjectDoesNotExist:
             messages.add_message(self.request, messages.INFO, _('К сожалению запрос не удался, попробуйте позже!'))
             return HttpResponseRedirect(reverse('users:register_user'))

@@ -1,6 +1,7 @@
 from django.test import TestCase, Client
 from django.urls import reverse
 
+from cart.cart import CartServices
 from order.models import Order
 from users.models import User
 
@@ -13,7 +14,12 @@ class TestOrderViews(TestCase):
     @classmethod
     def setUpTestData(cls):
         cls.user = User.objects.create_user(username='test@test.ru', email='test@test.ru', password='2304test')
+        cls.session = {}
         cls.client = Client()
+        cls.request = cls.client.request().wsgi_request
+        cls.request.session.update(cls.session)
+        cls.cart = CartServices(cls.request)
+
         cls.client.login(username='test@test.ru', password='2304test')
 
         cls.user_data = {'full_name': 'Ivan Ivanovich Ivanov',
@@ -25,7 +31,7 @@ class TestOrderViews(TestCase):
         cls.payment_data = {'payment_option': 'Online Card'}
 
         cls.order = Order.objects.create(user=cls.user, status='created', delivery_option='Delivery',
-                                         delivery_address='Novgorod', delivery_city='Moscow',
+                                         delivery_address='Novgorodskay, 1', delivery_city='Moscow',
                                          payment_option='Online Card',
                                          comment='Comment 1')
 
@@ -37,6 +43,20 @@ class TestOrderViews(TestCase):
         response = self.client.post(reverse('order:step1'), data=self.user_data)
         self.assertRedirects(response, reverse('order:step2'))
 
+    def test_checkout_step1_by_an_unauthorized_user(self):
+        response = self.client.get(reverse('order:step1'))
+        self.assertEqual(response.status_code, 200)
+
+        response = self.client.post(reverse('order:step1'), data=self.user_data)
+
+        # Проверяем, что был создан новый пользователь
+        self.assertTrue(User.objects.filter(email=self.user_data['email']).exists())
+        new_user = User.objects.filter(email=self.user_data['email']).first()
+        self.assertEqual(new_user.first_name, 'Ivanovich')
+        self.assertEqual(new_user.last_name, 'Ivan')
+        self.assertEqual(new_user.surname, 'Ivanov')
+        self.assertEqual(new_user.phone_number, '+79072223340')
+
     def test_step2_view(self):
         self.client.login(username='test@test.ru', password='2304test')
         response = self.client.get(reverse('order:step2'))
@@ -46,8 +66,10 @@ class TestOrderViews(TestCase):
 
     def test_step3_view(self):
         self.client.login(username='test@test.ru', password='2304test')
+        self.client.get(reverse('order:step2'))
         response = self.client.get(reverse('order:step3'))
         self.assertEqual(response.status_code, 200)
+        self.client.post(reverse('order:step2'), data=self.shipping_data)
         response = self.client.post(reverse('order:step3'), data=self.payment_data)
         self.assertRedirects(response, reverse('order:step4'))
 

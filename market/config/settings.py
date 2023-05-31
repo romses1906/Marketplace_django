@@ -23,7 +23,6 @@ config = dotenv_values(os.path.join("..", ".env"))
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
@@ -34,7 +33,6 @@ SECRET_KEY = "django-insecure-=e-i4dlx_qq&ra7un4)u8bdr#08q)gc_*yyy4@7--kt(0(p#!(
 DEBUG = True
 
 ALLOWED_HOSTS = []
-
 
 # Application definition
 
@@ -53,6 +51,8 @@ INSTALLED_APPS = [
     "django_mptt_admin",
     "django_filters",
     "phonenumber_field",
+    "django_celery_results",
+    "django_celery_beat",
     "products",
     "shops",
     "users",
@@ -61,6 +61,9 @@ INSTALLED_APPS = [
     "account",
     "order",
     "comparison",
+    "imports",
+    "settings",
+
 ]
 
 SITE_ID = 1
@@ -113,12 +116,12 @@ TEMPLATES = [
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
             ],
+
         },
     },
 ]
 
 WSGI_APPLICATION = "config.wsgi.application"
-
 
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
@@ -145,7 +148,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/4.2/topics/i18n/
 
@@ -156,7 +158,6 @@ TIME_ZONE = "UTC"
 USE_I18N = True
 
 USE_TZ = True
-
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
@@ -186,7 +187,6 @@ FIXTURE_DIRS = [
 
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
-
 
 # Данные для отправки сообщений на почту пользователя.
 EMAIL_HOST = 'smtp.gmail.com'
@@ -220,3 +220,25 @@ SHELL_PLUS_PYGMENTS_FORMATTER = pygments.formatters.TerminalFormatter
 SHELL_PLUS_PYGMENTS_FORMATTER_KWARGS = {}
 
 LOGIN_URL = reverse_lazy('users:login_user')
+
+# CELERY
+CELERY_BROKER_URL = REDIS_URL  # для rabbitmq, поменяйте адрес брокера на amqp://guest:guest@127.0.0.1:5672
+CELERY_TASK_TRACK_STARTED = True  # запускает трекинг задач Celery
+
+# Планировщик задач
+
+# Celery настроен на использование планировщика из базы данных
+CELERY_BEAT_SCHEDULER = 'django_celery_beat.schedulers:DatabaseScheduler'
+
+CELERY_BROKER_TRANSPORT_OPTION = {'visibility_timeout': 3600}  # время ожидания видимости 1 час
+CELERY_RESULT_BACKEND = 'django-db'  # указание для django_celery_results куда записывать результат выполнения задач
+CELERY_ACCEPT_CONTENT = ['application/json']  # это тип содержимого, разрешенный к получению
+CELERY_TASK_SERIALIZER = 'json'  # это строка, используемая для определения метода сериализации по умолчанию
+CELERY_RESULT_SERIALIZER = 'json'  # является типом формата сериализации результатов
+
+CELERY_TASK_DEFAULT_QUEUE = 'default'  # celery будет использовать это имя очереди
+
+# Данные почты получателя уведомлений о проведённом импорте
+RECIPIENTS_EMAIL = ['service.megano@gmail.com']   # список получателей по умолчанию
+DEFAULT_FROM_EMAIL = 'service.megano@gmail.com'  # почта администратора
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'

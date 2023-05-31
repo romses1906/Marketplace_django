@@ -1,7 +1,9 @@
 from django.core.validators import RegexValidator
 from django.db import models
+from django.db.models import Max, Sum
 from django.utils.translation import gettext_lazy as _
 from django.urls import reverse
+from django.templatetags.static import static
 
 from users.models import User
 
@@ -23,6 +25,10 @@ class Shop(models.Model):
     email = models.EmailField(max_length=255, verbose_name=_("email"), blank=True, null=True)
     user = models.OneToOneField(to=User, on_delete=models.CASCADE)
 
+    class Meta:
+        verbose_name = _('магазин')
+        verbose_name_plural = _('магазины')
+
     def __str__(self):
         return self.name
 
@@ -37,6 +43,8 @@ class Offer(models.Model):
     updated = models.DateTimeField(auto_now=True, verbose_name=_('обновлено'))
     price = models.DecimalField(max_digits=10, decimal_places=2, verbose_name=_("цена"))
     in_stock = models.IntegerField(blank=True, null=False, default=0, verbose_name=_("наличие"))
+    limited_edition = models.BooleanField(default=True, verbose_name=_("ограниченное предложение"))
+    index = models.IntegerField(default=0, verbose_name=_("индекс сортировки"))
 
     class Meta:
         verbose_name = _('предложение')
@@ -45,8 +53,29 @@ class Offer(models.Model):
     def get_absolute_url(self):
         return reverse('shops:offer_detail', kwargs={'pk': self.pk})
 
+    def save(self, *args, **kwargs):
+        """
+        Задаем значение индекса сортировки для новых товаров
+        """
+        if not self.pk:
+            latest_index = Offer.objects.aggregate(last_index=Max('index')).get('last_index') or 0
+            self.index = latest_index + 1
+        super().save(*args, **kwargs)
+
     def __str__(self):
-        return f'{self.shop} | {self.product} | {_("цена")}: {self.price} | {_("наличие")}: {self.in_stock}'
+        return f'{self.shop} | {self.product} | {_("цена")}: {self.price} | {_("наличие")}: {self.in_stock} | ' \
+               f'{_("уже купили")}: {self.total_purchases() if self.total_purchases() else 0}'
+
+    def total_purchases(self):
+        """
+        Метод получения количества покупок товара
+        """
+
+        offers = Offer.objects.select_related('shop', 'product__category').filter(order__status='paid').annotate(
+            total_purchases=Sum('orderitem__quantity'))
+        for offer in offers:
+            if offer.id == self.id:
+                return offer.total_purchases
 
 
 class BannerManager(models.Manager):
@@ -62,8 +91,18 @@ class Banner(models.Model):
     title = models.CharField(max_length=100)
     description = models.TextField()
     is_active = models.BooleanField(default=False)
-    link = models.URLField()
+    link = models.CharField(blank=True)
     objects = BannerManager()
+
+    class Meta:
+        verbose_name = _('баннер')
+        verbose_name_plural = _('баннеры')
 
     def __str__(self):
         return self.title
+
+    def get_absolute_url(self):
+        return reverse('catalog:product_detail', args=[str(self.id)])
+
+    def get_image_url(self):
+        return static(self.image)

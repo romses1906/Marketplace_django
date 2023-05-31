@@ -459,16 +459,19 @@
         var CountDown = function () {
             var $blocks = $('.CountDown');
             function getTimeRemaining(endtime) {
-                endtime = endtime.split(' ');
-                var date = endtime[0].split('.');
-                var time = endtime[1].split(':');
-                var t = new Date(date[2], date[1] - 1, date[0] - 1, time[0], time[1]) - new Date();
-                var seconds = Math.floor((t / 1000) % 60);
-                var minutes = Math.floor((t / 1000 / 60) % 60);
-                var hours = Math.floor((t / (1000 * 60 * 60)) % 24);
-                var days = Math.floor(t / (1000 * 60 * 60 * 24));
+                // endtime = endtime.split(' ');
+                // var date = endtime[0].split('.');
+                // var time = endtime[1].split(':');
+                // var t = new Date(date[2], date[1] - 1, date[0] - 1, time[0], time[1]) - new Date();
+                var now = new Date();
+                var endOfDay = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1, 0, 0, 0, 0);
+                var timeLeft = endOfDay - now;
+                var seconds = Math.floor((timeLeft / 1000) % 60);
+                var minutes = Math.floor((timeLeft / 1000 / 60) % 60);
+                var hours = Math.floor((timeLeft / (1000 * 60 * 60)) % 24);
+                var days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
                 return {
-                    total: t,
+                    total: timeLeft,
                     days: days,
                     hours: hours,
                     minutes: minutes,
@@ -875,7 +878,13 @@
 
       // Проверка, существует ли общая цена товаров корзине в объекте данных
       if (data.hasOwnProperty('cart_total_price')) {
-        $('#total-cart-price').text(data.cart_total_price);
+        $('#cart_total_price').text(data.cart_total_price);
+      } else {
+        console.error('Общая цена товаров в корзине  отсутствует в объекте данных');
+      }
+      // Проверка, существует ли общая цена товаров корзине в объекте данных
+      if (data.hasOwnProperty('cart_total_price')) {
+        $('#total_cart_price').text(data.cart_total_price);
       } else {
         console.error('Общая цена товаров в корзине  отсутствует в объекте данных');
       }
@@ -900,6 +909,7 @@
 
     $(document).ready(() => {
         console.log('Страница загрузилась');
+
         $('.Amount-add').click((e) => {
             e.preventDefault();
             console.log('Нажали на кнопку Amount-add');
@@ -968,7 +978,7 @@
             const csrftoken = getCookie('csrftoken');
             console.log('ID товара ', productId);
             console.log('Количество товара ', quantity);
-            // Send AJAX request to delete product from cart
+
             $.ajax({
                 type: 'POST',
                 url: '/cart/update/',
@@ -983,6 +993,31 @@
                 },
             });
         });
+
+       $('select[name="selectedValue"]').on('change', (e) => {
+            console.log('значение Box');
+
+            var productId = $(e.currentTarget).attr('data-product-id');
+            var shopId = $(e.currentTarget).val();
+
+            const csrftoken = getCookie('csrftoken');
+            console.log('ID товара ', productId);
+            console.log('ID магазина ', shopId);
+
+            $.ajax({
+                type: 'POST',
+                url: '/cart/',
+                headers: { 'X-CSRFToken': csrftoken },
+                data: {
+                    product_id: productId,
+                    shop_id: shopId,
+                },
+                success: function () {
+                    window.location.reload()
+                },
+            });
+        });
+       $('#id_phone_number').mask('+7 (999) 999-99-99');
     });
     // Конец теста //
 })(jQuery);

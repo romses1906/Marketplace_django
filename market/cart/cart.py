@@ -1,12 +1,15 @@
+from collections import defaultdict
 from decimal import Decimal
 from typing import Dict
 
 from django.core.exceptions import ObjectDoesNotExist
 from django.db import transaction
-from django.db.models import Sum, F
+from django.db.models import Sum, F, QuerySet
 
 from django.conf import settings
-from shops.models import Offer
+
+from settings.models import SiteSettings
+from shops.models import Offer, Shop
 from cart.models import Cart, ProductInCart
 from users.models import User
 
@@ -54,10 +57,9 @@ class CartServices:
         for key, value in cart.items():
             if cart_exists:
                 try:
-                    with transaction.atomic():
-                        product = ProductInCart.objects.filter(cart=cart_).select_for_update().get(offer=key)
-                        product.quantity += cart[key]['quantity']
-                        product.save()
+                    product = ProductInCart.objects.filter(cart=cart_).get(offer=key)
+                    product.quantity += cart[key]['quantity']
+                    product.save()
                 except ObjectDoesNotExist:
                     ProductInCart.objects.create(
                         offer=Offer.objects.get(pk=key),
@@ -66,14 +68,62 @@ class CartServices:
                     )
             else:
                 offer = Offer.objects.get(id=key)
-                cart_ = Cart.objects.create(user=user)
-                ProductInCart.objects.create(
-                    offer=offer,
-                    cart=cart_,
-                    quantity=value['quantity'],
-                )
+                with transaction.atomic():
+                    cart_ = Cart.objects.create(user=user)
+                    ProductInCart.objects.create(
+                        offer=offer,
+                        cart=cart_,
+                        quantity=value['quantity'],
+                    )
 
         self.session.pop(settings.CART_SESSION_ID, None)
+
+    def get_shops_with_products(self) -> Dict:
+        """
+        Получения словаря магазинов, которые предлагают необходимый товар.
+        :return: Dict
+        """
+        product_ids = self.get_products_id()
+        if self.use_db:
+            shops_by_product = defaultdict(set)
+            qs = Offer.objects.filter(product_id__in=product_ids, in_stock__gte=1).select_related('shop')
+            for product_id in product_ids:
+                for offer in qs.filter(product_id=product_id):
+                    shops_by_product[product_id].add(offer.shop)
+        else:
+            qs = Offer.objects.filter(product_id__in=product_ids, in_stock__gte=1).select_related('shop')
+            shops_by_product = defaultdict(set)
+            for product_id in product_ids:
+                for offer in qs.filter(product_id=product_id):
+                    if str(offer.id) in self.cart:
+                        shops_by_product[product_id].add(offer.shop)
+
+                for shop in Shop.objects.filter(offers__product_id=product_id):
+                    if shop not in shops_by_product[product_id]:
+                        shops_by_product[product_id].add(shop)
+        return shops_by_product
+
+    def update_shops_with_products(self, offer_id, shop_id) -> None:
+        """
+        Обновление предложения товара, в соответствии с выбранным продуктом.
+        :param offer_id: id предложеия
+        :param shop_id: id магазина
+        :return: None
+        """
+        offer = Offer.objects.select_related('product').get(id=offer_id)
+        product_id = offer.product.id
+        new_offer = Offer.objects.filter(shop_id=shop_id, product_id=product_id).select_related('product').first()
+
+        if self.use_db:
+            item_cart = ProductInCart.objects.filter(cart=self.cart, offer_id=offer_id).select_related('offer').first()
+            quantity = item_cart.quantity
+        else:
+            item_cart = self.cart[str(offer_id)]
+            quantity = item_cart["quantity"]
+        if quantity > 0:
+            with transaction.atomic():
+                self.update(offer=new_offer, quantity=quantity)
+                self.remove(offer)
 
     def add_user_data(self, form) -> None:
         """
@@ -84,7 +134,7 @@ class CartServices:
         self.session['user_data'] = form.cleaned_data
         self.save()
 
-    def add_shipping_data(self, form):
+    def add_shipping_data(self, form) -> None:
         """
         Добавить данные о доставке в корзину.
         :param form: Данные формы пользователя.
@@ -93,7 +143,7 @@ class CartServices:
         self.session['shipping_data'] = form.cleaned_data
         self.save()
 
-    def add_payment_data(self, form):
+    def add_payment_data(self, form) -> None:
         """
         Добавить данные об оплате в корзину.
         :param form: Данные формы пользователя.
@@ -101,6 +151,19 @@ class CartServices:
         """
         self.session['payment_data'] = form.cleaned_data
         self.save()
+
+    def get_products_id(self) -> QuerySet:
+        """
+        Получает id всех продуктов в корзине
+        :return: QuerySet
+        """
+        if self.use_db:
+            product_ids = ProductInCart.objects.filter(cart=self.cart, cart__is_active=True) \
+                .values_list('offer__product_id', flat=True).distinct()
+        else:
+            offer_ids = self.cart.keys()
+            product_ids = Offer.objects.filter(id__in=offer_ids).values_list('product_id', flat=True)
+        return product_ids
 
     def get_user_data(self) -> Dict:
         """
@@ -222,14 +285,15 @@ class CartServices:
         """
         offer_ids = self.cart.keys()
         # получить объекты продукта и добавить их в корзину
-        offers = Offer.objects.filter(id__in=offer_ids)
+        offers = Offer.objects.filter(id__in=offer_ids, in_stock__gte=1)
         for offer in offers:
             self.cart[str(offer.id)]['offer'] = offer
 
         for item in self.cart.values():
-            item['quantity'] = int(item['quantity'])
-            item['price'] = Decimal(item['offer'].price)
-            item['total_price'] = item['price'] * item['quantity']
+            if 'offer' in item:
+                item['quantity'] = int(item['quantity'])
+                item['price'] = Decimal(item['offer'].price)
+                item['total_price'] = item['price'] * item['quantity']
             yield item
 
     def __len__(self) -> int:
@@ -255,6 +319,44 @@ class CartServices:
             return total.quantize(Decimal('1.00'))
         else:
             return sum(Decimal(item['price']) * item['quantity'] for item in self.cart.values())
+
+    def get_delivery_cost(self) -> Decimal:
+        """
+        Получает стоимость доставки
+        :return: Decimal
+        """
+        try:
+            delivery_option = self.get_shipping_data()["delivery_option"]
+            delivery_cost = Decimal(0)
+            total_cost = self.get_total_price()
+            min_order_price_for_free_shipping = SiteSettings.load().min_order_price_for_free_shipping
+
+            if delivery_option == 'Delivery':
+                min_deliv_cost = SiteSettings.load().standard_order_price
+                if total_cost < min_order_price_for_free_shipping or not self.has_single_seller():
+                    delivery_cost = Decimal(min_deliv_cost).quantize(Decimal('1.00'))
+
+            elif delivery_option == 'Express Delivery':
+                express = SiteSettings.load().express_order_price
+                standard = SiteSettings.load().standard_order_price
+                min_deliv_cost = express + standard
+                if total_cost < min_order_price_for_free_shipping or not self.has_single_seller():
+                    delivery_cost = Decimal(min_deliv_cost).quantize(Decimal('1.00'))
+                else:
+                    delivery_cost = Decimal(express).quantize(Decimal('1.00'))
+            return delivery_cost
+        except TypeError:
+            return 'Небыл выбран способ доставки!'
+
+    def has_single_seller(self) -> bool:
+        """
+        В корзине все товары от одного продавца
+        :return: bool
+        """
+        product_ids = self.get_products_id()
+        offers = Offer.objects.filter(id__in=product_ids)
+        sellers = set(offers.values_list('shop_id', flat=True))
+        return len(sellers) == 1
 
     def clear(self, only_session: bool = False) -> None:
         """

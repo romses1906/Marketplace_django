@@ -1,4 +1,5 @@
 from django.contrib import admin
+
 from order.models import Order, OrderItem
 
 
@@ -14,9 +15,10 @@ class OrderAdmin(admin.ModelAdmin):
          и поведения модели заказа в Django Admin."""
     list_display = ('id', 'user', 'full_name', 'created', 'updated', 'status', 'payment_date',
                     'delivery_option', 'delivery_address', 'delivery_city', 'payment_option', 'total_cost')
-    list_filter = ('status', 'created', 'updated')
+    list_filter = ('status', 'created', 'payment_option', 'delivery_option',)
     inlines = [OrderItemInline]
-    search_fields = ('user__username', 'delivery_address')
+    search_fields = ('user__username', 'delivery_city')
+    ordering = 'id',
 
 
 class OrderItemAdmin(admin.ModelAdmin):
@@ -25,6 +27,7 @@ class OrderItemAdmin(admin.ModelAdmin):
     list_display = ('id', 'order', 'offer', 'quantity', 'get_cost')
     list_filter = ('order__status', 'date_added')
     search_fields = ('offer__product',)
+    ordering = 'id',
 
 
 admin.site.register(Order, OrderAdmin)
