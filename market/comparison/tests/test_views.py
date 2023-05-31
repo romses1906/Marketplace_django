@@ -44,7 +44,7 @@ class AddCompareViewTest(TestCase):
         self.response = self.client.post(self.url)
 
     def test_view_uses_redirect(self):
-        redirect_url = reverse("home")
+        redirect_url = reverse("shops:home")
         self.assertEqual(self.response.status_code, 302)
         self.assertEqual(self.response.url, redirect_url)
 

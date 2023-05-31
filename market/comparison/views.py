@@ -29,4 +29,4 @@ def add_compare_view(request, product_id):
 
     compare.add(product)
 
-    return redirect('home')
+    return redirect('shops:home')
