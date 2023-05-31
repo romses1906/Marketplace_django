@@ -101,22 +101,29 @@ class Comparison:
 
         self.save()
 
-    def remove_product(self, category_id, product_id) -> None:
+    def remove_product(self, category_id: str, product_id: str) -> None:
         """ Удаление товара из сессии. """
 
-        if product_id in self.compare[category_id]:
-            del self.compare[category_id][product_id]
+        if product_id in self.compare[category_id][1]:
+            del self.compare[category_id][1][product_id]
+
+        if len(self.compare[category_id][1]) == 0:
+            self.remove_category(category_id)
 
         self.save()
 
-    def remove_category(self) -> None:
+    def remove_category(self, category_id: str) -> None:
         """ Удаление категории из сессии. """
-        pass
+
+        if category_id in self.compare:
+            del self.compare[category_id]
+
+        self.save()
 
     def clear(self):
         """ Удаление списка из сеанса. """
 
-        del self.session[settings.COMPARE_ID]
+        del self.session[settings.COMPARE_SESSION_ID]
 
         self.save()
 
