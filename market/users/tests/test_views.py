@@ -1,6 +1,11 @@
-from django.contrib.auth import get_user_model
+from django.contrib.auth import get_user_model, authenticate
+from django.contrib.auth.tokens import PasswordResetTokenGenerator
+from django.core import mail
 from django.test import TestCase, Client
 from django.urls import reverse
+from django.utils.http import urlsafe_base64_encode
+
+from users.models import User
 
 
 class LoginViewTests(TestCase):
@@ -32,23 +37,29 @@ class LoginViewTests(TestCase):
 
 class RegisterViewTests(TestCase):
     """Тестирование представления регистрации пользователя."""
+    fixtures = [
+        '004_groups.json',
+    ]
 
     def setUp(self):
         self.client = Client()
         self.url = reverse('users:register_user')
         self.response = self.client.get(self.url)
+        self.data = {
+            'username': 'test',
+            'login': 'test@test.ru',
+            'pass': 'test@test.ru'
+        }
 
     def test_register_user(self):
         """Проверка запроса на регистрацию пользователя."""
         response = self.client.post(
             self.url,
-            {
-                'email': 'test@test.ru',
-                'password': 'test'
-            },
-            follow=True
+            self.data,
         )
-        self.assertEqual(response.status_code, 200)
+        user_count = User.objects.count()
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(user_count, 1)
 
     def test_used_template(self):
         """Тестирование используемого шаблона."""
@@ -62,17 +73,20 @@ class ResetPasswordViewTests(TestCase):
         self.client = Client()
         self.url = reverse('users:password_reset')
         self.response = self.client.get(self.url)
+        user_model = get_user_model()
+        self.user = user_model.objects.create_user(email='test@test.ru', password='test@test.ru')
 
     def test_reset_password_user(self):
         """Проверка запроса на сброс пароля."""
         response = self.client.post(
             self.url,
             {
-                'email': 'test@test.ru',
+                'email': self.user.email,
             },
-            follow=True
+
         )
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(len(mail.outbox), 1)
 
     def test_used_template(self):
         """Тестирование используемого шаблона."""
@@ -84,19 +98,33 @@ class SetNewPasswordViewTests(TestCase):
 
     def setUp(self):
         self.client = Client()
-        self.url = reverse('users:set_new_password', args=('uidb64', 'token'))
+        self.user = User.objects.create_user(email='test@test.ru', password='test')
+        self.uid = urlsafe_base64_encode(str(self.user.pk).encode())
+        self.token = PasswordResetTokenGenerator().make_token(self.user)
+        self.url = reverse('users:set_new_password',  args={'uidb64', 'token'})
         self.response = self.client.get(self.url)
 
     def test_set_password_user(self):
         """Проверка установки нового пароля."""
-        response = self.client.post(
-            self.url,
-            {
-                'email': 'test@test.ru',
-            },
-            follow=True
-        )
-        self.assertEqual(response.status_code, 200)
+        url = f"/users/set_new_password/{self.uid}/set-password/"
+        self.client.get(url)
+        # сохраняем токен в сессии
+        session = self.client.session
+        session['_password_reset_token'] = self.token
+        session.save()
+        # данные нового пароля
+        valid_data = {
+            "new_password1": "I_like_bagels_100",
+            "new_password2": "I_like_bagels_100"
+        }
+        # запрос на установку нового пароля
+        response = self.client.post(url, valid_data)
+        # проверка перенаправления пользователя на страницу входа
+        self.assertRedirects(response, reverse("users:login_user"))
+        # проверяем что пароль действительно сменился
+        self.assertFalse(authenticate(email=self.user.email, password='test'))
+        self.assertTrue(authenticate(email=self.user.email, password='I_like_bagels_100'))
+        self.assertTrue(self.client.login(email=self.user.email, password='I_like_bagels_100'))
 
     def test_used_template(self):
         """Тестирование используемого шаблона."""

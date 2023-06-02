@@ -1,15 +1,16 @@
 from django.contrib import messages
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.messages.views import SuccessMessageMixin
 from django.http import HttpResponseRedirect
-from django.shortcuts import render
-from django.urls import reverse_lazy
+from django.shortcuts import render, get_object_or_404
+from django.urls import reverse_lazy, reverse
 from django.views import View
 from django.views.generic import DetailView, ListView
 
+from account.models import HistorySearch
 from order.models import Order
 from shops.models import Shop
 from users.models import User
-from account.models import HistorySearch
 from .services import change_profile, ShopManager
 
 
@@ -31,31 +32,35 @@ class AccountUser(DetailView):
         return context
 
 
-class ProfileUser(SuccessMessageMixin, View):
-    """Представления для редактирования профиля пользователя. """
+class ProfileUser(LoginRequiredMixin, SuccessMessageMixin, View):
+    """Представления для редактирования профиля пользователя."""
 
     template_name = 'account/profile.j2'
 
     def get_success_url(self):
         """Возвращаемый URL при успешном выполнении методов."""
-        return reverse_lazy('account:profile_user', kwargs={'pk': self.kwargs['pk']})
+        return reverse('account:profile_user', kwargs={'pk': self.kwargs['pk']})
 
     def get_queryset(self):
         """Queryset модели пользователя."""
-        user = User.objects.filter(pk=self.request.user.pk)
-        return user
+        return get_object_or_404(User, pk=self.request.user.pk)
 
     def get(self, request, *args, **kwargs):
         """Получение страницы для редактирования профиля."""
         context = {
-            'user': self.get_queryset().get()
+            'user': self.get_queryset()
         }
         return render(self.request, template_name=self.template_name, context=context)
 
     def post(self, request, *args, **kwargs):
         """Метод изменения данных пользователя."""
+        data = self.request.POST
 
-        info = change_profile(request, self.get_queryset())
+        if self.request.FILES:
+            file = self.request.FILES['avatar']
+            info = change_profile(data=data, user_id=self.request.user.pk, file=file)
+        else:
+            info = change_profile(data=data, user_id=self.request.user.pk)
 
         messages.add_message(self.request, messages.INFO, info)
         return HttpResponseRedirect(self.get_success_url())
@@ -68,7 +73,7 @@ class RegShopView(SuccessMessageMixin, View):
 
     def get_success_url(self):
         """Возвращаемый URL при успешном выполнении методов."""
-        return reverse_lazy('account:account_user', kwargs={'pk': self.kwargs['pk']})
+        return reverse('account:account_user', kwargs={'pk': self.kwargs['pk']})
 
     def get(self, request, *args, **kwargs):
         """Получение страницы для добавления магазина."""
@@ -91,9 +96,9 @@ class UpdateShopView(SuccessMessageMixin, View):
 
     template_name = 'account/update_shop.j2'
 
-    def get_queryset(self, queryset=None):
+    def get_object(self, queryset=None):
         """Возвращение объекта магазина."""
-        return Shop.objects.filter(user_id=self.kwargs.get('pk')).get()
+        return get_object_or_404(Shop, user_id=self.kwargs.get('pk'))
 
     def get_success_url(self):
         """Возвращаемый URL при успешном выполнении методов."""
@@ -102,7 +107,7 @@ class UpdateShopView(SuccessMessageMixin, View):
     def get(self, request, *args, **kwargs):
         """Получение страницы для редактирования магазина."""
         context = {
-            'shop': self.get_queryset()
+            'shop': self.get_object()
         }
         return render(self.request, template_name=self.template_name, context=context)
 
