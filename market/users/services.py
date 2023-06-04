@@ -4,7 +4,10 @@ from users.models import User
 def create_user(password, user_data):
     """Функция принимающая данные метода POST на странице оформления заказа и созадющая User."""
 
-    last_name, first_name, surname = user_data['full_name'].split(' ')
+    try:
+        last_name, first_name, surname = user_data['full_name'].split(' ')
+    except ValueError:
+        last_name, first_name, surname = user_data['full_name'], '', ''
 
     User.objects.create_user(
         email=user_data['email'],
@@ -13,4 +16,4 @@ def create_user(password, user_data):
         first_name=first_name,
         surname=surname,
         phone_number=user_data['phone_number']
-    )
+        )

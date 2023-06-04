@@ -13,6 +13,7 @@ class CartAdmin(admin.ModelAdmin):
     """Используется для настройки отображения
          и поведения модели корзины в Django Admin."""
     list_display = ('user', 'is_active')
+    inlines = [ProductInCartInline]
     ordering = ('user', 'is_active')
 
 
