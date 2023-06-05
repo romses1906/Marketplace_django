@@ -2,10 +2,10 @@ from collections import defaultdict
 from decimal import Decimal
 from typing import Dict
 
+from django.contrib import messages
 from django.core.exceptions import ObjectDoesNotExist
 from django.db import transaction
 from django.db.models import Sum, F, QuerySet
-
 from django.conf import settings
 
 from settings.models import SiteSettings
@@ -224,32 +224,35 @@ class CartServices:
         :param update_quantity: флаг, указывающий, нужно ли обновить товар (False) либо добавить его (True)
         :return: None
         """
-        if self.use_db:
-            if self.qs.filter(offer=offer).exists():
-                with transaction.atomic():
-                    product_in_cart = self.qs.select_for_update().get(offer=offer)
-                product_in_cart.refresh_from_db()
+        if offer.in_stock >= quantity:
+            if self.use_db:
+                if self.qs.filter(offer=offer).exists():
+                    with transaction.atomic():
+                        product_in_cart = self.qs.select_for_update().get(offer=offer)
+                    product_in_cart.refresh_from_db()
+                else:
+                    product_in_cart = ProductInCart(
+                        offer=offer,
+                        cart=self.cart,
+                        quantity=0
+                    )
+                if update_quantity:
+                    product_in_cart.quantity = quantity
+                else:
+                    product_in_cart.quantity += quantity
+                product_in_cart.save()
             else:
-                product_in_cart = ProductInCart(
-                    offer=offer,
-                    cart=self.cart,
-                    quantity=0
-                )
-            if update_quantity:
-                product_in_cart.quantity = quantity
-            else:
-                product_in_cart.quantity += quantity
-            product_in_cart.save()
+                product_id = str(offer.pk)
+                if product_id not in self.cart:
+                    self.cart[product_id] = {'quantity': quantity,
+                                             'price': str(offer.price)}
+                elif update_quantity:
+                    self.cart[product_id]['quantity'] = quantity
+                else:
+                    self.cart[product_id]['quantity'] += quantity
+                self.save()
         else:
-            product_id = str(offer.pk)
-            if product_id not in self.cart:
-                self.cart[product_id] = {'quantity': quantity,
-                                         'price': str(offer.price)}
-            elif update_quantity:
-                self.cart[product_id]['quantity'] = quantity
-            else:
-                self.cart[product_id]['quantity'] += quantity
-            self.save()
+            raise ValueError("Товара закончился на складе. Вы можете поискать его в другом магазине.")
 
     def save(self) -> None:
         """
@@ -373,3 +376,15 @@ class CartServices:
             if settings.CART_SESSION_ID in self.session:
                 del self.session[settings.CART_SESSION_ID]
                 self.session.modified = True
+
+    def check_cart_products_availability(self, request) -> None:
+        """
+        Проверяет наличие товаров в корзине на складе и удаляет товары, которых нет на складе
+        """
+        product_ids = self.get_products_id()
+        qs = Offer.objects.filter(product_id__in=product_ids, in_stock=0)
+        if qs:
+            for item in qs:
+                messages.warning(request, f'{item.product.name} закончился на складе магазина {item.shop.name}')
+                self.remove(item)
+                self.save()

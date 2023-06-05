@@ -92,7 +92,7 @@
                           {% endwith %}
                       </div>
                       <div class="Card-hover">
-                          <a class="Card-btn" href="#">
+                          <a class="Card-btn" href="{{ url('cart:add_to_cart', offer.pk) }}">
                               <img src="{{ static('img/icons/card/cart.svg') }}" alt="cart.svg"/>
                           </a>
                       </div>
@@ -101,6 +101,13 @@
                 </div>
               {% endfor %}
           </div>
+            {% for message in messages %}
+                    {% if message.tags == 'error' %}
+                        <div style="color: red;">
+                            {{ message }}
+                        </div>
+                    {% endif %}
+            {% endfor %}
          {% include('pagination.j2') %}
         </div>
       </div>

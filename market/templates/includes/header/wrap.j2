@@ -54,12 +54,12 @@
                 <a class="CartBlock-block" href="{{ url('cart:cart') }}">
                     <img class="CartBlock-img" src="{{ static('img/icons/cart.svg') }}" alt="cart.svg" />
                     <span id="cart-len"class="CartBlock-amount">
-                        {{ cart.__len__() }}
+                        {{ cart_len }}
                     </span>
                 </a>
                 <div class="CartBlock-block">
                     <span id="cart_total_price" class="CartBlock-price">
-                        {{ cart.get_total_price() }}$
+                        {{ total_price }}$
                     </span>
 
                 </div>

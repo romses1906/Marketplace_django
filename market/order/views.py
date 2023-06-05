@@ -1,3 +1,4 @@
+from django.contrib import messages
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db import transaction
@@ -10,9 +11,10 @@ from cart.cart import CartServices
 from cart.models import ProductInCart
 from order.models import Order
 from order.forms import UserForm, DeliveryForm, PaymentForm, CommentForm
-from order.services import add_items_from_cart, format_number
+from order.services import add_items_from_cart
 from users.models import User
 from users.services import create_user
+from django.utils.translation import gettext_lazy as _
 
 
 class Step1View(View):
@@ -41,11 +43,21 @@ class Step1View(View):
             user_data = form.cleaned_data
             user_data['full_name'] = user_data['full_name']
             user_data['email'] = user_data['email']
-            user_data['phone_number'] = format_number(str(user_data['phone_number']))
+            user_data['phone_number'] = str(user_data['phone_number'])
             if not request.user.is_authenticated:
-                password = request.POST.get('password')
-                create_user(password, user_data)
-                authenticated_user = authenticate(request, email=user_data['email'], password=password)
+                password1 = request.POST.get('password')
+                password2 = request.POST.get('passwordReply')
+
+                if password1 != password2:
+                    messages.error(request, _("Пароли не совпадают!"))
+                    return render(request, self.template_name, {'form': form})
+
+                if User.objects.filter(email=user_data['email']).exists():
+                    form.add_error('email', _("Пользователь с указанным email существует, вы можете авторизоваться!"))
+                    return render(request, self.template_name, {'form': form})
+
+                create_user(password1, user_data)
+                authenticated_user = authenticate(request, email=user_data['email'], password=password1)
                 if authenticated_user is not None:
                     login(request, authenticated_user)
             cart = CartServices(request)

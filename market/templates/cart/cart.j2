@@ -2,7 +2,17 @@
 
 {% block content %}
 <div class="Middle Middle_top">
+
     <div class="Section">
+        <div class="wrap">
+            {% for message in messages %}
+                {% if message.tags == 'warning' %}
+                    <div style="color: red;">
+                        {{ message }}
+                    </div>
+                {% endif %}
+            {% endfor %}
+        </div>
         <div class="wrap">
             {% for item in cart_items %}
                 {% with product=item.offer.product %}
@@ -37,9 +47,9 @@
                                 <div class="Amount">
                                     <button class="Amount-remove" type="button" data-product-id="{{ item.offer.id }}" >
                                     </button>
-                                    <input data-product-id="{{ item.offer.id }}" min="1" id="quantity-{{ item.offer.id }}"
+                                    <input data-product-id="{{ item.offer.id }}" data-stock-{{ item.offer.id }}="{{ item.offer.in_stock }}" min="1" id="quantity-{{ item.offer.id }}"
                                            class="Amount-input form-input" name="amount" type="text" value="{{ item.quantity }}" />
-                                    <button class="Amount-add" type="button" data-product-id="{{ item.offer.id }}">
+                                    <button class="Amount-add" type="button" data-product-id="{{ item.offer.id }}" data-stock-{{ item.offer.id }}="{{ item.offer.in_stock }}">
                                     </button>
                                  </div>
                             </div>
@@ -54,10 +64,12 @@
                 </div>
                 {% endwith %}
             {% endfor %}
+            <div id="error-message" style="color: red;"></div>
+
             <div class="Cart-total">
                 <div class="Cart-block Cart-block_total">
                     <strong class="Cart-title">Итого:</strong>
-                    <div id="total_cart_price" class="Cart-price">{{ cart_total_price }}</div>
+                    <div id="total_cart_price" class="Cart-price">{{ total_price }}</div>
                 </div>
                 <div class="Cart-block"><a class="btn btn_success btn_lg" href="{{ url('order:step1') }}">Оформить заказ</a>
                 </div>
