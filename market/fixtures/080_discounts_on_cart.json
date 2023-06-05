@@ -1,0 +1,53 @@
+[
+{
+  "model": "settings.discountoncart",
+  "pk": 1,
+  "fields": {
+    "name": "Купи 3-5 товаров на сумму от 2000 и получи скидку 50%",
+    "description": "Купи 3-5 товаров на сумму от 2000 и получи скидку 50%",
+    "start_date": "2023-06-05T09:04:33Z",
+    "end_date": "2023-06-20T09:04:37Z",
+    "created": "2023-06-05T09:04:58.231Z",
+    "value": 50,
+    "value_type": "percentage",
+    "active": true,
+    "quantity_at": 3,
+    "quantity_to": 5,
+    "cart_total_price_at": 2000
+  }
+},
+{
+  "model": "settings.discountoncart",
+  "pk": 2,
+  "fields": {
+    "name": "Купи 3-4 товара на сумму от 4000 и заплати всего 500 руб",
+    "description": "Купи 3-4 товара на сумму от 4000 и заплати всего 500 руб",
+    "start_date": null,
+    "end_date": "2023-06-28T09:05:40Z",
+    "created": "2023-06-05T09:06:02.549Z",
+    "value": 500,
+    "value_type": "fixed_price",
+    "active": true,
+    "quantity_at": 3,
+    "quantity_to": 4,
+    "cart_total_price_at": 4000
+  }
+},
+{
+  "model": "settings.discountoncart",
+  "pk": 3,
+  "fields": {
+    "name": "2 товара на сумму от 500 рублей - скидка 300 рублей",
+    "description": "2 товара на сумму от 500 рублей - скидка 300 рублей",
+    "start_date": null,
+    "end_date": "2023-06-20T09:07:54Z",
+    "created": "2023-06-05T09:08:17.501Z",
+    "value": 300,
+    "value_type": "fixed_amount",
+    "active": true,
+    "quantity_at": 2,
+    "quantity_to": 2,
+    "cart_total_price_at": 500
+  }
+}
+]

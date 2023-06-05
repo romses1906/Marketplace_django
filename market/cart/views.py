@@ -25,6 +25,7 @@ class CartView(TemplateView):
         context['cart_items'] = cart
         context['cart_total_price'] = cart_services.get_total_price()
         context['shops_by_product'] = cart_services.get_shops_with_products()
+        context['cart_final_price_with_discount'] = cart_services.get_final_price_with_discount()
         return context
 
     def post(self, request):
@@ -60,11 +61,14 @@ class UpdateCartView(View):
         if product_data:
             quantity = product_data['quantity']
             total_price = product_data['total_price']
+            disc_price = product_data['disc_price']
             data = {
                 'product_id': str(offer_id),
                 'product_quantity': str(quantity),
+                'disc_price': str(disc_price),
                 'product_total_price': str(total_price),
                 'cart_total_price': str(cart.get_total_price()),
+                'cart_final_price_with_discount': str(cart.get_final_price_with_discount()),
                 'cart_len': str(cart.__len__()),
             }
             return JsonResponse(data)

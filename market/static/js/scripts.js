@@ -888,6 +888,12 @@
       } else {
         console.error('Общая цена товаров в корзине  отсутствует в объекте данных');
       }
+      // Проверка, существует ли Общая цена товаров в корзине с учетом приоритетной скидки в объекте данных
+      if (data.hasOwnProperty('cart_final_price_with_discount')) {
+        $('#cart_final_price_with_discount').text(data.cart_final_price_with_discount);
+      } else {
+        console.error('Общая цена товаров в корзине с учетом приоритетной скидки отсутствует в объекте данных');
+      }
       // Проверка, существует ли общее количество товаров в корзине в объекте данных
       if (data.hasOwnProperty('cart_len')) {
         $('#cart-len').text(data.cart_len);

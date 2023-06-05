@@ -21,8 +21,10 @@ class CartViewTest(TestCase):
         self.assertEqual(response.status_code, 200)
         cart_items = response.context_data['cart_items']
         cart_total_price = response.context_data['cart_total_price']
+        cart_final_price_with_discount = response.context_data['cart_final_price_with_discount']
         self.assertEqual(len(cart_items), 2)
         self.assertEqual(cart_total_price, 1400.00)
+        self.assertEqual(cart_final_price_with_discount, 1000.00)
         name = cart_items[1].offer.product.name
         self.assertIn('Евгений Онегин', name)
 
@@ -38,6 +40,8 @@ class CartViewTest(TestCase):
             'product_quantity': '1',
             'product_total_price': '300.00',
             'cart_total_price': '300.00',
+            'cart_final_price_with_discount': '200.00',
+            'disc_price': '200.00',
             'cart_len': '1'
         })
 

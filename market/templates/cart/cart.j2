@@ -71,6 +71,11 @@
                     <strong class="Cart-title">Итого:</strong>
                     <div id="total_cart_price" class="Cart-price">{{ total_price }}</div>
                 </div>
+                <div class="Cart-block Cart-block_total">
+                    <strong class="Cart-title">Итого с учетом скидки:</strong>
+                    <div id="cart_final_price_with_discount" class="Cart-price">{{ cart_final_price_with_discount }}</div>
+                </div>
+
                 <div class="Cart-block"><a class="btn btn_success btn_lg" href="{{ url('order:step1') }}">Оформить заказ</a>
                 </div>
             </div>
