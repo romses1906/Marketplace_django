@@ -1,5 +1,4 @@
 from django.shortcuts import get_object_or_404, redirect
-from django.views.decorators.http import require_POST
 from django.views.generic import TemplateView
 
 from products.models import Product
@@ -19,7 +18,6 @@ class CompareDetail(TemplateView):
         return context
 
 
-@require_POST
 def add_compare_view(request, product_id):
     """ Представление для добавления товаров в список сравнений """
 

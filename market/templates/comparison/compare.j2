@@ -22,7 +22,8 @@
                     product_id=item.product_id,
                     product_name=item.product_name,
                     properties=item.properties,
-                    images=item.images
+                    images=item.images,
+                    price=item.price
                     %}
 
                     {%- if category_id not in check_cat_id -%}
@@ -81,7 +82,7 @@
                             <div class="ProductCard-info">
                                 <div class="ProductCard-cost">
                                     <div class="ProductCard-price">
-                                        $55.00
+                                        {{ price }}
                                     </div>
                                 </div>
                             </div>

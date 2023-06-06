@@ -2,11 +2,35 @@ from typing import Iterator
 
 from django.conf import settings
 from django.contrib.sessions.backends.base import SessionBase
-from django.db.models import Value, ImageField
+from django.db.models import Value, ImageField, Min
 from django.db.models.functions import Concat
 from django.http import HttpRequest
 
 from products.models import Product
+
+
+def get_properties(sample: list[str],
+                   prop: list[list[str]]) -> list[str]:
+    """ Функция создает список свойств продукта
+
+    :param sample: шаблон списка свойств.
+    :param prop: список свойств товара.
+    :return: общий список свойств.
+    """
+    title_props = []
+    for item in prop:
+        title_props.append(item[0])
+
+    new_properties = []
+    for elem in sorted(sample):
+        if elem not in title_props:
+            new_properties.append([elem, "не указано"])
+            continue
+        for item in prop:
+            if elem == item[0]:
+                new_properties.append(item)
+
+    return new_properties
 
 
 class Comparison:
@@ -31,36 +55,45 @@ class Comparison:
         products = Product.objects \
             .select_related("category") \
             .prefetch_related("product_images",
-                              "product_properties__property") \
+                              "product_properties__property",
+                              "offers") \
             .filter(id__in=product_ids) \
             .annotate(images=Concat(Value(settings.MEDIA_URL),
                                     "product_images__image",
-                                    output_field=ImageField())) \
+                                    output_field=ImageField()),
+                      min_offer_price=Min("offers__price")) \
             .values("id",
                     "name",
                     "category",
                     "images",
                     "property__name",
-                    "product_properties__value")
+                    "product_properties__value",
+                    "min_offer_price")
 
         compare = self.compare.copy()
+        properties_name = dict()
         for product in products:
             product_id = str(product["id"])
             category_id = str(product["category"])
             name = product["name"]
-            product_property_tuple = (product["property__name"],
-                                      product["product_properties__value"])
+            if category_id not in properties_name:
+                properties_name[category_id] = set()
+            properties_name[category_id].add(product["property__name"])
+            product_properties = [product["property__name"],
+                                  product["product_properties__value"]]
             product_images = product["images"]
+            product_price = product["min_offer_price"]
 
             if not compare[category_id][1].get(product_id):
                 compare[category_id][1][product_id] = {
                     "name": name,
                     "properties": [],
-                    "images": []
+                    "images": [],
+                    "price": product_price
                 }
 
-            if product_property_tuple not in compare[category_id][1][product_id]["properties"]:
-                compare[category_id][1][product_id]["properties"].append(product_property_tuple)
+            if product_properties not in compare[category_id][1][product_id]["properties"]:
+                compare[category_id][1][product_id]["properties"].append(product_properties)
 
             if product_images not in compare[category_id][1][product_id]["images"]:
                 compare[category_id][1][product_id]["images"].append(product_images)
@@ -81,8 +114,11 @@ class Comparison:
                     "category_name": None,
                     "product_id": product_id,
                     "product_name": product_info["name"],
-                    "properties": product_info["properties"],
-                    "images": product_info["images"]
+                    "properties": get_properties(properties_name[category_id],
+                                                 product_info["properties"]),
+                    # "properties": product_info["properties"], # список свойств
+                    "images": product_info["images"],
+                    "price": product_info["price"]
                 }
 
     def add(self, product: Product) -> None:
