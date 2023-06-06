@@ -44,6 +44,13 @@
             </label>
             <input class="form-input" id="passwordReply" name="passwordReply" type="password" placeholder="Введите пароль повторно" />
         </div>
+        {% for message in messages %}
+            {% if message.tags == 'error' %}
+                <div style="color: red;">
+                    {{ message }}
+                </div>
+            {% endif %}
+        {% endfor %}
         <div class="form-group"><a class="btn btn_muted Order-btnReg" href="{{ url('users:login_user') }}">Я уже зарегистрирован</a>
         </div>
       </div>

@@ -1,5 +1,4 @@
 from django import forms
-from phonenumber_field.formfields import PhoneNumberField
 
 from order.models import Order
 
@@ -12,15 +11,6 @@ class UserForm(forms.Form):
         'required': 'Поле обязательно для заполнения!'})
     phone_number = forms.CharField(label='Номер телефона', max_length=20, required=True, error_messages={
         'required': 'Поле обязательно для заполнения!'})
-
-    def clean_phone_number(self):
-        phone_number = self.cleaned_data['phone_number']
-        phone = PhoneNumberField(region="RU")
-        try:
-            phone_number = phone.clean(phone_number)
-        except forms.ValidationError:
-            raise forms.ValidationError("Неверный формат телефона!")
-        return phone_number
 
 
 class DeliveryForm(forms.Form):

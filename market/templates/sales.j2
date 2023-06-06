@@ -1,0 +1,80 @@
+{% extends "base.j2" %}
+
+{% block content %}
+
+    <div class="Middle Middle_top">
+        <div class="Middle-top">
+            <div class="wrap">
+                <div class="Middle-header">
+
+                    <ul class="breadcrumbs Middle-breadcrumbs">
+                        <li class="breadcrumbs-item"><a href="{{ url('shops:home') }}">Главная</a>
+                        </li>
+                        <li class="breadcrumbs-item breadcrumbs-item_current"><span>Блог</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="Section">
+            <div class="wrap">
+                <div class="Cards Cards_blog">
+                    {% for discount in discounts %}
+                        <div class="Card"><a class="Card-picture" href="#"><img src="assets/img/content/sale/product.png" alt="product.png" /></a>
+                            {% if discount.start_date %}
+                                <div class="Card-date">
+                                    <strong class="Card-date-number"> {{ discount.start_date.day }}
+                                    </strong><span class="Card-date-month">{{ discount.start_date.strftime("%B") }}</span>
+                                </div>
+                                <div class="Card-date Card-date_to">
+                                    <strong class="Card-date-number">{{ discount.end_date.day }}
+                                    </strong><span class="Card-date-month">{{ discount.end_date.strftime("%B") }}</span>
+                                </div>
+                            {% else %}
+                                <div class="Card-date">
+                                    <strong class="Card-date-number"> {{ discount.end_date.day }}
+                                    </strong><span class="Card-date-month">{{ discount.end_date.strftime("%B") }}</span>
+                                </div>
+                            {% endif %}
+                            <div class="Card-content">
+                                <strong class="Card-title"><a href="#">{{ discount.name }}</a>
+                                </strong>
+                                <div class="Card-description">{{ discount.description }}
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                    {% for discount in discounts_on_cart %}
+                        <div class="Card"><a class="Card-picture" href="#"><img src="assets/img/content/sale/product.png" alt="product.png" /></a>
+                            {% if discount.start_date %}
+                                <div class="Card-date">
+                                    <strong class="Card-date-number"> {{ discount.start_date.day }}
+                                    </strong><span class="Card-date-month">{{ discount.start_date.strftime("%B") }}</span>
+                                </div>
+                                <div class="Card-date Card-date_to">
+                                    <strong class="Card-date-number">{{ discount.end_date.day }}
+                                    </strong><span class="Card-date-month">{{ discount.end_date.strftime("%B") }}</span>
+                                </div>
+                            {% else %}
+                                <div class="Card-date">
+                                    <strong class="Card-date-number"> {{ discount.end_date.day }}
+                                    </strong><span class="Card-date-month">{{ discount.end_date.strftime("%B") }}</span>
+                                </div>
+                            {% endif %}
+                            <div class="Card-content">
+                                <strong class="Card-title"><a href="#">{{ discount.name }}</a>
+                                </strong>
+                                <div class="Card-description">{{ discount.description }}
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+
+
+                </div>
+                {% include('pagination.j2') %}
+
+            </div>
+        </div>
+    </div>
+{% endblock %}

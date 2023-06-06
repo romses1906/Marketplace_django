@@ -17,7 +17,7 @@
                         <span class="menu-label menu-label_success">
                             Скидки
                         </span>
-                        <a class="menu-link" href="catalog.html">
+                        <a class="menu-link" href="{{ url('settings:sales') }}">
                             Каталог
                         </a>
                     </li>
@@ -54,12 +54,12 @@
                 <a class="CartBlock-block" href="{{ url('cart:cart') }}">
                     <img class="CartBlock-img" src="{{ static('img/icons/cart.svg') }}" alt="cart.svg" />
                     <span id="cart-len"class="CartBlock-amount">
-                        {{ cart.__len__() }}
+                        {{ cart_len }}
                     </span>
                 </a>
                 <div class="CartBlock-block">
-                    <span id="cart_total_price" class="CartBlock-price">
-                        {{ cart.get_total_price() }}$
+                    <span id="cart_final_price_with_discount" class="CartBlock-price">
+                        {{ final_price_with_discount }}$
                     </span>
 
                 </div>

@@ -2,16 +2,18 @@ from collections import defaultdict
 from decimal import Decimal
 from typing import Dict
 
+from django.contrib import messages
 from django.core.exceptions import ObjectDoesNotExist
 from django.db import transaction
 from django.db.models import Sum, F, QuerySet
-
 from django.conf import settings
 
 from settings.models import SiteSettings
 from shops.models import Offer, Shop
 from cart.models import Cart, ProductInCart
 from users.models import User
+from products.models import Product
+from settings.models import Discount, DiscountOnCart
 
 
 class CartServices:
@@ -196,23 +198,33 @@ class CartServices:
                 quantity = product.quantity
                 price = product.offer.price
                 total_price = quantity * price
+                discounts = Discount.objects.filter(products__id=product.offer.product.id)
+                if discounts:
+                    disc_price = self.get_min_price_on_product_with_discount(price=product.offer.price,
+                                                                             discounts=discounts)
+                else:
+                    disc_price = price
             else:
                 quantity = 0
                 price = 0
+                disc_price = 0
                 total_price = 0
         else:
             if product_id in self.cart:
                 quantity = self.cart[product_id]['quantity']
                 price = Decimal(self.cart[product_id]['price'])
+                disc_price = Decimal(self.cart[str(product_id)]['disc_price'])
                 total_price = quantity * price
             else:
                 quantity = 0
                 price = 0
+                disc_price = 0
                 total_price = 0
 
         return {
             'quantity': quantity,
             'price': price,
+            'disc_price': disc_price.quantize(Decimal('1.00')) if disc_price > 0 else 1,
             'total_price': total_price
         }
 
@@ -224,32 +236,41 @@ class CartServices:
         :param update_quantity: флаг, указывающий, нужно ли обновить товар (False) либо добавить его (True)
         :return: None
         """
-        if self.use_db:
-            if self.qs.filter(offer=offer).exists():
-                with transaction.atomic():
-                    product_in_cart = self.qs.select_for_update().get(offer=offer)
-                product_in_cart.refresh_from_db()
+        if offer.in_stock >= quantity:
+            if self.use_db:
+                if self.qs.filter(offer=offer).exists():
+                    with transaction.atomic():
+                        product_in_cart = self.qs.select_for_update().get(offer=offer)
+                    product_in_cart.refresh_from_db()
+                else:
+                    product_in_cart = ProductInCart(
+                        offer=offer,
+                        cart=self.cart,
+                        quantity=0
+                    )
+                if update_quantity:
+                    product_in_cart.quantity = quantity
+                else:
+                    product_in_cart.quantity += quantity
+                product_in_cart.save()
             else:
-                product_in_cart = ProductInCart(
-                    offer=offer,
-                    cart=self.cart,
-                    quantity=0
-                )
-            if update_quantity:
-                product_in_cart.quantity = quantity
-            else:
-                product_in_cart.quantity += quantity
-            product_in_cart.save()
+                product_id = str(offer.pk)
+                discounts = Discount.objects.filter(products__id=offer.product.id)
+                if discounts:
+                    disc_price = self.get_min_price_on_product_with_discount(price=offer.price, discounts=discounts)
+                else:
+                    disc_price = offer.price
+                if product_id not in self.cart:
+                    self.cart[product_id] = {'quantity': quantity,
+                                             'price': str(offer.price)}
+                elif update_quantity:
+                    self.cart[product_id]['quantity'] = quantity
+                else:
+                    self.cart[product_id]['quantity'] += quantity
+                self.cart[product_id]['disc_price'] = str(Decimal(disc_price).quantize(Decimal('1.00')))
+                self.save()
         else:
-            product_id = str(offer.pk)
-            if product_id not in self.cart:
-                self.cart[product_id] = {'quantity': quantity,
-                                         'price': str(offer.price)}
-            elif update_quantity:
-                self.cart[product_id]['quantity'] = quantity
-            else:
-                self.cart[product_id]['quantity'] += quantity
-            self.save()
+            raise ValueError("Товар закончился на складе. Вы можете поискать его в другом магазине.")
 
     def save(self) -> None:
         """
@@ -320,6 +341,109 @@ class CartServices:
         else:
             return sum(Decimal(item['price']) * item['quantity'] for item in self.cart.values())
 
+    def get_total_price_with_discounts_on_products(self) -> Decimal:
+        """
+        Считает итоговую стоимость корзины с учетом скидок на товары
+
+        :return: общая цена товаров в корзине с учетом скидок на эти товары
+        """
+
+        ids = [item[0] for item in
+               Product.objects.select_related('category').prefetch_related('property', 'tags', 'discounts').
+               filter(discounts__active=True).values_list('id')]
+        total = 0
+        if self.use_db:
+            for item in self.qs.all():
+                if item.offer.product.id in ids:
+                    discounts = Discount.objects.filter(products__id=item.offer.product.id)
+                    disc_price = self.get_min_price_on_product_with_discount(price=item.offer.price,
+                                                                             discounts=discounts)
+                    total += item.quantity * disc_price
+                else:
+                    total += item.quantity * item.offer.price
+            return Decimal(total).quantize(Decimal('1.00'))
+
+        else:
+            return sum(Decimal(item['disc_price']) * item['quantity'] for item in self.cart.values())
+
+    def get_min_price_on_product_with_discount(self, price: Decimal, discounts: QuerySet) -> Decimal:
+        """
+        Считает минимальную цену товара в корзине с учетом действующих на этот товар скидок
+
+        :return: минимальная цена товара в корзине с учетом действующих на этот товар скидок
+        """
+
+        disc_prices_lst = []
+        for discount in discounts:
+            disc_price = 0
+            if discount.value_type == 'percentage':
+                disc_price = price * Decimal((1 - discount.value / 100))
+            elif discount.value_type == 'fixed_amount':
+                disc_price = price - discount.value
+            elif discount.value_type == 'fixed_price':
+                disc_price = discount.value
+            if disc_price > 0:
+                disc_prices_lst.append(disc_price)
+            else:
+                disc_prices_lst.append(1)
+        disc_price = min(disc_prices_lst)
+        return disc_price
+
+    def get_min_total_price_with_discount_on_cart(self) -> Decimal:
+        """
+        Считает общую минимальную стоимость товаров в корзине с учетом действующих скидок на корзину
+
+        :return: общая минимальная стоимость товаров в корзине с учетом действующих скидок на корзину
+        """
+
+        discounts = DiscountOnCart.objects.filter(active=True)
+        total_price = self.get_total_price()
+        total_quantity = self.__len__()
+        disc_total_prices_on_cart_lst = []
+        if discounts:
+            for discount in discounts:
+                if discount.quantity_at <= total_quantity <= discount.quantity_to \
+                        and total_price >= discount.cart_total_price_at:
+                    disc_total_price = self.get_total_price_with_discount_on_cart(discount=discount,
+                                                                                  total_price=total_price)
+                    disc_total_prices_on_cart_lst.append(disc_total_price)
+                else:
+                    disc_total_prices_on_cart_lst.append(total_price)
+        else:
+            disc_total_prices_on_cart_lst.append(total_price)
+        disc_total_price_on_cart = min(disc_total_prices_on_cart_lst)
+        return Decimal(disc_total_price_on_cart).quantize(Decimal('1.00'))
+
+    def get_total_price_with_discount_on_cart(self, discount: Discount, total_price: Decimal) -> Decimal:
+        """
+        Считает общую стоимость товаров в корзине с учетом действующей скидки на корзину
+
+        :return: общая стоимость товаров в корзине с учетом действующей скидки на корзину
+        """
+
+        disc_total_price = 0
+        if discount.value_type == 'percentage':
+            disc_total_price = total_price * Decimal((1 - discount.value / 100))
+        elif discount.value_type == 'fixed_amount':
+            disc_total_price = total_price - discount.value
+        elif discount.value_type == 'fixed_price':
+            disc_total_price = discount.value
+        return disc_total_price
+
+    def get_final_price_with_discount(self) -> Decimal:
+        """
+        Метод определения финальной стоимости корзины товаров после применения приоритетной скидки
+
+        :return: финальная стоимость корзины товаров после применения приоритетной скидки
+        """
+
+        total_price = self.get_total_price()
+        total_price_with_discount_on_cart = self.get_min_total_price_with_discount_on_cart()
+        if total_price_with_discount_on_cart < total_price:
+            return total_price_with_discount_on_cart
+        else:
+            return self.get_total_price_with_discounts_on_products()
+
     def get_delivery_cost(self) -> Decimal:
         """
         Получает стоимость доставки
@@ -346,7 +470,7 @@ class CartServices:
                     delivery_cost = Decimal(express).quantize(Decimal('1.00'))
             return delivery_cost
         except TypeError:
-            return 'Небыл выбран способ доставки!'
+            return 'Не был выбран способ доставки!'
 
     def has_single_seller(self) -> bool:
         """
@@ -373,3 +497,15 @@ class CartServices:
             if settings.CART_SESSION_ID in self.session:
                 del self.session[settings.CART_SESSION_ID]
                 self.session.modified = True
+
+    def check_cart_products_availability(self, request) -> None:
+        """
+        Проверяет наличие товаров в корзине на складе и удаляет товары, которых нет на складе
+        """
+        product_ids = self.get_products_id()
+        qs = Offer.objects.filter(product_id__in=product_ids, in_stock=0)
+        if qs:
+            for item in qs:
+                messages.warning(request, f'{item.product.name} закончился на складе магазина {item.shop.name}')
+                self.remove(item)
+                self.save()

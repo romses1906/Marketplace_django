@@ -888,6 +888,12 @@
       } else {
         console.error('Общая цена товаров в корзине  отсутствует в объекте данных');
       }
+      // Проверка, существует ли Общая цена товаров в корзине с учетом приоритетной скидки в объекте данных
+      if (data.hasOwnProperty('cart_final_price_with_discount')) {
+        $('#cart_final_price_with_discount').text(data.cart_final_price_with_discount);
+      } else {
+        console.error('Общая цена товаров в корзине с учетом приоритетной скидки отсутствует в объекте данных');
+      }
       // Проверка, существует ли общее количество товаров в корзине в объекте данных
       if (data.hasOwnProperty('cart_len')) {
         $('#cart-len').text(data.cart_len);
@@ -916,8 +922,16 @@
             const csrftoken = getCookie('csrftoken');
             var productId = $(e.currentTarget).attr('data-product-id');
             var quantity = $(e.currentTarget).siblings('.Amount-input').val();
+            var stock = parseInt($(e.currentTarget).attr('data-stock-' + productId));
             console.log('ID товара ', productId);
             console.log('Количество товара ', quantity);
+            console.log('Количество доступного товара ', stock);
+
+            if (quantity > stock) {
+                console.log('кол-во больше чем на складе больше нельзя увеличить');
+                quantity = stock;
+                $(e.currentTarget).siblings('.Amount-input').val(quantity);
+            }
 
             $.ajax({
                 type: 'POST',
@@ -931,13 +945,18 @@
                     console.log('data', data);
                     updateProduct(data);
                 },
+                error: function (error) {
+                    console.log(error.responseJSON.error);
+                    $('#error-message').text('Произошла ошибка: ' + decodeURIComponent(JSON.parse('"' + error.responseText.replace(/\"/g, '\\"') + '"')));
+                    $('#error-message').show();
+                },
             });
         });
         $('.Amount-remove').click((e) => {
             e.preventDefault();
             console.log('Нажали на кнопку Amount-remove');
-            var productId = $(e.currentTarget).attr('data-product-id');
             const csrftoken = getCookie('csrftoken');
+            var productId = $(e.currentTarget).attr('data-product-id');
             var quantity = $(e.currentTarget).siblings('.Amount-input').val();
             console.log('ID товара ', productId);
             console.log('Количество товара ', quantity);
@@ -947,6 +966,8 @@
                 $(e.currentTarget).siblings('.Amount-input').val(1);
                 quantity = 1;
             }
+
+
             $.ajax({
                 type: 'POST',
                 url: '/cart/update/',
@@ -958,6 +979,11 @@
                 success: function (data) {
                     console.log('data', data);
                     updateProduct(data);
+                },
+                error: function (error) {
+                    console.log(error.responseJSON.error);
+                    $('#error-message').text('Произошла ошибка: ' + decodeURIComponent(JSON.parse('"' + error.responseText.replace(/\"/g, '\\"') + '"')));
+                    $('#error-message').show();
                 },
             });
         });
@@ -968,11 +994,19 @@
             console.log(productId);
             var quantity = $(e.currentTarget).val();
             console.log(quantity);
+            var stock = parseInt($(e.currentTarget).attr('data-stock-' + productId));
+            console.log('Количество товара на складе', stock);
 
             if (quantity < 1) {
                 console.log('кол-во менее 1, заменяем на 1');
                 $(e.currentTarget).val(1);
                 quantity = 1;
+            }
+
+            if (quantity > stock) {
+                console.log('кол-во больше чем на складе больше нельзя увеличить');
+                quantity = stock;
+                $(e.currentTarget).siblings('.Amount-input').val(quantity);
             }
 
             const csrftoken = getCookie('csrftoken');
@@ -991,10 +1025,15 @@
                 success: function (data) {
                     updateProduct(data);
                 },
+                error: function (error) {
+                    console.log(error.responseJSON.error);
+                    $('#error-message').text('Произошла ошибка: ' + decodeURIComponent(JSON.parse('"' + error.responseText.replace(/\"/g, '\\"') + '"')));
+                    $('#error-message').show();
+                },
             });
         });
 
-       $('select[name="selectedValue"]').on('change', (e) => {
+        $('select[name="selectedValue"]').on('change', (e) => {
             console.log('значение Box');
 
             var productId = $(e.currentTarget).attr('data-product-id');
@@ -1015,9 +1054,14 @@
                 success: function () {
                     window.location.reload()
                 },
+                error: function (error) {
+                    console.log(error.responseJSON.error);
+                    $('#error-message').text('Произошла ошибка: ' + decodeURIComponent(JSON.parse('"' + error.responseText.replace(/\"/g, '\\"') + '"')));
+                    $('#error-message').show();
+                },
             });
         });
-       $('#id_phone_number').mask('+7 (999) 999-99-99');
+        $('#id_phone_number').mask('+7 (999) 999-99-99');
     });
     // Конец теста //
 })(jQuery);
