@@ -3,7 +3,7 @@ from django.contrib.auth import authenticate, login
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db import transaction
 from django.shortcuts import render, redirect
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 from django.views import View
 from django.views.generic import FormView, CreateView, DetailView, ListView
 
@@ -112,12 +112,15 @@ class Step4View(LoginRequiredMixin, CreateView):
     model = Order
     form_class = CommentForm
     template_name = 'order/step4.j2'
-    success_url = reverse_lazy('order:history')
     login_url = reverse_lazy('users:login_user')
 
     def get_queryset(self):
         cart = CartServices(self.request)
         return ProductInCart.objects.filter(cart=cart).select_related('offer')
+
+    def get_success_url(self):
+        order_id = Order.objects.filter(user_id=self.request.user.pk).first()
+        return reverse('payment:payment_view', args=[order_id.id])
 
     def form_valid(self, form):
         cart = CartServices(self.request)
@@ -134,7 +137,6 @@ class Step4View(LoginRequiredMixin, CreateView):
             self.object.comment = form.cleaned_data['comment']
             self.object.save()
             add_items_from_cart(self.object, cart)
-            cart.clear()
         return super().form_valid(form)
 
     def get_context_data(self, **kwargs):

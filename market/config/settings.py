@@ -53,6 +53,7 @@ INSTALLED_APPS = [
     "phonenumber_field",
     "django_celery_results",
     "django_celery_beat",
+    "stripe",
     "products",
     "shops",
     "users",
@@ -62,6 +63,7 @@ INSTALLED_APPS = [
     "order",
     "imports",
     "settings",
+    "payment",
 
 ]
 
@@ -238,5 +240,9 @@ CELERY_TASK_DEFAULT_QUEUE = 'default'  # celery будет использова�
 RECIPIENTS_EMAIL = ['service.megano@gmail.com']   # список получателей по умолчанию
 DEFAULT_FROM_EMAIL = 'service.megano@gmail.com'  # почта администратора
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+
+# для подключения к системе платежей
+STRIPE_PUBLISHABLE_KEY = config['STRIPE_PUBLISHABLE_KEY']
+STRIPE_SECRET_KEY = config['STRIPE_SECRET_KEY']
 
 CELERY_TASK_NAME_1 = 'Импорт товаров'

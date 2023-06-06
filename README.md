@@ -141,3 +141,10 @@ celery -A config beat -l info
 ````shell
 python manage.py runserver
 ````
+
+
+#### Система оплаты Stripe
+
+Данные для доступа к личному кабинету [Stripe](https://dashboard.stripe.com/test/dashboard):
+ - логин - service.megano@gmail.com
+ - пароль - 2023Megano/

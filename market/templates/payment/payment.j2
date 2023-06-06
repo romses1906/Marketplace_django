@@ -1,0 +1,34 @@
+{% extends "base.j2" %}
+
+{% block content %}
+<script src="https://js.stripe.com/v3/"></script>
+{% csrf_token %}
+<div style="display: none" id="jsonData" data-json="{{ data }}"></div>
+
+    <div class="Middle Middle_top">
+        <div class="Middle-top">
+            <div class="wrap">
+                <div class="Middle-header">
+                    <h1 class="Middle-title">Оплата
+                    </h1>
+                    <ul class="breadcrumbs Middle-breadcrumbs">
+                        <li class="breadcrumbs-item"><a href="index.html">home</a>
+                        </li>
+                        <li class="breadcrumbs-item breadcrumbs-item_current"><span>Оплата</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="Section">
+            <div class="wrap">
+                <form class="form Payment" method="get">
+                    <div class="container">
+                       <button type="button" class="btn btn_primary" id="checkout-button">Оплатить</button>
+                    </div>
+                    <script src="{{ static('js/stripe.js') }}"></script>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}
