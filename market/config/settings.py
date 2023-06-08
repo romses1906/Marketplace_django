@@ -60,6 +60,7 @@ INSTALLED_APPS = [
     "cart",
     "account",
     "order",
+    "comparison",
     "imports",
     "settings",
 
@@ -197,6 +198,9 @@ EMAIL_USE_SSL = False
 
 CART_SESSION_ID = 'cart'
 DELIVERY_SESSION_ID = 'delivery_id'
+
+# The key for comparing products
+COMPARE_SESSION_ID = "compare"
 
 # Always use IPython for shell_plus
 SHELL_PLUS = "ipython"
