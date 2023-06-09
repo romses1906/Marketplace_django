@@ -5,6 +5,7 @@
   "fields": {
     "user": 1,
     "full_name": "Admin Admin Admin",
+    "phone_number": null,
     "created": "2023-05-03T07:48:31.813Z",
     "updated": "2023-05-03T07:48:31.896Z",
     "status": "created",
@@ -13,7 +14,8 @@
     "delivery_address": "Truda, 4",
     "delivery_city": "Minsk",
     "payment_option": "Another card",
-    "comment": "Yes"
+    "comment": "Yes",
+    "final_price": null
   }
 },
 {
@@ -22,6 +24,7 @@
   "fields": {
     "user": 2,
     "full_name": "Mashina Natasha Nikolaevna",
+    "phone_number": null,
     "created": "2023-05-03T07:50:32.617Z",
     "updated": "2023-05-03T07:50:32.643Z",
     "status": "created",
@@ -30,7 +33,8 @@
     "delivery_address": "Nina, 4",
     "delivery_city": "NewYork",
     "payment_option": "Another card",
-    "comment": "no"
+    "comment": "no",
+    "final_price": null
   }
 },
 {
@@ -39,6 +43,7 @@
   "fields": {
     "user": 1,
     "full_name": "Mashina Dasha Nikolaevna",
+    "phone_number": null,
     "created": "2023-05-03T07:52:03.299Z",
     "updated": "2023-05-03T07:52:03.324Z",
     "status": "created",
@@ -47,7 +52,8 @@
     "delivery_address": "Nina, 7",
     "delivery_city": "NewYork",
     "payment_option": "Another card",
-    "comment": "bad"
+    "comment": "bad",
+    "final_price": null
   }
 },
 {
@@ -56,6 +62,7 @@
   "fields": {
     "user": 3,
     "full_name": "Ahmed Takrian Valhond",
+    "phone_number": null,
     "created": "2023-05-03T07:59:06.121Z",
     "updated": "2023-05-03T07:59:06.146Z",
     "status": "created",
@@ -64,7 +71,8 @@
     "delivery_address": "Nina, 4",
     "delivery_city": "NewYork",
     "payment_option": "Another card",
-    "comment": "ok"
+    "comment": "ok",
+    "final_price": null
   }
 },
 {
@@ -73,6 +81,7 @@
   "fields": {
     "user": 4,
     "full_name": "Ahmed Musaly Buradey",
+    "phone_number": null,
     "created": "2023-05-03T08:22:09.037Z",
     "updated": "2023-05-03T08:22:09.073Z",
     "status": "created",
@@ -81,7 +90,8 @@
     "delivery_address": "Newstreet, 1",
     "delivery_city": "Damask",
     "payment_option": "Another card",
-    "comment": "LoL"
+    "comment": "LoL",
+    "final_price": null
   }
 },
 {
@@ -90,6 +100,7 @@
   "fields": {
     "user": 1,
     "full_name": "Petrov Petr Petrovich",
+    "phone_number": null,
     "created": "2023-05-03T18:21:37.857Z",
     "updated": "2023-05-03T18:21:37.966Z",
     "status": "created",
@@ -98,7 +109,8 @@
     "delivery_address": "Mira, 2",
     "delivery_city": "Moscow",
     "payment_option": "Another card",
-    "comment": "Ups"
+    "comment": "Ups",
+    "final_price": null
   }
 },
 {
@@ -107,6 +119,7 @@
   "fields": {
     "user": 5,
     "full_name": "Ivanov Ivan Ivanovich",
+    "phone_number": null,
     "created": "2023-05-04T11:45:44.380Z",
     "updated": "2023-05-04T11:45:44.545Z",
     "status": "created",
@@ -115,7 +128,8 @@
     "delivery_address": "Mira, 1",
     "delivery_city": "Novgorod",
     "payment_option": "Another card",
-    "comment": "Cry"
+    "comment": "Cry",
+    "final_price": null
   }
 },
 {
@@ -124,6 +138,7 @@
   "fields": {
     "user": 4,
     "full_name": "Сидоров Петр Иванович",
+    "phone_number": null,
     "created": "2023-05-18T12:56:07.065Z",
     "updated": "2023-05-18T12:56:07.065Z",
     "status": "paid",
@@ -132,7 +147,8 @@
     "delivery_address": "Улица Георгия Исакова",
     "delivery_city": "Барнаул",
     "payment_option": "Online Card",
-    "comment": "no comments"
+    "comment": "no comments",
+    "final_price": null
   }
 },
 {
@@ -141,6 +157,7 @@
   "fields": {
     "user": 2,
     "full_name": "Роджер Роджерович Федерер",
+    "phone_number": null,
     "created": "2023-05-18T12:58:10.073Z",
     "updated": "2023-05-18T12:58:10.073Z",
     "status": "paid",
@@ -149,7 +166,8 @@
     "delivery_address": "ул. Бернская, 19",
     "delivery_city": "Берн",
     "payment_option": "Online Card",
-    "comment": "no comments"
+    "comment": "no comments",
+    "final_price": null
   }
 },
 {
@@ -158,6 +176,7 @@
   "fields": {
     "user": 8,
     "full_name": "Рафаэль Надалевич Надаль",
+    "phone_number": null,
     "created": "2023-05-18T13:23:47.107Z",
     "updated": "2023-05-18T13:23:47.107Z",
     "status": "paid",
@@ -166,7 +185,65 @@
     "delivery_address": "Брно, улица Ческа, 18",
     "delivery_city": "Брно",
     "payment_option": "Online Card",
-    "comment": "no comments"
+    "comment": "no comments",
+    "final_price": null
+  }
+},
+{
+  "model": "order.order",
+  "pk": 11,
+  "fields": {
+    "user": 1,
+    "full_name": "Fdsfsdf",
+    "phone_number": "+79999999999",
+    "created": "2023-06-09T13:37:58.794Z",
+    "updated": "2023-06-09T13:37:58.867Z",
+    "status": "created",
+    "payment_date": null,
+    "delivery_option": "Delivery",
+    "delivery_address": "dscsdcsdc",
+    "delivery_city": "dcsc",
+    "payment_option": "Online Card",
+    "comment": "",
+    "final_price": "1600.00"
+  }
+},
+{
+  "model": "order.order",
+  "pk": 12,
+  "fields": {
+    "user": 1,
+    "full_name": "Didier Descham",
+    "phone_number": "+79999999999",
+    "created": "2023-06-09T13:41:00.938Z",
+    "updated": "2023-06-09T13:41:00.959Z",
+    "status": "created",
+    "payment_date": null,
+    "delivery_option": "Delivery",
+    "delivery_address": "Renova, 15",
+    "delivery_city": "Marseile",
+    "payment_option": "Online Card",
+    "comment": "",
+    "final_price": "500.00"
+  }
+},
+{
+  "model": "order.order",
+  "pk": 13,
+  "fields": {
+    "user": 1,
+    "full_name": "Didier Descham",
+    "phone_number": "+79999999999",
+    "created": "2023-06-09T13:42:40.466Z",
+    "updated": "2023-06-09T13:42:40.482Z",
+    "status": "created",
+    "payment_date": null,
+    "delivery_option": "Delivery",
+    "delivery_address": "Renova, 15",
+    "delivery_city": "Marseile",
+    "payment_option": "Online Card",
+    "comment": "",
+    "final_price": "200.00"
   }
 }
 ]

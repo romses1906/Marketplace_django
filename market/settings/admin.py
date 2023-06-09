@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import SiteSettings, Discount, DiscountOnCart
+from .models import SiteSettings, Discount, DiscountOnCart, DiscountOnSet, ProductInDiscountOnSet
 
 
 class SiteSettingsAdmin(admin.ModelAdmin):
@@ -14,16 +14,34 @@ class SiteSettingsAdmin(admin.ModelAdmin):
 class DiscountAdmin(admin.ModelAdmin):
     """Используется для настройки отображения
          и поведения модели скидок на товары в Django Admin."""
-    list_display = ('name', 'description', 'start_date', 'end_date', 'value', 'value_type', 'active')
+
+    list_display = ('name', 'description', 'start_date', 'end_date', 'value', 'value_type', 'active',)
 
 
 class DiscountOnCartAdmin(admin.ModelAdmin):
     """Используется для настройки отображения
          и поведения модели скидок на корзину в Django Admin."""
+
     list_display = ('name', 'description', 'start_date', 'end_date', 'value', 'value_type', 'active', 'quantity_at',
-                    'cart_total_price_at')
+                    'quantity_at', 'cart_total_price_at',)
+
+
+class DiscountOnSetAdmin(admin.ModelAdmin):
+    """Используется для настройки отображения
+         и поведения модели скидок на набор товаров в Django Admin."""
+
+    list_display = ('name', 'description', 'start_date', 'end_date', 'value', 'value_type', 'active',)
+
+
+class ProductInDiscountOnSetAdmin(admin.ModelAdmin):
+    """Используется для настройки отображения
+         и поведения модели товаров из наборов со скидкой в Django Admin."""
+
+    list_display = ('product', 'discount',)
 
 
 admin.site.register(SiteSettings, SiteSettingsAdmin)
 admin.site.register(Discount, DiscountAdmin)
 admin.site.register(DiscountOnCart, DiscountOnCartAdmin)
+admin.site.register(DiscountOnSet, DiscountOnSetAdmin)
+admin.site.register(ProductInDiscountOnSet, ProductInDiscountOnSetAdmin)

@@ -14,7 +14,7 @@ class ProductsByCategoryView(FilterView):
     """ Представление для отображения каталога товаров """
 
     template_name = 'products/products.j2'
-    paginate_by = 3
+    paginate_by = 5  # было 3
     filterset_class = ProductFilter
 
     def get_queryset(self):

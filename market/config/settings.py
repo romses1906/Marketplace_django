@@ -240,3 +240,5 @@ DEFAULT_FROM_EMAIL = 'service.megano@gmail.com'  # почта администр
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
 CELERY_TASK_NAME_1 = 'Импорт товаров'
+
+PAGINATE_BY = 3
