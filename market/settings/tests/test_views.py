@@ -6,6 +6,7 @@ from django.urls import reverse
 from settings.models import Discount, DiscountOnCart, DiscountOnSet
 
 
+@override_settings(PAGINATE_BY=1000)
 class DiscountsListViewTest(TestCase):
     """ Тестирование представления для отображения скидок на товары и скидок на корзину """
 
@@ -29,7 +30,7 @@ class DiscountsListViewTest(TestCase):
 
         self.assertTemplateUsed(self.response, "sales.j2")
 
-    @override_settings(PAGINATE_BY=1000)
+
     def test_discounts_count_is_correct(self):  # фиксить
         """ Тестирование количества выводимых скидок """
         self.assertTrue(len(self.response.context_data[

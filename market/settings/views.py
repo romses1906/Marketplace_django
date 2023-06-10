@@ -22,6 +22,9 @@ class DiscountsListView(ListView):
     paginate_by = settings.PAGINATE_BY
 
     def get_queryset(self):
+        print(f'{settings.PAGINATE_BY=}')
+        print(f'{self.paginate_by=}')
+        print(f'{DiscountsListView.paginate_by=}')
         discounts = Discount.objects.filter(active=True).values('name', 'description', 'start_date',
                                                                 'end_date')
         discounts_on_cart = DiscountOnCart.objects.filter(active=True).values('name', 'description', 'start_date',
