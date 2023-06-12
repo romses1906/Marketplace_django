@@ -19,7 +19,6 @@ class DiscountsListView(ListView):
 
     context_object_name = "discounts"
     template_name = "sales.j2"
-    paginate_by = settings.PAGINATE_BY
 
     def get_queryset(self):
         discounts = Discount.objects.filter(active=True).values('name', 'description', 'start_date',
@@ -30,3 +29,6 @@ class DiscountsListView(ListView):
                                                                             'end_date')
 
         return discounts.union(discounts_on_cart, discounts_on_set)
+
+    def get_paginate_by(self, queryset):  # переопределяем данный метод, чтобы проходил тест,
+        return settings.PAGINATE_BY  # учитывающий пагинацию (общее количество скидок)

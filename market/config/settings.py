@@ -241,4 +241,5 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
 CELERY_TASK_NAME_1 = 'Импорт товаров'
 
+# Устанавливаем количество записей для страниц, использующих пагинацию
 PAGINATE_BY = 3
