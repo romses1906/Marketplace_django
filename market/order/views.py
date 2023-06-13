@@ -138,6 +138,7 @@ class Step4View(LoginRequiredMixin, CreateView):
             self.object.final_price = cart.get_final_price_with_discount() + cart.get_delivery_cost()
             self.object.save()
             add_items_from_cart(self.object, cart)
+            cart.clear()
         return super().form_valid(form)
 
     def get_context_data(self, **kwargs):

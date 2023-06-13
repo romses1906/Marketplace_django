@@ -1,4 +1,5 @@
 import json
+from datetime import datetime
 
 import stripe
 from django.conf import settings
@@ -9,8 +10,7 @@ from django.utils.translation import gettext_lazy as _
 from django.views import View
 from django.views.generic import TemplateView
 
-from cart.cart import CartServices
-from order.models import Order
+from order.models import Order, OrderItem
 
 stripe.api_key = settings.STRIPE_SECRET_KEY
 
@@ -22,10 +22,12 @@ class CreateSessionView(LoginRequiredMixin, SuccessMessageMixin, View):
         """Метод для составления запроса на получение сессии."""
         # достаём данные о заказе и продуктах
         num_order = self.kwargs["order_id"]
-        cart = CartServices(self.request)
-        delivery_cost = cart.get_delivery_cost()
-        total_price = cart.get_total_price()
-        order_items = cart.qs
+        order = Order.objects.get(pk=num_order)
+        items = OrderItem.objects.prefetch_related('offer__product').filter(order_id=order.pk)
+        name_items = list()
+        for item in items:
+            name_items.append(item.offer.product.name)
+
         # создаём сессию для оплаты и проводим её через js
         checkout_session = stripe.checkout.Session.create(
             payment_method_types=['card'],
@@ -33,21 +35,20 @@ class CreateSessionView(LoginRequiredMixin, SuccessMessageMixin, View):
                 {
                     'price_data': {
                         'currency': 'usd',
-                        'unit_amount': round((delivery_cost + total_price)) * 100,
+                        'unit_amount': round(order.final_price) * 100,
                         'product_data': {
                             'name': _(f'Заказ №{num_order}, от {self.request.user.first_name}'),
-                            "description": ', '.join([item.offer.product.name for item in order_items])
+                            "description": ', '.join(name_items)
                         },
                     },
-                    'quantity': sum([item.quantity for item in order_items]),
+                    'quantity': 1,
                 },
             ],
             mode='payment',
             success_url=f'http://127.0.0.1:8000/pay/success_pay/{num_order}/',
             cancel_url=f'http://127.0.0.1:8000/pay/cancel_pay/{num_order}/',
         )
-        # удаляем корзину из сессии
-        cart.clear()
+
         return JsonResponse({
             'id': checkout_session.id
         })
@@ -76,7 +77,7 @@ class SuccessView(LoginRequiredMixin, TemplateView):
     def get(self, request, *args, **kwargs):
         """Смена статуса заказа на оплаченный."""
         order_id = self.kwargs['order_id']
-        Order.objects.filter(pk=order_id).update(status='pain')
+        Order.objects.filter(pk=order_id).update(status='pain', payment_date=datetime.now())
         return super().get(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
