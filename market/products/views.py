@@ -1,10 +1,10 @@
+from account.models import HistorySearch, HistorySearchProduct
+from django.conf import settings
 from django.db.models import Min, Count
 from django.shortcuts import get_list_or_404
 from django.utils.translation import gettext_lazy as _
 from django.views import generic
 from django_filters.views import FilterView
-
-from account.models import HistorySearch, HistorySearchProduct
 from products.filters import ProductFilter
 from products.models import Category, Product
 from shops.models import Offer
@@ -14,7 +14,6 @@ class ProductsByCategoryView(FilterView):
     """ Представление для отображения каталога товаров """
 
     template_name = 'products/products.j2'
-    paginate_by = 3
     filterset_class = ProductFilter
 
     def get_queryset(self):
@@ -29,6 +28,9 @@ class ProductsByCategoryView(FilterView):
         context['category'] = self.category
         context['sorting'] = self.request.GET.get('sort_by')
         return context
+
+    def get_paginate_by(self, queryset):  # переопределяем данный метод, чтобы проходил тест,
+        return settings.PAGINATE_BY  # учитывающий пагинацию (общее количество товаров в каталоге)
 
 
 class ProductDetailView(generic.DetailView):

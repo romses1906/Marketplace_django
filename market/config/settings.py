@@ -61,6 +61,7 @@ INSTALLED_APPS = [
     "cart",
     "account",
     "order",
+    "comparison",
     "imports",
     "settings",
     "payment",
@@ -200,6 +201,9 @@ EMAIL_USE_SSL = False
 CART_SESSION_ID = 'cart'
 DELIVERY_SESSION_ID = 'delivery_id'
 
+# The key for comparing products
+COMPARE_SESSION_ID = "compare"
+
 # Always use IPython for shell_plus
 SHELL_PLUS = "ipython"
 SHELL_PLUS_PRINT_SQL = True
@@ -246,3 +250,6 @@ STRIPE_PUBLISHABLE_KEY = config['STRIPE_PUBLISHABLE_KEY']
 STRIPE_SECRET_KEY = config['STRIPE_SECRET_KEY']
 
 CELERY_TASK_NAME_1 = 'Импорт товаров'
+
+# Устанавливаем количество записей для страниц, использующих пагинацию
+PAGINATE_BY = 3

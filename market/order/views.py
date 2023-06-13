@@ -135,6 +135,7 @@ class Step4View(LoginRequiredMixin, CreateView):
             self.object.delivery_city = cart.get_shipping_data()['delivery_city']
             self.object.payment_option = cart.get_payment_data()['payment_option']
             self.object.comment = form.cleaned_data['comment']
+            self.object.final_price = cart.get_final_price_with_discount() + cart.get_delivery_cost()
             self.object.save()
             add_items_from_cart(self.object, cart)
         return super().form_valid(form)
@@ -144,6 +145,7 @@ class Step4View(LoginRequiredMixin, CreateView):
         cart = CartServices(self.request)
         context['order_items'] = cart.qs
         context['get_total_price'] = cart.get_total_price()
+        context['get_final_price_with_discount'] = cart.get_final_price_with_discount()
         context['get_delivery_cost'] = cart.get_delivery_cost()
         context['user_data'] = cart.get_user_data()
         context['shipping_data'] = cart.get_shipping_data()

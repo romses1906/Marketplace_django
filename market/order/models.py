@@ -41,6 +41,7 @@ class Order(models.Model):
     payment_option = models.CharField(max_length=20, choices=PAYMENT_OPTIONS, verbose_name=_('способ оплаты'))
     comment = models.CharField(max_length=200, verbose_name=_('комментарий'))
     offer = models.ManyToManyField(Offer, through='OrderItem', verbose_name=_('предложение'))
+    final_price = models.DecimalField(max_digits=10, decimal_places=2, null=True, verbose_name=_("итоговая цена"))
 
     class Meta:
         verbose_name = _('заказ')

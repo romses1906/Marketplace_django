@@ -3,7 +3,8 @@ from django.core.cache import cache
 from django.shortcuts import redirect
 from django.utils.translation import gettext_lazy as _
 from django.views.generic import ListView
-from settings.models import Discount, DiscountOnCart
+from settings.models import Discount, DiscountOnCart, DiscountOnSet
+from django.conf import settings
 
 
 def clear_all_cache_view(request):
@@ -17,11 +18,17 @@ class DiscountsListView(ListView):
     """ Отображение страницы скидок """
 
     context_object_name = "discounts"
-    queryset = Discount.objects.filter(active=True)
     template_name = "sales.j2"
-    paginate_by = 5  # было 3 и выводит повторно на каждой странице
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['discounts_on_cart'] = DiscountOnCart.objects.filter(active=True)
-        return context
+    def get_queryset(self):
+        discounts = Discount.objects.filter(active=True).values('name', 'description', 'start_date',
+                                                                'end_date')
+        discounts_on_cart = DiscountOnCart.objects.filter(active=True).values('name', 'description', 'start_date',
+                                                                              'end_date')
+        discounts_on_set = DiscountOnSet.objects.filter(active=True).values('name', 'description', 'start_date',
+                                                                            'end_date')
+
+        return discounts.union(discounts_on_cart, discounts_on_set)
+
+    def get_paginate_by(self, queryset):  # переопределяем данный метод, чтобы проходил тест,
+        return settings.PAGINATE_BY  # учитывающий пагинацию (общее количество скидок)
