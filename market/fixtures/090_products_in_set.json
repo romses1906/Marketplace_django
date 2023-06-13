@@ -1,0 +1,50 @@
+[
+{
+  "model": "settings.productindiscountonset",
+  "pk": 1,
+  "fields": {
+    "product": 6,
+    "discount": 1
+  }
+},
+{
+  "model": "settings.productindiscountonset",
+  "pk": 2,
+  "fields": {
+    "product": 12,
+    "discount": 1
+  }
+},
+{
+  "model": "settings.productindiscountonset",
+  "pk": 3,
+  "fields": {
+    "product": 3,
+    "discount": 2
+  }
+},
+{
+  "model": "settings.productindiscountonset",
+  "pk": 4,
+  "fields": {
+    "product": 4,
+    "discount": 2
+  }
+},
+{
+  "model": "settings.productindiscountonset",
+  "pk": 5,
+  "fields": {
+    "product": 6,
+    "discount": 3
+  }
+},
+{
+  "model": "settings.productindiscountonset",
+  "pk": 6,
+  "fields": {
+    "product": 7,
+    "discount": 3
+  }
+}
+]

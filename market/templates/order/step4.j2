@@ -74,7 +74,7 @@
             {% endif %}
 
             <strong class="Cart-title">Итого:</strong>
-            <div class="Cart-price">{{ (get_total_price + get_delivery_cost)|floatformat(2) }}$</div>
+            <div class="Cart-price">{{ (get_final_price_with_discount + get_delivery_cost)|floatformat(2) }}$</div>
 
         </div>
         <form class="form" method="post">{% csrf_token %}

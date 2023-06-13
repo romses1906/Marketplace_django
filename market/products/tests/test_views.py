@@ -4,7 +4,7 @@ from config.settings import FIXTURE_DIRS
 from django.db.models import Min, Count, Max, Sum
 from django.db.models import Q
 from django.shortcuts import get_list_or_404
-from django.test import TestCase, Client
+from django.test import TestCase, Client, override_settings
 from django.test import signals
 from django.urls import reverse
 from jinja2 import Template as Jinja2Template
@@ -30,6 +30,7 @@ def instrumented_render(template_object, *args, **kwargs):
 Jinja2Template.render = instrumented_render
 
 
+@override_settings(PAGINATE_BY=1000)
 class ProductsByCategoryViewTest(TestCase):
     """ Тестирование представления для отображения товаров конкретной категории """
 

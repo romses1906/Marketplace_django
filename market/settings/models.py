@@ -80,3 +80,38 @@ class DiscountOnCart(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class DiscountOnSet(models.Model):
+    """ Модель скидок на набор товаров """
+
+    name = models.CharField(max_length=512, verbose_name=_('наименование'))
+    description = models.TextField(max_length=2048, blank=True, verbose_name=_('описание'))
+    start_date = models.DateTimeField(blank=True, null=True, verbose_name=_('дата начала действия скидки'))
+    end_date = models.DateTimeField(verbose_name=_('дата окончания действия скидки'))
+    created = models.DateTimeField(auto_now_add=True, verbose_name=_('создана'))
+    value = models.PositiveIntegerField(verbose_name=_('значение скидки'))
+    value_type = models.CharField(max_length=50, choices=DISCOUNT_VALUE_TYPES, verbose_name=_('тип скидки'))
+    active = models.BooleanField(default=False, verbose_name=_('активность'))
+
+    class Meta:
+        verbose_name = _('скидка на наборы товаров')
+        verbose_name_plural = _('скидки на наборы товаров')
+
+    def __str__(self):
+        return self.name
+
+
+class ProductInDiscountOnSet(models.Model):
+    """ Модель товаров из наборов со скидкой """
+
+    product = models.ForeignKey(
+        "products.Product", on_delete=models.PROTECT, related_name='products_in_set', verbose_name=_('продукт')
+    )
+    discount = models.ForeignKey(
+        DiscountOnSet, on_delete=models.PROTECT, related_name='products_in_set', verbose_name=_('скидка')
+    )
+
+    class Meta:
+        verbose_name = _('товар из наборов со скидкой')
+        verbose_name_plural = _('товары из наборов со скидкой')

@@ -13,7 +13,7 @@ from shops.models import Offer, Shop
 from cart.models import Cart, ProductInCart
 from users.models import User
 from products.models import Product
-from settings.models import Discount, DiscountOnCart
+from settings.models import Discount, DiscountOnCart, DiscountOnSet
 
 
 class CartServices:
@@ -430,6 +430,71 @@ class CartServices:
             disc_total_price = discount.value
         return disc_total_price
 
+    def get_min_total_price_with_discount_on_set(self):
+        """
+        Считает общую минимальную стоимость товаров в корзине с учетом действующих скидок на наборы товаров
+
+        :return: общая минимальная стоимость товаров в корзине с учетом действующих скидок на наборы товаров
+        """
+
+        discounts = DiscountOnSet.objects.filter(active=True)
+        total_price = self.get_total_price()
+        disc_total_prices_on_cart_lst = [total_price]
+        if self.use_db:
+            for discount in discounts:
+                # получаем id товаров из скидочного набора
+                products_in_set_ids = [item[0] for item in
+                                       discount.products_in_set.all().values_list('product__id')]
+                # получаем товары из корзины, которые есть в скидочном наборе
+                find_products_in_cart = self.qs.filter(offer__product__id__in=products_in_set_ids)
+                # проверяем, есть ли среди товаров корзины товары из скидочного набора, а также проверяем количество
+                # таких товаров (в случае, если товар участвует в нескольких скидочных наборах, может быть применена
+                # не та скидка, т.к. найдется например один товар из двух и скидка сработает все равно)
+                if find_products_in_cart.exists() and len(products_in_set_ids) == find_products_in_cart.count():
+                    total_price_on_set = 0
+                    for item in self.qs.filter(offer__product__id__in=products_in_set_ids):
+                        total_price_on_set += item.offer.price
+                    disc_total_price = self.get_total_price_with_discount_on_set(discount=discount,
+                                                                                 total_price=total_price,
+                                                                                 total_price_on_set=total_price_on_set)
+                    disc_total_prices_on_cart_lst.append(disc_total_price)
+            # обработать случай, когда после скидки получим отрицательное
+        else:
+            # получаем id товаров в корзине
+            product_in_cart_ids = list(self.get_products_id())
+            for discount in discounts:
+                # получаем id товаров в скидочном наборе
+                products_in_set_ids = [item[0] for item in
+                                       discount.products_in_set.all().values_list('product__id')]
+                # проверяем, что все товары из данного скидочного набора есть в корзине
+                if set(products_in_set_ids).issubset(product_in_cart_ids):
+                    # получаем суммарную стоимость товаров в скидочном наборе
+                    total_price_on_set = Offer.objects.filter(id__in=self.cart.keys(),
+                                                              product__id__in=products_in_set_ids).aggregate(
+                        Sum('price'))['price__sum']
+                    disc_total_price = self.get_total_price_with_discount_on_set(discount=discount,
+                                                                                 total_price=total_price,
+                                                                                 total_price_on_set=total_price_on_set)
+                    disc_total_prices_on_cart_lst.append(disc_total_price)
+        return min(disc_total_prices_on_cart_lst)
+
+    def get_total_price_with_discount_on_set(self, discount: DiscountOnSet, total_price: Decimal,
+                                             total_price_on_set) -> Decimal:
+        """
+        Считает общую стоимость товаров в корзине с учетом действующей скидки на набор товаров
+
+        :return: общая стоимость товаров в корзине с учетом действующей скидки на набор товаров
+        """
+        disc = 0
+        if discount.value_type == 'percentage':
+            disc = total_price_on_set * Decimal(discount.value / 100)
+        elif discount.value_type == 'fixed_amount':
+            disc = discount.value
+        elif discount.value_type == 'fixed_price':
+            disc = total_price_on_set - discount.value
+        disc_total_price = Decimal(total_price - disc).quantize(Decimal('1.00'))
+        return disc_total_price
+
     def get_final_price_with_discount(self) -> Decimal:
         """
         Метод определения финальной стоимости корзины товаров после применения приоритетной скидки
@@ -438,9 +503,11 @@ class CartServices:
         """
 
         total_price = self.get_total_price()
-        total_price_with_discount_on_cart = self.get_min_total_price_with_discount_on_cart()
-        if total_price_with_discount_on_cart < total_price:
-            return total_price_with_discount_on_cart
+        total_price_with_discount_on_cart_or_set = min(total_price() for total_price in (
+            self.get_min_total_price_with_discount_on_cart, self.get_min_total_price_with_discount_on_set))
+
+        if total_price_with_discount_on_cart_or_set < total_price:
+            return total_price_with_discount_on_cart_or_set
         else:
             return self.get_total_price_with_discounts_on_products()
 

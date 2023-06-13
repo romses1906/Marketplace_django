@@ -1,9 +1,9 @@
 from decimal import Decimal
 
 from cart.cart import CartServices
-from django.db.models import QuerySet
+from django.db.models import QuerySet, Sum
 from django.test import TestCase, Client
-from settings.models import Discount, DiscountOnCart
+from settings.models import Discount, DiscountOnCart, DiscountOnSet
 from shops.models import Offer, Shop
 from users.models import User
 
@@ -21,6 +21,8 @@ class CartTestCase(TestCase):
         "055_productincart.json",
         "075_discounts.json",
         "080_discounts_on_cart.json",
+        "085_discounts_on_set",
+        "090_products_in_set",
     ]
 
     @classmethod
@@ -34,7 +36,9 @@ class CartTestCase(TestCase):
         cls.cart = CartServices(cls.request)
         cls.discounts = Discount.objects.filter(active=True)
         cls.discounts_on_cart = DiscountOnCart.objects.filter(active=True)
-        cls.offer_with_discounts = Offer.objects.get(id=6)
+        cls.discounts_on_set = DiscountOnSet.objects.filter(active=True)
+        cls.offer_with_discounts = Offer.objects.get(id=6)  # онегин
+        cls.offer_in_discount_on_set = Offer.objects.get(id=17)  # яблоко
 
     def test_add_to_cart(self):
         """Тестирование функции add класса Cart"""
@@ -138,7 +142,6 @@ class CartTestCase(TestCase):
     def test_get_total_price_with_discount_on_cart(self):
         """ Тестирование метода получения общей стоимости товаров в корзине с учетом действующей скидки на корзину """
 
-        self.cart.remove(self.offer)
         added_offer = Offer.objects.get(id=10)
         self.cart.update(added_offer, 3)
         for discount in self.discounts_on_cart:
@@ -156,8 +159,6 @@ class CartTestCase(TestCase):
         """ Тестирование метода получения общей минимальной стоимости товаров в
         корзине с учетом действующих скидок на корзину
         """
-
-        self.cart.remove(self.offer)
         added_offer = Offer.objects.get(id=10)
         self.cart.update(added_offer, 3)
         disc_total_prices_on_cart_lst = []
@@ -190,21 +191,81 @@ class CartTestCase(TestCase):
                 total += item['price'] * item['quantity']
         self.assertEqual(total_price_with_discounts_on_products, total)
 
+    def test_get_total_price_with_discount_on_set(self):
+        """ Тестирование метода получения общей стоимости товаров в корзине с учетом действующей скидки на набор """
+
+        self.cart.update(self.offer_with_discounts, 1)
+        self.cart.update(self.offer_in_discount_on_set, 1)
+        total_price_on_set = self.offer_with_discounts.price + self.offer_in_discount_on_set.price
+        for discount in self.discounts_on_set:
+            disc = 0
+            if discount.value_type == 'percentage':
+                disc = total_price_on_set * Decimal(discount.value / 100)
+            elif discount.value_type == 'fixed_amount':
+                disc = discount.value
+            elif discount.value_type == 'fixed_price':
+                disc = total_price_on_set - discount.value
+            disc_total_price = Decimal(self.cart.get_total_price() - disc).quantize(Decimal('1.00'))
+            self.assertEqual(self.cart.get_total_price_with_discount_on_set(discount, self.cart.get_total_price(),
+                                                                            total_price_on_set), disc_total_price)
+
+    def test_get_min_total_price_with_discount_on_set(self):
+        """ Тестирование метода получения общей минимальной стоимости товаров в
+        корзине с учетом действующих скидок на наборы товаров
+        """
+        # получаем еще один продукт из имеющегося скидочного набора
+        offer_in_discount_on_set_2 = Offer.objects.get(id=7)
+        # добавляем товары в корзину
+        self.cart.update(self.offer_with_discounts, 1)
+        self.cart.update(self.offer_in_discount_on_set, 1)
+        self.cart.update(offer_in_discount_on_set_2, 2)
+        total_price = self.cart.get_total_price()
+        disc_total_prices_on_cart_lst = [total_price]
+        product_in_cart_ids = list(self.cart.get_products_id())
+        offer_ids = []
+        # получаем id предложений в корзине
+        for item in self.cart.__iter__():
+            offer_ids.append(item['offer'].id)
+        for discount in self.discounts_on_set:
+            # получаем id товаров в скидочном наборе
+            products_in_set_ids = [item[0] for item in
+                                   discount.products_in_set.all().values_list('product__id')]
+            # проверяем, что все товары из данного скидочного набора есть в корзине
+            if set(products_in_set_ids).issubset(product_in_cart_ids):
+                # получаем суммарную стоимость товаров в скидочном наборе
+                total_price_on_set = Offer.objects.filter(id__in=offer_ids,
+                                                          product__id__in=products_in_set_ids).aggregate(
+                    Sum('price'))['price__sum']
+                disc_total_price = self.cart.get_total_price_with_discount_on_set(discount=discount,
+                                                                                  total_price=total_price,
+                                                                                  total_price_on_set=total_price_on_set
+                                                                                  )
+                disc_total_prices_on_cart_lst.append(disc_total_price)
+        disc_total_price_on_cart = self.cart.get_min_total_price_with_discount_on_set()
+        # проверяем, что стоимость корзины, посчитанная "вручную", равна стоимости, посчитанной в методе
+        self.assertEqual(disc_total_price_on_cart, min(disc_total_prices_on_cart_lst))
+
     def test_get_final_price_with_discount(self):
         """ Тестирование метода получения финальной стоимости корзины товаров после применения приоритетной скидки """
 
-        # воспроизводим сценарий, чтобы сработала скидка на корзину
-        # (она приоритетнее перед отдельными скидками на товар)
+        # воспроизводим сценарий, чтобы сработала скидка на корзину или на набор
+        # (какая "тяжелее", та сработает, данные виды скидок приоритетнее скидок на товары)
         added_offer = Offer.objects.get(id=10)
         self.cart.update(added_offer, 3)
-        self.cart.update(self.offer_with_discounts, 2)
-        total_price_with_discount_on_cart = self.cart.get_min_total_price_with_discount_on_cart()
+        self.cart.update(self.offer_with_discounts, 1)
+        # получаем еще один продукт из имеющегося скидочного набора
+        offer_in_discount_on_set_2 = Offer.objects.get(id=7)
+        # добавляем товар в корзину
+        self.cart.update(offer_in_discount_on_set_2, 1)
+        total_price_with_discount_on_cart_or_set = min(total_price() for total_price in (
+            self.cart.get_min_total_price_with_discount_on_cart, self.cart.get_min_total_price_with_discount_on_set))
         cart_final_price_with_discount = self.cart.get_final_price_with_discount()
-        self.assertEqual(cart_final_price_with_discount, total_price_with_discount_on_cart)
+        self.assertEqual(cart_final_price_with_discount, total_price_with_discount_on_cart_or_set)
 
-        # воспроизводим сценарий, при котором скидка на корзину не срабатывает (не выполнены условия),
+        # воспроизводим сценарий, при котором скидка на корзину или набор не срабатывает (не выполнены условия),
         # а срабатывает скидка на отдельный товар (на этот товар есть скидка в БД изначально)
         self.cart.remove(added_offer)
+        self.cart.remove(offer_in_discount_on_set_2)
         self.cart.update(self.offer_with_discounts, quantity=1, update_quantity=True)
         cart_final_price_with_discount_after_removing_added_offer = self.cart.get_final_price_with_discount()
         total_price_with_discounts_on_products = self.cart.get_total_price_with_discounts_on_products()
