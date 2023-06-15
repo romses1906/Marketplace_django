@@ -2,9 +2,8 @@ import random
 from datetime import datetime, timedelta
 
 from django.db.models import Sum
-
-from shops.models import Offer
 from settings.models import SiteSettings
+from shops.models import Offer
 
 
 def hot_deals():

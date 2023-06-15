@@ -1,13 +1,12 @@
-from decimal import Decimal
-
 from django.core.validators import RegexValidator
 from django.db import models
 from django.db.models import Max, Sum
 from django.templatetags.static import static
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
-from settings.models import Discount
 from users.models import User
+
+from .services import offer_price_with_discount
 
 phone_validate = RegexValidator(
     regex=r'^\+?[78]\d{10}$',
@@ -84,23 +83,9 @@ class Offer(models.Model):
         Метод получения цены на товар со скидкой
         """
 
-        discounts = Discount.objects.filter(products__id=self.product.id, active=True)
-        if discounts:
-            disc_prices_lst = []
-            for discount in discounts:
-                disc_price = 0
-                if discount.value_type == 'percentage':
-                    disc_price = self.price * Decimal((1 - discount.value / 100))
-                elif discount.value_type == 'fixed_amount':
-                    disc_price = self.price - discount.value
-                elif discount.value_type == 'fixed_price':
-                    disc_price = discount.value
-                if disc_price > 0:
-                    disc_prices_lst.append(disc_price)
-                else:
-                    disc_prices_lst.append(1)
-            disc_price = min(disc_prices_lst)
-            return Decimal(disc_price).quantize(Decimal('1.00'))
+        disc_price = offer_price_with_discount(product_id=self.product.id, price=self.price)
+
+        return disc_price
 
 
 class BannerManager(models.Manager):
