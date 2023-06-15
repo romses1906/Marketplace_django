@@ -1,6 +1,6 @@
 from django.urls import path
 
-from payment.views import CreateSessionView, PaymentView, SuccessView, CancelView
+from payment.views import CreateSessionView, PaymentView, SuccessView, CancelView, stripe_webhook
 
 app_name = 'payment'
 
@@ -10,4 +10,6 @@ urlpatterns = [
     path('create_session/<int:order_id>/', CreateSessionView.as_view(), name='create_session'),
     path('success_pay/<int:order_id>/', SuccessView.as_view(), name='success_pay'),
     path('cancel_pay/<int:order_id>/', CancelView.as_view(), name='cancel_pay'),
+    path('webhooks/', stripe_webhook, name='webhook'),
+
 ]

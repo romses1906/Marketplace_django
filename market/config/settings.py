@@ -248,6 +248,7 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 # для подключения к системе платежей
 STRIPE_PUBLISHABLE_KEY = config['STRIPE_PUBLISHABLE_KEY']
 STRIPE_SECRET_KEY = config['STRIPE_SECRET_KEY']
+STRIPE_WEBHOOK_KEY = config['STRIPE_WEBHOOK_KEY']
 
 CELERY_TASK_NAME_1 = 'Импорт товаров'
 
