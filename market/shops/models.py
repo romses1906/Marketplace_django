@@ -1,11 +1,12 @@
 from django.core.validators import RegexValidator
 from django.db import models
 from django.db.models import Max, Sum
-from django.utils.translation import gettext_lazy as _
-from django.urls import reverse
 from django.templatetags.static import static
-
+from django.urls import reverse
+from django.utils.translation import gettext_lazy as _
 from users.models import User
+
+from .services import offer_price_with_discount
 
 phone_validate = RegexValidator(
     regex=r'^\+?[78]\d{10}$',
@@ -76,6 +77,15 @@ class Offer(models.Model):
         for offer in offers:
             if offer.id == self.id:
                 return offer.total_purchases
+
+    def get_price_on_discount(self):
+        """
+        Метод получения цены на товар со скидкой
+        """
+
+        disc_price = offer_price_with_discount(product_id=self.product.id, price=self.price)
+
+        return disc_price
 
 
 class BannerManager(models.Manager):

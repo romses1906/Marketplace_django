@@ -86,6 +86,11 @@
                     <div class="Card-description">
                       <div class="Card-cost"><span class="Card-price">{{ offer.price }}</span>
                       </div>
+                      <p></p>
+                      {% if offer.get_price_on_discount() %}
+                            <div class="Card-cost"><span class="Card-price">Цена со скидкой: {{ offer.get_price_on_discount() }}</span>
+                            </div>
+                      {% endif %}
                       <div class="Card-category">
                           {% with parent = offer.product.category.parent %}
                               {% if parent %}{{ parent }} / {% endif %}{{ offer.product.category }}
