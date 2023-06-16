@@ -53,6 +53,7 @@ INSTALLED_APPS = [
     "phonenumber_field",
     "django_celery_results",
     "django_celery_beat",
+    "stripe",
     "products",
     "shops",
     "users",
@@ -63,6 +64,7 @@ INSTALLED_APPS = [
     "comparison",
     "imports",
     "settings",
+    "payment",
 
 ]
 
@@ -191,8 +193,8 @@ LOGOUT_REDIRECT_URL = '/'
 # Данные для отправки сообщений на почту пользователя.
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
-EMAIL_HOST_USER = "service.megano@gmail.com"
-EMAIL_HOST_PASSWORD = "riuqnqydepsshhmj"
+EMAIL_HOST_USER = config['EMAIL_HOST_USER']
+EMAIL_HOST_PASSWORD = config['EMAIL_HOST_PASSWORD']
 EMAIL_USE_TLS = True
 EMAIL_USE_SSL = False
 
@@ -240,8 +242,13 @@ CELERY_TASK_DEFAULT_QUEUE = 'default'  # celery будет использова�
 
 # Данные почты получателя уведомлений о проведённом импорте
 RECIPIENTS_EMAIL = ['service.megano@gmail.com']   # список получателей по умолчанию
-DEFAULT_FROM_EMAIL = 'service.megano@gmail.com'  # почта администратора
+DEFAULT_FROM_EMAIL = config['EMAIL_HOST_USER']  # почта администратора
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+
+# для подключения к системе платежей
+STRIPE_PUBLISHABLE_KEY = config['STRIPE_PUBLISHABLE_KEY']
+STRIPE_SECRET_KEY = config['STRIPE_SECRET_KEY']
+STRIPE_WEBHOOK_KEY = config['STRIPE_WEBHOOK_KEY']
 
 CELERY_TASK_NAME_1 = 'Импорт товаров'
 

@@ -40,9 +40,19 @@ test:
   variables:
     DATABASE_URL: "postgresql://$POSTGRES_USER:$POSTGRES_PASSWORD@db:5432/$POSTGRES_DB"
     REDIS_URL: "redis://broker:6379/0"
+    STRIPE_PUBLISHABLE_KEY: "pk_test_51NDYS6JshSoccBY8miXPTcYUovafKLXAdWpHARPdCg9zDEQgN9PEAoFJxzvP1RnMTsvc1fQ13Wxj411oESXcOB3z00tObcy44y"
+    STRIPE_SECRET_KEY: "sk_test_51NDYS6JshSoccBY8YKnnFbpAPW6j70udL6whKs1JRSknGIrkmnyZzCM25go9N0pU3lwdfxk7q6UwYvsiMKZqCRSO00WUQ6D9L3"
+    STRIPE_WEBHOOK_KEY: "whsec_53bfcc10727d4925a97b85d8554d24d39724d06cb638859e8ce2d13888bf0dba"
+    EMAIL_HOST_USER: "service.megano@gmail.com"
+    EMAIL_HOST_PASSWORD: "riuqnqydepsshhmj"
   script:
     - echo "DATABASE_URL = $DATABASE_URL" >> .env
     - echo "REDIS_URL = $REDIS_URL" >> .env
+    - echo "STRIPE_PUBLISHABLE_KEY = $STRIPE_PUBLISHABLE_KEY" >> .env
+    - echo "STRIPE_SECRET_KEY = $STRIPE_SECRET_KEY" >> .env
+    - echo "STRIPE_WEBHOOK_KEY = $STRIPE_WEBHOOK_KEY" >> .env
+    - echo "EMAIL_HOST_USER = $EMAIL_HOST_USER" >> .env
+    - echo "EMAIL_HOST_PASSWORD = $EMAIL_HOST_PASSWORD" >> .env
     - cd market
     - python manage.py makemigrations
     - python manage.py test

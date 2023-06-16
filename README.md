@@ -141,3 +141,32 @@ celery -A config beat -l info
 ````shell
 python manage.py runserver
 ````
+
+
+#### Система оплаты Stripe
+
+Система оплаты настроена на тестовый режим!
+
+Данные для доступа к личному кабинету [Stripe](https://dashboard.stripe.com/test/dashboard):
+ - логин - service.megano@gmail.com
+ - пароль - 2023Megano/
+
+Номер карты для тестирования оплаты - 
+4242 4242 4242 4242 4242, остальные данные рандомные.
+
+Для доступа к платёжной системе, необходимо зарегистрироваться на сервисе и после получение API ключей добавить в .env:
+- STRIPE_SECRET_KEY = секретный ключ
+- STRIPE_PUBLISHABLE_KEY = публичный ключ
+
+[![2023-06-15-23-22-56.png](https://i.postimg.cc/nrRkS4vm/2023-06-15-23-22-56.png)](https://postimg.cc/XB5dpy1N)
+
+- STRIPE_WEBHOOK_KEY = ключ веб перехвадчика
+
+Инструкции по настройке и получения ключа webhook можно почитать в официальной документации [сервиса](https://stripe.com/docs/stripe-cli#install)
+
+#### Почта SMPT
+
+Сервис отправки электронных писем настроен на сервере Google:
+
+- EMAIL_HOST_USER = имя пользователя
+- EMAIL_HOST_PASSWORD = пароль полученный при оформлении двухэтапной аутентификации

@@ -32,6 +32,7 @@ urlpatterns = [
     path("compare/", include("comparison.urls", namespace="comparison")),
     path("imports/", include("imports.urls", namespace="imports")),
     path("settings/", include("settings.urls", namespace="settings")),
+    path("pay/", include("payment.urls", namespace="payments")),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

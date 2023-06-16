@@ -14,11 +14,11 @@
           </div>
           <div class="Order-info">
             <div class="Order-infoType">Телефон:</div>
-            <div class="Order-infoContent">{{ user_data.email }}</div>
+            <div class="Order-infoContent">{{ user_data.phone_number }}</div>
           </div>
           <div class="Order-info">
             <div class="Order-infoType">E-mail:</div>
-            <div class="Order-infoContent">{{ user_data.phone_number }}</div>
+            <div class="Order-infoContent">{{ user_data.email }}</div>
           </div>
         </div>
         <div class="row-block">
@@ -70,16 +70,17 @@
         <div class="Cart-block Cart-block_total">
             {% if get_delivery_cost %}
                 <strong class="Cart-title">Cтоимость доставки:</strong>
-                <div class="Cart-price">{{ get_delivery_cost }}$</div>
+                <div class="Cart-price" name="design">{{ get_delivery_cost }}$</div>
             {% endif %}
 
             <strong class="Cart-title">Итого:</strong>
             <div class="Cart-price">{{ (get_final_price_with_discount + get_delivery_cost)|floatformat(2) }}$</div>
 
         </div>
+
         <form class="form" method="post">{% csrf_token %}
           <div class="Cart-block">
-            <button class="btn btn_primary btn_lg" type="submit">Оплатить</button>
+            <button class="btn btn_primary btn_lg" type="submit">Оформить</button>
           </div>
         </form>
       </div>
