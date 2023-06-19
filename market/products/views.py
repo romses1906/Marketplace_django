@@ -53,5 +53,15 @@ class ProductDetailView(generic.DetailView):
 
     def add_product_to_user_search_history(self, queryset) -> None:
         """ Добавляет запись в историю просмотра пользователя """
+        product_view = queryset.get(pk=self.kwargs['pk'])
         history, create = HistorySearch.objects.get_or_create(user=self.request.user)
-        HistorySearchProduct.objects.create(history=history, product=queryset.get(pk=self.kwargs['pk']))
+
+        # проверка на содержание таблицы,
+        # если запись есть и она не последняя, запись удаляется и становиться последней.
+        if HistorySearchProduct.objects.filter(history=history).exists():
+            products = HistorySearchProduct.objects.filter(history=history)
+            if products.last().product_id != product_view.pk:
+                products.filter(product=product_view).delete()
+                HistorySearchProduct.objects.create(history=history, product=product_view)
+        else:
+            HistorySearchProduct.objects.create(history=history, product=product_view)
