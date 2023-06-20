@@ -25,7 +25,7 @@ class AccountUser(DetailView):
         context = super().get_context_data(**kwargs)
         user = User.objects.get(pk=self.request.user.pk)
         context['last_order'] = Order.objects.select_related('user').filter(user=self.request.user).last()
-        context['history'] = HistorySearch.objects.get(user=self.request.user.pk)
+        context['history'] = HistorySearch.objects.get(user=self.request.user)
         if hasattr(user, 'shop'):
             context['shop'] = True
             return context
