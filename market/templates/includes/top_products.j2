@@ -28,6 +28,12 @@
                 <a class="Card-btn" href="{{ url('cart:add_to_cart', item.pk) }}">
                   <img src="{{ static('img/icons/card/cart.svg') }}" alt="cart.svg">
                 </a>
+                <form class="Card-btn" action="{{ url('comparison:add-to-compare', item.pk) }}" method="post">
+                  {% csrf_token %}
+                  <button type="submit" style="border: 0">
+                    <img src="{{ static('img/icons/card/cart.svg') }}" alt="cart.svg">
+                  </button>
+                </form>
               </div>
             </div>
           </div>
