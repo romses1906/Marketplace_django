@@ -59,14 +59,40 @@
                                 <a class="Account-editLink" href="{{ url('account:profile_user', user.pk) }}">Редактировать профиль</a>
                             </div>
                         </div>
-
-                          {% block history_orders %}
-                          {% endblock history_orders %}
-
+                        <h3>История просмотров: </h3>
+                            <div class="Account-group">
+                                <div class="Account-column Account-column_full">
+                                    <div class="Orders">
+                                        {% for view in history.history_products.all()[::-1] %}
+                                            <div class="Order Order_anons">
+                                                <div class="Order-personal">
+                                                    <div class="row">
+                                                         <div class="row-block">
+                                                            <a class="Order-title" href="{{view.product.get_absolute_url()}}">
+                                                                <span class="Order-numberOrder">{{ view.product }}</span>
+                                                            </a>
+                                                         </div>
+                                                         <div class="row-block">
+                                                            <div class="Order-info Order-info_delivery">
+                                                                <div class="Order-infoType">
+                                                                    Дата просмотра:
+                                                                </div>
+                                                                <div class="Order-infoContent">
+                                                                    {{ view.date.strftime('%d.%m.%Y') }}
+                                                                </div>
+                                                            </div>
+                                                         </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
 
 {% endblock %}

@@ -5,7 +5,7 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
 from django.urls import reverse_lazy, reverse
 from django.views import View
-from django.views.generic import DetailView, ListView
+from django.views.generic import DetailView
 
 from account.models import HistorySearch
 from order.models import Order
@@ -25,6 +25,7 @@ class AccountUser(DetailView):
         context = super().get_context_data(**kwargs)
         user = User.objects.get(pk=self.request.user.pk)
         context['last_order'] = Order.objects.select_related('user').filter(user=self.request.user).last()
+        context['history'] = HistorySearch.objects.get(user=self.request.user)
         if hasattr(user, 'shop'):
             context['shop'] = True
             return context
@@ -121,13 +122,3 @@ class UpdateShopView(SuccessMessageMixin, View):
 
         messages.add_message(self.request, messages.INFO, shop_update)
         return HttpResponseRedirect(self.get_success_url())
-
-
-class HistorySearchView(ListView):
-    """ Представление для отображения страницы истории просмотров пользователя """
-    template_name = 'account/history.j2'
-    context_object_name = 'history'
-
-    def get_queryset(self):
-        queryset = HistorySearch.objects.get(user=self.request.user.pk)
-        return queryset
