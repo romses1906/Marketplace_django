@@ -21,10 +21,11 @@ class CompareDetail(TemplateView):
 def add_compare_view(request, product_id):
     """ Представление для добавления товаров в список сравнений """
 
-    compare = Comparison(request)
-    product = get_object_or_404(Product.objects.select_related("category"),
-                                id=product_id)
+    if request.method == "POST":
+        compare = Comparison(request)
+        product = get_object_or_404(Product.objects.select_related("category"),
+                                    id=product_id)
 
-    compare.add(product)
+        compare.add(product)
 
-    return redirect('shops:home')
+        return redirect('shops:home')
