@@ -82,9 +82,9 @@ class Offer(models.Model):
         """
         Метод получения цены на товар со скидкой
         """
-
         disc_price = offer_price_with_discount(product_id=self.product.id, price=self.price)
-
+        if not disc_price:
+            disc_price = self.price
         return disc_price
 
 
