@@ -1,7 +1,8 @@
 from django.core.validators import MaxValueValidator
 from django.db import models
-from settings.singleton_model import SingletonModel
+from django.db.models import CheckConstraint, Q, F
 from django.utils.translation import gettext_lazy as _
+from settings.singleton_model import SingletonModel
 
 DISCOUNT_VALUE_TYPES = (
     ('percentage', 'Скидка в процентах'),
@@ -50,12 +51,18 @@ class Discount(models.Model):
     created = models.DateTimeField(auto_now_add=True, verbose_name=_('создана'))
     value = models.IntegerField(verbose_name=_('значение скидки'))
     value_type = models.CharField(max_length=50, choices=DISCOUNT_VALUE_TYPES, verbose_name=_('тип скидки'))
-    active = models.BooleanField(default=False, verbose_name=_('активность'))
     products = models.ManyToManyField("products.Product", related_name='discounts', verbose_name=_("продукты"))
 
     class Meta:
         verbose_name = _('скидка на товар')
         verbose_name_plural = _('скидки на товары')
+        constraints = (
+            CheckConstraint(
+                check=Q(end_date__gt=F('start_date')),
+                name='check_dates_in_discount',
+                violation_error_message='Дата окончания действия скидки должна быть больше даты начала!'
+            ),
+        )
 
 
 class DiscountOnCart(models.Model):
@@ -68,7 +75,6 @@ class DiscountOnCart(models.Model):
     created = models.DateTimeField(auto_now_add=True, verbose_name=_('создана'))
     value = models.PositiveIntegerField(verbose_name=_('значение скидки'))
     value_type = models.CharField(max_length=50, choices=DISCOUNT_VALUE_TYPES, verbose_name=_('тип скидки'))
-    active = models.BooleanField(default=False, verbose_name=_('активность'))
     quantity_at = models.PositiveIntegerField(default=1, verbose_name=_('количество товаров в корзине от'))
     quantity_to = models.PositiveIntegerField(default=1, verbose_name=_('количество товаров в корзине до'))
     cart_total_price_at = models.PositiveIntegerField(default=1,
@@ -77,6 +83,13 @@ class DiscountOnCart(models.Model):
     class Meta:
         verbose_name = _('скидка на корзину')
         verbose_name_plural = _('скидки на корзину')
+        constraints = (
+            CheckConstraint(
+                check=Q(end_date__gt=F('start_date')),
+                name='check_dates_in_discount_on_cart',
+                violation_error_message='Дата окончания действия скидки должна быть больше даты начала!'
+            ),
+        )
 
     def __str__(self):
         return self.name
@@ -92,11 +105,17 @@ class DiscountOnSet(models.Model):
     created = models.DateTimeField(auto_now_add=True, verbose_name=_('создана'))
     value = models.PositiveIntegerField(verbose_name=_('значение скидки'))
     value_type = models.CharField(max_length=50, choices=DISCOUNT_VALUE_TYPES, verbose_name=_('тип скидки'))
-    active = models.BooleanField(default=False, verbose_name=_('активность'))
 
     class Meta:
         verbose_name = _('скидка на наборы товаров')
         verbose_name_plural = _('скидки на наборы товаров')
+        constraints = (
+            CheckConstraint(
+                check=Q(end_date__gt=F('start_date')),
+                name='check_dates_in_discount_on_set',
+                violation_error_message='Дата окончания действия скидки должна быть больше даты начала!'
+            ),
+        )
 
     def __str__(self):
         return self.name

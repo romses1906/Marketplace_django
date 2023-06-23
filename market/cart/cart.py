@@ -1,19 +1,20 @@
 from collections import defaultdict
+from datetime import datetime
 from decimal import Decimal
 from typing import Dict
 
+from cart.models import Cart, ProductInCart
+from django.conf import settings
 from django.contrib import messages
 from django.core.exceptions import ObjectDoesNotExist
 from django.db import transaction
 from django.db.models import Sum, F, QuerySet
-from django.conf import settings
-
-from settings.models import SiteSettings
-from shops.models import Offer, Shop
-from cart.models import Cart, ProductInCart
-from users.models import User
+from django.utils import timezone
 from products.models import Product
 from settings.models import Discount, DiscountOnCart, DiscountOnSet
+from settings.models import SiteSettings
+from shops.models import Offer, Shop
+from users.models import User
 
 
 class CartServices:
@@ -27,6 +28,7 @@ class CartServices:
         self.user = request.user
         self.session = request.session
         self.qs = None
+        self.date_now = datetime.now(tz=timezone.utc)
         cart = self.session.get(settings.CART_SESSION_ID)
         if self.user.is_authenticated:
             self.use_db = True
@@ -186,6 +188,9 @@ class CartServices:
         """
         return self.session.get('payment_data')
 
+    # def get_price_data(self):
+    #     return self.session.get('payment_data')
+
     def get_product_data(self, product_id) -> Dict:
         """
         Получение количества и стоимости товара в корзине по идентификатору.
@@ -198,7 +203,7 @@ class CartServices:
                 quantity = product.quantity
                 price = product.offer.price
                 total_price = quantity * price
-                discounts = Discount.objects.filter(products__id=product.offer.product.id)
+                discounts = Discount.objects.filter(end_date__gte=self.date_now, products__id=product.offer.product.id)
                 if discounts:
                     disc_price = self.get_min_price_on_product_with_discount(price=product.offer.price,
                                                                              discounts=discounts)
@@ -255,7 +260,7 @@ class CartServices:
                 product_in_cart.save()
             else:
                 product_id = str(offer.pk)
-                discounts = Discount.objects.filter(products__id=offer.product.id)
+                discounts = Discount.objects.filter(end_date__gte=self.date_now, products__id=offer.product.id)
                 if discounts:
                     disc_price = self.get_min_price_on_product_with_discount(price=offer.price, discounts=discounts)
                 else:
@@ -347,15 +352,16 @@ class CartServices:
 
         :return: общая цена товаров в корзине с учетом скидок на эти товары
         """
-
         ids = [item[0] for item in
                Product.objects.select_related('category').prefetch_related('property', 'tags', 'discounts').
-               filter(discounts__active=True).values_list('id')]
+               filter(discounts__end_date__gte=self.date_now).values_list('id')]
+
         total = 0
         if self.use_db:
             for item in self.qs.all():
                 if item.offer.product.id in ids:
-                    discounts = Discount.objects.filter(products__id=item.offer.product.id)
+                    discounts = Discount.objects.filter(end_date__gte=self.date_now,
+                                                        products__id=item.offer.product.id)
                     disc_price = self.get_min_price_on_product_with_discount(price=item.offer.price,
                                                                              discounts=discounts)
                     total += item.quantity * disc_price
@@ -395,8 +401,7 @@ class CartServices:
 
         :return: общая минимальная стоимость товаров в корзине с учетом действующих скидок на корзину
         """
-
-        discounts = DiscountOnCart.objects.filter(active=True)
+        discounts = DiscountOnCart.objects.filter(end_date__gte=self.date_now)
         total_price = self.get_total_price()
         total_quantity = self.__len__()
         disc_total_prices_on_cart_lst = []
@@ -436,8 +441,7 @@ class CartServices:
 
         :return: общая минимальная стоимость товаров в корзине с учетом действующих скидок на наборы товаров
         """
-
-        discounts = DiscountOnSet.objects.filter(active=True)
+        discounts = DiscountOnSet.objects.filter(end_date__gte=self.date_now)
         total_price = self.get_total_price()
         disc_total_prices_on_cart_lst = [total_price]
         if self.use_db:
