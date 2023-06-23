@@ -2,22 +2,28 @@ import random
 from datetime import datetime, timedelta
 
 from django.db.models import Sum
-from settings.models import SiteSettings
+from settings.models import SiteSettings, Discount, DiscountOnSet
 from shops.models import Offer
 
 
 def hot_deals():
     """
-    Функция возвращает список случайных продуктов на которых действует какая то акция,
-     пока в таком виде её надо будет доработать когда появяться акции.
+    Функция возвращает список продуктов на которых действует какая-то акция.
     """
-    queryset = Offer.objects.filter(limited_edition=True, in_stock__gte=1)
+    discounts = Discount.objects.filter(active=True)
+    discount_products = []
+    for discount in discounts:
+        discount_products += list(discount.products.all())
+    discount_sets = DiscountOnSet.objects.filter(active=True).prefetch_related('products_in_set')
+    for discount_set in discount_sets:
+        discount_products += [p.product for p in discount_set.products_in_set.all()]
+    discount_queryset = Offer.objects.filter(in_stock__gte=1, product__in=discount_products)
     num_products = SiteSettings.load().hot_deals
-    ids = list(queryset.values_list("id", flat=True))
+    ids = list(discount_queryset.values_list("id", flat=True))
     if len(ids) <= num_products:
-        return queryset
+        return discount_queryset
     random_ids = random.sample(ids, k=num_products)
-    return queryset.filter(id__in=random_ids)
+    return discount_queryset.filter(id__in=random_ids)
 
 
 def get_time_left():

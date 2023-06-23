@@ -19,7 +19,7 @@
                                 <a href="{{ url('products:product_detail', item.product.pk) }}" tabindex="-1">{{ item.product.name[:20] }}</a>
                             </strong>
                             <div class="Card-description">
-                                <div class="Card-cost"><span class="Card-price">{{ item.price }}</span>
+                                <div class="Card-cost"><span class="Card-price">{{ item.get_price_on_discount() }}</span>
                                 </div>
                                 <div class="Card-category">{{ item.product.category }}
                                 </div>
