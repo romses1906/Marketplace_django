@@ -5,21 +5,11 @@ from .models import SiteSettings, Discount, DiscountOnCart, DiscountOnSet, Produ
 class SiteSettingsAdmin(admin.ModelAdmin):
     """Используется для настройки отображения
          и поведения модели настроек сайта в Django Admin."""
+
     list_display = ('min_order_price_for_free_shipping',
                     'standard_order_price', 'express_order_price', 'banners_count',
                     'top_product_count', 'limited_edition_count', 'hot_deals',
                     'product_cache_time',)
-
-
-class DiscountActiveMixin:
-    def discounts_is_active(self, request, queryset):
-        queryset.update(active=True)
-
-    def discounts_is_passive(self, request, queryset):
-        queryset.update(active=False)
-
-    discounts_is_active.short_description = 'Перевести в статус "активно"'
-    discounts_is_passive.short_description = 'Перевести в статус "неактивно"'
 
 
 class ProductInDiscountOnSetInline(admin.StackedInline):
@@ -28,29 +18,26 @@ class ProductInDiscountOnSetInline(admin.StackedInline):
     model = ProductInDiscountOnSet
 
 
-class DiscountAdmin(admin.ModelAdmin, DiscountActiveMixin):
+class DiscountAdmin(admin.ModelAdmin):
     """Используется для настройки отображения
          и поведения модели скидок на товары в Django Admin."""
 
-    list_display = ('name', 'description', 'start_date', 'end_date', 'value', 'value_type', 'active',)
-    actions = ['discounts_is_active', 'discounts_is_passive']
+    list_display = ('name', 'description', 'start_date', 'end_date', 'value', 'value_type',)
 
 
-class DiscountOnCartAdmin(admin.ModelAdmin, DiscountActiveMixin):
+class DiscountOnCartAdmin(admin.ModelAdmin):
     """Используется для настройки отображения
          и поведения модели скидок на корзину в Django Admin."""
 
-    list_display = ('name', 'description', 'start_date', 'end_date', 'value', 'value_type', 'active', 'quantity_at',
-                    'quantity_at', 'cart_total_price_at',)
-    actions = ['discounts_is_active', 'discounts_is_passive']
+    list_display = ('name', 'description', 'start_date', 'end_date', 'value', 'value_type', 'quantity_at',
+                    'quantity_to', 'cart_total_price_at',)
 
 
-class DiscountOnSetAdmin(admin.ModelAdmin, DiscountActiveMixin):
+class DiscountOnSetAdmin(admin.ModelAdmin):
     """Используется для настройки отображения
          и поведения модели скидок на набор товаров в Django Admin."""
 
-    list_display = ('name', 'description', 'start_date', 'end_date', 'value', 'value_type', 'active',)
-    actions = ['discounts_is_active', 'discounts_is_passive']
+    list_display = ('name', 'description', 'start_date', 'end_date', 'value', 'value_type',)
     inlines = [ProductInDiscountOnSetInline]
 
 

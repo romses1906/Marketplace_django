@@ -1,8 +1,8 @@
 import django_filters
 from django import forms
-from products.models import ProductProperty
-from shops.models import Offer
 from django.db.models import Count, Sum
+from products.models import ProductProperty, Category
+from shops.models import Offer
 
 
 class ProductFilter(django_filters.FilterSet):
@@ -44,7 +44,8 @@ class ProductFilter(django_filters.FilterSet):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.category = kwargs['queryset'][0].product.category
+        category_id = self.request.get_full_path().split('/')[2]
+        self.category = Category.objects.get(id=category_id)
         self.form.fields['multiple_shops'].choices = self.get_multiple_shops_choices()
         self.form.fields['multiple_properties'].choices = self.get_multiple_properties_choices()
         self.kwargs = kwargs

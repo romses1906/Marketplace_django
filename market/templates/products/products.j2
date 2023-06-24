@@ -77,6 +77,7 @@
                         </div>
                     </div>
           <div class="Cards">
+            {% if object_list %}
               {% for offer in object_list %}
 
                   <div class="Card"><a class="Card-picture" href="{{ offer.product.get_absolute_url() }}"><img src="#" alt="#"/></a>
@@ -105,6 +106,9 @@
                   </div>
                 </div>
               {% endfor %}
+            {% else %}
+                <p>Товары отсутствуют</p>
+            {% endif %}
           </div>
             {% for message in messages %}
                     {% if message.tags == 'error' %}

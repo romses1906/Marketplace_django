@@ -1,8 +1,10 @@
 import os
+from datetime import datetime
 
 from django.conf import settings
 from django.test import TestCase, Client, override_settings
 from django.urls import reverse
+from django.utils import timezone
 from settings.models import Discount, DiscountOnCart, DiscountOnSet
 
 
@@ -14,9 +16,10 @@ class DiscountsListViewTest(TestCase):
 
     def setUp(self):
         self.client = Client()
-        self.discounts = Discount.objects.filter(active=True)
-        self.discounts_on_cart = DiscountOnCart.objects.filter(active=True)
-        self.discounts_on_set = DiscountOnSet.objects.filter(active=True)
+        self.date_now = datetime.now(tz=timezone.utc)
+        self.discounts = Discount.objects.filter(end_date__gte=self.date_now)
+        self.discounts_on_cart = DiscountOnCart.objects.filter(end_date__gte=self.date_now)
+        self.discounts_on_set = DiscountOnSet.objects.filter(end_date__gte=self.date_now)
         self.url = reverse("settings:sales")
         self.response = self.client.get(self.url)
 
@@ -32,6 +35,7 @@ class DiscountsListViewTest(TestCase):
 
     def test_discounts_count_is_correct(self):
         """ Тестирование количества выводимых скидок """
+
         self.assertTrue(len(self.response.context_data[
                                 'discounts']) == self.discounts.count() + self.discounts_on_cart.count() +
                         self.discounts_on_set.count())

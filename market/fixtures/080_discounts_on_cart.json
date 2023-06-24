@@ -10,7 +10,6 @@
     "created": "2023-06-05T09:04:58.231Z",
     "value": 50,
     "value_type": "percentage",
-    "active": true,
     "quantity_at": 3,
     "quantity_to": 5,
     "cart_total_price_at": 2000
@@ -27,7 +26,6 @@
     "created": "2023-06-05T09:06:02.549Z",
     "value": 500,
     "value_type": "fixed_price",
-    "active": true,
     "quantity_at": 3,
     "quantity_to": 4,
     "cart_total_price_at": 4000
@@ -44,7 +42,6 @@
     "created": "2023-06-05T09:08:17.501Z",
     "value": 300,
     "value_type": "fixed_amount",
-    "active": true,
     "quantity_at": 2,
     "quantity_to": 2,
     "cart_total_price_at": 500

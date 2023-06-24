@@ -1,5 +1,5 @@
+from django.db import IntegrityError
 from django.test import TestCase
-
 from products.models import Product, Property, Category
 from settings.models import Discount, DiscountOnCart, DiscountOnSet, ProductInDiscountOnSet
 
@@ -17,8 +17,7 @@ class DiscountModelTest(TestCase):
         )
         cls.product.property.set([cls.property])
         cls.discount = Discount.objects.create(name='тестовая скидка на товар', description='тестовая скидка на товар',
-                                               end_date='2023-06-28T17:11:37Z', value=10, value_type='percentage',
-                                               active=True)
+                                               end_date='2023-07-28T17:11:37Z', value=10, value_type='percentage')
         cls.discount.products.set([cls.product])
 
     def test_verbose_name(self):
@@ -33,7 +32,6 @@ class DiscountModelTest(TestCase):
             'created': 'создана',
             'value': 'значение скидки',
             'value_type': 'тип скидки',
-            'active': 'активность',
             'products': 'продукты'
 
         }
@@ -78,6 +76,18 @@ class DiscountModelTest(TestCase):
             with self.subTest(field=field):
                 self.assertTrue(discount._meta.get_field(field_name=field).null)
 
+    def test_end_date_greater_start_date(self):
+        """
+        Тестирование ограничения для полей модели БД,
+        содержащих даты начала и конца периода действия скидки на товар
+        """
+
+        constraint_name = "check_dates_in_discount"
+        with self.assertRaisesMessage(IntegrityError, constraint_name):
+            Discount.objects.create(name='тестовая скидка на товар', description='тестовая скидка на товар',
+                                    start_date='2023-07-28T17:11:37Z', end_date='2023-06-28T17:11:37Z',
+                                    value=10, value_type='percentage')
+
 
 class DiscountOnCartModelTest(TestCase):
     """ Класс тестов модели Скидка на корзину """
@@ -86,9 +96,9 @@ class DiscountOnCartModelTest(TestCase):
     def setUpTestData(cls):
         cls.discount_on_cart = DiscountOnCart.objects.create(name='тестовая скидка на корзину',
                                                              description='тестовая скидка на корзину',
-                                                             end_date='2023-06-28T17:11:37Z', value=10,
+                                                             end_date='2023-07-28T17:11:37Z', value=10,
                                                              value_type='percentage',
-                                                             active=True, quantity_at=1, quantity_to=3,
+                                                             quantity_at=1, quantity_to=3,
                                                              cart_total_price_at=500)
 
     def test_verbose_name(self):
@@ -103,7 +113,6 @@ class DiscountOnCartModelTest(TestCase):
             'created': 'создана',
             'value': 'значение скидки',
             'value_type': 'тип скидки',
-            'active': 'активность',
             'quantity_at': 'количество товаров в корзине от',
             'quantity_to': 'количество товаров в корзине до',
             'cart_total_price_at': 'общая стоимость товаров в корзине от'
@@ -149,6 +158,22 @@ class DiscountOnCartModelTest(TestCase):
             with self.subTest(field=field):
                 self.assertTrue(discount_on_cart._meta.get_field(field_name=field).null)
 
+    def test_end_date_greater_start_date(self):
+        """
+        Тестирование ограничения для полей модели БД,
+        содержащих даты начала и конца периода действия скидки на корзину
+        """
+
+        constraint_name = "check_dates_in_discount_on_cart"
+        with self.assertRaisesMessage(IntegrityError, constraint_name):
+            DiscountOnCart.objects.create(name='тестовая скидка на корзину',
+                                          description='тестовая скидка на корзину',
+                                          start_date='2023-07-28T17:11:37Z',
+                                          end_date='2023-06-28T17:11:37Z', value=10,
+                                          value_type='percentage',
+                                          quantity_at=1, quantity_to=3,
+                                          cart_total_price_at=500)
+
 
 class DiscountOnSetModelTest(TestCase):
     """ Класс тестов модели Скидка на набор товаров """
@@ -157,9 +182,8 @@ class DiscountOnSetModelTest(TestCase):
     def setUpTestData(cls):
         cls.discount_on_set = DiscountOnSet.objects.create(name='тестовая скидка на набо',
                                                            description='тестовая скидка на набор',
-                                                           end_date='2023-06-28T17:11:37Z', value=50,
-                                                           value_type='percentage',
-                                                           active=True)
+                                                           end_date='2023-07-28T17:11:37Z', value=50,
+                                                           value_type='percentage')
 
     def test_verbose_name(self):
         """ Тестирование verbose_name полей модели Скидка на набор товаров """
@@ -173,7 +197,6 @@ class DiscountOnSetModelTest(TestCase):
             'created': 'создана',
             'value': 'значение скидки',
             'value_type': 'тип скидки',
-            'active': 'активность',
         }
         for field, expected_value in field_verboses.items():
             with self.subTest(field=field):
@@ -216,6 +239,20 @@ class DiscountOnSetModelTest(TestCase):
             with self.subTest(field=field):
                 self.assertTrue(discount_on_set._meta.get_field(field_name=field).null)
 
+    def test_end_date_greater_start_date(self):
+        """
+        Тестирование ограничения для полей модели БД,
+        содержащих даты начала и конца периода действия скидки на набор товаров
+        """
+
+        constraint_name = "check_dates_in_discount_on_set"
+        with self.assertRaisesMessage(IntegrityError, constraint_name):
+            DiscountOnSet.objects.create(name='тестовая скидка на набо',
+                                         description='тестовая скидка на набор',
+                                         start_date='2023-07-28T17:11:37Z',
+                                         end_date='2023-6-28T17:11:37Z', value=50,
+                                         value_type='percentage')
+
 
 class ProductInDiscountOnSetModelTest(TestCase):
     """ Класс тестов модели Товары из наборов со скидкой """
@@ -224,9 +261,8 @@ class ProductInDiscountOnSetModelTest(TestCase):
     def setUpTestData(cls):
         cls.discount_on_set = DiscountOnSet.objects.create(name='тестовая скидка на набо',
                                                            description='тестовая скидка на набор',
-                                                           end_date='2023-06-28T17:11:37Z', value=50,
-                                                           value_type='percentage',
-                                                           active=True)
+                                                           end_date='2023-07-28T17:11:37Z', value=50,
+                                                           value_type='percentage')
         cls.property = Property.objects.create(name='тестовая характеристика')
         cls.category = Category.objects.create(name='тестовая категория', description='тестовое описание категории')
         cls.product = Product.objects.create(

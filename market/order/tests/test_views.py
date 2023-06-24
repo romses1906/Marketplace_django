@@ -1,9 +1,29 @@
+from cart.cart import CartServices
 from django.test import TestCase, Client
 from django.urls import reverse
-
-from cart.cart import CartServices
 from order.models import Order
 from users.models import User
+
+
+class UpdateSessionMixin:  # позволяет избежать повтора кода в test_view_creates_order_object_when_form_is_valid
+    """ Класс-миксин для обновления информации в сессии """  # и test_order_price_is_correct
+
+    @staticmethod
+    def update_session(session):
+        session['user_data'] = {
+            'full_name': "Ivanov Ivan Ivanovich",
+            'email': "ivan@mail.ru",
+            'phone_number': "+79223891654"
+        }
+        session.save()
+        session['shipping_data'] = {
+            'delivery_option': "Delivery",
+            'delivery_address': "Mira, 2",
+            'delivery_city': "Minsk"
+        }
+        session.save()
+        session['payment_data'] = {'payment_option': "Online Card"}
+        session.save()
 
 
 class TestOrderViews(TestCase):
@@ -87,7 +107,7 @@ class TestOrderViews(TestCase):
         self.assertEqual(response.status_code, 200)
 
 
-class Step4ViewTestCase(TestCase):
+class Step4ViewTestCase(TestCase, UpdateSessionMixin):
     """
     Тест представления 4 шага оформления заказа
     """
@@ -114,24 +134,27 @@ class Step4ViewTestCase(TestCase):
     def test_view_creates_order_object_when_form_is_valid(self):
         self.client.login(username='admin@admin.ru', password='admin')
         session = self.client.session
-
-        session['user_data'] = {
-            'full_name': "Ivanov Ivan Ivanovich",
-            'email': "ivan@mail.ru",
-            'phone_number': "+79223891654"
-        }
-        session.save()
-        session['shipping_data'] = {
-            'delivery_option': "Delivery",
-            'delivery_address': "Mira, 2",
-            'delivery_city': "Minsk"
-        }
-        session.save()
-        session['payment_data'] = {'payment_option': "Online Card"}
-        session.save()
-
+        self.update_session(session)
         response = self.client.post(self.url, {
             'comment': 'This is a test comment',
         })
         self.assertEqual(response.status_code, 302)
         self.assertEqual(Order.objects.count(), 1)
+
+    def test_order_price_is_correct(self):
+        """ Тестирование корректности цены заказа """
+
+        self.client.login(username='admin@admin.ru', password='admin')
+        session = self.client.session
+        self.request = self.client.request().wsgi_request
+        self.cart = CartServices(self.request)
+        cart_price = self.cart.get_final_price_with_discount()
+        self.update_session(session)
+        response = self.client.post(self.url, {  # noqa F841
+            'comment': 'This is a test comment',
+        })
+        total_order_price = Order.objects.first().final_price
+        self.request = self.client.request().wsgi_request
+        self.cart = CartServices(self.request)
+        delivery_price = self.cart.get_delivery_cost()
+        self.assertEqual(total_order_price, cart_price + delivery_price)

@@ -1,5 +1,7 @@
+from datetime import datetime
 from decimal import Decimal
 
+from django.utils import timezone
 from settings.models import Discount
 
 
@@ -8,7 +10,8 @@ def offer_price_with_discount(product_id: int, price: Decimal) -> Decimal:
     Функция возвращает цену товара со скидкой
     """
 
-    discounts = Discount.objects.filter(products__id=product_id, active=True)
+    date_now = datetime.now(tz=timezone.utc)
+    discounts = Discount.objects.filter(products__id=product_id, end_date__gte=date_now)
     if discounts:
         disc_prices_lst = []
         for discount in discounts:

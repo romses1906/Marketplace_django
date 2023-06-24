@@ -1,8 +1,10 @@
+from datetime import datetime
 from decimal import Decimal
 
 from cart.cart import CartServices
 from django.db.models import QuerySet, Sum
 from django.test import TestCase, Client
+from django.utils import timezone
 from settings.models import Discount, DiscountOnCart, DiscountOnSet
 from shops.models import Offer, Shop
 from users.models import User
@@ -34,9 +36,10 @@ class CartTestCase(TestCase):
         cls.request = cls.client.request().wsgi_request
         cls.request.session.update(cls.session)
         cls.cart = CartServices(cls.request)
-        cls.discounts = Discount.objects.filter(active=True)
-        cls.discounts_on_cart = DiscountOnCart.objects.filter(active=True)
-        cls.discounts_on_set = DiscountOnSet.objects.filter(active=True)
+        cls.date_now = datetime.now(tz=timezone.utc)
+        cls.discounts = Discount.objects.filter(end_date__gte=cls.date_now)
+        cls.discounts_on_cart = DiscountOnCart.objects.filter(end_date__gte=cls.date_now)
+        cls.discounts_on_set = DiscountOnSet.objects.filter(end_date__gte=cls.date_now)
         cls.offer_with_discounts = Offer.objects.get(id=6)  # онегин
         cls.offer_in_discount_on_set = Offer.objects.get(id=17)  # яблоко
 
@@ -182,7 +185,7 @@ class CartTestCase(TestCase):
         total_price_with_discounts_on_products = self.cart.get_total_price_with_discounts_on_products()
         total = 0
         for item in self.cart.__iter__():
-            discounts = Discount.objects.filter(products__id=item['offer'].product.id)
+            discounts = Discount.objects.filter(end_date__gte=self.date_now, products__id=item['offer'].product.id)
             if discounts:
                 disc_price = self.cart.get_min_price_on_product_with_discount(price=item['price'],
                                                                               discounts=discounts)
