@@ -1,8 +1,7 @@
-from django.contrib import messages
 from django.http import JsonResponse
 from django.views.generic.base import RedirectView, TemplateView, View
 from django.shortcuts import get_object_or_404, redirect
-from django.urls import reverse_lazy, reverse
+from django.urls import reverse_lazy
 
 from cart.cart import CartServices
 from shops.models import Offer
@@ -86,19 +85,3 @@ class RemoveFromCartView(RedirectView):
         offer = Offer.objects.get(id=offer_id)
         cart.remove(offer=offer)
         return super().get_redirect_url(*args, **kwargs)
-
-
-class AddToCartView(RedirectView):
-    def get_redirect_url(self, *args, **kwargs):
-        offer_id = self.kwargs['product_id']
-        quantity = int(self.request.GET.get('quantity', 1))
-        cart = CartServices(self.request)
-        offer = Offer.objects.get(id=offer_id)
-        try:
-            cart.update(offer=offer, quantity=quantity, update_quantity=False)
-            return_url = reverse('cart:cart')
-        except ValueError as e:
-            messages.error(self.request, str(e))
-            return_url = self.request.META.get('HTTP_REFERER', '/')
-
-        return return_url
