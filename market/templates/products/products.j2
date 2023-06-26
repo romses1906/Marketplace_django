@@ -1,6 +1,7 @@
 {% extends "base.j2" %}
 
 {% block content %}
+{% include "cart/add_to_cart_success.j2" %}
 <div class="Middle Middle_top">
         <div class="Section Section_column Section_columnLeft">
             <div class="wrap">
@@ -98,9 +99,8 @@
                           {% endwith %}
                       </div>
                       <div class="Card-hover">
-                          <a class="Card-btn" href="{{ url('cart:add_to_cart', offer.pk) }}">
-                              <img src="{{ static('img/icons/card/cart.svg') }}" alt="cart.svg"/>
-                          </a>
+                          <button class="Card-btn" type="button" data-product-id="{{ offer.id }}">
+                                        <img src="{{ static('img/icons/card/cart.svg') }}" alt="cart.svg"></button>
                       </div>
                     </div>
                   </div>

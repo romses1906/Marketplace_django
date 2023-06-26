@@ -916,6 +916,7 @@
     $(document).ready(() => {
         console.log('Страница загрузилась');
 
+
         $('.Amount-add').click((e) => {
             e.preventDefault();
             console.log('Нажали на кнопку Amount-add');
@@ -1062,6 +1063,53 @@
             });
         });
         $('#id_phone_number').mask('+7 (999) 999-99-99');
+
+        // При загрузке страницы скрыть окно
+        $('.popup-container').hide();
+
+        // При клике на кнопку "Добавить в корзину" показать окно
+        $('.Card-btn').click(function() {
+            $('.popup-container').show();
+        });
+
+        $('.Card-btn').click((e) => {
+            e.preventDefault();
+            console.log('Нажали на кнопку Card-btn');
+            const csrftoken = getCookie('csrftoken');
+            var productId = $(e.currentTarget).attr('data-product-id');
+            var quantity = 1;
+            console.log('ID товара ', productId);
+            console.log('Количество товара ', quantity);
+
+            $.ajax({
+                type: 'POST',
+                url: '/cart/update/',
+                headers: {'X-CSRFToken': csrftoken,},
+                data: {
+                    product_id: productId,
+                    quantity: quantity,
+                },
+                success: function (data) {
+                    console.log('data', data);
+                    updateProduct(data);
+                },
+                error: function (error) {
+                    console.log(error.responseJSON.error);
+                    $('#error-message').text('Произошла ошибка: ' + decodeURIComponent(JSON.parse('"' + error.responseText.replace(/\"/g, '\\"') + '"')));
+                    $('#error-message').show();
+                },
+            });
+        });
+
+        // При клике на кнопку "Продолжить покупки" скрыть окно
+        $('.continue-shopping-btn').click(function() {
+            $('.popup-container').hide();
+        });
+
+        // При клике на кнопку "Перейти в корзину" перейти на страницу с корзиной
+        $('.go-to-cart-btn').click(function() {
+            window.location.href = '/cart/';
+        });
     });
     // Конец теста //
 })(jQuery);

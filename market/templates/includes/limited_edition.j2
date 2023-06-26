@@ -1,3 +1,4 @@
+{% include "cart/add_to_cart_success.j2" %}
 <div class="Section-content">
     <div class="Slider Slider_carousel">
         <header class="Section-header Section-header_close">
@@ -24,8 +25,8 @@
                                 <div class="Card-category">{{ item.product.category }}
                                 </div>
                                 <div class="Card-hover">
-                                    <a class="Card-btn" href="{{ url('cart:add_to_cart', item.pk) }}" tabindex="-1">
-                                        <img src="{{ static('img/icons/card/cart.svg') }}" alt="cart.svg"></a>
+                                    <button class="Card-btn" type="button" data-product-id="{{ item.id }}">
+                                        <img src="{{ static('img/icons/card/cart.svg') }}" alt="cart.svg"></button>
                                 </div>
                             </div>
                         </div>

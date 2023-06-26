@@ -10,11 +10,12 @@ def hot_deals():
     """
     Функция возвращает список продуктов на которых действует какая-то акция.
     """
-    discounts = Discount.objects.filter(active=True)
+    now = datetime.now()
+    discounts = Discount.objects.filter(end_date__gte=now)
     discount_products = []
     for discount in discounts:
         discount_products += list(discount.products.all())
-    discount_sets = DiscountOnSet.objects.filter(active=True).prefetch_related('products_in_set')
+    discount_sets = DiscountOnSet.objects.filter(end_date__gte=now).prefetch_related('products_in_set')
     for discount_set in discount_sets:
         discount_products += [p.product for p in discount_set.products_in_set.all()]
     discount_queryset = Offer.objects.filter(in_stock__gte=1, product__in=discount_products)
