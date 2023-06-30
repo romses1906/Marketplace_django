@@ -1,0 +1,32 @@
+[
+{
+  "model": "products.productimage",
+  "pk": 1,
+  "fields": {
+    "product": 3,
+    "image": "products/product_3_27.06.2023_11-31_Газонокосилка.jpg",
+    "description": "",
+    "ord_number": 1
+  }
+},
+{
+  "model": "products.productimage",
+  "pk": 2,
+  "fields": {
+    "product": 3,
+    "image": "products/product_3_27.06.2023_11-31_Газонокосилка_2.jpg",
+    "description": "",
+    "ord_number": 2
+  }
+},
+{
+  "model": "products.productimage",
+  "pk": 3,
+  "fields": {
+    "product": 3,
+    "image": "products/product_3_27.06.2023_11-31_Газонокосилка_3.jpg",
+    "description": "",
+    "ord_number": 3
+  }
+}
+]

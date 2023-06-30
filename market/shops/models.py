@@ -30,6 +30,9 @@ class Shop(models.Model):
         verbose_name = _('магазин')
         verbose_name_plural = _('магазины')
 
+    def get_absolute_url(self):
+        return reverse('shops:shop-detail', kwargs={'pk': self.pk})
+
     def __str__(self):
         return self.name
 

@@ -30,7 +30,7 @@ class ShopDetailViewTest(TestCase):
         self.assertEqual(self.response.status_code, 200)
 
     def test_view_renders_desired_template(self):
-        self.assertTemplateUsed(self.response, "shops/shop_detail.html")
+        self.assertTemplateUsed(self.response, "shops/shop_detail.j2")
 
 
 class TestHomePageView(TestCase):

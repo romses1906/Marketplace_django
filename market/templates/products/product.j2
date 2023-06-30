@@ -1,0 +1,182 @@
+{% extends "base.j2" %}
+
+{% block content %}
+{% include "cart/add_to_cart_success.j2" %}
+<div class="Middle Middle_top">
+    <div class="Section">
+        <div class="wrap">
+            <div class="Product">
+                <div class="ProductCard">
+                    <div class="ProductCard-look">
+                        <div class="ProductCard-photo">
+                            <img src="{{ product.product_images.first().image.url }}" alt="{{ default_alt }}" />
+                        </div>
+                        <div class="ProductCard-picts">
+                            <a class="ProductCard-pict ProductCard-pict_ACTIVE" href='{{ product.product_images.first().image.url }}'><img src='{{ product.product_images.first().image.url }}' alt='{{ default_alt }}' /></a>
+                            {% for prod_img in product.product_images.all() %}
+                                <a class="ProductCard-pict" href='{{ prod_img.image.url }}'><img src='{{ prod_img.image.url }}' /></a>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <div class="ProductCard-desc">
+                        <div class="ProductCard-header">
+                            <h2 class="ProductCard-title">{{ product.name }}
+                            </h2>
+                            <div class="ProductCard-info">
+                                <div class="ProductCard-cost">
+                                    <div class="ProductCard-price">от {{ product.min_price }}</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="ProductCard-text">{{ product.description }}
+                        </div>
+                        <div class="ProductCard-footer">
+                            <div class="ProductCard-tags">
+                                <strong class="ProductCard-tagsTitle">Тэги:
+                                </strong>
+                                {% for prod_tags in product.tags.all() %}
+                                    {% for tag_name in prod_tags.tags.names %}
+                                        <a href="#">{{ tag_name }}</a>,
+                                    {% endfor %}
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="Tabs Tabs_default">
+                    <div class="Tabs-links">
+                        <a class="Tabs-link_ACTIVE Tabs-link" href="#description">
+                            <span>Описание</span>
+                        </a>
+                        <a class="Tabs-link" href="#sellers">
+                            <span>Продавцы</span>
+                        </a>
+                        <a class="Tabs-link" href="#addit">
+                            <span>Характеристика</span>
+                        </a>
+                        <a class="Tabs-link" href="#reviews">
+                            <span>Отзывы ( {{ product.num_reviews }} )</span>
+                        </a>
+                    </div>
+                    <div class="Tabs-wrap">
+                        <div class="Tabs-block" id="description">
+                            <h2>{{ product.name }}</h2>
+                            <p>{{ product.description }}</p>
+                            <img class="pict pict_right" src='{{ product.product_images.first().image.url }}' alt="{{ default_alt }}" />
+
+                            <div class="clearfix"></div>
+                        </div>
+                        <div class="Tabs-block" id="sellers">
+                            <div class="Section-content">
+                                <div class="Orders">
+                                    <div class="Order Order_anons">
+                                        <div class="Order-personal">
+                                            <div class="row">
+                                                {% for offer in product.offers.all() %}
+                                                <div class="row-block">
+                                                    <a class="Order-title" href="{{ offer.shop.get_absolute_url() }}">
+                                                        {{ offer.shop.name }}
+                                                    </a>
+                                                </div>
+                                                <div class="row-block">
+                                                    <div class="Order-info">
+                                                        <div style="display: flex; flex-direction: row" >
+                                                            <div class="Order-infoType">Стоимость:
+                                                            </div>
+                                                            <div class="Order-infoContent"><span class="Order-price">
+                                                                {{ offer.price }} &#8381;</span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="ProductCard-cart">
+                                                            <div class="ProductCard-cartElement ProductCard-cartElement_amount">
+                                                                <div class="Amount Amount_product">
+                                                                    <button class="Amount-remove" type="button">
+                                                                    </button>
+                                                                    <input class="Amount-input form-input" name="amount" type="text" value="1" />
+                                                                    <button class="Amount-add" type="button">
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+                                                            <div class="ProductCard-cartElement">
+                                                                <button class="Card-btn" type="button" data-product-id="{{ offer.id }}">
+                                                                    <img class="btn-icon" src='{{ static ("img/icons/card/cart.svg") }}' alt="cart.svg" />
+                                                                    <span class="btn-content">Купить</span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                {% endfor %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="Tabs-block" id="addit">
+                            <div class="Product-props">
+                                {% for prod_prop in product.product_properties.all() %}
+                                <div class="Product-prop">
+                                    <strong>{{ prod_prop.property.name }}
+                                    </strong><span>{{ prod_prop.value }}</span>
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        <div class="Tabs-block" id="reviews">
+                            <header class="Section-header">
+                                <h3 class="Section-title">{{ product.num_reviews }}
+                                    {% if product.num_reviews == 1 %}
+                                        отзыв
+                                    {% elif  1 < product.num_reviews <= 4  %}
+                                        отзыва
+                                    {% else %}
+                                        отзывов
+                                    {% endif %}
+
+                                </h3>
+                            </header>
+                            <div class="Comments">
+                                {% for review in product.product_reviews.all() %}
+                                    <div class="Comment">
+                                        <div class="Comment-column Comment-column_pict">
+                                            <div class="Comment-avatar">
+                                            </div>
+                                        </div>
+                                        <div class="Comment-column">
+                                            <header class="Comment-header">
+                                                <div>
+                                                    <strong class="Comment-title">{{ review.author.username }}
+                                                    </strong><span class="Comment-date">{{ review.created_at }}</span>
+                                                </div>
+                                            </header>
+                                            <div class="Comment-content">{{ review.content }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                            <header class="Section-header Section-header_product">
+                                <h3 class="Section-title">Добавить отзыв
+                                </h3>
+                            </header>
+                            <div class="Tabs-addComment">
+                                <form class="form" action="{{ url ('reviews:product_reviews', pk=product.id) }}" method="post">
+                                    {% csrf_token %}
+                                    <div class="form-group">
+                                        <textarea class="form-textarea" name="review" id="review" placeholder='Отзыв'></textarea>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <button class="btn btn_muted" type="submit">Отправить отзыв
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
