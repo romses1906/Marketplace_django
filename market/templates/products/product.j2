@@ -74,10 +74,10 @@
                         <div class="Tabs-block" id="sellers">
                             <div class="Section-content">
                                 <div class="Orders">
+                                    {% for offer in product.offers.all() %}
                                     <div class="Order Order_anons">
                                         <div class="Order-personal">
                                             <div class="row">
-                                                {% for offer in product.offers.all() %}
                                                 <div class="row-block">
                                                     <a class="Order-title" href="{{ offer.shop.get_absolute_url() }}">
                                                         {{ offer.shop.name }}
@@ -104,21 +104,19 @@
                                                                 </div>
                                                             </div>
                                                             <div class="ProductCard-cartElement">
-                                                                <a class="btn btn_primary btn-add-cart" href="{{ url('cart:cart') }}"
+                                                                <a class="btn btn_primary btn-add-cart" href="#"
                                                                    id="add-cart-{{ offer.id }}" data-product-id="{{ offer.id }}" data-stock-{{ offer.id }}="{{ offer.in_stock }}">
-                                                                    <img class="btn-icon" src='{{ static ("img/icons/card/cart.svg") }}' alt="cart.svg" />
+                                                                    <img class="btn-icon" src='{{ static ("img/icons/card/cart_white.svg") }}' alt="cart_white.svg" />
                                                                     <span class="btn-content">Купить</span>
                                                                 </a>
                                                             </div>
                                                         </div>
-
                                                     </div>
                                                 </div>
-
-                                                {% endfor %}
                                             </div>
                                         </div>
                                     </div>
+                                    {% endfor %}
                                 </div>
                             </div>
                             <div id="error-message" style="color: red;"></div>

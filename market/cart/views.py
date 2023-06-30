@@ -47,8 +47,12 @@ class UpdateCartView(View):
         offer = get_object_or_404(Offer, id=offer_id)
         action = request.POST.get('action')
         update_quantity = True
+
         if action == "add":
             update_quantity = False
+        if offer.in_stock <= int(user_quantity):
+            update_quantity = True
+            user_quantity = offer.in_stock
 
         if offer_id and user_quantity:
             try:

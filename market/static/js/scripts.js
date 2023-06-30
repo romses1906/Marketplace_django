@@ -1099,6 +1099,9 @@
         $('.Card-btn').click(function() {
             $('.popup-container').show();
         });
+        $('.btn-add-cart').click(function() {
+            $('.popup-container').show();
+        });
 
         $('.Card-btn').click((e) => {
             e.preventDefault();
