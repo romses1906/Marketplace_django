@@ -1,3 +1,5 @@
+import re
+
 import django_filters
 from django import forms
 from django.db.models import Count, Sum
@@ -44,7 +46,7 @@ class ProductFilter(django_filters.FilterSet):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        category_id = self.request.get_full_path().split('/')[2]
+        category_id = re.search(r'(?<=catalog/)\d+(?=/)', self.request.get_full_path())[0]
         self.category = Category.objects.get(id=category_id)
         self.form.fields['multiple_shops'].choices = self.get_multiple_shops_choices()
         self.form.fields['multiple_properties'].choices = self.get_multiple_properties_choices()

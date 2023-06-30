@@ -25,15 +25,18 @@
                                 <div class="Card-date">
                                     <strong class="Card-date-number"> {{ discount.start_date.day }}
                                     </strong><span class="Card-date-month">{{ discount.start_date.strftime("%B") }}</span>
+                                    <span class="Card-date-number">{{ discount.start_date.strftime("%Y") }}</span>
                                 </div>
                                 <div class="Card-date Card-date_to">
                                     <strong class="Card-date-number">{{ discount.end_date.day }}
                                     </strong><span class="Card-date-month">{{ discount.end_date.strftime("%B") }}</span>
+                                    <span class="Card-date-number">{{ discount.end_date.strftime("%Y") }}</span>
                                 </div>
                             {% else %}
                                 <div class="Card-date">
                                     <strong class="Card-date-number"> {{ discount.end_date.day }}
                                     </strong><span class="Card-date-month">{{ discount.end_date.strftime("%B") }}</span>
+                                    <span class="Card-date-number">{{ discount.end_date.strftime("%Y") }}</span>
                                 </div>
                             {% endif %}
                             <div class="Card-content">

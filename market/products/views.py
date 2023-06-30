@@ -35,7 +35,8 @@ class ProductsByCategoryView(FilterView):
 
 class ProductDetailView(generic.DetailView):
     """ Представление для отображения детальной страницы продукта """
-    template_name = 'products/product.html'
+
+    template_name = 'products/product.j2'
     context_object_name = 'product'
 
     def get_queryset(self):

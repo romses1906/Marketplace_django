@@ -342,16 +342,16 @@ class ProductDetailViewTest(TestCase):
         self.client.login(email='test@test.ru', password='test')
         self.product = Product.objects.annotate(
             min_price=Min('offers__price')).annotate(num_reviews=Count('product_reviews')).prefetch_related(
-            'product_properties', 'product_images', 'offers', 'product_reviews').get(id=6)
+            'product_properties', 'product_images', 'offers', 'product_reviews').get(id=3)
         self.response = self.client.get(self.product.get_absolute_url())
 
     def test_view_returns_correct_HTTP_status(self):
         self.assertEqual(self.response.status_code, 200)
 
     def test_view_renders_desired_template(self):
-        self.assertTemplateUsed(self.response, "products/product.html")
+        self.assertTemplateUsed(self.response, "products/product.j2")
 
     def test_context_is_correct(self):
-        self.assertEqual(self.response.context['default_alt'], 'Изображение продукта')
-        self.assertEqual(self.response.context['categories'], get_list_or_404(Category))
-        self.assertEqual(self.response.context['product'], self.product)
+        self.assertEqual(self.response.context_data['default_alt'], 'Изображение продукта')
+        self.assertEqual(self.response.context_data['categories'], get_list_or_404(Category))
+        self.assertEqual(self.response.context_data['product'], self.product)

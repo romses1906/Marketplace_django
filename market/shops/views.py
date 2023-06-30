@@ -7,6 +7,7 @@ from shops.utils import get_offer_of_the_day, get_time_left, get_top_products, h
 class ShopDetailView(DetailView):
     """ Отображение детальной страницы продавца """
     model = Shop
+    template_name = "shops/shop_detail.j2"
     context_object_name = "shop"
 
 

@@ -1,8 +1,10 @@
+import os
+
+from config.settings import FIXTURE_DIRS
 from django.test import TestCase, Client
 from django.urls import reverse, resolve
-
-from products.views import ProductsByCategoryView, ProductDetailView
 from products.models import Category, Product
+from products.views import ProductsByCategoryView, ProductDetailView
 from users.models import User
 
 
@@ -42,13 +44,15 @@ class ProductsByCategoryPageTest(TestCase):
 class ProductDetailPageTest(TestCase):
     """ Тестирование URL детальной страницы продукта """
 
+    fixtures = os.listdir(*FIXTURE_DIRS)
+
     @classmethod
     def setUpTestData(cls):
         cls.client = Client()
         cls.user = User.objects.create_user(email='test@test.ru', password='test')
         cls.client.login(email='test@test.ru', password='test')
         cls.category = Category.objects.create(name='тестовая категория', description='тестовое описание категории')
-        cls.product = Product.objects.create(name='тестовый продукт', category=cls.category)
+        cls.product = Product.objects.get(id=3)
         cls.url = reverse("products:product_detail", kwargs={'pk': cls.product.pk})
         cls.response = cls.client.get(cls.url)
 
