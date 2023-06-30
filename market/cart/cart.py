@@ -188,9 +188,6 @@ class CartServices:
         """
         return self.session.get('payment_data')
 
-    # def get_price_data(self):
-    #     return self.session.get('payment_data')
-
     def get_product_data(self, product_id) -> Dict:
         """
         Получение количества и стоимости товара в корзине по идентификатору.
