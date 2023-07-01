@@ -16,12 +16,12 @@ class DiscountsListPageTest(TestCase):
         cls.client = Client()
         cls.url = reverse("settings:sales")
 
-    def test_page_uses_the_correct_URL(self):
+    def test_page_uses_the_correct_url(self):
         """ Тестирование используемого URL """
 
         self.assertURLEqual(self.url, "/settings/sales/")
 
-    def test_URL_uses_the_desired_view(self):
+    def test_url_uses_the_desired_view(self):
         """ Тестирование использования ожидаемого представления по данному URL """
 
         view = resolve(self.url)

@@ -23,7 +23,7 @@ class DiscountsListViewTest(TestCase):
         self.url = reverse("settings:sales")
         self.response = self.client.get(self.url)
 
-    def test_view_returns_correct_HTTP_status(self):
+    def test_view_returns_correct_http_status(self):
         """ Тестирование возврата корректного http-кода при открытии страницы скидок """
 
         self.assertEqual(self.response.status_code, 200)

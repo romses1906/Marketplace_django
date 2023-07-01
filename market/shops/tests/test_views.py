@@ -11,6 +11,7 @@ from shops.utils import get_time_left
 
 class ShopDetailViewTest(TestCase):
     """ Тестирование детального представления магазина """
+
     fixtures = [
         "004_groups.json",
         "005_users.json",
@@ -26,10 +27,14 @@ class ShopDetailViewTest(TestCase):
         url = reverse("shops:shop-detail", kwargs=kwargs)
         self.response = self.client.get(url)
 
-    def test_view_returns_correct_HTTP_status(self):
+    def test_view_returns_correct_http_status(self):
+        """ Тестирование возврата корректного http-кода при открытии детальной страницы магазина """
+
         self.assertEqual(self.response.status_code, 200)
 
     def test_view_renders_desired_template(self):
+        """ Тестирование использования ожидаемого шаблона для рендеринга страницы """
+
         self.assertTemplateUsed(self.response, "shops/shop_detail.j2")
 
 
@@ -42,6 +47,7 @@ class TestHomePageView(TestCase):
 
     def test_homepage_view(self):
         """ Тест главной страницы магазина """
+
         url = reverse('shops:home')
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)

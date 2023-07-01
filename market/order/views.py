@@ -1,20 +1,19 @@
+from cart.cart import CartServices
+from cart.models import ProductInCart
 from django.contrib import messages
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db import transaction
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy, reverse
+from django.utils.translation import gettext_lazy as _
 from django.views import View
 from django.views.generic import FormView, CreateView, DetailView, ListView
-
-from cart.cart import CartServices
-from cart.models import ProductInCart
-from order.models import Order
 from order.forms import UserForm, DeliveryForm, PaymentForm, CommentForm
+from order.models import Order
 from order.services import add_items_from_cart
 from users.models import User
 from users.services import create_user
-from django.utils.translation import gettext_lazy as _
 
 
 class Step1View(View):
@@ -25,6 +24,8 @@ class Step1View(View):
     form_class = UserForm
 
     def get(self, request, *args, **kwargs):
+        """ Метод get представления для отображения первого шага заказа """
+
         if request.user.is_authenticated:
             user = User.objects.get(email=request.user.email)
             full_name = f"{user.last_name} {user.first_name} {user.surname}"
@@ -38,6 +39,8 @@ class Step1View(View):
         return render(request, self.template_name, {'form': form})
 
     def post(self, request, *args, **kwargs):
+        """ Метод get представления для отображения первого шага заказа """
+
         form = self.form_class(request.POST)
         if form.is_valid():
             user_data = form.cleaned_data

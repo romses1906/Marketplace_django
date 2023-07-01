@@ -31,6 +31,8 @@ class Shop(models.Model):
         verbose_name_plural = _('магазины')
 
     def get_absolute_url(self):
+        """ Метод получения url детальной страницы магазина """
+
         return reverse('shops:shop-detail', kwargs={'pk': self.pk})
 
     def __str__(self):
@@ -39,6 +41,7 @@ class Shop(models.Model):
 
 class Offer(models.Model):
     """Предложение магазина"""
+
     shop = models.ForeignKey(Shop, on_delete=models.PROTECT, related_name='offers', verbose_name=_('магазин'))
     product = models.ForeignKey(
         "products.Product", on_delete=models.PROTECT, related_name='offers', verbose_name=_('продукт')
@@ -55,12 +58,15 @@ class Offer(models.Model):
         verbose_name_plural = _('предложения')
 
     def get_absolute_url(self):
+        """ Метод получения url """
+
         return reverse('shops:offer_detail', kwargs={'pk': self.pk})
 
     def save(self, *args, **kwargs):
         """
         Задаем значение индекса сортировки для новых товаров
         """
+
         if not self.pk:
             latest_index = Offer.objects.aggregate(last_index=Max('index')).get('last_index') or 0
             self.index = latest_index + 1
@@ -85,6 +91,7 @@ class Offer(models.Model):
         """
         Метод получения цены на товар со скидкой
         """
+
         disc_price = offer_price_with_discount(product_id=self.product.id, price=self.price)
         if not disc_price:
             disc_price = self.price
@@ -92,14 +99,17 @@ class Offer(models.Model):
 
 
 class BannerManager(models.Manager):
-    """Менеджер,для отображения активных баннеров на главной странице."""
+    """Менеджер для отображения активных баннеров на главной странице."""
 
     def get_active_banners(self):
+        """ Метод получения действующих баннеров """
+
         return self.filter(is_active=True).order_by('?')[:3]
 
 
 class Banner(models.Model):
     """Баннеры магазина"""
+
     image = models.ImageField(upload_to='banners/')
     title = models.CharField(max_length=100)
     description = models.TextField()

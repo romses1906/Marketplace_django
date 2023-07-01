@@ -8,7 +8,8 @@ User = get_user_model()
 
 
 class Cart(models.Model):
-    """Корзина пользователя сайта."""
+    """ Корзина пользователя сайта """
+
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='carts')
     is_active = models.BooleanField(default=True)
 
@@ -22,7 +23,7 @@ class Cart(models.Model):
 
 
 class ProductInCart(models.Model):
-    """Товары размещенные в корзине."""
+    """ Товары, размещенные в корзине """
     offer = models.ForeignKey(Offer, on_delete=models.CASCADE, verbose_name=_('предложение'))
     cart = models.ForeignKey(Cart, on_delete=models.CASCADE, related_name='products', verbose_name=_('товары'))
     quantity = models.PositiveIntegerField(default=1, verbose_name=_('количество'))
@@ -38,4 +39,6 @@ class ProductInCart(models.Model):
 
     @property
     def total_price(self):
+        """ Метод получения общей стоимости товара в корзине без учета скидок """
+
         return self.quantity * self.offer.price

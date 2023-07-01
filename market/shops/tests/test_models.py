@@ -9,7 +9,7 @@ from users.models import User
 
 
 class ShopModelTest(TestCase):
-    """Класс тестов модели Магазин"""
+    """ Класс тестов модели Магазин """
 
     @classmethod
     def setUpTestData(cls):
@@ -25,6 +25,8 @@ class ShopModelTest(TestCase):
         cls.offer = Offer.objects.create(shop=cls.shop, product=cls.product, price=25)
 
     def test_verbose_name(self):
+        """ Тестирование verbose_name модели Магазин """
+
         shop = self.shop
         field_verboses = {
             'name': 'название',
@@ -39,26 +41,36 @@ class ShopModelTest(TestCase):
                 self.assertEqual(shop._meta.get_field(field).verbose_name, expected_value)
 
     def test_name_max_length(self):
+        """ Тестирование максимальной длины для поля name модели Магазин """
+
         shop = self.shop
         max_length = shop._meta.get_field('name').max_length
         self.assertEqual(max_length, 512)
 
     def test_phone_number_max_length(self):
+        """ Тестирование максимальной длины для поля phone_number модели Магазин """
+
         shop = self.shop
         max_length = shop._meta.get_field('phone_number').max_length
         self.assertEqual(max_length, 12)
 
     def test_address_max_length(self):
+        """ Тестирование максимальной длины для поля address модели Магазин """
+
         shop = self.shop
         max_length = shop._meta.get_field('address').max_length
         self.assertEqual(max_length, 255)
 
     def test_email_max_length(self):
+        """ Тестирование максимальной длины для поля email модели Магазин """
+
         shop = self.shop
         max_length = shop._meta.get_field('email').max_length
         self.assertEqual(max_length, 255)
 
     def test_blank(self):
+        """ Тестирование свойства blank для набора полей модели Магазин """
+
         shop = self.shop
         blank_fields = [
             'description',
@@ -71,6 +83,8 @@ class ShopModelTest(TestCase):
                 self.assertTrue(shop._meta.get_field(field_name=field).blank)
 
     def test_null(self):
+        """ Тестирование свойства null для набора полей модели Магазин """
+
         shop = self.shop
         blank_fields = [
             'description',
@@ -83,6 +97,8 @@ class ShopModelTest(TestCase):
                 self.assertTrue(shop._meta.get_field(field_name=field).null)
 
     def test_phone_number_validation(self):
+        """ Тестирование корректности валидации данных в поле phone_number модели Магазин """
+
         shop = self.shop
         field = shop._meta.get_field(field_name='phone_number')
         self.assertIn(phone_validate, field.validators)
@@ -90,7 +106,7 @@ class ShopModelTest(TestCase):
 
 
 class OfferModelTest(TestCase):
-    """Класс тестов модели Предложение магазина"""
+    """ Класс тестов модели Предложение магазина """
 
     @classmethod
     def setUpClass(cls):
@@ -111,6 +127,8 @@ class OfferModelTest(TestCase):
         cls.user.delete()
 
     def test_verbose_name(self):
+        """ Тестирование verbose_name модели Предложение магазина """
+
         offer = self.offer
         field_verboses = {
             'price': 'цена',
@@ -120,11 +138,15 @@ class OfferModelTest(TestCase):
                 self.assertEqual(offer._meta.get_field(field).verbose_name, expected_value)
 
     def test_price_max_digits(self):
+        """ Тестирование свойства max_digits поля price модели Предложение магазина """
+
         offer = self.offer
         max_digits = offer._meta.get_field('price').max_digits
         self.assertEqual(max_digits, 10)
 
     def test_price_decimal_places(self):
+        """ Тестирование свойства decimal_places поля price модели Предложение магазина """
+
         offer = self.offer
         decimal_places = offer._meta.get_field('price').decimal_places
         self.assertEqual(decimal_places, 2)
@@ -160,6 +182,8 @@ class BannerManagerTestCase(TestCase):
         )
 
     def test_get_active_banners(self):
+        """ Тестирование корректности получения действующих баннеров """
+
         active_banners = Banner.objects.get_active_banners()
         self.assertEqual(len(active_banners), 3)
         for banner in active_banners:
@@ -175,6 +199,7 @@ class BannerTestCase(TestCase):
     """Класс тестов модели Баннер"""
 
     def test_create_banner(self):
+        """ Тестирование корректности создания баннера """
         banner = Banner.objects.create(
             image='banners/banner.jpg',
             title='MAVIC PRO 5 MINI DRONE',
