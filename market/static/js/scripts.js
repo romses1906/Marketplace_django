@@ -1028,6 +1028,40 @@
             });
         });
 
+        $('.btn-add-cart').click((e) => {
+            console.log('значение кол-во изменилось');
+
+            var productId = $(e.currentTarget).attr('data-product-id');
+            console.log(productId);
+            var quantity = $('#quantity-product-' + productId).val();
+            console.log(quantity);
+            var stock = parseInt($(e.currentTarget).attr('data-stock-' + productId));
+            console.log('Количество товара на складе', stock);
+
+            const csrftoken = getCookie('csrftoken');
+            console.log('ID товара ', productId);
+            console.log('Количество товара ', quantity);
+
+            $.ajax({
+                type: 'POST',
+                url: '/cart/update/',
+                headers: { 'X-CSRFToken': csrftoken },
+                data: {
+                    product_id: productId,
+                    quantity: quantity,
+                    action: 'add',
+                },
+                success: function (data) {
+                    updateProduct(data);
+                },
+                error: function (error) {
+                    console.log(error.responseJSON.error);
+                    $('#error-message').text('Произошла ошибка: ' + decodeURIComponent(JSON.parse('"' + error.responseText.replace(/\"/g, '\\"') + '"')));
+                    $('#error-message').show();
+                },
+            });
+        });
+
         $('select[name="selectedValue"]').on('change', (e) => {
             console.log('значение Box');
 
@@ -1063,6 +1097,9 @@
 
         // При клике на кнопку "Добавить в корзину" показать окно
         $('.Card-btn').click(function() {
+            $('.popup-container').show();
+        });
+        $('.btn-add-cart').click(function() {
             $('.popup-container').show();
         });
 

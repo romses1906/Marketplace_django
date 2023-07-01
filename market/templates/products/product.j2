@@ -9,13 +9,17 @@
                 <div class="ProductCard">
                     <div class="ProductCard-look">
                         <div class="ProductCard-photo">
-                            <img src="{{ product.product_images.first().image.url }}" alt="{{ default_alt }}" />
+                            {% if  product.product_images.first() %}
+                                <img src="{{ product.product_images.first().image.url }}" alt="{{ default_alt }}" />
+                            {% endif %}
                         </div>
                         <div class="ProductCard-picts">
-                            <a class="ProductCard-pict ProductCard-pict_ACTIVE" href='{{ product.product_images.first().image.url }}'><img src='{{ product.product_images.first().image.url }}' alt='{{ default_alt }}' /></a>
-                            {% for prod_img in product.product_images.all() %}
-                                <a class="ProductCard-pict" href='{{ prod_img.image.url }}'><img src='{{ prod_img.image.url }}' /></a>
-                            {% endfor %}
+                            {% if  product.product_images.first() %}
+                                <a class="ProductCard-pict ProductCard-pict_ACTIVE" href='{{ product.product_images.first().image.url }}'><img src='{{ product.product_images.first().image.url }}' alt='{{ default_alt }}' /></a>
+                                {% for prod_img in product.product_images.all() %}
+                                    <a class="ProductCard-pict" href='{{ prod_img.image.url }}'><img src='{{ prod_img.image.url }}' /></a>
+                                {% endfor %}
+                            {% endif %}
                         </div>
                     </div>
                     <div class="ProductCard-desc">
@@ -62,17 +66,18 @@
                         <div class="Tabs-block" id="description">
                             <h2>{{ product.name }}</h2>
                             <p>{{ product.description }}</p>
-                            <img class="pict pict_right" src='{{ product.product_images.first().image.url }}' alt="{{ default_alt }}" />
-
+                            {% if  product.product_images.first() %}
+                                <img class="pict pict_right" src='{{ product.product_images.first().image.url }}' alt="{{ default_alt }}" />
+                            {% endif %}
                             <div class="clearfix"></div>
                         </div>
                         <div class="Tabs-block" id="sellers">
                             <div class="Section-content">
                                 <div class="Orders">
+                                    {% for offer in product.offers.all() %}
                                     <div class="Order Order_anons">
                                         <div class="Order-personal">
                                             <div class="row">
-                                                {% for offer in product.offers.all() %}
                                                 <div class="row-block">
                                                     <a class="Order-title" href="{{ offer.shop.get_absolute_url() }}">
                                                         {{ offer.shop.name }}
@@ -92,25 +97,29 @@
                                                                 <div class="Amount Amount_product">
                                                                     <button class="Amount-remove" type="button">
                                                                     </button>
-                                                                    <input class="Amount-input form-input" name="amount" type="text" value="1" />
+                                                                    <input min="1" id="quantity-product-{{ offer.id }}"
+                                                                           class="Amount-input form-input" name="amount" type="text" value="1" />
                                                                     <button class="Amount-add" type="button">
                                                                     </button>
                                                                 </div>
                                                             </div>
                                                             <div class="ProductCard-cartElement">
-                                                                <button class="Card-btn" type="button" data-product-id="{{ offer.id }}">
-                                                                    <img class="btn-icon" src='{{ static ("img/icons/card/cart.svg") }}' alt="cart.svg" />
+                                                                <a class="btn btn_primary btn-add-cart" href="#"
+                                                                   id="add-cart-{{ offer.id }}" data-product-id="{{ offer.id }}" data-stock-{{ offer.id }}="{{ offer.in_stock }}">
+                                                                    <img class="btn-icon" src='{{ static ("img/icons/card/cart_white.svg") }}' alt="cart_white.svg" />
                                                                     <span class="btn-content">Купить</span>
+                                                                </a>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
-                                                {% endfor %}
                                             </div>
                                         </div>
                                     </div>
+                                    {% endfor %}
                                 </div>
                             </div>
+                            <div id="error-message" style="color: red;"></div>
                         </div>
                         <div class="Tabs-block" id="addit">
                             <div class="Product-props">
