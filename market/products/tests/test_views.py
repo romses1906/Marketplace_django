@@ -59,13 +59,13 @@ class ProductsByCategoryViewTest(TestCase):
             product__category=self.category_books)
         self.url_books = reverse("products:products_by_category", kwargs={'pk': self.category_books.pk})
 
-    def test_view_returns_correct_HTTP_status(self):
+    def test_view_returns_correct_http_status(self):
         """ Тестирование возврата корректного http-кода при открытии страницы товаров конкретной категории """
 
         self.assertEqual(self.response.status_code, 200)
 
     def test_view_renders_desired_template(self):
-        """ Тестирование испоьзования ожидаемого шаблона для рендеринга страницы """
+        """ Тестирование использования ожидаемого шаблона для рендеринга страницы """
 
         self.assertTemplateUsed(self.response, "products/products.j2")
 
@@ -334,6 +334,7 @@ class ProductsByCategoryViewTest(TestCase):
 
 class ProductDetailViewTest(TestCase):
     """ Тестирование представления для отображения детальной страницы продукта """
+
     fixtures = os.listdir(*FIXTURE_DIRS)
 
     def setUp(self):
@@ -345,13 +346,19 @@ class ProductDetailViewTest(TestCase):
             'product_properties', 'product_images', 'offers', 'product_reviews').get(id=3)
         self.response = self.client.get(self.product.get_absolute_url())
 
-    def test_view_returns_correct_HTTP_status(self):
+    def test_view_returns_correct_http_status(self):
+        """ Тестирование возврата корректного http-кода при открытии детальной страницы товара """
+
         self.assertEqual(self.response.status_code, 200)
 
     def test_view_renders_desired_template(self):
+        """ Тестирование использования ожидаемого шаблона для рендеринга детальной страницы товара """
+
         self.assertTemplateUsed(self.response, "products/product.j2")
 
     def test_context_is_correct(self):
+        """ Тестирование корректности передаваемого в шаблон контекста """
+
         self.assertEqual(self.response.context_data['default_alt'], 'Изображение продукта')
         self.assertEqual(self.response.context_data['categories'], get_list_or_404(Category))
         self.assertEqual(self.response.context_data['product'], self.product)

@@ -27,13 +27,13 @@ class ProductsByCategoryPageTest(TestCase):
         cls.url = reverse("products:products_by_category", kwargs={'pk': cls.category.pk})
         cls.response = cls.client.get(cls.url)
 
-    def test_page_uses_the_correct_URL(self):
+    def test_page_uses_the_correct_url(self):
         """ Тестирование используемого URL """
 
         category_pk = self.category.pk
         self.assertURLEqual(self.url, f"/catalog/{category_pk}/")
 
-    def test_URL_uses_the_desired_view(self):
+    def test_url_uses_the_desired_view(self):
         """ Тестирование использования ожидаемого представления по данному URL """
 
         view = resolve(self.url)
@@ -56,9 +56,13 @@ class ProductDetailPageTest(TestCase):
         cls.url = reverse("products:product_detail", kwargs={'pk': cls.product.pk})
         cls.response = cls.client.get(cls.url)
 
-    def test_page_uses_the_correct_URL(self):
+    def test_page_uses_the_correct_url(self):
+        """ Тестирование используемого URL """
+
         self.assertURLEqual(self.url, f"/catalog/item/{self.product.pk}/")
 
-    def test_URL_uses_the_desired_view(self):
+    def test_url_uses_the_desired_view(self):
+        """ Тестирование использования ожидаемого представления по данному URL """
+
         view = resolve(self.url)
         self.assertEqual(view.func.__name__, ProductDetailView.as_view().__name__)

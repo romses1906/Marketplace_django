@@ -177,4 +177,6 @@ class ProductTagModelTest(TestCase):
         cls.tags.tags.add(*cls.test_tags)
 
     def test_tags_names(self):
+        """ Тестирование корректности наименований тегов при добавлении соответствующей записи в модель """
+
         self.assertEqual(tuple(self.tags.tags.names()), self.test_tags)

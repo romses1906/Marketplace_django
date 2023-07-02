@@ -1,11 +1,12 @@
-from django.db import models
-from django.utils.translation import gettext_lazy as _
-from mptt.models import MPTTModel, TreeForeignKey
-from django_softdelete.models import SoftDeleteModel
-from django.urls import reverse
-from django.utils import timezone
 import os
 from datetime import datetime
+
+from django.db import models
+from django.urls import reverse
+from django.utils import timezone
+from django.utils.translation import gettext_lazy as _
+from django_softdelete.models import SoftDeleteModel
+from mptt.models import MPTTModel, TreeForeignKey
 from taggit.managers import TaggableManager
 
 UPLOAD_TO_CATEGORY_IMAGE = './static/img/icons/departments/'
@@ -38,6 +39,8 @@ class Product(SoftDeleteModel):
         verbose_name_plural = _('продукты')
 
     def get_absolute_url(self):
+        """ Метод для получения url детальной страницы товара """
+
         return reverse('products:product_detail', kwargs={'pk': self.pk})
 
     def __str__(self):
@@ -108,6 +111,8 @@ class Category(MPTTModel, SoftDeleteModel):
         verbose_name_plural = _('категории')
 
     def get_absolute_url(self):
+        """ Метод для получения url страницы каталога конкретной категории товаров """
+
         return reverse('products:products_by_category', kwargs={'pk': self.pk})
 
     def __str__(self):
@@ -115,6 +120,8 @@ class Category(MPTTModel, SoftDeleteModel):
 
 
 class ProductTag(models.Model):
+    """ Модель тегов продукта """
+
     tags = TaggableManager(verbose_name=_('теги'), help_text=_('Список тегов, разделенных запятыми.'))
 
     class Meta:

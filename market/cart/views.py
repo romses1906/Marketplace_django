@@ -28,6 +28,8 @@ class CartView(TemplateView):
         return context
 
     def post(self, request):
+        """ Метод post представления, отвечающего за отображение корзины """
+
         cart_services = CartServices(request)
         shop_id = request.POST.get('shop_id')
         offer_id = request.POST.get('product_id')
@@ -41,6 +43,8 @@ class UpdateCartView(View):
     """
 
     def post(self, request):
+        """ Метод post для обновления количества товаров в корзине """
+
         cart = CartServices(request)
         offer_id = request.POST.get('product_id')
         user_quantity = request.POST.get('quantity')
