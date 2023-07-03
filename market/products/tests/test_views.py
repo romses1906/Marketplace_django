@@ -180,7 +180,7 @@ class ProductsByCategoryViewTest(TestCase):
                              "multiple_properties=Роман")
         names_properties = {'Автор': {'Александр Сергеевич Пушкин', 'Бронислав Брониславович Виногродский'},
                             'Переплет': {'Тонкий'}, 'Жанр': {'Роман'}}
-        for key, value in names_properties.items():
+        for value in names_properties.values():
             desired_offers = self.offers_books.select_related('shop', 'product__category').filter(
                 product__product_properties__value__in=value).order_by('product__id').distinct(
                 'product__id')
@@ -198,7 +198,7 @@ class ProductsByCategoryViewTest(TestCase):
                              "multiple_properties=Роман")
 
         names_properties = {'Переплет': {'Твердый'}, 'Жанр': {'Проза', 'Антиутопия', 'Философия'}}
-        for key, value in names_properties.items():
+        for value in names_properties.values():
             undesired_offers = self.offers_books.select_related('shop', 'product__category').filter(
                 product__product_properties__value__in=value).order_by('product__id').distinct(
                 'product__id')
@@ -216,7 +216,7 @@ class ProductsByCategoryViewTest(TestCase):
                              "multiple_properties=Тонкий&multiple_properties=Роман")
         names_properties = {'Автор': {'Александр Сергеевич Пушкин', 'Бронислав Брониславович Виногродский'},
                             'Переплет': {'Тонкий'}, 'Жанр': {'Роман'}}
-        for key, value in names_properties.items():
+        for value in names_properties.values():
             desired_offers = self.offers_books.select_related('shop', 'product__category').filter(
                 product__name__icontains='дочка', price__lte=500,
                 product__product_properties__value__in=value).order_by('product__id').distinct(
@@ -234,7 +234,7 @@ class ProductsByCategoryViewTest(TestCase):
                              "Александр+Сергеевич+Пушкин&multiple_properties=Бронислав+Брониславович+Виногродский&"
                              "multiple_properties=Тонкий&multiple_properties=Роман")
         names_properties = {'Переплет': {'Твердый', 'Тонкий'}, 'Жанр': {'Проза', 'Антиутопия', 'Философия', 'Роман'}}
-        for key, value in names_properties.items():
+        for value in names_properties.values():
             undesired_offers = self.offers_books.select_related('shop', 'product__category').filter(
                 product__product_properties__value__in=value).order_by('product__id').distinct(
                 'product__id')

@@ -340,8 +340,7 @@ class CartServices:
             if not total:
                 total = Decimal('0')
             return total.quantize(Decimal('1.00'))
-        else:
-            return sum(Decimal(item['price']) * item['quantity'] for item in self.cart.values())
+        return sum(Decimal(item['price']) * item['quantity'] for item in self.cart.values())
 
     def get_total_price_with_discounts_on_products(self) -> Decimal:
         """
@@ -365,9 +364,7 @@ class CartServices:
                 else:
                     total += item.quantity * item.offer.price
             return Decimal(total).quantize(Decimal('1.00'))
-
-        else:
-            return sum(Decimal(item['disc_price']) * item['quantity'] for item in self.cart.values())
+        return sum(Decimal(item['disc_price']) * item['quantity'] for item in self.cart.values())
 
     def get_min_price_on_product_with_discount(self, price: Decimal, discounts: QuerySet) -> Decimal:
         """
@@ -509,8 +506,7 @@ class CartServices:
 
         if total_price_with_discount_on_cart_or_set < total_price:
             return total_price_with_discount_on_cart_or_set
-        else:
-            return self.get_total_price_with_discounts_on_products()
+        return self.get_total_price_with_discounts_on_products()
 
     def get_delivery_cost(self) -> Decimal:
         """
