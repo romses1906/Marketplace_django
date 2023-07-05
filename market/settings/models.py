@@ -62,6 +62,12 @@ class Discount(models.Model):
                 name='check_dates_in_discount',
                 violation_error_message='Дата окончания действия скидки должна быть больше даты начала!'
             ),
+            CheckConstraint(
+                check=Q(value_type__in=('fixed_amount', 'fixed_price')) | (Q(value_type='percentage', value__gt=0) &
+                                                                           Q(value_type='percentage', value__lt=100)),
+                name='check_value_percentage_in_discount',
+                violation_error_message='Процент скидки не может быть менее 0 и более 100'
+            ),
         )
 
 
@@ -89,6 +95,12 @@ class DiscountOnCart(models.Model):
                 name='check_dates_in_discount_on_cart',
                 violation_error_message='Дата окончания действия скидки должна быть больше даты начала!'
             ),
+            CheckConstraint(
+                check=Q(value_type__in=('fixed_amount', 'fixed_price')) | (Q(value_type='percentage', value__gt=0) &
+                                                                           Q(value_type='percentage', value__lt=100)),
+                name='check_value_percentage_in_discount_on_cart',
+                violation_error_message='Процент скидки не может быть менее 0 и более 100'
+            ),
         )
 
     def __str__(self):
@@ -114,6 +126,12 @@ class DiscountOnSet(models.Model):
                 check=Q(end_date__gt=F('start_date')),
                 name='check_dates_in_discount_on_set',
                 violation_error_message='Дата окончания действия скидки должна быть больше даты начала!'
+            ),
+            CheckConstraint(
+                check=Q(value_type__in=('fixed_amount', 'fixed_price')) | (Q(value_type='percentage', value__gt=0) &
+                                                                           Q(value_type='percentage', value__lt=100)),
+                name='check_value_percentage_in_discount_on_set',
+                violation_error_message='Процент скидки не может быть менее 0 и более 100'
             ),
         )
 
