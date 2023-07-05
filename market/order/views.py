@@ -39,7 +39,7 @@ class Step1View(View):
         return render(request, self.template_name, {'form': form})
 
     def post(self, request, *args, **kwargs):
-        """ Метод get представления для отображения первого шага заказа """
+        """ Метод post представления для отображения первого шага заказа """
 
         form = self.form_class(request.POST)
         if form.is_valid():

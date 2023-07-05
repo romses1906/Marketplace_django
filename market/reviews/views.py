@@ -12,7 +12,8 @@ from .models import Reviews
 
 class CreateReviewsView(LoginRequiredMixin, CreateView):
     """Представление по добавлению отзывов к товару."""
-    template_name = 'products/product.html'
+
+    template_name = 'products/product.j2'
 
     def get_success_url(self):
         """Возвращаемый URL при успешном выполнении методов."""
