@@ -7,4 +7,6 @@ app_name = "shops"
 urlpatterns = [
     path("", views.HomePageView.as_view(), name="home"),
     path("shops/<int:pk>/", views.ShopDetailView.as_view(), name="shop-detail"),
+    path("search/", views.SearchView.as_view(), name="search"),
+
 ]
