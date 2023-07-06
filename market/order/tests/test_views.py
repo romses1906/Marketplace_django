@@ -1,8 +1,28 @@
-from cart.cart import CartServices
-from django.test import TestCase, Client
+from django.test import signals
 from django.urls import reverse
+from jinja2 import Template as Jinja2Template
+from django.test import TestCase, Client
+
+from cart.cart import CartServices
 from order.models import Order
 from users.models import User
+
+ORIGINAL_JINJA2_RENDERER = Jinja2Template.render
+
+
+def instrumented_render(template_object, *args, **kwargs):
+    """ Переопределение метода рендеринга шаблонов Jinja2 """
+
+    context = dict(*args, **kwargs)
+    signals.template_rendered.send(
+        sender=template_object,
+        template=template_object,
+        context=context
+    )
+    return ORIGINAL_JINJA2_RENDERER(template_object, *args, **kwargs)
+
+
+Jinja2Template.render = instrumented_render
 
 
 class UpdateSessionMixin:  # позволяет избежать повтора кода в test_view_creates_order_object_when_form_is_valid
@@ -59,6 +79,7 @@ class TestOrderViews(TestCase):
         self.client.login(username='test@test.ru', password='2304test')
         response = self.client.get(reverse('order:step1'))
         self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, "order/step1.j2")
 
         response = self.client.post(reverse('order:step1'), data=self.user_data)
         self.assertRedirects(response, reverse('order:step2'))
@@ -80,6 +101,7 @@ class TestOrderViews(TestCase):
     def test_step2_view(self):
         self.client.login(username='test@test.ru', password='2304test')
         response = self.client.get(reverse('order:step2'))
+        self.assertTemplateUsed(response, "order/step2.j2")
         self.assertEqual(response.status_code, 200)
         response = self.client.post(reverse('order:step2'), data=self.shipping_data)
         self.assertRedirects(response, reverse('order:step3'))
@@ -88,6 +110,7 @@ class TestOrderViews(TestCase):
         self.client.login(username='test@test.ru', password='2304test')
         self.client.get(reverse('order:step2'))
         response = self.client.get(reverse('order:step3'))
+        self.assertTemplateUsed(response, "order/step3.j2")
         self.assertEqual(response.status_code, 200)
         self.client.post(reverse('order:step2'), data=self.shipping_data)
         response = self.client.post(reverse('order:step3'), data=self.payment_data)
@@ -98,12 +121,14 @@ class TestOrderViews(TestCase):
         order = Order.objects.first()
         url = reverse('order:detail_order', kwargs={'pk': order.pk})
         response = self.client.get(url)
+        self.assertTemplateUsed(response, "order/detail_order.j2")
         self.assertEqual(response.status_code, 200)
 
     def test_order_list_view(self):
         self.client.login(username='test@test.ru', password='2304test')
         url = reverse('order:history')
         response = self.client.get(url)
+        self.assertTemplateUsed(response, "order/history.j2")
         self.assertEqual(response.status_code, 200)
 
 

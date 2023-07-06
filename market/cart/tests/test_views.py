@@ -1,9 +1,29 @@
 import os
 
+from django.test import signals
+from django.urls import reverse
+from jinja2 import Template as Jinja2Template
+from django.test import TestCase, Client
+
 from cart.models import Cart
 from config.settings import FIXTURE_DIRS
-from django.test import TestCase, Client
-from django.urls import reverse
+
+ORIGINAL_JINJA2_RENDERER = Jinja2Template.render
+
+
+def instrumented_render(template_object, *args, **kwargs):
+    """ Переопределение метода рендеринга шаблонов Jinja2 """
+
+    context = dict(*args, **kwargs)
+    signals.template_rendered.send(
+        sender=template_object,
+        template=template_object,
+        context=context
+    )
+    return ORIGINAL_JINJA2_RENDERER(template_object, *args, **kwargs)
+
+
+Jinja2Template.render = instrumented_render
 
 
 class CartViewTest(TestCase):
@@ -18,6 +38,7 @@ class CartViewTest(TestCase):
     def test_cart_view_context(self):
         self.client.login(username='admin@admin.ru', password='admin')
         response = self.client.get(self.url)
+        self.assertTemplateUsed(response, "cart/cart.j2")
         self.assertEqual(response.status_code, 200)
         cart_items = response.context_data['cart_items']
         cart_total_price = response.context_data['cart_total_price']
