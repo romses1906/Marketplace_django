@@ -13,8 +13,8 @@ class ShopModelTest(TestCase):
 
     @classmethod
     def setUpTestData(cls):
-        cls.property = Property.objects.create(name='тестовая характеристика')
-        cls.category = Category.objects.create(name='тестовая категория', description='тестовое описание категории')
+        cls.property = Property.objects.create(name='тестовая хар-ка')
+        cls.category = Category.objects.create(name='тестовая кат-я', description='тестовое описание кат-ии')
         cls.product = Product.objects.create(
             name='тестовый продукт',
             category=cls.category
