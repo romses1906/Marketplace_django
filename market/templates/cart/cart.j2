@@ -3,7 +3,9 @@
 {% block content %}
 <div class="Middle Middle_top">
 
+
     <div class="Section">
+        {% if  cart_items%}
         <div class="wrap">
             {% for message in messages %}
                 {% if message.tags == 'warning' %}
@@ -80,7 +82,12 @@
                 </div>
             </div>
         </div>
+    {% else %}
+        <div class="wrap">
+            <h2>Ваша корзина пуста, вы можете выбрать товары в нашем магазине!</h2>
+            <div class="Cart-block"><a class="btn btn_success btn_lg" href="{{ url('shops:home') }}">Перейти к покупкам!</a></div>
+        </div>
+    {% endif %}
     </div>
-
 </div>
 {% endblock content %}

@@ -107,12 +107,22 @@
                                 </div>
                             </div>
 
+
                             {% include "order/order_product_list.j2" ignore missing %}
 
                         </div>
                     </div>
+                    {% if order.status == 'created' %}
+                        <a class="form" href="{{ url("payment:payment_view", order.id) }}">
+                          <div class="Cart-block">
+                              <strong>Ваш заказ № {{ order.id }} не оплачен, Вы можете его оплатить:</strong>
+                            <button class="btn btn_primary btn_lg" type="submit">Оплатить</button>
+                          </div>
+                        </a>
+                    {% endif %}
                 </div>
             </div>
         </div>
+
     </div>
 {% endblock %}
