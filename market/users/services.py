@@ -17,3 +17,17 @@ def create_user(password, user_data):
         surname=surname,
         phone_number=user_data['phone_number']
         )
+
+
+def normalize_email(email):
+    """
+    Нормализует адрес электронной почты, указав в нижнем регистре его доменную часть.
+    """
+    email = email or ""
+    try:
+        email_name, domain_part = email.strip().rsplit("@", 1)
+    except ValueError:
+        pass
+    else:
+        email = email_name + "@" + domain_part.lower()
+    return email
