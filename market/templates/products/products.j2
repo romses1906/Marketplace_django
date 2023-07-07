@@ -80,8 +80,11 @@
           <div class="Cards">
             {% if object_list %}
               {% for offer in object_list %}
-
-                  <div class="Card"><a class="Card-picture" href="{{ offer.product.get_absolute_url() }}"><img src="#" alt="#"/></a>
+                {% if offer.product.product_images.first() %}
+                  <div class="Card"><a class="Card-picture" href="{{ offer.product.get_absolute_url() }}"><img src='{{ offer.product.product_images.first().image.url }}' alt="#"/></a>
+                {% else %}
+                  <div class="Card"><a class="Card-picture" href="{{ offer.product.get_absolute_url() }}"><img src='#' alt="#"/></a>
+                {% endif %}
                     <div class="Card-content">
                     <strong class="Card-title"><a href="{{ offer.product.get_absolute_url() }}">{{ offer }}</a>
                     </strong>
