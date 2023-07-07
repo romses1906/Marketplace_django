@@ -60,7 +60,7 @@ def get_top_products():
     """
     count = SiteSettings.load().top_product_count
     return Offer.objects.annotate(
-        total_quantity=Sum('orderitem__quantity')).order_by('-index', '-total_quantity')[:count]
+        total_purchases=Sum('orderitem__quantity')).order_by('-total_purchases', '-index')[:count]
 
 
 def limited_edition_products():
