@@ -1,13 +1,15 @@
 from django.contrib import admin
+from django.contrib import admin
+from django.contrib.auth import get_user_model
 from django.contrib.auth.admin import UserAdmin
 from django.utils.translation import gettext_lazy as _
 
-from .models import User
+from .forms import SignUpUserForm
 
 
 class UserRegAdmin(UserAdmin):
     """Регистрация модели User в админке"""
-
+    add_form = SignUpUserForm
     list_display = 'email', 'is_superuser', 'is_staff', 'is_active',
     fieldsets = (
         (None, {'fields': ('email', 'password',)}),
@@ -40,4 +42,4 @@ class UserRegAdmin(UserAdmin):
     search_fields = ("username",)
 
 
-admin.site.register(User, UserRegAdmin)
+admin.site.register(get_user_model(), UserRegAdmin)

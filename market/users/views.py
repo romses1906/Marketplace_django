@@ -1,7 +1,5 @@
 from django.contrib import messages
-from django.contrib.auth import login, authenticate
-from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth.hashers import make_password
+from django.contrib.auth import login
 from django.contrib.auth.models import Group
 from django.contrib.auth.views import LoginView, PasswordResetView, PasswordResetConfirmView, LogoutView
 from django.contrib.messages.views import SuccessMessageMixin
@@ -11,10 +9,9 @@ from django.db.utils import IntegrityError
 from django.http import HttpResponseRedirect
 from django.urls import reverse_lazy, reverse
 from django.utils.translation import gettext_lazy as _
-from django.views.generic import FormView
+from django.views.generic import CreateView
 
-from .forms import CustomSetPasswordForm
-from .models import User
+from .forms import CustomSetPasswordForm, SignUpUserForm
 
 
 class LoginUserView(SuccessMessageMixin, LoginView):
@@ -22,18 +19,11 @@ class LoginUserView(SuccessMessageMixin, LoginView):
     template_name = 'users/login.j2'
     success_url = reverse_lazy('shops:home')
 
-    def post(self, request, *args, **kwargs):
-        """Метод, проверяющий существование пользователя и перенаправляющий его на соответствующую страницу."""
-        email = request.POST.get('email')
-        password = request.POST.get('password')
-        user = authenticate(email=email, password=password)
-        if user is not None:
-            login(request, user)
-            return HttpResponseRedirect(self.success_url)
-
+    def form_invalid(self, form):
+        """Отправляем сообщение пользователю о неверных данных"""
         messages.add_message(
-            self.request, messages.INFO, _('Неверный логин или пароль. Проверьте введённые данные'))
-        return HttpResponseRedirect(reverse('users:login_user'))
+                self.request, messages.INFO, _('Неверный логин или пароль. Проверьте введённые данные'))
+        return super().form_invalid(form)
 
 
 class LogoutUserView(LogoutView):
@@ -41,30 +31,20 @@ class LogoutUserView(LogoutView):
     template_name = 'includes/header/wrap.j2'
 
 
-class RegisterView(SuccessMessageMixin, FormView):
+class RegisterView(SuccessMessageMixin, CreateView):
     """Регистрация пользователя. При методе POST, функция сохраняет полученные данные в кастомной модели User."""
     template_name = 'users/register.j2'
-    form_class = UserCreationForm
-    queryset = User.objects.all()
+    form_class = SignUpUserForm
     success_url = reverse_lazy('users:login_user')
 
-    def post(self, request, *args, **kwargs):
+    def form_valid(self, form):
         """После регистрации, пользователю добавляется группа с разрешениями "покупатель"."""
-        username = request.POST.get('username')
-        email = request.POST.get('login')
-        password = request.POST.get('pass')
-
+        user = form.save()
         try:
             with transaction.atomic():
-                user = User.objects.create(
-                    username=username,
-                    email=email,
-                    password=make_password(password)
-                )
-                user_auth = authenticate(email=email, password=password)
-                login(request, user_auth)
                 group = Group.objects.get(name='buyer')
                 user.groups.add(group)
+                login(self.request, user)
                 messages.add_message(
                     self.request, messages.INFO,
                     _('Вы успешно зарегистрированы! Введите пожалуйста ФИО.')

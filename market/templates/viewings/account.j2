@@ -63,6 +63,7 @@
                             <div class="Account-group">
                                 <div class="Account-column Account-column_full">
                                     <div class="Orders">
+                                    {% if history %}
                                         {% for view in history.history_products.all()[::-1] %}
                                             <div class="Order Order_anons">
                                                 <div class="Order-personal">
@@ -86,6 +87,9 @@
                                                 </div>
                                             </div>
                                         {% endfor %}
+                                    {% else %}
+                                        Просмотров пока нет
+                                    {% endif %}
                                     </div>
                                 </div>
                             </div>
