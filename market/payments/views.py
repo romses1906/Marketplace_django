@@ -11,7 +11,7 @@ from django.views import View
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import TemplateView
 
-from order.models import Order, OrderItem
+from orders.models import Order, OrderItem
 from shops.models import Offer
 
 stripe.api_key = settings.STRIPE_SECRET_KEY
