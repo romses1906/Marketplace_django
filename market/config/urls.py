@@ -25,14 +25,15 @@ urlpatterns = [
     path("", include("shops.urls", namespace="shops")),
     path("catalog/", include("products.urls", namespace="products")),
     path("users/", include("users.urls", namespace="users")),
+    path("users/", include("django.contrib.auth.urls")),
     path("cart/", include("cart.urls", namespace="cart")),
-    path("order/", include("order.urls", namespace="order")),
+    path("orders/", include("orders.urls", namespace="order")),
     path("reviews/", include("reviews.urls", namespace="reviews")),
-    path("account/", include("account.urls", namespace="account")),
+    path("viewings/", include("viewings.urls", namespace="account")),
     path("compare/", include("comparison.urls", namespace="comparison")),
     path("imports/", include("imports.urls", namespace="imports")),
     path("settings/", include("settings.urls", namespace="settings")),
-    path("pay/", include("payment.urls", namespace="payments")),
+    path("pay/", include("payments.urls", namespace="payments")),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
