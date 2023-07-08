@@ -1,4 +1,4 @@
-from order.models import OrderItem, Order
+from orders.models import OrderItem, Order
 
 
 def add_items_from_cart(order: Order, cart):

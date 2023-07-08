@@ -1,7 +1,7 @@
 from django.test import TestCase
 from django.utils import timezone
 
-from order.models import Order, OrderItem
+from orders.models import Order, OrderItem
 from users.models import User
 from shops.models import Offer, Shop
 from products.models import Product, ProductProperty, Property, Category

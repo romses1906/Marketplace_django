@@ -1,7 +1,7 @@
 from cart.cart import CartServices
 from django.test import TestCase, Client
 from django.urls import reverse
-from order.models import Order
+from orders.models import Order
 from users.models import User
 
 

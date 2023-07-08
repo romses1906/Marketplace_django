@@ -9,9 +9,9 @@ from django.urls import reverse_lazy, reverse
 from django.utils.translation import gettext_lazy as _
 from django.views import View
 from django.views.generic import FormView, CreateView, DetailView, ListView
-from order.forms import UserForm, DeliveryForm, PaymentForm, CommentForm
-from order.models import Order
-from order.services import add_items_from_cart
+from orders.forms import UserForm, DeliveryForm, PaymentForm, CommentForm
+from orders.models import Order
+from orders.services import add_items_from_cart
 from users.models import User
 from users.services import create_user
 
