@@ -1,10 +1,7 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.contrib.auth.views import redirect_to_login
 from django.http import HttpResponseRedirect
-from django.shortcuts import resolve_url
 from django.urls import reverse
 from django.views import View
-from django.views.generic import CreateView
 
 from products.models import Product
 from users.models import User
