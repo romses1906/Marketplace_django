@@ -59,12 +59,12 @@ INSTALLED_APPS = [
     "users",
     "reviews",
     "cart",
-    "account",
-    "order",
+    "viewings",
+    "orders",
     "comparison",
     "imports",
     "settings",
-    "payment",
+    "payments",
 
 ]
 
