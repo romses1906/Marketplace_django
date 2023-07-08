@@ -4,7 +4,7 @@ from django.test import TestCase, Client
 from django.urls import reverse
 
 from config.settings import FIXTURE_DIRS
-from order.models import OrderItem
+from orders.models import OrderItem
 from shops.models import Shop, Banner, Offer
 from shops.utils import get_time_left
 

@@ -44,7 +44,7 @@ class ProductsByCategoryViewTest(TestCase):
         "030_offers.json",
         "035_products_properties.json",
         "045_reviews_product.json",
-        "060_order.json",
+        "060_orders.json",
         "065_orderitem.json",
     ]
 

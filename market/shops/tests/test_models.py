@@ -52,7 +52,7 @@ class ShopModelTest(TestCase):
 
         shop = self.shop
         max_length = shop._meta.get_field('phone_number').max_length
-        self.assertEqual(max_length, 12)
+        self.assertEqual(max_length, 18)
 
     def test_address_max_length(self):
         """ Тестирование максимальной длины для поля address модели Магазин """
@@ -102,7 +102,7 @@ class ShopModelTest(TestCase):
         shop = self.shop
         field = shop._meta.get_field(field_name='phone_number')
         self.assertIn(phone_validate, field.validators)
-        self.assertEqual(phone_validate.regex.pattern, r'^\+?[78]\d{10}$')
+        self.assertEqual(phone_validate.regex.pattern, r'^\+\d{1,3}\s\(\d{3}\)\s\d{3}-\d{2}-\d{2}$')
 
 
 class OfferModelTest(TestCase):
