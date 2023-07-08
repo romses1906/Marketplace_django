@@ -26,7 +26,7 @@ class CreateSessionView(LoginRequiredMixin, View):
         num_order = self.kwargs["order_id"]
         order = Order.objects.get(pk=num_order)
         items = OrderItem.objects.prefetch_related('offer__product').filter(order_id=order.pk)
-        name_items = list()
+        name_items = []
         for item in items:
             name_items.append(item.offer.product.name)
 

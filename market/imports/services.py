@@ -42,16 +42,16 @@ class Imports:
 
     def process_imports(self, file_name: str):
         """Загрузка данных в БД."""
-        logger = self.logging_info(file_name)
-        logger.info(f'Начало импорта {file_name}')
+        logger_imports = self.logging_info(file_name)
+        logger_imports.info('Начало импорта %filename', file_name)
 
         file_path = os.path.join(os.path.dirname(__file__), 'files', 'loaded', file_name)
         username = file_name.split('-')[3]
         try:
             with open(file_path, 'r', encoding='utf-8') as file:
                 data_list = json.load(file)
-                user = User.objects.get(username=username)
-                shop = Shop.objects.get(user_id=user.pk)
+
+                shop = Shop.objects.get(user_id=User.objects.get(username=username).pk)
 
                 for data in data_list:
                     # проверка заполнения полей
@@ -72,7 +72,7 @@ class Imports:
                             price=float(data['price']),
                             in_stock=F('in_stock') + int(data['in_stock'])
                         )
-                        logger.info(f'Продукт `{data["name"]}` обновлён')
+                        logger_imports.info('Продукт `%data` обновлён', data["name"])
                     else:
                         Offer.objects.update_or_create(
                             shop=shop,
@@ -80,19 +80,19 @@ class Imports:
                             in_stock=int(data['in_stock']),
                             price=float(data['price'])
                         )
-                        logger.info(f'Продукт `{data["name"]}` добавлен')
+                        logger_imports.info('Продукт `%data` добавлен', data["name"])
 
             file_new_path = os.path.join(os.path.dirname(__file__), 'files', 'completed')
             shutil.move(file_path, file_new_path)
         except IntegrityError as ex:
-            logger.warning(ex)
+            logger_imports.warning(ex)
             file_new_path = os.path.join(os.path.dirname(__file__), 'files', 'failed_imports')
             shutil.move(file_path, file_new_path)
         except KeyError as ex:
-            logger.warning(f'Поле {ex} не заполнено!')
+            logger_imports.warning('Поле %ex не заполнено!', ex)
             file_new_path = os.path.join(os.path.dirname(__file__), 'files', 'failed_imports')
             shutil.move(file_path, file_new_path)
-        logger.info(f'Окончание импорта {file_name}')
+        logger_imports.info('Окончание импорта %file_name', file_name)
 
         # отправка сообщения о проведённом импорте
         from_email = User.objects.get(username=username).email
