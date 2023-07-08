@@ -19,7 +19,7 @@
   "model": "cart.cart",
   "pk": 3,
   "fields": {
-    "user": 2,
+    "user": 3,
     "is_active": true
   }
 }
