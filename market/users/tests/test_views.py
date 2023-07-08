@@ -47,15 +47,21 @@ class RegisterViewTests(TestCase):
         self.response = self.client.get(self.url)
         self.data = {
             'username': 'test',
-            'login': 'test@test.ru',
-            'pass': 'test@test.ru'
+            'email': 'test@test.ru',
+            'password1': 'test@test.ru',
+            'password2': 'test@test.ru',
         }
 
     def test_register_user(self):
         """Проверка запроса на регистрацию пользователя."""
         response = self.client.post(
             self.url,
-            self.data,
+            {
+                'username': 'test',
+                'email': 'test@test.ru',
+                'password1': 'testpassword',
+                'password2': 'testpassword',
+            },
         )
         user_count = User.objects.count()
         self.assertEqual(response.status_code, 302)

@@ -1,4 +1,4 @@
-from account.models import HistorySearch, HistorySearchProduct
+from viewings.models import HistorySearch, HistorySearchProduct
 from django.conf import settings
 from django.db.models import Min, Count
 from django.shortcuts import get_list_or_404
@@ -43,7 +43,8 @@ class ProductDetailView(generic.DetailView):
         queryset = Product.objects.annotate(
             min_price=Min('offers__price')).annotate(num_reviews=Count('product_reviews')).prefetch_related(
             'product_properties', 'product_images', 'offers', 'product_reviews')
-        self.add_product_to_user_search_history(queryset)
+        if self.request.user.is_authenticated:
+            self.add_product_to_user_search_history(queryset)
         return queryset
 
     def get_context_data(self, **kwargs):

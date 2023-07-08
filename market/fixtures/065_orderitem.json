@@ -1,6 +1,6 @@
 [
 {
-  "model": "order.orderitem",
+  "model": "orders.orderitem",
   "pk": 1,
   "fields": {
     "order": 7,
@@ -10,7 +10,7 @@
   }
 },
 {
-  "model": "order.orderitem",
+  "model": "orders.orderitem",
   "pk": 2,
   "fields": {
     "order": 7,
@@ -20,7 +20,7 @@
   }
 },
 {
-  "model": "order.orderitem",
+  "model": "orders.orderitem",
   "pk": 3,
   "fields": {
     "order": 7,
@@ -30,7 +30,7 @@
   }
 },
 {
-  "model": "order.orderitem",
+  "model": "orders.orderitem",
   "pk": 4,
   "fields": {
     "order": 6,
@@ -40,7 +40,7 @@
   }
 },
 {
-  "model": "order.orderitem",
+  "model": "orders.orderitem",
   "pk": 5,
   "fields": {
     "order": 6,
@@ -50,7 +50,7 @@
   }
 },
 {
-  "model": "order.orderitem",
+  "model": "orders.orderitem",
   "pk": 6,
   "fields": {
     "order": 4,
@@ -60,7 +60,7 @@
   }
 },
 {
-  "model": "order.orderitem",
+  "model": "orders.orderitem",
   "pk": 7,
   "fields": {
     "order": 4,
@@ -70,7 +70,7 @@
   }
 },
 {
-  "model": "order.orderitem",
+  "model": "orders.orderitem",
   "pk": 8,
   "fields": {
     "order": 8,
@@ -80,7 +80,7 @@
   }
 },
 {
-  "model": "order.orderitem",
+  "model": "orders.orderitem",
   "pk": 9,
   "fields": {
     "order": 8,
@@ -90,7 +90,7 @@
   }
 },
 {
-  "model": "order.orderitem",
+  "model": "orders.orderitem",
   "pk": 10,
   "fields": {
     "order": 9,
@@ -100,7 +100,7 @@
   }
 },
 {
-  "model": "order.orderitem",
+  "model": "orders.orderitem",
   "pk": 11,
   "fields": {
     "order": 10,

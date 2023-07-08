@@ -148,14 +148,18 @@
                                 {% for review in product.product_reviews.all() %}
                                     <div class="Comment">
                                         <div class="Comment-column Comment-column_pict">
+                                        {% if review.author.photo %}
+                                            <img class="Comment-avatar" src="{{ review.author.photo.url }}" >
+                                        {% else %}
                                             <div class="Comment-avatar">
                                             </div>
+                                         {% endif %}
                                         </div>
                                         <div class="Comment-column">
                                             <header class="Comment-header">
                                                 <div>
                                                     <strong class="Comment-title">{{ review.author.username }}
-                                                    </strong><span class="Comment-date">{{ review.created_at }}</span>
+                                                    </strong><span class="Comment-date">{{ review.created_at.date() }}</span>
                                                 </div>
                                             </header>
                                             <div class="Comment-content">{{ review.content }}

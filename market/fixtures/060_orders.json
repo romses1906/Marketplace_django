@@ -1,6 +1,6 @@
 [
 {
-  "model": "order.order",
+  "model": "orders.order",
   "pk": 1,
   "fields": {
     "user": 1,
@@ -19,7 +19,7 @@
   }
 },
 {
-  "model": "order.order",
+  "model": "orders.order",
   "pk": 2,
   "fields": {
     "user": 2,
@@ -38,7 +38,7 @@
   }
 },
 {
-  "model": "order.order",
+  "model": "orders.order",
   "pk": 3,
   "fields": {
     "user": 1,
@@ -57,7 +57,7 @@
   }
 },
 {
-  "model": "order.order",
+  "model": "orders.order",
   "pk": 4,
   "fields": {
     "user": 3,
@@ -76,7 +76,7 @@
   }
 },
 {
-  "model": "order.order",
+  "model": "orders.order",
   "pk": 5,
   "fields": {
     "user": 4,
@@ -95,7 +95,7 @@
   }
 },
 {
-  "model": "order.order",
+  "model": "orders.order",
   "pk": 6,
   "fields": {
     "user": 1,
@@ -114,7 +114,7 @@
   }
 },
 {
-  "model": "order.order",
+  "model": "orders.order",
   "pk": 7,
   "fields": {
     "user": 5,
@@ -133,7 +133,7 @@
   }
 },
 {
-  "model": "order.order",
+  "model": "orders.order",
   "pk": 8,
   "fields": {
     "user": 4,
@@ -152,7 +152,7 @@
   }
 },
 {
-  "model": "order.order",
+  "model": "orders.order",
   "pk": 9,
   "fields": {
     "user": 2,
@@ -171,7 +171,7 @@
   }
 },
 {
-  "model": "order.order",
+  "model": "orders.order",
   "pk": 10,
   "fields": {
     "user": 8,
@@ -190,7 +190,7 @@
   }
 },
 {
-  "model": "order.order",
+  "model": "orders.order",
   "pk": 11,
   "fields": {
     "user": 1,
@@ -209,7 +209,7 @@
   }
 },
 {
-  "model": "order.order",
+  "model": "orders.order",
   "pk": 12,
   "fields": {
     "user": 1,
@@ -228,7 +228,7 @@
   }
 },
 {
-  "model": "order.order",
+  "model": "orders.order",
   "pk": 13,
   "fields": {
     "user": 1,

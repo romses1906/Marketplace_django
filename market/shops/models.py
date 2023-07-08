@@ -9,8 +9,8 @@ from users.models import User
 from .services import offer_price_with_discount
 
 phone_validate = RegexValidator(
-    regex=r'^\+?[78]\d{10}$',
-    message=_("Номер телефона должен быть введен в формате: '+71234567890'. Максимальная длина 12 символов.")
+    regex=r'^\+\d{1,3}\s\(\d{3}\)\s\d{3}-\d{2}-\d{2}$',
+    message=_("Номер телефона должен быть введен в формате: '+7 (123) 456-78-90'. Максимальная длина 12 символов.")
 )
 
 
@@ -20,11 +20,11 @@ class Shop(models.Model):
     products = models.ManyToManyField("products.Product", through="Offer", related_name="shops",
                                       verbose_name=_("товары в магазине"))
     description = models.TextField(verbose_name=_("описание магазина"), blank=True, null=True)
-    phone_number = models.CharField(max_length=12, validators=[phone_validate], verbose_name=_("номер телефона"),
+    phone_number = models.CharField(max_length=18, validators=[phone_validate], verbose_name=_("номер телефона"),
                                     blank=True, null=True)
     address = models.CharField(max_length=255, verbose_name=_("адрес"), blank=True, null=True)
     email = models.EmailField(max_length=255, verbose_name=_("email"), blank=True, null=True)
-    user = models.OneToOneField(to=User, on_delete=models.CASCADE)
+    user = models.OneToOneField(to=User, null=True, blank=True, on_delete=models.CASCADE)
 
     class Meta:
         verbose_name = _('магазин')

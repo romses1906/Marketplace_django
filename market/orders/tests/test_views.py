@@ -4,7 +4,7 @@ from jinja2 import Template as Jinja2Template
 from django.test import TestCase, Client
 
 from cart.cart import CartServices
-from order.models import Order
+from orders.models import Order
 from users.models import User
 
 ORIGINAL_JINJA2_RENDERER = Jinja2Template.render

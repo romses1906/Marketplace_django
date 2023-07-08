@@ -18,14 +18,16 @@
                 <form action="{{ url('users:register_user') }}" method="post">
                     {% csrf_token %}
                     <div>
-                        <input class="user-input" type="text" name="username" id="name" placeholder="Никнейм" />
+                        {{ form.username }}
                     </div>
                     <div>
-                        <input class="user-input" type="email" name="login" id="name" placeholder="E-mail" />
+                        {{ form.email }}
                     </div>
                     <div>
-
-                        <input type="password" name="pass" id="name" placeholder="Пароль" />
+                        {{ form.password1 }}
+                    </div>
+                    <div>
+                        {{ form.password2 }}
                     </div>
                     <input type="submit" value="Зарегистрироваться" />
 

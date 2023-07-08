@@ -11,7 +11,7 @@ from django.views import View
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import TemplateView
 
-from order.models import Order, OrderItem
+from orders.models import Order, OrderItem
 from shops.models import Offer
 
 stripe.api_key = settings.STRIPE_SECRET_KEY
@@ -26,7 +26,7 @@ class CreateSessionView(LoginRequiredMixin, View):
         num_order = self.kwargs["order_id"]
         order = Order.objects.get(pk=num_order)
         items = OrderItem.objects.prefetch_related('offer__product').filter(order_id=order.pk)
-        name_items = list()
+        name_items = []
         for item in items:
             name_items.append(item.offer.product.name)
 

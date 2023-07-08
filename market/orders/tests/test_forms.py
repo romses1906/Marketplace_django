@@ -1,5 +1,5 @@
 from django.test import TestCase
-from order.forms import UserForm, DeliveryForm, PaymentForm, CommentForm
+from orders.forms import UserForm, DeliveryForm, PaymentForm, CommentForm
 
 
 class UserFormTest(TestCase):

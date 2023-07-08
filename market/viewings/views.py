@@ -4,20 +4,21 @@ from django.contrib.messages.views import SuccessMessageMixin
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
 from django.urls import reverse_lazy, reverse
+from django.utils.translation import gettext as _
 from django.views import View
-from django.views.generic import DetailView
+from django.views.generic import DetailView, CreateView, UpdateView
 
-from account.models import HistorySearch
-from order.models import Order
+from orders.models import Order
 from shops.models import Shop
 from users.models import User
-from .services import change_profile, ShopManager
+from viewings.models import HistorySearch
+from .forms import CreateShopForms
+from .services import change_profile
 
 
 class AccountUser(DetailView):
-    """Представления для отображения информации о пользователе на странице аккаунта. """
-
-    template_name = 'account/account.j2'
+    """Представления для отображения информации о пользователе на странице аккаунта."""
+    template_name = 'viewings/account.j2'
     context_object_name = 'user'
     model = User
 
@@ -25,7 +26,8 @@ class AccountUser(DetailView):
         context = super().get_context_data(**kwargs)
         user = User.objects.get(pk=self.request.user.pk)
         context['last_order'] = Order.objects.select_related('user').filter(user=self.request.user).last()
-        context['history'] = HistorySearch.objects.get(user=self.request.user)
+        if HistorySearch.objects.filter(user=self.request.user).exists():
+            context['history'] = HistorySearch.objects.get(user=self.request.user)
         if hasattr(user, 'shop'):
             context['shop'] = True
             return context
@@ -35,8 +37,7 @@ class AccountUser(DetailView):
 
 class ProfileUser(LoginRequiredMixin, SuccessMessageMixin, View):
     """Представления для редактирования профиля пользователя."""
-
-    template_name = 'account/profile.j2'
+    template_name = 'viewings/profile.j2'
 
     def get_success_url(self):
         """Возвращаемый URL при успешном выполнении методов."""
@@ -67,35 +68,29 @@ class ProfileUser(LoginRequiredMixin, SuccessMessageMixin, View):
         return HttpResponseRedirect(self.get_success_url())
 
 
-class RegShopView(SuccessMessageMixin, View):
+class RegShopView(SuccessMessageMixin, CreateView):
     """Представление для регистрации магазина."""
-
-    template_name = 'account/reg_shop.j2'
+    template_name = 'viewings/reg_shop.j2'
+    model = Shop
+    success_message = _('Магазин успешно добавлен!')
+    form_class = CreateShopForms
 
     def get_success_url(self):
         """Возвращаемый URL при успешном выполнении методов."""
         return reverse('account:account_user', kwargs={'pk': self.kwargs['pk']})
 
-    def get(self, request, *args, **kwargs):
-        """Получение страницы для добавления магазина."""
-        return render(self.request, template_name=self.template_name)
-
-    def post(self, request, *args, **kwargs):
-        """Добавление магазина."""
-        data = self.request.POST
-        user_pk = self.request.user.pk
-
-        shop = ShopManager(data=data, user_pk=user_pk)
-        shop_create = shop.create()
-
-        messages.add_message(self.request, messages.INFO, shop_create)
-        return HttpResponseRedirect(self.get_success_url())
+    def form_valid(self, form):
+        """Перед сохранением формы добавляем пользователя."""
+        form.instance.user = self.request.user
+        form.save()
+        return super().form_valid(form)
 
 
-class UpdateShopView(SuccessMessageMixin, View):
+class UpdateShopView(SuccessMessageMixin, UpdateView):
     """Представление для редактирования магазина."""
-
-    template_name = 'account/update_shop.j2'
+    template_name = 'viewings/update_shop.j2'
+    fields = 'name', 'description', 'phone_number', 'address', 'email',
+    success_message = _('Магазин успешно редактирован')
 
     def get_object(self, queryset=None):
         """Возвращение объекта магазина."""
@@ -104,21 +99,3 @@ class UpdateShopView(SuccessMessageMixin, View):
     def get_success_url(self):
         """Возвращаемый URL при успешном выполнении методов."""
         return reverse_lazy('account:update_shop', kwargs={'pk': self.kwargs['pk']})
-
-    def get(self, request, *args, **kwargs):
-        """Получение страницы для редактирования магазина."""
-        context = {
-            'shop': self.get_object()
-        }
-        return render(self.request, template_name=self.template_name, context=context)
-
-    def post(self, request, *args, **kwargs):
-        """Редактирование магазина."""
-        data = self.request.POST
-        user_pk = self.request.user.pk
-
-        shop = ShopManager(data=data, user_pk=user_pk)
-        shop_update = shop.update()
-
-        messages.add_message(self.request, messages.INFO, shop_update)
-        return HttpResponseRedirect(self.get_success_url())
