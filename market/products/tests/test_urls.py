@@ -18,6 +18,7 @@ class ProductsByCategoryPageTest(TestCase):
         "020_products.json",
         "010_shops.json",
         "030_offers.json",
+        "026_product_images.json",
     ]
 
     @classmethod

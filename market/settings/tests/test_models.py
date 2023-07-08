@@ -9,14 +9,14 @@ class DiscountModelTest(TestCase):
 
     @classmethod
     def setUpTestData(cls):
-        cls.property = Property.objects.create(name='тестовая характеристика')
-        cls.category = Category.objects.create(name='тестовая категория', description='тестовое описание категории')
+        cls.property = Property.objects.create(name='тест характеристика')
+        cls.category = Category.objects.create(name='тест категория', description='тест описание категории')
         cls.product = Product.objects.create(
             name='Тестовый продукт',
             category=cls.category
         )
         cls.product.property.set([cls.property])
-        cls.discount = Discount.objects.create(name='тестовая скидка на товар', description='тестовая скидка на товар',
+        cls.discount = Discount.objects.create(name='тест скидка на товар', description='тест скидка на товар',
                                                end_date='2023-07-28T17:11:37Z', value=10, value_type='percentage')
         cls.discount.products.set([cls.product])
 
@@ -263,10 +263,10 @@ class ProductInDiscountOnSetModelTest(TestCase):
                                                            description='тестовая скидка на набор',
                                                            end_date='2023-07-28T17:11:37Z', value=50,
                                                            value_type='percentage')
-        cls.property = Property.objects.create(name='тестовая характеристика')
-        cls.category = Category.objects.create(name='тестовая категория', description='тестовое описание категории')
+        cls.property = Property.objects.create(name='тест свойство')
+        cls.category = Category.objects.create(name='категория', description='описание категории')
         cls.product = Product.objects.create(
-            name='Тестовый продукт',
+            name='продукт',
             category=cls.category
         )
         cls.product.property.set([cls.property])

@@ -47,19 +47,19 @@ class PropertyModelTest(TestCase):
     def test_verbose_name(self):
         """ Тестирование verbose_name полей модели Свойство продукта """
 
-        property = self.property
+        test_property = self.property
         field_verboses = {
             'name': 'наименование',
         }
         for field, expected_value in field_verboses.items():
             with self.subTest(field=field):
-                self.assertEqual(property._meta.get_field(field).verbose_name, expected_value)
+                self.assertEqual(test_property._meta.get_field(field).verbose_name, expected_value)
 
     def test_name_max_length(self):
         """ Тестирование максимально возможной длины для ввода поля name модели Свойство продукта """
 
-        property = self.property
-        max_length = property._meta.get_field('name').max_length
+        test_property = self.property
+        max_length = test_property._meta.get_field('name').max_length
         self.assertEqual(max_length, 512)
 
 

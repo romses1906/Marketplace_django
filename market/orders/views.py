@@ -13,7 +13,7 @@ from orders.forms import UserForm, DeliveryForm, PaymentForm, CommentForm
 from orders.models import Order
 from orders.services import add_items_from_cart
 from users.models import User
-from users.services import create_user
+from users.services import create_user, normalize_email
 
 
 class Step1View(View):
@@ -45,24 +45,30 @@ class Step1View(View):
         if form.is_valid():
             user_data = form.cleaned_data
             user_data['full_name'] = user_data['full_name']
-            user_data['email'] = user_data['email']
+            user_data['email'] = normalize_email(user_data['email'])
             user_data['phone_number'] = str(user_data['phone_number'])
             if not request.user.is_authenticated:
-                password1 = request.POST.get('password')
-                password2 = request.POST.get('passwordReply')
+                with transaction.atomic():
+                    password1 = request.POST.get('password')
+                    password2 = request.POST.get('passwordReply')
 
-                if password1 != password2:
-                    messages.error(request, _("Пароли не совпадают!"))
-                    return render(request, self.template_name, {'form': form})
+                    if password1 != password2:
+                        messages.error(request, _("Пароли не совпадают!"))
+                        return render(request, self.template_name, {'form': form})
+                    if User.objects.filter(email=user_data['email']).exists():
+                        form.add_error('email', _("Пользователь с указанным email существует,"
+                                                  " вы можете авторизоваться!"))
+                        return render(request, self.template_name, {'form': form})
+                    if User.objects.filter(phone_number=user_data['phone_number']).exists():
+                        user_email = User.objects.filter(phone_number=user_data['phone_number']).first()
+                        form.add_error('phone_number', _(f"Пользователь с указанным phone_number существует, "
+                                                         f"вы можете авторизоваться по почте: {user_email}!"))
+                        return render(request, self.template_name, {'form': form})
 
-                if User.objects.filter(email=user_data['email']).exists():
-                    form.add_error('email', _("Пользователь с указанным email существует, вы можете авторизоваться!"))
-                    return render(request, self.template_name, {'form': form})
-
-                create_user(password1, user_data)
-                authenticated_user = authenticate(request, email=user_data['email'], password=password1)
-                if authenticated_user is not None:
-                    login(request, authenticated_user)
+                    create_user(password1, user_data)
+                    authenticated_user = authenticate(request, email=user_data['email'], password=password1)
+                    if authenticated_user is not None:
+                        login(request, authenticated_user)
             cart = CartServices(request)
             cart.add_user_data(form)
             return redirect('order:step2')

@@ -78,7 +78,7 @@ class ProductFilter(django_filters.FilterSet):
         for item in value:
             if item != "":
                 ids.append(item)
-        if len(ids):
+        if ids:
             qs = queryset.filter(shop__in=ids)
         else:
             qs = queryset
@@ -92,18 +92,18 @@ class ProductFilter(django_filters.FilterSet):
         for item in value:
             if item != "":
                 values.append(item)
-        if len(values):
-            for value in values:
+        if values:
+            for val in values:
                 name_property = list(ProductProperty.objects.select_related('property').filter(
-                    value=value).values_list('property__name'))[0][0]
+                    value=val).values_list('property__name'))[0][0]
                 if name_property not in names_properties:
-                    names_properties[name_property] = {value}
+                    names_properties[name_property] = {val}
                 else:
-                    names_properties[name_property].add(value)
+                    names_properties[name_property].add(val)
             qs = queryset
-            for key, value in names_properties.items():
+            for value_prop in names_properties.values():
                 qs = qs.select_related('shop', 'product__category').filter(
-                    product__product_properties__value__in=value).order_by('product__id').distinct(
+                    product__product_properties__value__in=value_prop).order_by('product__id').distinct(
                     'product__id')
         else:
             qs = queryset
