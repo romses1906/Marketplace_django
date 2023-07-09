@@ -8,9 +8,13 @@
     {% if offer_of_the_day %}
         {% with product=offer_of_the_day.product %}
         <div class="Card">
-          <a class="Card-picture" href="{{ url('products:product_detail', product.pk) }}">
-            <img src="{{ static('img/content/home/card.jpg') }}" alt="card.jpg">
-          </a>
+        {% if product.product_images.first() %}
+        <a class="Card-picture" href="{{ url('products:product_detail', product.pk) }}">
+        <img src="{{ product.product_images.first().image.url }}" alt="card.jpg" /></a>
+        {% else %}
+        <a class="Card-picture" href="{{ url('products:product_detail', product.pk) }}">
+        <img src="{{ static('img/content/home/card.jpg') }}" alt="card.jpg" /></a>
+        {% endif %}
           <div class="Card-content">
             <strong class="Card-title">
               <a href="{{ url('products:product_detail', product.pk) }}">{{ product.name }}</a>

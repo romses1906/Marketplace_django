@@ -24,6 +24,7 @@ class SiteSettings(SingletonModel):
                                               verbose_name=_('стоимость экспресс доставки, руб'))
     banners_count = models.PositiveIntegerField(validators=[MaxValueValidator(3)], default=3,
                                                 verbose_name=_('количество баннеров'))
+    banners_cache_time = models.PositiveIntegerField(default=10, verbose_name=_('время кэширования, минут'))
     top_product_count = models.PositiveIntegerField(validators=[MaxValueValidator(8)], default=8,
                                                     verbose_name=_('количество самых популярных товаров'))
     limited_edition_count = models.PositiveIntegerField(validators=[MaxValueValidator(16)], default=16,
