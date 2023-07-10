@@ -48,12 +48,16 @@
           <div class="Cart-block Cart-block_row">
             {% with product=item.offer.product %}
                 <div class="Cart-block Cart-block_pict">
-                  <a class="Cart-pict" href="#">
-                    <img class="Cart-img" src="#" alt="card.jpg"/>
-                  </a>
+                    {% if product.product_images.first() %}
+                    <a class="Card-picture" href="{{ url('products:product_detail', product.pk) }}">
+                    <img src="{{ product.product_images.first().image.url }}" alt="card.jpg" /></a>
+                    {% else %}
+                    <a class="Card-picture" href="{{ url('products:product_detail', product.pk) }}">
+                    <img src="{{ static('img/content/home/card.jpg') }}" alt="card.jpg" /></a>
+                    {% endif %}
                 </div>
                 <div class="Cart-block Cart-block_info">
-                  <a class="Cart-title" href="#">{{ product.name }}</a>
+                  <a class="Cart-title" href="{{ url('products:product_detail', product.pk) }}"</a>
                     <div class="Cart-desc">{{ product.description|truncate(200) }}</div>
                 </div>
                 <div class="Cart-block Cart-block_price">

@@ -13,8 +13,14 @@
             {% for item in limited_edition_products %}
             <div class="Slider-item">
                 <div class="Slider-content">
-                    <div class="Card"><a class="Card-picture" href="{{ url('products:product_detail', item.product.pk) }}">
+                    <div class="Card">
+                        {% if item.product.product_images.first() %}
+                        <a class="Card-picture" href="{{ url('products:product_detail', item.product.pk) }}">
+                        <img src="{{ item.product.product_images.first().image.url }}" alt="card.jpg" /></a>
+                        {% else %}
+                        <a class="Card-picture" href="{{ url('products:product_detail', item.product.pk) }}">
                         <img src="{{ static('img/content/home/card.jpg') }}" alt="card.jpg" /></a>
+                        {% endif %}
                         <div class="Card-content">
                             <strong class="Card-title">
                                 <a href="{{ url('products:product_detail', item.product.pk) }}" tabindex="-1">{{ item.product.name[:20] }}</a>

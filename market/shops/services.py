@@ -1,8 +1,34 @@
 from datetime import datetime
 from decimal import Decimal
 
+from django.apps import apps
+from django.core.cache import cache
 from django.utils import timezone
-from settings.models import Discount
+from settings.models import Discount, SiteSettings
+
+
+class BannerService:
+    """Сервис для получения и кэширования активных баннеров."""
+
+    @staticmethod
+    def get_active_banners():
+        banners_cache_time = 60 * SiteSettings.load().banners_cache_time
+        banners_count = SiteSettings.load().banners_count
+        Banner = apps.get_model('shops', 'Banner')
+
+        banners = cache.get('active_banners')
+
+        if not banners:
+            banners = list(Banner.objects.filter(is_active=True).order_by('?')[:banners_count])
+            cache.set('active_banners', banners, banners_cache_time)
+        else:
+            active_banners = list(Banner.objects.filter(is_active=True).order_by('?')[:banners_count])
+            if banners != active_banners:
+                cache.delete('active_banners')
+                banners = active_banners
+                cache.set('active_banners', banners, banners_cache_time)
+
+        return banners
 
 
 def offer_price_with_discount(product_id: int, price: Decimal) -> Decimal:

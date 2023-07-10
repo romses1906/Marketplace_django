@@ -9,9 +9,13 @@
       {% if top_products %}
         {% for item in top_products %}
         <div class="Card">
-          <a class="Card-picture" href="{{ url('products:product_detail', item.product.pk) }}">
-            <img src="{{ static('img/content/home/card.jpg') }}" alt="card.jpg">
-          </a>
+        {% if item.product.product_images.first() %}
+        <a class="Card-picture" href="{{ url('products:product_detail', item.product.pk) }}">
+        <img src="{{ item.product.product_images.first().image.url }}" alt="card.jpg" /></a>
+        {% else %}
+        <a class="Card-picture" href="{{ url('products:product_detail', item.product.pk) }}">
+        <img src="{{ static('img/content/home/card.jpg') }}" alt="card.jpg" /></a>
+        {% endif %}
           <div class="Card-content">
             <strong class="Card-title">
               <a href="{{ url('products:product_detail', item.product.pk) }}">{{ item.product.name }}</a>

@@ -18,7 +18,11 @@
               </div>
               <div class="BannersHomeBlock-block">
                 <div class="BannersHomeBlock-img">
-                  <img src="{{ static('img/content/home/videoca.png') }}" alt="videoca.png" />
+                {% if item.product.product_images.first() %}
+                <img src="{{ item.product.product_images.first().image.url }}" alt="card.jpg" />
+                {% else %}
+                <img src="{{ static('img/content/home/card.jpg') }}" alt="card.jpg" />
+                {% endif %}
                 </div>
               </div>
             </div>

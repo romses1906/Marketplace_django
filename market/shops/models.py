@@ -4,9 +4,10 @@ from django.db.models import Max, Sum
 from django.templatetags.static import static
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
+
 from users.models import User
 
-from .services import offer_price_with_discount
+from .services import offer_price_with_discount, BannerService
 
 phone_validate = RegexValidator(
     regex=r'^\+\d{1,3}\s\(\d{3}\)\s\d{3}-\d{2}-\d{2}$',
@@ -103,8 +104,7 @@ class BannerManager(models.Manager):
 
     def get_active_banners(self):
         """ Метод получения действующих баннеров """
-
-        return self.filter(is_active=True).order_by('?')[:3]
+        return BannerService.get_active_banners()
 
 
 class Banner(models.Model):
