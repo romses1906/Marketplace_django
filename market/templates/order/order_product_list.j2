@@ -6,10 +6,10 @@
                 <div class="Cart-block Cart-block_pict">
                     {% if product.product_images.first() %}
                     <a class="Card-picture" href="{{ url('products:product_detail', product.pk) }}">
-                    <img src="{{ product.product_images.first().image.url }}" alt="card.jpg" /></a>
+                    <img src="{{ product.product_images.first().image.url }}" alt="card.jpg" width="100" height="100" /></a>
                     {% else %}
                     <a class="Card-picture" href="{{ url('products:product_detail', product.pk) }}">
-                    <img src="{{ static('img/content/home/card.jpg') }}" alt="card.jpg" /></a>
+                    <img src="{{ static('img/content/home/card.jpg') }}" alt="card.jpg" width="100" height="100" /></a>
                     {% endif %}
                 </div>
             <div class="Cart-block Cart-block_info">
