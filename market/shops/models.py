@@ -1,4 +1,3 @@
-from django.core.cache import cache
 from django.core.validators import RegexValidator
 from django.db import models
 from django.db.models import Max, Sum
@@ -6,17 +5,14 @@ from django.templatetags.static import static
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 
-from settings.models import SiteSettings
 from users.models import User
 
-from .services import offer_price_with_discount
+from .services import offer_price_with_discount, BannerService
 
 phone_validate = RegexValidator(
     regex=r'^\+\d{1,3}\s\(\d{3}\)\s\d{3}-\d{2}-\d{2}$',
     message=_("Номер телефона должен быть введен в формате: '+7 (123) 456-78-90'. Максимальная длина 12 символов.")
 )
-
-banners_cache_time = 60 * SiteSettings.load().banners_cache_time
 
 
 class Shop(models.Model):
@@ -108,23 +104,7 @@ class BannerManager(models.Manager):
 
     def get_active_banners(self):
         """ Метод получения действующих баннеров """
-
-        # Проверяем, есть ли закешированные баннеры
-        banners = cache.get('active_banners')
-
-        if not banners:
-            # Если закешированных баннеров нет, получаем активные баннеры и сохраняем в кеш
-            banners = list(self.filter(is_active=True).order_by('?')[:3])
-            cache.set('active_banners', banners, banners_cache_time)
-        else:
-            # Если есть закешированные баннеры, проверяем обновления перед возвратом
-            active_banners = list(self.filter(is_active=True).order_by('?')[:3])
-            if banners != active_banners:
-                cache.delete('active_banners')
-                banners = active_banners
-                cache.set('active_banners', banners, banners_cache_time)
-
-        return banners
+        return BannerService.get_active_banners()
 
 
 class Banner(models.Model):
