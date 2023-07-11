@@ -123,6 +123,13 @@ TEMPLATES = [
     },
 ]
 
+CACHES = {
+    "default": {
+        "BACKEND": "django.core.cache.backends.filebased.FileBasedCache",
+        "LOCATION": os.path.join(BASE_DIR, 'market_cache'),
+    }
+}
+
 WSGI_APPLICATION = "config.wsgi.application"
 
 # Database
@@ -241,7 +248,7 @@ CELERY_RESULT_SERIALIZER = 'json'  # является типом формата 
 CELERY_TASK_DEFAULT_QUEUE = 'default'  # celery будет использовать это имя очереди
 
 # Данные почты получателя уведомлений о проведённом импорте
-RECIPIENTS_EMAIL = ['service.megano@gmail.com']   # список получателей по умолчанию
+RECIPIENTS_EMAIL = ['service.megano@gmail.com']  # список получателей по умолчанию
 DEFAULT_FROM_EMAIL = config['EMAIL_HOST_USER']  # почта администратора
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 

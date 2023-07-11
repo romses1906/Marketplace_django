@@ -2,13 +2,15 @@ import re
 
 import django_filters
 from django import forms
+from django.core.cache import cache
 from django.db.models import Count, Sum
 from products.models import ProductProperty, Category
+from settings.models import SiteSettings
 from shops.models import Offer
 
 
 class ProductFilter(django_filters.FilterSet):
-    """ Класс для фильтрации товаров в конкретной категории по различным параметрам """
+    """ Класс для фильтрации и сортировки товаров в конкретной категории по различным параметрам """
 
     SORT_BY_CHOICES = (
         ('price', 'По возрастанию цены'),
@@ -36,7 +38,7 @@ class ProductFilter(django_filters.FilterSet):
                                                                   attrs={"class": "form-control"}))
 
     sort_by = django_filters.MultipleChoiceFilter(choices=SORT_BY_CHOICES, label="Сортировка",
-                                                  method="multiple_sorting_method",
+                                                  method="update_cache_by_sorting",
                                                   widget=forms.CheckboxSelectMultiple(
                                                       attrs={"class": "form-control"}))
 
@@ -109,36 +111,42 @@ class ProductFilter(django_filters.FilterSet):
             qs = queryset
         return qs
 
-    def multiple_sorting_method(self, queryset, name, value):
+    def multiple_sorting_method(self, queryset, value):
         """ Метод сортировки товаров по выбранным пользователем характеристикам """
 
-        order_by = ""
-        distinct_on = ""
+        sorting_products = None
         if value[0] == self.SORT_BY_CHOICES[0][0]:
-            order_by = "price"
-            distinct_on = "price"
+            sorting_products = queryset.order_by("price").distinct("price")
         elif value[0] == self.SORT_BY_CHOICES[1][0]:
-            order_by = "-price"
-            distinct_on = "price"
+            sorting_products = queryset.order_by("-price").distinct("price")
         elif value[0] == self.SORT_BY_CHOICES[4][0]:
-            order_by = "created"
-            distinct_on = "created"
+            sorting_products = queryset.order_by("created").distinct("created")
         elif value[0] == self.SORT_BY_CHOICES[5][0]:
-            order_by = "-created"
-            distinct_on = "created"
+            sorting_products = queryset.order_by("-created").distinct("created")
         elif value[0] == self.SORT_BY_CHOICES[2][0]:
-            queryset = queryset.annotate(cnt=Count('product__product_reviews')).order_by('cnt').distinct()
-            return queryset
+            sorting_products = queryset.annotate(cnt=Count('product__product_reviews')).order_by('cnt').distinct()
         elif value[0] == self.SORT_BY_CHOICES[3][0]:
-            queryset = queryset.annotate(cnt=Count('product__product_reviews')).order_by('-cnt').distinct()
-            return queryset
+            sorting_products = queryset.annotate(cnt=Count('product__product_reviews')).order_by('-cnt').distinct()
         elif value[0] == self.SORT_BY_CHOICES[6][0]:
-            queryset = queryset.filter(order__status='paid').annotate(
+            sorting_products = queryset.filter(order__status='paid').annotate(
                 total_quantity=Sum('orderitem__quantity')).order_by('total_quantity').distinct()
-            return queryset
         elif value[0] == self.SORT_BY_CHOICES[7][0]:
-            queryset = queryset.filter(order__status='paid').annotate(
+            sorting_products = queryset.filter(order__status='paid').annotate(
                 total_quantity=Sum('orderitem__quantity')).order_by('-total_quantity').distinct()
-            return queryset
+        return sorting_products
 
-        return queryset.order_by(order_by).distinct(distinct_on)
+    def update_cache_by_sorting(self, queryset, name, value):
+        """ Метод для учета сортировки при формировании кеша каталога товаров """
+
+        products_cache_time = 60 * 60 * 24 * SiteSettings.load().product_cache_time
+        sorting_products = cache.get('sorting_products')
+        if not sorting_products:
+            sorting_products = self.multiple_sorting_method(queryset, value)
+            cache.set('sorting_products', sorting_products, products_cache_time)
+        else:
+            actual_sorting_products = self.multiple_sorting_method(queryset, value)
+            if repr(sorting_products) != repr(actual_sorting_products):
+                cache.delete('sorting_products')
+                sorting_products = actual_sorting_products
+                cache.set('sorting_products', sorting_products, products_cache_time)
+        return sorting_products

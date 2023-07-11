@@ -250,14 +250,14 @@ class ProductsByCategoryViewTest(TestCase):
         response = self.client.get(
             self.url_books + "?sort_by=price")
         min_price_of_book = self.offers_books.aggregate(Min('price'))
-        first_elem_in_queryset = response.context_data['offer_list'].first()
+        first_elem_in_queryset = response.context_data['offer_list'][0]
         second_elem_in_queryset = response.context_data['offer_list'][1]
         self.assertEqual(first_elem_in_queryset.price, min_price_of_book['price__min'])
         self.assertTrue(first_elem_in_queryset.price <= second_elem_in_queryset.price)
         response = self.client.get(
             self.url_books + "?sort_by=-price")
         max_price_of_book = self.offers_books.aggregate(Max('price'))
-        first_elem_in_queryset = response.context_data['offer_list'].first()
+        first_elem_in_queryset = response.context_data['offer_list'][0]
         second_elem_in_queryset = response.context_data['offer_list'][1]
         self.assertEqual(first_elem_in_queryset.price, max_price_of_book['price__max'])
         self.assertTrue(first_elem_in_queryset.price >= second_elem_in_queryset.price)
@@ -268,14 +268,14 @@ class ProductsByCategoryViewTest(TestCase):
         response = self.client.get(
             self.url_books + "?sort_by=created")
         old_created_of_book = self.offers_books.aggregate(Min('created'))
-        first_elem_in_queryset = response.context_data['offer_list'].first()
+        first_elem_in_queryset = response.context_data['offer_list'][0]
         second_elem_in_queryset = response.context_data['offer_list'][1]
         self.assertEqual(first_elem_in_queryset.created, old_created_of_book['created__min'])
         self.assertTrue(first_elem_in_queryset.created <= second_elem_in_queryset.created)
         response = self.client.get(
             self.url_books + "?sort_by=-created")
         new_created_of_book = self.offers_books.aggregate(Max('created'))
-        first_elem_in_queryset = response.context_data['offer_list'].first()
+        first_elem_in_queryset = response.context_data['offer_list'][0]
         second_elem_in_queryset = response.context_data['offer_list'][1]
         self.assertEqual(first_elem_in_queryset.created, new_created_of_book['created__max'])
         self.assertTrue(first_elem_in_queryset.created >= second_elem_in_queryset.created)
@@ -287,7 +287,7 @@ class ProductsByCategoryViewTest(TestCase):
             self.url_books + "?sort_by=reviews")
         min_reviews_of_book = self.offers_books.annotate(Count('product__product_reviews')).aggregate(
             cnt=Min('product__product_reviews__count'))
-        first_elem_in_queryset = response.context_data['offer_list'].first()
+        first_elem_in_queryset = response.context_data['offer_list'][0]
         second_elem_in_queryset = response.context_data['offer_list'][1]
         self.assertEqual(first_elem_in_queryset.product.product_reviews.count(), min_reviews_of_book['cnt'])
         self.assertTrue(
@@ -297,7 +297,7 @@ class ProductsByCategoryViewTest(TestCase):
             self.url_books + "?sort_by=-reviews")
         max_reviews_of_book = self.offers_books.annotate(Count('product__product_reviews')).aggregate(
             cnt=Max('product__product_reviews__count'))
-        first_elem_in_queryset = response.context_data['offer_list'].first()
+        first_elem_in_queryset = response.context_data['offer_list'][0]
         second_elem_in_queryset = response.context_data['offer_list'][1]
         self.assertEqual(first_elem_in_queryset.product.product_reviews.count(), max_reviews_of_book['cnt'])
         self.assertTrue(
@@ -312,11 +312,8 @@ class ProductsByCategoryViewTest(TestCase):
         min_purchases_of_book = self.offers_books.filter(order__status='paid').annotate(
             Sum('orderitem__quantity')).aggregate(
             cnt=Min('orderitem__quantity__sum'))
-        max_purchases_of_book = self.offers_books.filter(order__status='paid').annotate(
-            Sum('orderitem__quantity')).aggregate(
-            cnt=Max('orderitem__quantity__sum'))
 
-        first_elem_in_queryset_total_purchases = response.context_data['offer_list'].first().total_purchases()
+        first_elem_in_queryset_total_purchases = response.context_data['offer_list'][0].total_purchases()
         second_elem_in_queryset_total_purchases = response.context_data['offer_list'][1].total_purchases()
         self.assertEqual(first_elem_in_queryset_total_purchases, min_purchases_of_book['cnt'])
         self.assertTrue(
@@ -326,7 +323,7 @@ class ProductsByCategoryViewTest(TestCase):
         max_purchases_of_book = self.offers_books.filter(order__status='paid').annotate(
             Sum('orderitem__quantity')).aggregate(
             cnt=Max('orderitem__quantity__sum'))
-        first_elem_in_queryset_total_purchases = response.context_data['offer_list'].first().total_purchases()
+        first_elem_in_queryset_total_purchases = response.context_data['offer_list'][0].total_purchases()
         second_elem_in_queryset_total_purchases = response.context_data['offer_list'][1].total_purchases()
         self.assertEqual(first_elem_in_queryset_total_purchases, max_purchases_of_book['cnt'])
         self.assertTrue(
