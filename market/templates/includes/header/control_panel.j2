@@ -23,8 +23,10 @@
             </div>
             <nav class="row-block">
                 <div class="row ControlPanel-rowSplit">
-                    <div class="row-block"><a class="ControlPanel-title" href="{{ url('users:login_user') }}">Вход</a>
-                        <a class="ControlPanel-title" href="{{ url('users:register_user') }}">Регистрация</a>
+                    <div class="row-block">
+                        {% include "includes/language_change.j2" %}
+                        <a class="ControlPanel-title" href="{{ url('users:login_user') }}">{% trans %}Вход{% endtrans %}</a>
+                        <a class="ControlPanel-title" href="{{ url('users:register_user') }}">{% trans %}Регистрация{% endtrans %}</a>
                     </div>
                 </div>
             </nav>

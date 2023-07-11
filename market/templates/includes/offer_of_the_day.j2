@@ -2,7 +2,7 @@
   <div class="Section-columnSection Section-columnSection_mark">
     <header class="Section-columnHeader">
       <strong class="Section-columnTitle">
-        ОГРАНИЧЕННЫЕ ПРЕДЛОЖЕНИЯ
+        {% trans %}ОГРАНИЧЕННЫЕ ПРЕДЛОЖЕНИЯ{% endtrans %}
       </strong>
     </header>
     {% if offer_of_the_day %}
@@ -39,7 +39,7 @@
                     {{ days }}
                   </div>
                   <span class="CountDown-label">
-                    days
+                    {% trans %}дня{% endtrans %}
                   </span>
                 </div>
               </div>
@@ -49,7 +49,7 @@
                     {{ hours }}
                   </div>
                   <span class="CountDown-label">
-                    hours
+                    {% trans %}часа{% endtrans %}
                   </span>
                 </div>
               </div>
@@ -59,7 +59,7 @@
                     {{ minutes }}
                   </div>
                   <span class="CountDown-label">
-                    mins
+                    {% trans %}минуты{% endtrans %}
                   </span>
                 </div>
               </div>
@@ -69,7 +69,7 @@
                     {{ seconds }}
                   </div>
                   <span class="CountDown-label">
-                    secs
+                    {% trans %}секунды{% endtrans %}
                   </span>
                 </div>
               </div>

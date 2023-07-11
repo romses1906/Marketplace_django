@@ -10,20 +10,20 @@
                 <ul class="menu menu_main">
                     <li class="menu-item">
                         <a class="menu-link" href="{{ url('shops:home') }}">
-                            Главная
+                            {% trans %}Главная{% endtrans %}
                         </a>
                     </li>
                     <li class="menu-item">
                         <span class="menu-label menu-label_success">
-                            Скидки
+                            {% trans %}Скидки{% endtrans %}
                         </span>
                         <a class="menu-link" href="{{ url('settings:sales') }}">
-                            Каталог
+                            {% trans %}Каталог{% endtrans %}
                         </a>
                     </li>
                     <li class="menu-item">
                         <a class="menu-link" href="{{ url('comparison:compare-detail') }}">
-                            Сравнение
+                            {% trans %}Сравнение{% endtrans %}
                         </a>
                     </li>
                 </ul>
@@ -40,13 +40,13 @@
                     {% if request.user.is_authenticated %}
                     <div class="dropdown-content">
                         <a class="dropdown-content-a" href="{{ url('account:account_user', request.user.pk) }}">
-                            Личный кабинет
+                            {% trans %}Личный кабинет{% endtrans %}
                         </a>
                         <a class="dropdown-content-a" href="account.html">
-                            Административный раздел
+                            {% trans %}Административный раздел{% endtrans %}
                         </a>
                         <a class="dropdown-content-a" href="{{ url('users:logout_user') }}">
-                            Выход
+                            {% trans %}Выход{% endtrans %}
                         </a>
                     </div>
                     {% endif %}
@@ -69,7 +69,7 @@
         <div class="row-block Header-trigger">
             <a class="menuTrigger" href="#navigate">
                 <div class="menuTrigger-content">
-                    Показать навигацию
+                    {% trans %}Показать навигацию{% endtrans %}
                 </div>
                 <span></span><span></span><span></span>
             </a>
