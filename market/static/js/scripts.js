@@ -1122,6 +1122,7 @@
                 data: {
                     product_id: productId,
                     quantity: quantity,
+                    action: 'add',
                 },
                 success: function (data) {
                     console.log('data', data);
