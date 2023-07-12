@@ -1,6 +1,7 @@
 import os
 
 from django.contrib.auth import get_user_model
+from django.core.cache import cache
 from django.test import TestCase
 
 from products.models import Product, Property, Category
@@ -180,6 +181,12 @@ class BannerManagerTestCase(TestCase):
             is_active=True,
             link='https://example.com'
         )
+        Banner.objects.create(
+            title='Banner 5',
+            description='Banner 5 description',
+            is_active=True,
+            link='https://example.com'
+        )
 
     def test_get_active_banners(self):
         """ Тестирование корректности получения действующих баннеров """
@@ -191,6 +198,7 @@ class BannerManagerTestCase(TestCase):
 
     def test_active_banners_random_order(self):
         active_banners_1 = Banner.objects.get_active_banners()
+        cache.clear()
         active_banners_2 = Banner.objects.get_active_banners()
         self.assertNotEqual(active_banners_1, active_banners_2)
 

@@ -12,11 +12,11 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 import os
 from pathlib import Path
 
-from django.urls import reverse_lazy
-from dotenv import dotenv_values
-
 import dj_database_url
 import pygments.formatters
+from django.urls import reverse_lazy
+from django_jinja.builtins import DEFAULT_EXTENSIONS
+from dotenv import dotenv_values
 
 config = dotenv_values(os.path.join("..", ".env"))
 
@@ -106,25 +106,9 @@ TEMPLATES = [
                 "django.contrib.messages.context_processors.messages",
                 "django.template.context_processors.i18n",
             ],
-            # "filters": {
-            #     'myi18n': django
-            # },
-            # "policies": {
-            #     "ext.i18n.trimmed": True,
-            # },
-            # "extensions": [
-            #     "jinja2.ext.do",
-            #     "jinja2.ext.loopcontrols",
-            #     "jinja2.ext.i18n",
-            #     "django_jinja.builtins.extensions.CsrfExtension",
-            #     "django_jinja.builtins.extensions.CacheExtension",
-            #     "django_jinja.builtins.extensions.DebugExtension",
-            #     "django_jinja.builtins.extensions.TimezoneExtension",
-            #     "django_jinja.builtins.extensions.UrlsExtension",
-            #     "django_jinja.builtins.extensions.StaticFilesExtension",
-            #     "django_jinja.builtins.extensions.DjangoFiltersExtension",
-            #     "django_jinja.builtins.extensions.DjangoExtraFiltersExtension",
-            # ],
+            "extensions": DEFAULT_EXTENSIONS + [
+                "jinja.extensions.FragmentCacheExtension",
+            ],
 
         }
     },
@@ -143,6 +127,13 @@ TEMPLATES = [
         },
     },
 ]
+
+CACHES = {
+    "default": {
+        "BACKEND": "django.core.cache.backends.filebased.FileBasedCache",
+        "LOCATION": os.path.join(BASE_DIR, 'market_cache'),
+    }
+}
 
 WSGI_APPLICATION = "config.wsgi.application"
 
@@ -270,7 +261,7 @@ CELERY_RESULT_SERIALIZER = 'json'  # является типом формата 
 CELERY_TASK_DEFAULT_QUEUE = 'default'  # celery будет использовать это имя очереди
 
 # Данные почты получателя уведомлений о проведённом импорте
-RECIPIENTS_EMAIL = ['service.megano@gmail.com']   # список получателей по умолчанию
+RECIPIENTS_EMAIL = ['service.megano@gmail.com']  # список получателей по умолчанию
 DEFAULT_FROM_EMAIL = config['EMAIL_HOST_USER']  # почта администратора
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 

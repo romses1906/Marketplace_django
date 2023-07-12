@@ -1,0 +1,20 @@
+{% extends 'base.j2' %}
+{% block content %}
+<div class="detail_shop">
+    <div class="detail_shop__title">
+      {{ shop.name }}
+    </div>
+    <div class="detail_shop__description">
+      {{ shop.description }}
+    </div>
+    <div class="detail_shop__phone">
+      {{ shop.phone_number }}
+    </div>
+    <div class="detail_shop__address">
+      {{ shop.address }}
+    </div>
+    <div class="detail_shop__email">
+      {{ shop.email }}
+    </div>
+</div>
+{% endblock content %}

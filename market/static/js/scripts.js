@@ -947,6 +947,7 @@
                 },
             });
         });
+
         $('.Amount-remove').click((e) => {
             e.preventDefault();
             console.log('Нажали на кнопку Amount-remove');
@@ -982,6 +983,7 @@
                 },
             });
         });
+
         $('.Amount-input').on('change', (e) => {
             console.log('значение кол-во изменилось');
 
@@ -1090,6 +1092,7 @@
                 },
             });
         });
+
         $('#id_phone_number').mask('+7 (999) 999-99-99');
 
         // При загрузке страницы скрыть окно
@@ -1119,6 +1122,7 @@
                 data: {
                     product_id: productId,
                     quantity: quantity,
+                    action: 'add',
                 },
                 success: function (data) {
                     console.log('data', data);
