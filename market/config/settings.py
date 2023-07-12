@@ -13,6 +13,7 @@ import os
 from pathlib import Path
 
 from django.urls import reverse_lazy
+import django.conf
 from dotenv import dotenv_values
 
 import dj_database_url
@@ -106,6 +107,25 @@ TEMPLATES = [
                 "django.contrib.messages.context_processors.messages",
                 "django.template.context_processors.i18n",
             ],
+            # "filters": {
+            #     'myi18n': django
+            # },
+            # "policies": {
+            #     "ext.i18n.trimmed": True,
+            # },
+            # "extensions": [
+            #     "jinja2.ext.do",
+            #     "jinja2.ext.loopcontrols",
+            #     "jinja2.ext.i18n",
+            #     "django_jinja.builtins.extensions.CsrfExtension",
+            #     "django_jinja.builtins.extensions.CacheExtension",
+            #     "django_jinja.builtins.extensions.DebugExtension",
+            #     "django_jinja.builtins.extensions.TimezoneExtension",
+            #     "django_jinja.builtins.extensions.UrlsExtension",
+            #     "django_jinja.builtins.extensions.StaticFilesExtension",
+            #     "django_jinja.builtins.extensions.DjangoFiltersExtension",
+            #     "django_jinja.builtins.extensions.DjangoExtraFiltersExtension",
+            # ],
 
         }
     },

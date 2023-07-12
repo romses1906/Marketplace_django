@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-07-11 10:14+0000\n"
+"POT-Creation-Date: 2023-07-12 12:07+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,6 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
 #: cart/models.py:18
 msgid "корзина"
 msgstr "cart"
@@ -292,7 +293,7 @@ msgstr "review author"
 msgid "время добавления"
 msgstr "time of addition"
 
-#: reviews/models.py:18 templates/products/product.html:144
+#: reviews/models.py:18 templates/products/product.j2:138
 msgid "отзыв"
 msgstr "review"
 
@@ -488,133 +489,494 @@ msgstr "banner"
 msgid "баннеры"
 msgstr "banners"
 
-#: templates/base.html:16
-msgid "Описание страницы"
-msgstr "Page description"
+#: templates/cart/add_to_cart_success.j2:4
+msgid "Перейти в корзину"
+msgstr "Go to the cart"
 
-#: templates/footer.html:10
-msgid "Навигация"
-msgstr "Navigation"
+#: templates/cart/add_to_cart_success.j2:5
+msgid "Продолжить покупки"
+msgstr "Continue shopping"
 
-#: templates/footer.html:13 templates/header.html:41
-msgid "Главная"
-msgstr "Home"
+#: templates/cart/cart.j2:81 templates/order/order_product_list.j2:41
+#: templates/order/step4.j2:80
+msgid "Итого"
+msgstr "In all"
 
-#: templates/footer.html:15 templates/header.html:43
-msgid "Каталог"
-msgstr "Catalog"
+#: templates/cart/cart.j2:85
+msgid "Итого с учетом скидки"
+msgstr "Total taking into account the discount"
 
-#: templates/footer.html:17 templates/header.html:45
-msgid "Сравнение"
-msgstr "Comparison"
+#: templates/cart/cart.j2:89
+msgid "Оформить заказ"
+msgstr "Place an order"
 
-#: templates/footer.html:19
-msgid "Профиль"
-msgstr "Profile"
+#: templates/cart/cart.j2:95
+msgid "Ваша корзина пуста, вы можете выбрать товары в нашем магазине"
+msgstr "Your cart is empty, you can choose products in our store"
 
-#: templates/footer.html:25
-msgid "Контакты"
-msgstr "Contacts"
+#: templates/cart/cart.j2:96
+msgid "Перейти к покупкам"
+msgstr "Go to shopping"
 
-#: templates/header.html:26
-msgid "Вход"
-msgstr "Login"
-
-#: templates/header.html:27
-msgid "Регистрация"
-msgstr "Registration"
-
-#: templates/header.html:43
-msgid "Скидки"
-msgstr "Discounts"
-
-#: templates/header.html:56
-msgid "Личный кабинет"
-msgstr "Account"
-
-#: templates/header.html:57
-msgid "Административный раздел"
-msgstr "Admin section"
-
-#: templates/header.html:58
-msgid "Выход"
-msgstr "Logout"
-
-#: templates/header.html:69
-msgid "Показать навигацию"
-msgstr "Show navigation"
-
-#: templates/header.html:81
-msgid "Все категории"
-msgstr "All categories"
-
-#: templates/header.html:107
-msgid "Поиск"
-msgstr "Search"
-
-#: templates/products/product.html:28
-msgid "от"
-msgstr "from"
-
-#: templates/products/product.html:36
-msgid "Тэги"
-msgstr "Tags"
-
-#: templates/products/product.html:50
-msgid "Описание"
-msgstr "Description"
-
-#: templates/products/product.html:53
-msgid "Продавцы"
-msgstr "Sellers"
-
-#: templates/products/product.html:56
+#: templates/comparison/compare.j2:62 templates/products/product.j2:59
 msgid "Характеристика"
 msgstr "Characteristic"
 
-#: templates/products/product.html:59
+#: templates/comparison/compare.j2:63
+msgid "Значение"
+msgstr "Value"
+
+#: templates/comparison/compare.j2:95
+msgid "Добавить в корзину"
+msgstr "Add to cart"
+
+#: templates/comparison/compare.j2:102
+msgid "Удалить"
+msgstr "Delete"
+
+#: templates/imports/imports.j2:10 templates/includes/footer/menu.j2:3
+#: templates/order/history.j2:26 templates/viewings/account.j2:11
+#: templates/viewings/profile.j2:12 templates/viewings/reg_shop.j2:12
+#: templates/viewings/update_shop.j2:12
+msgid "Навигация"
+msgstr "Navigation"
+
+#: templates/imports/imports.j2:24 templates/order/detail_order.j2:14
+#: templates/order/history.j2:3 templates/order/history.j2:10
+#: templates/order/history.j2:15 templates/order/history.j2:36
+#: templates/viewings/account.j2:30 templates/viewings/last_order.j2:12
+#: templates/viewings/profile.j2:22 templates/viewings/reg_shop.j2:24
+#: templates/viewings/update_shop.j2:26
+msgid "История заказов"
+msgstr "Orders history"
+
+#: templates/imports/imports.j2:33
+msgid "Загрузите файл формата .json"
+msgstr "Upload the format file .json"
+
+#: templates/imports/imports.j2:49
+msgid "Пример"
+msgstr "Example"
+
+#: templates/imports/imports.j2:51 templates/imports/imports.j2:56
+msgid "Наименование товара"
+msgstr "Product name"
+
+#: templates/imports/imports.j2:53 templates/imports/imports.j2:58
+msgid "Количество товара в наличии"
+msgstr "Number of products in stock"
+
+#: templates/imports/imports.j2:57
+msgid "Цена"
+msgstr "Price"
+
+#: templates/includes/footer/contacts.j2:2
+msgid "Контакты"
+msgstr "Contacts"
+
+#: templates/includes/footer/contacts.j2:4 templates/order/detail_order.j2:50
+#: templates/order/step1.j2:22 templates/order/step4.j2:16
+#: templates/viewings/profile.j2:59
+msgid "Телефон"
+msgstr "Phone"
+
+#: templates/includes/footer/contacts.j2:4
+msgid "Email"
+msgstr "Email"
+
+#: templates/includes/footer/menu.j2:7 templates/includes/header/wrap.j2:13
+#: templates/order/detail_order.j2:12 templates/order/history.j2:13
+#: templates/sales.j2:11
+msgid "Главная"
+msgstr "Home"
+
+#: templates/includes/footer/menu.j2:10 templates/includes/header/wrap.j2:21
+msgid "Каталог"
+msgstr "Catalog"
+
+#: templates/includes/footer/menu.j2:13 templates/includes/header/wrap.j2:26
+msgid "Сравнение"
+msgstr "Comparison"
+
+#: templates/includes/footer/menu.j2:16 templates/order/history.j2:34
+#: templates/viewings/account.j2:28 templates/viewings/profile.j2:20
+#: templates/viewings/reg_shop.j2:20 templates/viewings/update_shop.j2:20
+msgid "Профиль"
+msgstr "Profile"
+
+#: templates/includes/header/control_panel.j2:28 templates/users/e-mail.j2:27
+#: templates/users/login.j2:7 templates/users/register.j2:35
+msgid "Вход"
+msgstr "Login"
+
+#: templates/includes/header/control_panel.j2:29 templates/users/login.j2:30
+#: templates/users/register.j2:7
+msgid "Регистрация"
+msgstr "Registration"
+
+#: templates/includes/header/header_search_wrap.j2:7
+msgid "Все категории"
+msgstr "All categories"
+
+#: templates/includes/header/header_search_wrap.j2:42
+msgid "Поиск"
+msgstr "Search"
+
+#: templates/includes/header/wrap.j2:18
+msgid "Скидки"
+msgstr "Discounts"
+
+#: templates/includes/header/wrap.j2:43 templates/order/history.j2:32
+#: templates/viewings/account.j2:26 templates/viewings/profile.j2:18
+#: templates/viewings/reg_shop.j2:18 templates/viewings/update_shop.j2:18
+msgid "Личный кабинет"
+msgstr "Account"
+
+#: templates/includes/header/wrap.j2:46
+msgid "Административный раздел"
+msgstr "Admin section"
+
+#: templates/includes/header/wrap.j2:49
+msgid "Выход"
+msgstr "Logout"
+
+#: templates/includes/header/wrap.j2:72
+msgid "Показать навигацию"
+msgstr "Show navigation"
+
+#: templates/includes/limited_edition.j2:5
+msgid "Ограниченный тираж"
+msgstr "Limited editions"
+
+#: templates/includes/offer_of_the_day.j2:5
+msgid "ОГРАНИЧЕННЫЕ ПРЕДЛОЖЕНИЯ"
+msgstr "LIMITED OFFERS"
+
+#: templates/includes/offer_of_the_day.j2:42
+msgid "дня"
+msgstr "days"
+
+#: templates/includes/offer_of_the_day.j2:52
+msgid "часа"
+msgstr "hours"
+
+#: templates/includes/offer_of_the_day.j2:62
+msgid "минуты"
+msgstr "minutes"
+
+#: templates/includes/offer_of_the_day.j2:72
+msgid "секунды"
+msgstr "seconds"
+
+#: templates/includes/top_products.j2:5
+msgid "Популярные товары"
+msgstr "Popular products"
+
+#: templates/order/detail_order.j2:3 templates/order/detail_order.j2:10
+#: templates/order/detail_order.j2:16 templates/order/order_list.j2:8
+#: templates/viewings/last_order.j2:8
+msgid "Заказ"
+msgstr "Order"
+
+#: templates/order/detail_order.j2:34
+msgid "Дата заказа"
+msgstr "Order date"
+
+#: templates/order/detail_order.j2:42 templates/order/step1.j2:16
+#: templates/order/step4.j2:12 templates/viewings/profile.j2:47
+msgid "ФИО"
+msgstr "Fullname"
+
+#: templates/order/detail_order.j2:68 templates/order/order_list.j2:13
+#: templates/order/step4.j2:26 templates/viewings/last_order.j2:17
+msgid "Тип доставки"
+msgstr "Type of delivery"
+
+#: templates/order/detail_order.j2:76 templates/order/step2.j2:18
+#: templates/order/step4.j2:31
+msgid "Город"
+msgstr "City"
+
+#: templates/order/detail_order.j2:84 templates/order/step2.j2:23
+#: templates/order/step4.j2:35 templates/viewings/reg_shop.j2:50
+#: templates/viewings/update_shop.j2:54
+msgid "Адрес"
+msgstr "Address"
+
+#: templates/order/detail_order.j2:92 templates/order/order_list.j2:20
+#: templates/order/step4.j2:39 templates/viewings/last_order.j2:23
+msgid "Оплата"
+msgstr "Pay"
+
+#: templates/order/detail_order.j2:100 templates/order/order_list.j2:36
+#: templates/viewings/last_order.j2:35
+msgid "Статус"
+msgstr "Status"
+
+#: templates/order/detail_order.j2:119
+msgid "Оплатить"
+msgstr "Pay"
+
+#: templates/order/order.j2:4 templates/order/order.j2:14
+#: templates/order/order.j2:19
+msgid "Оформление заказа"
+msgstr "Place an order"
+
+#: templates/order/order.j2:17 templates/payment/progressPayment.j2:12
+msgid "главная"
+msgstr "home"
+
+#: templates/order/order.j2:30
+msgid "Прогресс заполнения"
+msgstr "Filling process"
+
+#: templates/order/order_list.j2:8
+msgid "от"
+msgstr "from"
+
+#: templates/order/order_list.j2:27 templates/viewings/last_order.j2:29
+msgid "Общая стоимость"
+msgstr "Total price"
+
+#: templates/order/order_list.j2:47 templates/viewings/last_order.j2:45
+msgid "У Вас пока ещё нет заказов. Перейдите в"
+msgstr "You don't have any orders yet. Go to"
+
+#: templates/order/order_list.j2:48 templates/viewings/last_order.j2:46
+msgid "каталог"
+msgstr "the catalog"
+
+#: templates/order/order_list.j2:48 templates/viewings/last_order.j2:46
+msgid "чтобы совершить покупки"
+msgstr "to make purchases"
+
+#: templates/order/step1.j2:11 templates/order/step_list.j2:2
+msgid "Шаг 1. Параметры пользователя"
+msgstr "Step 1. User parameters"
+
+#: templates/order/step1.j2:28 templates/order/step4.j2:20
+#: templates/viewings/profile.j2:64 templates/viewings/reg_shop.j2:60
+#: templates/viewings/update_shop.j2:64
+msgid "E-mail"
+msgstr "E-mail"
+
+#: templates/order/step1.j2:38
+msgid "Пароль"
+msgstr "Password"
+
+#: templates/order/step1.j2:40
+msgid "Введите пароль"
+msgstr "Enter a password"
+
+#: templates/order/step1.j2:43 templates/viewings/profile.j2:74
+msgid "Подтверждение пароля"
+msgstr "Confirmation of password"
+
+#: templates/order/step1.j2:45
+msgid "Введите пароль повторно"
+msgstr "Enter the password again"
+
+#: templates/order/step1.j2:54
+msgid "Я уже зарегистрирован"
+msgstr "I am registered!"
+
+#: templates/order/step1.j2:59 templates/order/step2.j2:28
+#: templates/order/step3.j2:18
+msgid "Дальше"
+msgstr "Continue"
+
+#: templates/order/step2.j2:11 templates/order/step_list.j2:5
+msgid "Шаг 2. Способ доставки"
+msgstr "Step 2. Delivery method"
+
+#: templates/order/step3.j2:11 templates/order/step_list.j2:8
+msgid "Шаг 3. Способ оплаты"
+msgstr "Step 3. Payment method"
+
+#: templates/order/step4.j2:76
+msgid "Cтоимость доставки"
+msgstr "Cost of delivery"
+
+#: templates/order/step4.j2:87
+msgid "Оформить"
+msgstr "Order"
+
+#: templates/order/step_list.j2:11
+msgid "Шаг 4. Подтверждение заказа"
+msgstr "Step 4. Order confirmation"
+
+#: templates/payment/progressPayment.j2:9
+#: templates/payment/progressPayment.j2:14
+msgid "Ожидание оплаты"
+msgstr "Waiting for payment"
+
+#: templates/products/product.j2:39
+msgid "Тэги"
+msgstr "Tags"
+
+#: templates/products/product.j2:53 templates/viewings/reg_shop.j2:45
+#: templates/viewings/update_shop.j2:49
+msgid "Описание"
+msgstr "Description"
+
+#: templates/products/product.j2:56
+msgid "Продавцы"
+msgstr "Sellers"
+
+#: templates/products/product.j2:62
 msgid "Отзывы"
 msgstr "Reviews"
 
-#: templates/products/product.html:85
+#: templates/products/product.j2:89
 msgid "Стоимость"
 msgstr "Price"
 
-#: templates/products/product.html:104
+#: templates/products/product.j2:110
 msgid "Купить"
 msgstr "Buy"
 
-#: templates/products/product.html:111
-msgid "Поздравляем"
-msgstr "Congratulations"
-
-#: templates/products/product.html:112
-msgid "Закрыть модальное окно"
-msgstr "Close modal window"
-
-#: templates/products/product.html:115
-msgid "Товар успешно добавлен в корзину"
-msgstr "Product successfully added to cart"
-
-#: templates/products/product.html:146
+#: templates/products/product.j2:140
 msgid "отзыва"
 msgstr "reviews"
 
-#: templates/products/product.html:148
+#: templates/products/product.j2:142
 msgid "отзывов"
 msgstr "review"
 
-#: templates/products/product.html:174
+#: templates/products/product.j2:172
 msgid "Добавить отзыв"
 msgstr "Add review"
 
-#: templates/products/product.html:181
-msgid "Отзыв"
-msgstr "Review"
-
-#: templates/products/product.html:185
+#: templates/products/product.j2:183
 msgid "Отправить отзыв"
 msgstr "Send review"
+
+#: templates/products/products.j2:11
+msgid "Фильтр"
+msgstr "Filter"
+
+#: templates/products/products.j2:47
+msgid "Популярные теги"
+msgstr "Popular tags"
+
+#: templates/products/products.j2:51
+msgid "Видео"
+msgstr "Video"
+
+#: templates/products/products.j2:58
+msgid "Сортировать по"
+msgstr "Sort by"
+
+#: templates/products/products.j2:68 templates/products/products.j2:73
+msgid "Цене"
+msgstr "Price"
+
+#: templates/products/products.j2:69 templates/products/products.j2:74
+msgid "Новизне"
+msgstr "New"
+
+#: templates/products/products.j2:70 templates/products/products.j2:75
+msgid "Отзывам"
+msgstr "reviews"
+
+#: templates/products/products.j2:71 templates/products/products.j2:76
+msgid "Популярности"
+msgstr "Popularity"
+
+#: templates/products/products.j2:96
+msgid "Цена со скидкой"
+msgstr "Discounted price"
+
+#: templates/products/products.j2:113
+msgid "Товары отсутствуют"
+msgstr "There are no products"
+
+#: templates/sales.j2:13
+msgid "Блог"
+msgstr "Blog"
+
+#: templates/users/e-mail.j2:8 templates/users/password.j2:8
+msgid "Восстановление пароля"
+msgstr "Password recovery"
+
+#: templates/users/e-mail.j2:9
+msgid ""
+"Для восстановления пароля введите адрес электронной почты, на которую "
+"зарегистрирована учетная запись"
+msgstr "To recover your password, enter the email address to which the account is registered"
+
+#: templates/users/login.j2:26
+msgid "Войти"
+msgstr "Logout"
+
+#: templates/users/login.j2:28
+msgid "Забыли пароль?"
+msgstr "Forgot a password?"
+
+#: templates/users/password.j2:9
+msgid "Придумайте новый пароль для учетной записи"
+msgstr "Create a new password for your account"
+
+#: templates/users/password.j2:22
+msgid "Сохранить пароль"
+msgstr "Save password"
+
+#: templates/users/register.j2:32
+msgid "Зарегистрироваться"
+msgstr "Register"
+
+#: templates/viewings/account.j2:32 templates/viewings/update_shop.j2:22
+msgid "Редактировать магазин"
+msgstr "Edit story"
+
+#: templates/viewings/account.j2:35 templates/viewings/reg_shop.j2:22
+msgid "Зарегистрировать магазин"
+msgstr "Register story"
+
+#: templates/viewings/account.j2:59
+msgid "Редактировать профиль"
+msgstr "Edit profile"
+
+#: templates/viewings/account.j2:62
+msgid "История просмотров"
+msgstr "History of views"
+
+#: templates/viewings/account.j2:79
+msgid "Дата просмотра"
+msgstr "Date of viewing"
+
+#: templates/viewings/account.j2:91
+msgid "Просмотров пока нет"
+msgstr "There are no views yet"
+
+#: templates/viewings/profile.j2:36
+msgid "Аватар"
+msgstr "Avatar"
+
+#: templates/viewings/profile.j2:40
+msgid "Загрузить фото"
+msgstr "Load photo"
+
+#: templates/viewings/profile.j2:69
+msgid "Пароль (после смены, необходимо будет выполнить вход заново)"
+msgstr "Password (after changing your password, you will need to log in again)"
+
+#: templates/viewings/profile.j2:80 templates/viewings/reg_shop.j2:68
+#: templates/viewings/update_shop.j2:71
+msgid "Сохранить"
+msgstr "Save"
+
+#: templates/viewings/reg_shop.j2:40 templates/viewings/update_shop.j2:44
+msgid "Название магазина"
+msgstr "Name of the store"
+
+#: templates/viewings/reg_shop.j2:55 templates/viewings/update_shop.j2:59
+msgid "Номер телефона"
+msgstr "Phone number"
+
+#: templates/viewings/update_shop.j2:24
+msgid "Импорт товаров"
+msgstr "Import products"
 
 #: users/admin.py:15
 msgid "персональная информация"
@@ -747,3 +1109,18 @@ msgstr "Shop successfully added!"
 #: viewings/views.py:93
 msgid "Магазин успешно редактирован"
 msgstr "Shop successfully edited"
+
+#~ msgid "Описание страницы"
+#~ msgstr "Page description"
+
+#~ msgid "Поздравляем"
+#~ msgstr "Congratulations"
+
+#~ msgid "Закрыть модальное окно"
+#~ msgstr "Close modal window"
+
+#~ msgid "Товар успешно добавлен в корзину"
+#~ msgstr "Product successfully added to cart"
+
+#~ msgid "Отзыв"
+#~ msgstr "Review"

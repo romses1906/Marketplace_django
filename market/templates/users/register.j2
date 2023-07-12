@@ -4,7 +4,7 @@
 
             <div class="wrapper">
                 <div class="header">
-                    <h3 class="sign-in">Регистрация</h3>
+                    <h3 class="sign-in">{{ _('Регистрация') }}</h3>
 
                 </div>
                 {% if messages %}
@@ -29,10 +29,10 @@
                     <div>
                         {{ form.password2 }}
                     </div>
-                    <input type="submit" value="Зарегистрироваться" />
+                    <input type="submit" value="{{ _('Зарегистрироваться') }}" />
 
                     <a class="registr" href="{{ url('users:login_user') }}">
-                        Вход
+                        {{ _("Вход") }}
                     </a>
                     <div class="clear"></div>
                 </form>

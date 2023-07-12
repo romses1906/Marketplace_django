@@ -8,7 +8,7 @@
                 <div class="Section-column">
                     <div class="Section-columnSection">
                         <header class="Section-header">
-                            <strong class="Section-title">Фильтр</strong>
+                            <strong class="Section-title">{{ _("Фильтр") }}</strong>
                         </header>
                         <div class="Section-columnContent">
                             <form class="form" action="{{ url('products:products_by_category', category.pk) }}" method="get">
@@ -44,18 +44,18 @@
                     </div>
                     <div class="Section-columnSection">
                         <header class="Section-header">
-                            <strong class="Section-title">Популярные тэги
+                            <strong class="Section-title">{{ _("Популярные теги") }}
                             </strong>
                         </header>
                         <div class="Section-columnContent">
-                            <div class="buttons"><a class="btn btn_default btn_sm" href="#">Видео</a><a class="btn btn_default btn_sm" href="#">Разработка</a><a class="btn btn_default btn_sm" href="#">Игры</a><a class="btn btn_default btn_sm" href="#">Asus</a><a class="btn btn_default btn_sm" href="#">Разработка</a><a class="btn btn_default btn_sm" href="#">Видео</a>
+                            <div class="buttons"><a class="btn btn_default btn_sm" href="#">{{ _("Видео") }}</a><a class="btn btn_default btn_sm" href="#">Разработка</a><a class="btn btn_default btn_sm" href="#">Игры</a><a class="btn btn_default btn_sm" href="#">Asus</a><a class="btn btn_default btn_sm" href="#">Разработка</a><a class="btn btn_default btn_sm" href="#">Видео</a>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="Section-content">
                     <div class="Sort">
-                        <div class="Sort-title">Сортировать по:
+                        <div class="Sort-title">{{ _("Сортировать по") }}:
                         </div>
                         <div class="Sort-variants">
                         {% set cur_path = request.get_full_path() %}
@@ -65,15 +65,15 @@
                             <a class="Sort-sortBy {% if sorting =='-reviews' %}Sort-sortBy_inc{% else %}Sort-sortBy_dec{% endif %}" href="{% if sorting != 'reviews' %}{{ cur_path|replace('sort_by=' +  sorting|string, 'sort_by=reviews') }}{% else %}{{ cur_path|replace('sort_by=' +  sorting|string, 'sort_by=-reviews') }}{% endif %}">Отзывам</a>
                             <a class="Sort-sortBy {% if sorting =='-popularity' %}Sort-sortBy_inc{% else %}Sort-sortBy_dec{% endif %}" href="{% if sorting != 'popularity' %}{{ cur_path|replace('sort_by=' +  sorting|string, 'sort_by=popularity') }}{% else %}{{ cur_path|replace('sort_by=' +  sorting|string, 'sort_by=-popularity') }}{% endif %}">Популярности</a>
                         {% elif '?' in cur_path %}
-                            <a class="Sort-sortBy Sort-sortBy_inc" href="{{ cur_path }}&sort_by=price">Цене</a>
-                            <a class="Sort-sortBy Sort-sortBy_inc" href="{{ cur_path }}&sort_by=created">Новизне</a>
-                            <a class="Sort-sortBy Sort-sortBy_inc" href="{{ cur_path }}&sort_by=reviews">Отзывам</a>
-                            <a class="Sort-sortBy Sort-sortBy_inc" href="{{ cur_path }}&sort_by=popularity">Популярности</a>
+                            <a class="Sort-sortBy Sort-sortBy_inc" href="{{ cur_path }}&sort_by=price">{{ _("Цене") }}</a>
+                            <a class="Sort-sortBy Sort-sortBy_inc" href="{{ cur_path }}&sort_by=created">{{ _("Новизне") }}</a>
+                            <a class="Sort-sortBy Sort-sortBy_inc" href="{{ cur_path }}&sort_by=reviews">{{ _("Отзывам") }}</a>
+                            <a class="Sort-sortBy Sort-sortBy_inc" href="{{ cur_path }}&sort_by=popularity">{{ _("Популярности") }}</a>
                         {% else %}
-                            <a class="Sort-sortBy Sort-sortBy_inc" href="{{ cur_path }}?sort_by=price">Цене</a>
-                            <a class="Sort-sortBy Sort-sortBy_inc" href="{{ cur_path }}?sort_by=created">Новизне</a>
-                            <a class="Sort-sortBy Sort-sortBy_inc" href="{{ cur_path }}?sort_by=reviews">Отзывам</a>
-                            <a class="Sort-sortBy Sort-sortBy_inc" href="{{ cur_path }}?sort_by=popularity">Популярности</a>
+                            <a class="Sort-sortBy Sort-sortBy_inc" href="{{ cur_path }}?sort_by=price">{{ _("Цене") }}</a>
+                            <a class="Sort-sortBy Sort-sortBy_inc" href="{{ cur_path }}?sort_by=created">{{ _("Новизне") }}</a>
+                            <a class="Sort-sortBy Sort-sortBy_inc" href="{{ cur_path }}?sort_by=reviews">{{ _("Отзывам") }}</a>
+                            <a class="Sort-sortBy Sort-sortBy_inc" href="{{ cur_path }}?sort_by=popularity">{{ _("Популярности") }}</a>
                         {% endif %}
                         </div>
                     </div>
@@ -93,7 +93,7 @@
                       </div>
                       <p></p>
                       {% if offer.get_price_on_discount() < offer.price %}
-                            <div class="Card-cost"><span class="Card-price">Цена со скидкой: {{ offer.get_price_on_discount() }}</span>
+                            <div class="Card-cost"><span class="Card-price">{{ _("Цена со скидкой") }}: {{ offer.get_price_on_discount() }}</span>
                             </div>
                       {% endif %}
                       <div class="Card-category">
@@ -110,7 +110,7 @@
                 </div>
               {% endfor %}
             {% else %}
-                <p>Товары отсутствуют</p>
+                <p>{{ _("Товары отсутствуют") }}</p>
             {% endif %}
           </div>
             {% for message in messages %}

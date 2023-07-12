@@ -9,12 +9,12 @@
         <div class="Middle-top">
             <div class="wrap">
                 <div class="Middle-header">
-                    <h1 class="Middle-title">Оплата
+                    <h1 class="Middle-title">{{ _(Оплата) }}
                     </h1>
                     <ul class="breadcrumbs Middle-breadcrumbs">
-                        <li class="breadcrumbs-item"><a href="index.html">home</a>
+                        <li class="breadcrumbs-item"><a href="index.html">{{ _(главная) }}</a>
                         </li>
-                        <li class="breadcrumbs-item breadcrumbs-item_current"><span>Оплата</span>
+                        <li class="breadcrumbs-item breadcrumbs-item_current"><span>{{ _(Оплата) }}</span>
                         </li>
                     </ul>
                 </div>
@@ -24,7 +24,7 @@
             <div class="wrap">
                 <form class="form Payment" method="get">
                     <div class="container">
-                       <button type="button" class="btn btn_primary" id="checkout-button">Оплатить</button>
+                       <button type="button" class="btn btn_primary" id="checkout-button">{{ _(Оплатить) }}</button>
                     </div>
                     <script src="{{ static('js/stripe.js') }}"></script>
                 </form>

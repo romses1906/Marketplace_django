@@ -7,7 +7,7 @@
                 <div class="Section-column">
                     <div class="Section-columnSection">
                         <header class="Section-header">
-                            <strong class="Section-title">Навигация
+                            <strong class="Section-title">{{ _("Навигация") }}
                             </strong>
                         </header>
                         <div class="Section-columnContent">
@@ -21,7 +21,7 @@
                                     </li>
                                     <li class="menu-item_ACTIVE menu-item"><a class="menu-link" href="{{ url('imports:upload_file', request.user.pk) }}">Импорт товаров</a>
                                     </li>
-                                    <li class="menu-item"><a class="menu-link" href="#">История заказов</a>
+                                    <li class="menu-item"><a class="menu-link" href="#">{{ _("История заказов") }}</a>
                                     </li>
                                 </ul>
                             </div>
@@ -30,7 +30,7 @@
                 </div>
                 <div class="wrapper">
                 <div class="header">
-                    <h3 class="sign-in">Загрузите файл формата .json</h3>
+                    <h3 class="sign-in">{{ _("Загрузите файл формата .json") }}</h3>
 
                 </div>
                 {% if messages %}
@@ -46,16 +46,16 @@
                     <div>
                         {{ form.file }}
                         <div>
-                        <p>Пример:</p>
+                        <p>{{ _("Пример") }}:</p>
                         <p>[{
-                            "name": "Наименование товара",</p>
+                            "name": {{ _("Наименование товара") }},</p>
                             <p>"price": "Цена"</p>
-                            <p>"in_stock": "Количество товара в наличии"
+                            <p>"in_stock": {{ _("Количество товара в наличии") }}
                           },</p>
                           <p>{
-                            "name": "Наименование товара",</p>
-                            <p>"price": "Цена"</p>
-                            <p>"in_stock": "Количество товара в наличии"
+                            "name": {{ _("Наименование товара") }},</p>
+                            <p>"price": {{ _("Цена") }}</p>
+                            <p>"in_stock": {{ _("Количество товара в наличии") }}
                           },
                           ]</p>
                           </div>
