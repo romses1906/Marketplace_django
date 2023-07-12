@@ -9,21 +9,21 @@
                 <div class="Section-column">
                     <div class="Section-columnSection">
                         <header class="Section-header">
-                            <strong class="Section-title">Навигация
+                            <strong class="Section-title">{{ _("Навигация") }}
                             </strong>
                         </header>
                         <div class="Section-columnContent">
                             <div class="NavigateProfile">
                                 <ul class="menu menu_vt">
-                                    <li class="menu-item"><a class="menu-link" href="{{ url('account:account_user', request.user.pk) }}">Личный кабинет</a>
+                                    <li class="menu-item"><a class="menu-link" href="{{ url('account:account_user', request.user.pk) }}">{{ _("Личный кабинет") }}</a>
                                     </li>
-                                    <li class="menu-item"><a class="menu-link" href="{{ url('account:profile_user', request.user.pk) }}">Профиль</a>
+                                    <li class="menu-item"><a class="menu-link" href="{{ url('account:profile_user', request.user.pk) }}">{{ _("Профиль") }}</a>
                                     </li>
-                                    <li class="menu-item_ACTIVE menu-item"><a class="menu-link" href="#">Редактировать магазин</a>
+                                    <li class="menu-item_ACTIVE menu-item"><a class="menu-link" href="#">{{ _("Редактировать магазин") }}</a>
                                     </li>
-                                    <li class="menu-item"><a class="menu-link" href="{{ url('imports:upload_file', request.user.pk) }}">Импорт товаров</a>
+                                    <li class="menu-item"><a class="menu-link" href="{{ url('imports:upload_file', request.user.pk) }}">{{ _("Импорт товаров") }}</a>
                                     </li>
-                                    <li class="menu-item"><a class="menu-link" href="#">История заказов</a>
+                                    <li class="menu-item"><a class="menu-link" href="#">{{ _("История заказов") }}</a>
                                     </li>
 
                                 </ul>
@@ -39,36 +39,36 @@
                                 <div class="row-block">
                                     <div class="form-group">
                                     </div>
-
-                                     <div class="form-group">
-                                        <label class="form-label" for="name">Название магазина
+{{("
+                                      <div class="form-group">
+                                        <label class="form-label" for="name">{{ _("Название магазина") }}
                                         </label>
                                         {{ form.name }}
                                     </div>
                                     <div class="form-group">
-                                        <label class="form-label" for="description">Описание
+                                        <label class="form-label" for="description">{{ _("Описание") }}
                                         </label>
                                         {{ form.description }}
                                     </div>
                                     <div class="form-group">
-                                        <label class="form-label" for="address">Адрес
+                                        <label class="form-label" for="address">{{ _("Адрес") }}
                                         </label>
                                         {{ form.address }}
                                     </div>
                                     <div class="form-group">
-                                        <label class="form-label" for="phone">Номер телефона
+                                        <label class="form-label" for="phone">{{ _("Номер телефона") }}
                                         </label>
                                         {{ form.phone_number }}
                                     </div>
                                     <div class="form-group">
-                                        <label class="form-label" for="mail">E-mail
+                                        <label class="form-label" for="mail">{{ _("E-mail") }}
                                         </label>
                                         {{ form.email }}
                                     </div>
 
                                     <div class="form-group">
                                         <div class="Profile-btn">
-                                            <button class="btn btn_success" type="submit">Сохранить
+                                            <button class="btn btn_success" type="submit">{{ _("Сохранить") }}
                                             </button>
                                         </div>
                                         <div class="Profile-success">

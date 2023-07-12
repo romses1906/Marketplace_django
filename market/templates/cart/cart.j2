@@ -78,22 +78,22 @@
 
             <div class="Cart-total">
                 <div class="Cart-block Cart-block_total">
-                    <strong class="Cart-title">Итого:</strong>
+                    <strong class="Cart-title">{{ _("Итого") }}:</strong>
                     <div id="total_cart_price" class="Cart-price">{{ total_price }}</div>
                 </div>
                 <div class="Cart-block Cart-block_total">
-                    <strong class="Cart-title">Итого с учетом скидки:</strong>
+                    <strong class="Cart-title">{{ _("Итого с учетом скидки") }}:</strong>
                     <div id="cart_final_price_with_discount" class="Cart-price">{{ cart_final_price_with_discount }}</div>
                 </div>
 
-                <div class="Cart-block"><a class="btn btn_success btn_lg" href="{{ url('order:step1') }}">Оформить заказ</a>
+                <div class="Cart-block"><a class="btn btn_success btn_lg" href="{{ url('order:step1') }}">{{ _("Оформить заказ") }}</a>
                 </div>
             </div>
         </div>
     {% else %}
         <div class="wrap">
-            <h2>Ваша корзина пуста, вы можете выбрать товары в нашем магазине!</h2>
-            <div class="Cart-block"><a class="btn btn_success btn_lg" href="{{ url('shops:home') }}">Перейти к покупкам!</a></div>
+            <h2>{{ _("Ваша корзина пуста, вы можете выбрать товары в нашем магазине") }}!</h2>
+            <div class="Cart-block"><a class="btn btn_success btn_lg" href="{{ url('shops:home') }}">{{ _("Перейти к покупкам") }}!</a></div>
         </div>
     {% endif %}
     </div>

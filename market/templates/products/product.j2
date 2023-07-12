@@ -38,7 +38,7 @@
                         {% endcache %}
                         <div class="ProductCard-footer">
                             <div class="ProductCard-tags">
-                                <strong class="ProductCard-tagsTitle">Тэги:
+                                <strong class="ProductCard-tagsTitle">{% trans %}Тэги{% endtrans %}:
                                 </strong>
                                 {% for prod_tags in product.tags.all() %}
                                     {% for tag_name in prod_tags.tags.names %}
@@ -52,16 +52,16 @@
                 <div class="Tabs Tabs_default">
                     <div class="Tabs-links">
                         <a class="Tabs-link_ACTIVE Tabs-link" href="#description">
-                            <span>Описание</span>
+                            <span>{% trans %}Описание{% endtrans %}</span>
                         </a>
                         <a class="Tabs-link" href="#sellers">
-                            <span>Продавцы</span>
+                            <span>{% trans %}Продавцы{% endtrans %}</span>
                         </a>
                         <a class="Tabs-link" href="#addit">
-                            <span>Характеристика</span>
+                            <span>{% trans %}Характеристика{% endtrans %}</span>
                         </a>
                         <a class="Tabs-link" href="#reviews">
-                            <span>Отзывы ( {{ product.num_reviews }} )</span>
+                            <span>{% trans %}Отзывы{% endtrans %} ( {{ product.num_reviews }} )</span>
                         </a>
                     </div>
                     <div class="Tabs-wrap">
@@ -88,7 +88,7 @@
                                                 <div class="row-block">
                                                     <div class="Order-info">
                                                         <div style="display: flex; flex-direction: row" >
-                                                            <div class="Order-infoType">Стоимость:
+                                                            <div class="Order-infoType">{% trans %}Стоимость{% endtrans %}:
                                                             </div>
                                                             <div class="Order-infoContent"><span class="Order-price">
                                                                 {{ offer.price }} &#8381;</span>
@@ -109,7 +109,7 @@
                                                                 <a class="btn btn_primary btn-add-cart" href="#"
                                                                    id="add-cart-{{ offer.id }}" data-product-id="{{ offer.id }}" data-stock-{{ offer.id }}="{{ offer.in_stock }}">
                                                                     <img class="btn-icon" src='{{ static ("img/icons/card/cart_white.svg") }}' alt="cart_white.svg" />
-                                                                    <span class="btn-content">Купить</span>
+                                                                    <span class="btn-content">{% trans %}Купить{% endtrans %}</span>
                                                                 </a>
                                                             </div>
                                                         </div>
@@ -137,11 +137,11 @@
                             <header class="Section-header">
                                 <h3 class="Section-title">{{ product.num_reviews }}
                                     {% if product.num_reviews == 1 %}
-                                        отзыв
+                                        {% trans %}отзыв{% endtrans %}
                                     {% elif  1 < product.num_reviews <= 4  %}
-                                        отзыва
+                                        {% trans %}отзыва{% endtrans %}
                                     {% else %}
-                                        отзывов
+                                        {% trans %}отзывов{% endtrans %}
                                     {% endif %}
 
                                 </h3>
@@ -171,7 +171,7 @@
                                 {% endfor %}
                             </div>
                             <header class="Section-header Section-header_product">
-                                <h3 class="Section-title">Добавить отзыв
+                                <h3 class="Section-title">{% trans %}Добавить отзыв{% endtrans %}
                                 </h3>
                             </header>
                             <div class="Tabs-addComment">
@@ -182,7 +182,7 @@
                                     </div>
 
                                     <div class="form-group">
-                                        <button class="btn btn_muted" type="submit">Отправить отзыв
+                                        <button class="btn btn_muted" type="submit">{% trans %}Отправить отзыв{% endtrans %}
                                         </button>
                                     </div>
                                 </form>

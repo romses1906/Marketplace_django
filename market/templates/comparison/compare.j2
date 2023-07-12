@@ -59,8 +59,8 @@
                                                 <table>
                                                     <tbody>
                                                     <tr>
-                                                        <th class="hed">Характеристика</th>
-                                                        <th class="hed">Значение</th>
+                                                        <th class="hed">{{ _("Характеристика") }}</th>
+                                                        <th class="hed">{{ _("Значение") }}</th>
                                                     </tr>
                                                     {%- for property in properties -%}
                                                     <tr>
@@ -92,14 +92,14 @@
                                         <img class="btn-icon" src="{{ static('img/icons/card/cart_white.svg') }}"
                                              alt="cart_white.svg">
                                         <span class="btn-content">
-                                            Добавить в корзину
+                                            {{ _("Добавить в корзину") }}
                                         </span>
                                     </a>
                                     <a class="btn btn_primary" href="#">
                                         <img class="btn-icon" src="{{ static('img/icons/card/cart_white.svg') }}"
                                              alt="cart_white.svg">
                                         <span class="btn-content">
-                                            Удалить
+                                            {{ _("Удалить") }}
                                         </span>
                                     </a>
                                 </div>

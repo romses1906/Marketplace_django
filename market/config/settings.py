@@ -73,6 +73,7 @@ SITE_ID = 1
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
+    "django.middleware.locale.LocaleMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
@@ -103,6 +104,7 @@ TEMPLATES = [
                 "context_processors.properties_context.properties",
                 "context_processors.cart_context.cart",
                 "django.contrib.messages.context_processors.messages",
+                "django.template.context_processors.i18n",
             ],
             "extensions": DEFAULT_EXTENSIONS + [
                 "jinja.extensions.FragmentCacheExtension",
@@ -163,11 +165,19 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/4.2/topics/i18n/
 
-LANGUAGE_CODE = "en-us"
+LANGUAGE_CODE = "ru"
 
 TIME_ZONE = "UTC"
 
+# Internationalization
 USE_I18N = True
+LANGUAGES = [
+    ('ru', 'Русский'),
+    ('en', 'English')
+]
+LOCALE_PATHS = [
+    os.path.join(BASE_DIR, "locale/"),
+]
 
 USE_TZ = True
 

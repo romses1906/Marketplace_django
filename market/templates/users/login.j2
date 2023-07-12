@@ -4,7 +4,7 @@
 
             <div class="wrapper">
                 <div class="header">
-                    <h3 class="sign-in">Вход</h3>
+                    <h3 class="sign-in">{{ _('Вход') }}</h3>
                 </div>
                 {% if messages %}
                     <ul class="messages">
@@ -23,11 +23,11 @@
                         {{ form.password }}
                     </div>
                     <div>
-                        <input type="submit" value="Войти" />
+                        <input type="submit" value="{{ _('Войти') }}" />
                     </div>
-                    <a class="forgot-label" href="{{ url('users:password_reset') }}">Забыли пароль?</a>
+                    <a class="forgot-label" href="{{ url('users:password_reset') }}">{{ _('Забыли пароль?') }}</a>
                     <a class="registr" href="{{ url('users:register_user') }}">
-                        Регистрация
+                        {{ _('Регистрация') }}
                     </a>
                 </form>
             </div>

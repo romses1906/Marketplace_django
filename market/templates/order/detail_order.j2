@@ -1,19 +1,19 @@
 {% extends 'base.j2' %}
 
-{% block title %}Заказ{% endblock %}
+{% block title %}{{ _("Заказ") }}{% endblock %}
 
 {% block content %}
     <div class="Middle Middle_top">
         <div class="Middle-top">
             <div class="wrap">
                 <div class="Middle-header">
-                    <h1 class="Middle-title">Заказ {{ order.id }}</h1>
+                    <h1 class="Middle-title">{{ _("Заказ") }} {{ order.id }}</h1>
                     <ul class="breadcrumbs Middle-breadcrumbs">
-                        <li class="breadcrumbs-item"><a href="{{ url("shops:home") }}">Главная</a>
+                        <li class="breadcrumbs-item"><a href="{{ url("shops:home") }}">{{ _("Главная") }}</a>
                         </li>
-                        <li class="breadcrumbs-item"><a href="{{ url("order:history") }}">История заказов</a>
+                        <li class="breadcrumbs-item"><a href="{{ url("order:history") }}">{{ _("История заказов") }}</a>
                         </li>
-                        <li class="breadcrumbs-item breadcrumbs-item_current"><span>Заказ {{ order.id }}</span>
+                        <li class="breadcrumbs-item breadcrumbs-item_current"><span>{{ _("Заказ") }} {{ order.id }}</span>
                         </li>
                     </ul>
                 </div>
@@ -31,7 +31,7 @@
                                     <div class="row-block">
                                         <div class="Order-info Order-info_date">
                                             <div class="Order-infoType">
-                                                Дата заказа:
+                                                {{ _("Дата заказа") }}:
                                             </div>
                                             <div class="Order-infoContent">
                                                 {{ order.created.strftime('%d.%m.%Y') }}
@@ -39,7 +39,7 @@
                                         </div>
                                         <div class="Order-info">
                                             <div class="Order-infoType">
-                                                ФИО:
+                                                {{ _("ФИО") }}:
                                             </div>
                                             <div class="Order-infoContent">
                                                 {{ order.full_name }}
@@ -47,7 +47,7 @@
                                         </div>
                                         <div class="Order-info">
                                             <div class="Order-infoType">
-                                                Телефон:
+                                                {{ _("Телефон") }}:
                                             </div>
                                             <div class="Order-infoContent">
                                                 {{ order.phone_number }}
@@ -55,7 +55,7 @@
                                         </div>
                                         <div class="Order-info">
                                             <div class="Order-infoType">
-                                                E-mail:
+                                                {{ ("E-mail") }}:
                                             </div>
                                             <div class="Order-infoContent">
                                                 {{ order.user.email }}
@@ -65,7 +65,7 @@
                                     <div class="row-block">
                                         <div class="Order-info Order-info_delivery">
                                             <div class="Order-infoType">
-                                                Тип доставки:
+                                                {{ _("Тип доставки") }}:
                                             </div>
                                             <div class="Order-infoContent">
                                                 {{ order.delivery_option }}
@@ -73,7 +73,7 @@
                                         </div>
                                         <div class="Order-info">
                                             <div class="Order-infoType">
-                                                Город:
+                                                {{ _("Город") }}:
                                             </div>
                                             <div class="Order-infoContent">
                                                 {{ order.delivery_city }}
@@ -81,7 +81,7 @@
                                         </div>
                                         <div class="Order-info">
                                             <div class="Order-infoType">
-                                                Адрес:
+                                                {{ _("Адрес") }}:
                                             </div>
                                             <div class="Order-infoContent">
                                                 {{ order.delivery_address }}
@@ -89,7 +89,7 @@
                                         </div>
                                         <div class="Order-info Order-info_pay">
                                             <div class="Order-infoType">
-                                                Оплата:
+                                                {{ _("Оплата") }}:
                                             </div>
                                             <div class="Order-infoContent">
                                                 {{ order.payment_option }}
@@ -97,7 +97,7 @@
                                         </div>
                                         <div class="Order-info Order-info_status">
                                             <div class="Order-infoType">
-                                                Статус:
+                                                {{ _("Статус") }}:
                                             </div>
                                             <div class="Order-infoContent">
                                                 {{ order.status }}
@@ -115,8 +115,8 @@
                     {% if order.status == 'created' %}
                         <a class="form" href="{{ url("payment:payment_view", order.id) }}">
                           <div class="Cart-block">
-                              <strong>Ваш заказ № {{ order.id }} не оплачен, Вы можете его оплатить:</strong>
-                            <button class="btn btn_primary btn_lg" type="submit">Оплатить</button>
+                              <strong>{{ _("Ваш заказ № {{ order.id }} не оплачен, Вы можете его оплатить") }}:</strong>
+                            <button class="btn btn_primary btn_lg" type="submit">{{ _("Оплатить") }}</button>
                           </div>
                         </a>
                     {% endif %}

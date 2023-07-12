@@ -8,24 +8,24 @@
   <form class="form" action="" method="post">{% csrf_token %}
     <div class="Order-block Order-block_OPEN" id="step2">
       <header class="Section-header Section-header_sm">
-        <h2 class="Section-title">Шаг 2. Способ доставки
+        <h2 class="Section-title">{{ _("Шаг 2. Способ доставки") }}
         </h2>
       </header>
       <div class="form-group">
         {{ form.delivery_option }}
       </div>
       <div class="form-group">
-        <label class="form-label" for="city">Город
+        <label class="form-label" for="city">{{ _("Город") }}
           {{ form.delivery_city }}
         </label>
       </div>
       <div class="form-group">
-        <label class="form-label" for="address">Адрес
+        <label class="form-label" for="address">{{ _("Адрес") }}
           {{ form.delivery_address }}
         </label>
       </div>
       <div class="Order-footer">
-        <button class="btn btn_success" type="submit">Дальше</button>
+        <button class="btn btn_success" type="submit">{{ _("Дальше") }}</button>
       </div>
     </div>
   </form>

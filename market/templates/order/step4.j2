@@ -9,34 +9,34 @@
       <div class="row">
         <div class="row-block">
           <div class="Order-info">
-            <div class="Order-infoType">ФИО:</div>
+            <div class="Order-infoType">{{ _("ФИО") }}:</div>
             <div class="Order-infoContent">{{ user_data.full_name }}</div>
           </div>
           <div class="Order-info">
-            <div class="Order-infoType">Телефон:</div>
+            <div class="Order-infoType">{{ _("Телефон") }}:</div>
             <div class="Order-infoContent">{{ user_data.phone_number }}</div>
           </div>
           <div class="Order-info">
-            <div class="Order-infoType">E-mail:</div>
+            <div class="Order-infoType">{{ _("E-mail") }}:</div>
             <div class="Order-infoContent">{{ user_data.email }}</div>
           </div>
         </div>
         <div class="row-block">
           <div class="Order-info Order-info_delivery">
-            <div class="Order-infoType">Тип доставки:
+            <div class="Order-infoType">{{ _("Тип доставки") }}:
             </div>
             <div class="Order-infoContent">{{ shipping_data.delivery_option }}</div>
           </div>
           <div class="Order-info">
-            <div class="Order-infoType">Город:</div>
+            <div class="Order-infoType">{{ _("Город") }}:</div>
             <div class="Order-infoContent">{{ shipping_data.delivery_city }}</div>
           </div>
           <div class="Order-info">
-            <div class="Order-infoType">Адрес:</div>
+            <div class="Order-infoType">{{ _("Адрес") }}:</div>
             <div class="Order-infoContent">{{ shipping_data.delivery_address }}</div>
           </div>
           <div class="Order-info Order-info_pay">
-            <div class="Order-infoType">Оплата:</div>
+            <div class="Order-infoType">{{ _("Оплата") }}:</div>
             <div class="Order-infoContent">{{ payment_data.payment_option }}</div>
           </div>
         </div>
@@ -73,18 +73,18 @@
       <div class="Cart-total">
         <div class="Cart-block Cart-block_total">
             {% if get_delivery_cost %}
-                <strong class="Cart-title">Cтоимость доставки:</strong>
+                <strong class="Cart-title">{{ _("Cтоимость доставки") }}:</strong>
                 <div class="Cart-price" name="design">{{ get_delivery_cost }}$</div>
             {% endif %}
 
-            <strong class="Cart-title">Итого:</strong>
+            <strong class="Cart-title">{{ _("Итого") }}:</strong>
             <div class="Cart-price">{{ (get_final_price_with_discount + get_delivery_cost)|floatformat(2) }}$</div>
 
         </div>
 
         <form class="form" method="post">{% csrf_token %}
           <div class="Cart-block">
-            <button class="btn btn_primary btn_lg" type="submit">Оформить</button>
+            <button class="btn btn_primary btn_lg" type="submit">{{ _("Оформить") }}</button>
           </div>
         </form>
       </div>
