@@ -66,6 +66,7 @@ class ProductDetailView(generic.DetailView):
         context = super().get_context_data(**kwargs)
         context['default_alt'] = _('Изображение продукта')
         context['categories'] = get_list_or_404(Category)
+        context['product_cache_time'] = 60 * 60 * 24 * SiteSettings.load().product_cache_time
         return context
 
     def add_product_to_user_search_history(self, queryset) -> None:

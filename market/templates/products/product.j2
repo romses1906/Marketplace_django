@@ -5,6 +5,7 @@
 <div class="Middle Middle_top">
     <div class="Section">
         <div class="wrap">
+            {% cache product_cache_time 'product' %}
             <div class="Product">
                 <div class="ProductCard">
                     <div class="ProductCard-look">
@@ -34,6 +35,7 @@
                         </div>
                         <div class="ProductCard-text">{{ product.description }}
                         </div>
+                        {% endcache %}
                         <div class="ProductCard-footer">
                             <div class="ProductCard-tags">
                                 <strong class="ProductCard-tagsTitle">Тэги:

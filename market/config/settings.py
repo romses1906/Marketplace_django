@@ -12,11 +12,11 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 import os
 from pathlib import Path
 
-from django.urls import reverse_lazy
-from dotenv import dotenv_values
-
 import dj_database_url
 import pygments.formatters
+from django.urls import reverse_lazy
+from django_jinja.builtins import DEFAULT_EXTENSIONS
+from dotenv import dotenv_values
 
 config = dotenv_values(os.path.join("..", ".env"))
 
@@ -103,6 +103,9 @@ TEMPLATES = [
                 "context_processors.properties_context.properties",
                 "context_processors.cart_context.cart",
                 "django.contrib.messages.context_processors.messages",
+            ],
+            "extensions": DEFAULT_EXTENSIONS + [
+                "jinja.extensions.FragmentCacheExtension",
             ],
 
         }
