@@ -181,6 +181,12 @@ class BannerManagerTestCase(TestCase):
             is_active=True,
             link='https://example.com'
         )
+        Banner.objects.create(
+            title='Banner 5',
+            description='Banner 5 description',
+            is_active=True,
+            link='https://example.com'
+        )
 
     def test_get_active_banners(self):
         """ Тестирование корректности получения действующих баннеров """
