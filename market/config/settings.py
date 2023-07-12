@@ -13,7 +13,6 @@ import os
 from pathlib import Path
 
 from django.urls import reverse_lazy
-import django.conf
 from dotenv import dotenv_values
 
 import dj_database_url
