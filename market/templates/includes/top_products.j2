@@ -1,0 +1,49 @@
+{% include "cart/add_to_cart_success.j2" %}
+<div class="Section-content">
+  <header class="Section-header">
+    <h2 class="Section-title">
+      {% trans %}Популярные товары{% endtrans %}
+    </h2>
+  </header>
+  <div class="Cards">
+      {% if top_products %}
+        {% for item in top_products %}
+        <div class="Card">
+        {% if item.product.product_images.first() %}
+        <a class="Card-picture" href="{{ url('products:product_detail', item.product.pk) }}">
+        <img src="{{ item.product.product_images.first().image.url }}" alt="card.jpg" /></a>
+        {% else %}
+        <a class="Card-picture" href="{{ url('products:product_detail', item.product.pk) }}">
+        <img src="{{ static('img/content/home/card.jpg') }}" alt="card.jpg" /></a>
+        {% endif %}
+          <div class="Card-content">
+            <strong class="Card-title">
+              <a href="{{ url('products:product_detail', item.product.pk) }}">{{ item.product.name }}</a>
+            </strong>
+            <div class="Card-description">
+              <div class="Card-cost">
+                <span class="Card-price">
+                  ${{ item.get_price_on_discount() }}
+                </span>
+              </div>
+              <div class="Card-category">
+                {{ item.product.category }}
+              </div>
+              <div class="Card-hover">
+                <button class="Card-btn" type="button" data-product-id="{{ item.id }}">
+                    <img src="{{ static('img/icons/card/cart.svg') }}" alt="cart.svg">
+                </button>
+                <form class="Card-btn-comparison" action="{{ url('comparison:add-to-compare', item.pk) }}" method="post">
+                  {% csrf_token %}
+                  <button type="submit" style="border: 0">
+                    <img src="{{ static('img/icons/card/compare.svg') }}" alt="cart.svg">
+                  </button>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      {% endif %}
+  </div>
+</div>

@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load mptt_tags %}
+<div class="CategoriesButton-title">
+    <div class="CategoriesButton-icon"><img src="#" alt="#"/>
+    </div>
+    <span class="CategoriesButton-text">Все категории</span>
+</div>
+
+<div class="CategoriesButton-content">
+    <ul>
+        {% recursetree categories %}
+        <li>
+            <div class="CategoriesButton-link"><a href="{% url 'products:products_by_category' node.pk %}">
+                <div class="CategoriesButton-icon"><img src="#" alt="#"/>
+                </div>
+                <span class="CategoriesButton-text">{{ node.name }}</span>
+            </a>
+            </div>
+            {% if not node.is_leaf_node %}
+            <ul class="children">
+                {{ children }}
+            </ul>
+            {% endif %}
+        </li>
+        {% endrecursetree %}
+    </ul>
+</div>
+{% endblock content %}

@@ -1,0 +1,63 @@
+{% extends 'order/order.j2' %}
+
+{% block step_list %}
+    {% include "order/step_list.j2" %}
+{% endblock %}
+
+{% block step_form %}
+  <form class="form" action="" method="post">{% csrf_token %}
+    <div class="Order-block Order-block_OPEN" id="step1">
+      <header class="Section-header Section-header_sm">
+        <h2 class="Section-title">{{ _("Шаг 1. Параметры пользователя") }}</h2>
+      </header>
+      <div class="row">
+        <div class="row-block">
+          <div class="form-group">
+            <label class="form-label" for="name">{{ _("ФИО") }}
+              <div>{{ form.full_name }}</div>
+              <div style="color: red;">{{ form.full_name.errors }}</div>
+            </label>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="phone">{{ _("Телефон") }}
+               <input type="text" class="form-control" id="id_phone_number" name="phone_number" placeholder="+7 (___) ___-__-__" value="{{ form.phone_number.value() }}">
+              <div style="color: red;">{{ form.phone_number.errors }}</div>
+            </label>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="mail">{{ _("E-mail") }}
+              <div>{{ form.email }}</div>
+              <div style="color: red;">{{ form.email.errors }}</div>
+            </label>
+          </div>
+        </div>
+      </div>
+      {% if not request.user.is_authenticated %}
+      <div class="row-block">
+        <div class="form-group">
+            <label class="form-label" for="password">{{ _("Пароль") }}
+            </label>
+            <input class="form-input" id="password" name="password" type="password" placeholder="{{ _('Введите пароль') }}" />
+        </div>
+        <div class="form-group">
+            <label class="form-label" for="passwordReply">{{ _("Подтверждение пароля") }}
+            </label>
+            <input class="form-input" id="passwordReply" name="passwordReply" type="password" placeholder="{{ _('Введите пароль повторно') }}" />
+        </div>
+        {% for message in messages %}
+            {% if message.tags == 'error' %}
+                <div style="color: red;">
+                    {{ message }}
+                </div>
+            {% endif %}
+        {% endfor %}
+        <div class="form-group"><a class="btn btn_muted Order-btnReg" href="{{ url('users:login_user') }}">{{ _("Я уже зарегистрирован") }}</a>
+        </div>
+      </div>
+      {% endif %}
+      <div class="Order-footer">
+        <button class="btn btn_success" type="submit">{{ _("Дальше") }}</button>
+      </div>
+    </div>
+  </form>
+{% endblock %}

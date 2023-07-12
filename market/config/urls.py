@@ -14,9 +14,29 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+import debug_toolbar
+from django.conf import settings
+from django.conf.urls.static import static
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
 
 urlpatterns = [
+    path("i18n/", include("django.conf.urls.i18n")),
     path("admin/", admin.site.urls),
-]
+    path("", include("shops.urls", namespace="shops")),
+    path("catalog/", include("products.urls", namespace="products")),
+    path("users/", include("users.urls", namespace="users")),
+    path("users/", include("django.contrib.auth.urls")),
+    path("cart/", include("cart.urls", namespace="cart")),
+    path("orders/", include("orders.urls", namespace="order")),
+    path("reviews/", include("reviews.urls", namespace="reviews")),
+    path("viewings/", include("viewings.urls", namespace="account")),
+    path("compare/", include("comparison.urls", namespace="comparison")),
+    path("imports/", include("imports.urls", namespace="imports")),
+    path("settings/", include("settings.urls", namespace="settings")),
+    path("pay/", include("payments.urls", namespace="payments")),
+
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+if settings.DEBUG:
+    urlpatterns.append(path("__debug__/", include(debug_toolbar.urls)))

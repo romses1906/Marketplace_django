@@ -1,0 +1,44 @@
+<div class="Header-slider">
+    <div class="Slider Slider_main">
+        <div class="Slider-box">
+            {% if banners %}
+                {% for banner in banners %}
+                <div class="Slider-item">
+                    <div class="Slider-content">
+                        <div class="row">
+                            <div class="row-block">
+                                <strong class="Slider-title">
+                                    {{ banner.title }}
+                                </strong>
+                                <div class="Slider-text">
+                                    {{ banner.description }}
+                                </div>
+                                <div class="Slider-footer">
+                                    <a class="btn btn_primary" href="{{ banner.link }}">Get Started</a>
+                                </div>
+                            </div>
+                            {% if banner.image %}
+                                <div class="row-block">
+                                    <div class="Slider-img">
+                                        <img src="{{ banner.image.url }}" alt="slider.png" />
+                                    </div>
+                                </div>
+                            {% else %}
+                                <div class="row-block">
+                                    <div class="Slider-img">
+                                        <img src="{{ static('img/content/home/slider.png') }}" alt="slider.png" />
+                                    </div>
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            {% endif %}
+        </div>
+        <div class="Slider-navigateWrap">
+            <div class="Slider-navigate">
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,164 @@
+[
+{
+  "model": "products.productproperty",
+  "pk": 1,
+  "fields": {
+    "product": 10,
+    "property": 1,
+    "value": "Бронислав Брониславович Виногродский"
+  }
+},
+{
+  "model": "products.productproperty",
+  "pk": 2,
+  "fields": {
+    "product": 9,
+    "property": 1,
+    "value": "Джордж Оруэлл"
+  }
+},
+{
+  "model": "products.productproperty",
+  "pk": 3,
+  "fields": {
+    "product": 8,
+    "property": 1,
+    "value": "Александр Сергеевич Пушкин"
+  }
+},
+{
+  "model": "products.productproperty",
+  "pk": 4,
+  "fields": {
+    "product": 7,
+    "property": 1,
+    "value": "Александр Сергеевич Пушкин"
+  }
+},
+{
+  "model": "products.productproperty",
+  "pk": 5,
+  "fields": {
+    "product": 6,
+    "property": 1,
+    "value": "Александр Сергеевич Пушкин"
+  }
+},
+{
+  "model": "products.productproperty",
+  "pk": 6,
+  "fields": {
+    "product": 10,
+    "property": 2,
+    "value": "Твердый"
+  }
+},
+{
+  "model": "products.productproperty",
+  "pk": 7,
+  "fields": {
+    "product": 9,
+    "property": 2,
+    "value": "Твердый"
+  }
+},
+{
+  "model": "products.productproperty",
+  "pk": 8,
+  "fields": {
+    "product": 8,
+    "property": 2,
+    "value": "Твердый"
+  }
+},
+{
+  "model": "products.productproperty",
+  "pk": 9,
+  "fields": {
+    "product": 7,
+    "property": 2,
+    "value": "Тонкий"
+  }
+},
+{
+  "model": "products.productproperty",
+  "pk": 10,
+  "fields": {
+    "product": 6,
+    "property": 2,
+    "value": "Тонкий"
+  }
+},
+{
+  "model": "products.productproperty",
+  "pk": 11,
+  "fields": {
+    "product": 8,
+    "property": 3,
+    "value": "Проза"
+  }
+},
+{
+  "model": "products.productproperty",
+  "pk": 12,
+  "fields": {
+    "product": 10,
+    "property": 3,
+    "value": "Философия"
+  }
+},
+{
+  "model": "products.productproperty",
+  "pk": 13,
+  "fields": {
+    "product": 9,
+    "property": 3,
+    "value": "Антиутопия"
+  }
+},
+{
+  "model": "products.productproperty",
+  "pk": 14,
+  "fields": {
+    "product": 6,
+    "property": 3,
+    "value": "Роман"
+  }
+},
+{
+  "model": "products.productproperty",
+  "pk": 15,
+  "fields": {
+    "product": 7,
+    "property": 3,
+    "value": "Роман"
+  }
+},
+{
+  "model": "products.productproperty",
+  "pk": 16,
+  "fields": {
+    "product": 3,
+    "property": 4,
+    "value": "Электроинструмент"
+  }
+},
+{
+  "model": "products.productproperty",
+  "pk": 17,
+  "fields": {
+    "product": 2,
+    "property": 4,
+    "value": "Ручной инструмент"
+  }
+},
+{
+  "model": "products.productproperty",
+  "pk": 18,
+  "fields": {
+    "product": 1,
+    "property": 4,
+    "value": "Ручной инструмент"
+  }
+}
+]

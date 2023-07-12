@@ -1,0 +1,82 @@
+<div class="Section-column">
+  <div class="Section-columnSection Section-columnSection_mark">
+    <header class="Section-columnHeader">
+      <strong class="Section-columnTitle">
+        {{ _("ОГРАНИЧЕННЫЕ ПРЕДЛОЖЕНИЯ") }}
+      </strong>
+    </header>
+    {% if offer_of_the_day %}
+        {% with product=offer_of_the_day.product %}
+        <div class="Card">
+        {% if product.product_images.first() %}
+        <a class="Card-picture" href="{{ url('products:product_detail', product.pk) }}">
+        <img src="{{ product.product_images.first().image.url }}" alt="card.jpg" /></a>
+        {% else %}
+        <a class="Card-picture" href="{{ url('products:product_detail', product.pk) }}">
+        <img src="{{ static('img/content/home/card.jpg') }}" alt="card.jpg" /></a>
+        {% endif %}
+          <div class="Card-content">
+            <strong class="Card-title">
+              <a href="{{ url('products:product_detail', product.pk) }}">{{ product.name }}</a>
+            </strong>
+            <div class="Card-description">
+              <div class="Card-cost">
+                <span class="Card-priceOld">
+                  ${{ offer_of_the_day.price }}
+                </span>
+                <span class="Card-price">
+                  ${{ offer_of_the_day.get_price_on_discount() }}
+                </span>
+              </div>
+              <div class="Card-category">
+                {{ product.category }}
+              </div>
+            </div>
+            <div class="CountDown" data-date="{{ offer_of_the_day.created.strftime('%H:%M %Y-%m-%d') }}">
+              <div class="CountDown-block">
+                <div class="CountDown-wrap">
+                  <div class="CountDown-days" id="days">
+                    {{ days }}
+                  </div>
+                  <span class="CountDown-label">
+                    {% trans %}дня{% endtrans %}
+                  </span>
+                </div>
+              </div>
+              <div class="CountDown-block">
+                <div class="CountDown-wrap">
+                  <div class="CountDown-hours" id="hours">
+                    {{ hours }}
+                  </div>
+                  <span class="CountDown-label">
+                    {% trans %}часа{% endtrans %}
+                  </span>
+                </div>
+              </div>
+              <div class="CountDown-block">
+                <div class="CountDown-wrap">
+                  <div class="CountDown-minutes" id="minutes">
+                    {{ minutes }}
+                  </div>
+                  <span class="CountDown-label">
+                    {% trans %}минуты{% endtrans %}
+                  </span>
+                </div>
+              </div>
+              <div class="CountDown-block">
+                <div class="CountDown-wrap">
+                  <div class="CountDown-secs" id="seconds">
+                    {{ seconds }}
+                  </div>
+                  <span class="CountDown-label">
+                    {% trans %}секунды{% endtrans %}
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        {% endwith %}
+    {% endif %}
+  </div>
+</div>

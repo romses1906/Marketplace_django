@@ -1,0 +1,101 @@
+{% extends "base.j2" %}
+
+{% block content %}
+<div class="Middle Middle_top">
+
+
+    <div class="Section">
+        {% if  cart_items%}
+        <div class="wrap">
+            {% for message in messages %}
+                {% if message.tags == 'warning' %}
+                    <div style="color: red;">
+                        {{ message }}
+                    </div>
+                {% endif %}
+            {% endfor %}
+        </div>
+        <div class="wrap">
+            {% for item in cart_items %}
+                {% with product=item.offer.product %}
+                <div class="Cart-product">
+                    {% if item.quantity > 0 %}
+                    <div class="Cart-block Cart-block_row">
+                        <div class="Cart-block Cart-block_pict">
+                        {% if product.product_images.first() %}
+                        <a class="Card-picture" href="{{ url('products:product_detail', product.pk) }}">
+                        <img src="{{ product.product_images.first().image.url }}" alt="card.jpg" width="100" height="100" /></a>
+                        {% else %}
+                        <a class="Card-picture" href="{{ url('products:product_detail', product.pk) }}">
+                        <img src="{{ static('img/content/home/card.jpg') }}" alt="card.jpg" width="100" height="100" /></a>
+                        {% endif %}
+                        </div>
+                        <div class="Cart-block Cart-block_info">
+                            <a class="Cart-title" href="{{ url("products:product_detail", product.id) }}">{{ product.name }}</a>
+                            <div class="Cart-desc">
+                            </div>
+                        </div>
+                        <div class="Cart-block Cart-block_price">
+                            <div class="Cart-price"> {{ item.offer.price }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="Cart-block Cart-block_row">
+                        <div class="Cart-block Cart-block_seller">
+                            <select id="selectBox-{{ item.offer.id }}" data-product-id="{{ item.offer.id }}" name="selectedValue">
+                                {% for shop in shops_by_product[product.id] %}
+                                    <option  value="{{ shop.id }}"
+                                            {% if item.offer.shop.id == shop.id %}selected{% endif %}>
+                                       {{ shop.name }}
+                                    </option>
+                                {% endfor %}
+                            </select>
+                            <input type="hidden" name="product_id" value="{{ item.offer.id }}">
+                        </div>
+                        <div class="Cart-block Cart-block_amount">
+                            <div class="Cart-amount">
+                                <div class="Amount">
+                                    <button class="Amount-remove" type="button" data-product-id="{{ item.offer.id }}" >
+                                    </button>
+                                    <input data-product-id="{{ item.offer.id }}" data-stock-{{ item.offer.id }}="{{ item.offer.in_stock }}" min="1" id="quantity-{{ item.offer.id }}"
+                                           class="Amount-input form-input" name="amount" type="text" value="{{ item.quantity }}" />
+                                    <button class="Amount-add" type="button" data-product-id="{{ item.offer.id }}" data-stock-{{ item.offer.id }}="{{ item.offer.in_stock }}">
+                                    </button>
+                                 </div>
+                            </div>
+                        </div>
+                        <div class="Cart-block Cart-block_delete">
+                            <a class="Cart-delete" href="{{ url('cart:remove_from_cart', item.offer.id) }}">
+                                <img src="{{ static('img/icons/card/delete.svg') }}" alt="delete.svg" />
+                            </a>
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+                {% endwith %}
+            {% endfor %}
+            <div id="error-message" style="color: red;"></div>
+
+            <div class="Cart-total">
+                <div class="Cart-block Cart-block_total">
+                    <strong class="Cart-title">{{ _("Итого") }}:</strong>
+                    <div id="total_cart_price" class="Cart-price">{{ total_price }}</div>
+                </div>
+                <div class="Cart-block Cart-block_total">
+                    <strong class="Cart-title">{{ _("Итого с учетом скидки") }}:</strong>
+                    <div id="cart_final_price_with_discount" class="Cart-price">{{ cart_final_price_with_discount }}</div>
+                </div>
+
+                <div class="Cart-block"><a class="btn btn_success btn_lg" href="{{ url('order:step1') }}">{{ _("Оформить заказ") }}</a>
+                </div>
+            </div>
+        </div>
+    {% else %}
+        <div class="wrap">
+            <h2>{{ _("Ваша корзина пуста, вы можете выбрать товары в нашем магазине") }}!</h2>
+            <div class="Cart-block"><a class="btn btn_success btn_lg" href="{{ url('shops:home') }}">{{ _("Перейти к покупкам") }}!</a></div>
+        </div>
+    {% endif %}
+    </div>
+</div>
+{% endblock content %}

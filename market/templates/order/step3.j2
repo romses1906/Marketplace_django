@@ -1,0 +1,24 @@
+{% extends 'order/order.j2' %}
+
+{% block step_list %}
+    {% include "order/step_list.j2" %}
+{% endblock %}
+
+{% block step_form %}
+  <form class="form" action="" method="post">{% csrf_token %}
+    <div class="Order-block Order-block_OPEN" id="step3">
+      <header class="Section-header Section-header_sm">
+        <h2 class="Section-title">{{ _("Шаг 3. Способ оплаты") }}
+        </h2>
+      </header>
+      <div class="form-group">
+        {{ form.payment_option }}
+      </div>
+      <div class="Order-footer">
+        <button class="btn btn_success" type="submit">{{ _("Дальше") }}</button>
+      </div>
+    </div>
+  </form>
+{% endblock %}
+
+

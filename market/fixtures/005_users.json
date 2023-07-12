@@ -1,0 +1,235 @@
+[
+{
+    "model": "users.user",
+    "pk": 1,
+    "fields": {
+        "password": "pbkdf2_sha256$600000$GO7v7NmId43dUgBcwQCHfF$GBc/6tIUiuj4Z85+tr75qOggovy0X8yBOsuj/MDdCVY=",
+        "last_login": "2023-04-12T21:35:25.487Z",
+        "is_superuser": true,
+        "first_name": "",
+        "last_name": "",
+        "is_staff": true,
+        "is_active": true,
+        "date_joined": "2023-04-12T21:35:13.752Z",
+        "email": "admin@admin.ru",
+        "username": null,
+        "surname": null,
+        "phone_number": null,
+        "photo": "",
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "users.user",
+    "pk": 2,
+    "fields": {
+        "password": "pbkdf2_sha256$600000$O4xtlNe7t6CAa5ZbdnT8Zl$ZhC0DquijwrIgs39O8UQs/bsFBL0BhQvKsWRuy93QQo=",
+        "last_login": null,
+        "is_superuser": false,
+        "first_name": "",
+        "last_name": "",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2023-04-13T06:38:36Z",
+        "email": "david@test.ru",
+        "username": "david",
+        "surname": null,
+        "phone_number": null,
+        "photo": "",
+        "groups": [
+            2
+        ],
+        "user_permissions": []
+    }
+},
+{
+    "model": "users.user",
+    "pk": 3,
+    "fields": {
+        "password": "pbkdf2_sha256$600000$WfGWEuw0WNfL6wGdoYXTsm$hA77ugWoMpkqTmKqz2YeHgK703ILKCrU4I6AVwU3P9c=",
+        "last_login": null,
+        "is_superuser": false,
+        "first_name": "",
+        "last_name": "",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2023-04-13T06:41:51Z",
+        "email": "kevin@test.ru",
+        "username": "kevin",
+        "surname": null,
+        "phone_number": null,
+        "photo": "",
+        "groups": [
+            2
+        ],
+        "user_permissions": []
+    }
+},
+{
+    "model": "users.user",
+    "pk": 4,
+    "fields": {
+        "password": "pbkdf2_sha256$600000$WfGWEuw0WNfL6wGdoYXTsm$hA77ugWoMpkqTmKqz2YeHgK703ILKCrU4I6AVwU3P9c=",
+        "last_login": null,
+        "is_superuser": false,
+        "first_name": "",
+        "last_name": "",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2023-04-13T06:41:51Z",
+        "email": "robert@test.ru",
+        "username": "robert",
+        "surname": null,
+        "phone_number": null,
+        "photo": "",
+        "groups": [
+            2
+        ],
+        "user_permissions": []
+    }
+},
+{
+    "model": "users.user",
+    "pk": 5,
+    "fields": {
+        "password": "pbkdf2_sha256$600000$WfGWEuw0WNfL6wGdoYXTsm$hA77ugWoMpkqTmKqz2YeHgK703ILKCrU4I6AVwU3P9c=",
+        "last_login": null,
+        "is_superuser": false,
+        "first_name": "",
+        "last_name": "",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2023-04-13T06:41:51Z",
+        "email": "skott@test.ru",
+        "username": "skott",
+        "surname": null,
+        "phone_number": null,
+        "photo": "",
+        "groups": [
+            2
+        ],
+        "user_permissions": []
+    }
+},
+{
+    "model": "users.user",
+    "pk": 6,
+    "fields": {
+        "password": "pbkdf2_sha256$600000$WfGWEuw0WNfL6wGdoYXTsm$hA77ugWoMpkqTmKqz2YeHgK703ILKCrU4I6AVwU3P9c=",
+        "last_login": null,
+        "is_superuser": false,
+        "first_name": "",
+        "last_name": "",
+        "is_staff": true,
+        "is_active": true,
+        "date_joined": "2023-04-13T06:41:51Z",
+        "email": "kenneth@test.ru",
+        "username": "kenneth",
+        "surname": null,
+        "phone_number": null,
+        "photo": "",
+        "groups": [
+            3,
+            2
+        ],
+        "user_permissions": []
+    }
+},
+{
+    "model": "users.user",
+    "pk": 7,
+    "fields": {
+        "password": "pbkdf2_sha256$600000$WfGWEuw0WNfL6wGdoYXTsm$hA77ugWoMpkqTmKqz2YeHgK703ILKCrU4I6AVwU3P9c=",
+        "last_login": null,
+        "is_superuser": false,
+        "first_name": "",
+        "last_name": "",
+        "is_staff": true,
+        "is_active": true,
+        "date_joined": "2023-04-13T06:41:51Z",
+        "email": "willard@test.ru",
+        "username": "willard",
+        "surname": null,
+        "phone_number": null,
+        "photo": "",
+        "groups": [
+            3,
+            2
+        ],
+        "user_permissions": []
+    }
+},
+{
+    "model": "users.user",
+    "pk": 8,
+    "fields": {
+        "password": "pbkdf2_sha256$600000$WfGWEuw0WNfL6wGdoYXTsm$hA77ugWoMpkqTmKqz2YeHgK703ILKCrU4I6AVwU3P9c=",
+        "last_login": null,
+        "is_superuser": false,
+        "first_name": "",
+        "last_name": "",
+        "is_staff": true,
+        "is_active": true,
+        "date_joined": "2023-04-13T06:41:51Z",
+        "email": "kyle@test.ru",
+        "username": "kyle",
+        "surname": null,
+        "phone_number": null,
+        "photo": "",
+        "groups": [
+            3,
+            2
+        ],
+        "user_permissions": []
+    }
+},
+{
+    "model": "users.user",
+    "pk": 9,
+    "fields": {
+        "password": "pbkdf2_sha256$600000$WfGWEuw0WNfL6wGdoYXTsm$hA77ugWoMpkqTmKqz2YeHgK703ILKCrU4I6AVwU3P9c=",
+        "last_login": null,
+        "is_superuser": false,
+        "first_name": "",
+        "last_name": "",
+        "is_staff": true,
+        "is_active": true,
+        "date_joined": "2023-04-13T06:41:51Z",
+        "email": "glenn@test.ru",
+        "username": "glenn",
+        "surname": null,
+        "phone_number": null,
+        "photo": "",
+        "groups": [
+            3,
+            2
+        ],
+        "user_permissions": []
+    }
+},
+{
+    "model": "users.user",
+    "pk": 10,
+    "fields": {
+        "password": "pbkdf2_sha256$600000$WfGWEuw0WNfL6wGdoYXTsm$hA77ugWoMpkqTmKqz2YeHgK703ILKCrU4I6AVwU3P9c=",
+        "last_login": null,
+        "is_superuser": false,
+        "first_name": "",
+        "last_name": "",
+        "is_staff": true,
+        "is_active": true,
+        "date_joined": "2023-04-13T06:41:51Z",
+        "email": "keith@test.ru",
+        "username": "keith",
+        "surname": null,
+        "phone_number": null,
+        "photo": "",
+        "groups": [
+            3,
+            2
+        ],
+        "user_permissions": []
+    }
+}
+]

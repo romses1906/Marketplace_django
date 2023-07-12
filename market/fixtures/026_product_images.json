@@ -1,0 +1,172 @@
+[
+{
+  "model": "products.productimage",
+  "pk": 1,
+  "fields": {
+    "product": 3,
+    "image": "products/product_3_27.06.2023_11-31_Газонокосилка.jpg",
+    "description": "",
+    "ord_number": 1
+  }
+},
+{
+  "model": "products.productimage",
+  "pk": 2,
+  "fields": {
+    "product": 3,
+    "image": "products/product_3_27.06.2023_11-31_Газонокосилка_2.jpg",
+    "description": "",
+    "ord_number": 2
+  }
+},
+{
+  "model": "products.productimage",
+  "pk": 3,
+  "fields": {
+    "product": 3,
+    "image": "products/product_3_27.06.2023_11-31_Газонокосилка_3.jpg",
+    "description": "",
+    "ord_number": 3
+  }
+},
+{
+  "model": "products.productimage",
+  "pk": 4,
+  "fields": {
+    "product": 6,
+    "image": "products/product_6_07.07.2023_14-42_Onegin.png",
+    "description": "",
+    "ord_number": null
+  }
+},
+{
+  "model": "products.productimage",
+  "pk": 5,
+  "fields": {
+    "product": 6,
+    "image": "products/product_6_07.07.2023_14-42_Onegin2.png",
+    "description": "",
+    "ord_number": null
+  }
+},
+{
+  "model": "products.productimage",
+  "pk": 6,
+  "fields": {
+    "product": 7,
+    "image": "products/product_7_07.07.2023_14-43_kapitan.png",
+    "description": "",
+    "ord_number": null
+  }
+},
+{
+  "model": "products.productimage",
+  "pk": 7,
+  "fields": {
+    "product": 7,
+    "image": "products/product_7_07.07.2023_14-43_kapitan2.png",
+    "description": "",
+    "ord_number": null
+  }
+},
+{
+  "model": "products.productimage",
+  "pk": 8,
+  "fields": {
+    "product": 8,
+    "image": "products/product_8_07.07.2023_14-43_Proza.png",
+    "description": "",
+    "ord_number": null
+  }
+},
+{
+  "model": "products.productimage",
+  "pk": 9,
+  "fields": {
+    "product": 8,
+    "image": "products/product_8_07.07.2023_14-43_Proza_pushkin.png",
+    "description": "",
+    "ord_number": null
+  }
+},
+{
+  "model": "products.productimage",
+  "pk": 10,
+  "fields": {
+    "product": 8,
+    "image": "products/product_8_07.07.2023_14-43_Proza_2.png",
+    "description": "",
+    "ord_number": null
+  }
+},
+{
+  "model": "products.productimage",
+  "pk": 11,
+  "fields": {
+    "product": 9,
+    "image": "products/product_9_07.07.2023_14-43_1984.png",
+    "description": "",
+    "ord_number": null
+  }
+},
+{
+  "model": "products.productimage",
+  "pk": 12,
+  "fields": {
+    "product": 9,
+    "image": "products/product_9_07.07.2023_14-43_1984-2.png",
+    "description": "",
+    "ord_number": null
+  }
+},
+{
+  "model": "products.productimage",
+  "pk": 13,
+  "fields": {
+    "product": 10,
+    "image": "products/product_10_07.07.2023_14-44_Konfuciy.png",
+    "description": "",
+    "ord_number": null
+  }
+},
+{
+  "model": "products.productimage",
+  "pk": 14,
+  "fields": {
+    "product": 10,
+    "image": "products/product_10_07.07.2023_14-44_konf2.png",
+    "description": "",
+    "ord_number": null
+  }
+},
+{
+  "model": "products.productimage",
+  "pk": 15,
+  "fields": {
+    "product": 2,
+    "image": "products/product_2_07.07.2023_15-30_Lopata_sneg.png",
+    "description": "",
+    "ord_number": null
+  }
+},
+{
+  "model": "products.productimage",
+  "pk": 16,
+  "fields": {
+    "product": 2,
+    "image": "products/product_2_07.07.2023_15-30_Lopata_sneg2.png",
+    "description": "",
+    "ord_number": null
+  }
+},
+{
+  "model": "products.productimage",
+  "pk": 17,
+  "fields": {
+    "product": 1,
+    "image": "products/product_1_07.07.2023_15-31_Lopata_shtyk.png",
+    "description": "",
+    "ord_number": null
+  }
+}
+]

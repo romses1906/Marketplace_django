@@ -1,0 +1,51 @@
+<div class="Section-content">
+    <div class="Orders">
+        {% for order in orders %}
+            <div class="Order Order_anons">
+                <div class="Order-personal"><div class="row">
+                    <div class="row-block">
+                        <a class="Order-title" href="{{ url('order:detail_order', order.pk) }}">
+                            {{ _("Заказ") }} <span class="Order-numberOrder">№{{ order.id }}</span> {{ _("от") }} <span class="Order-dateOrder">{{ order.created.strftime('%d.%m.%Y') }}</span>
+                        </a>
+                    </div>
+                    <div class="row-block"><div class="Order-info Order-info_delivery">
+                        <div class="Order-infoType">
+                            {{ _("Тип доставки") }}:
+                        </div>
+                        <div class="Order-infoContent">
+                            {{ order.delivery_option }}
+                        </div>
+                    </div><div class="Order-info Order-info_pay">
+                        <div class="Order-infoType">
+                            {{ _("Оплата") }}:
+                        </div>
+                        <div class="Order-infoContent">
+                            {{ order.payment_option }}
+                        </div>
+                    </div><div class="Order-info">
+                        <div class="Order-infoType">
+                            {{ _("Общая стоимость") }}:
+                        </div>
+                        <div class="Order-infoContent">
+                            <span class="Order-price">
+                                ${{ order.final_price }}
+                            </span>
+                        </div>
+                    </div><div class="Order-info Order-info_status">
+                        <div class="Order-infoType">
+                            {{ _("Статус") }}:
+                        </div>
+                        <div class="Order-infoContent">
+                            {{ order.status }}
+                        </div>
+                    </div>
+                    </div>
+                </div>
+                </div>
+            </div>
+        {% else %}
+            <span class="Order-title">{{ _("У Вас пока ещё нет заказов. Перейдите в") }}
+                <a href="#">{{ _("каталог") }}</a>, {{ _("чтобы совершить покупки") }}.</span>
+        {% endfor %}
+    </div>
+</div>

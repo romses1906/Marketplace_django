@@ -151,7 +151,7 @@ dmypy.json
 # Cython debug symbols
 cython_debug/
 
-# django modules of migrations
-**/migrations/**
-!**/migrations
-!**/migrations/__init__.py
+# directory with media files
+
+media/
+static/

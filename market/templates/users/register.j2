@@ -1,0 +1,46 @@
+{% extends "base.j2" %}
+
+{% block content %}
+
+            <div class="wrapper">
+                <div class="header">
+                    <h3 class="sign-in">{{ _('Регистрация') }}</h3>
+
+                </div>
+                {% if messages %}
+                    <ul class="messages">
+                        {% for message in messages %}
+                        <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+                <div class="clear"></div>
+                <form action="{{ url('users:register_user') }}" method="post">
+                    {% csrf_token %}
+                    <div>
+                        {{ form.username }}
+                    </div>
+                    <div>
+                        {{ form.email }}
+                    </div>
+                    <div>
+                        {{ form.password1 }}
+                    </div>
+                    <div>
+                        {{ form.password2 }}
+                    </div>
+                    <input type="submit" value="{{ _('Зарегистрироваться') }}" />
+
+                    <a class="registr" href="{{ url('users:login_user') }}">
+                        {{ _("Вход") }}
+                    </a>
+                    <div class="clear"></div>
+                </form>
+            </div>
+
+        </div>
+
+    </main>
+
+
+{% endblock %}

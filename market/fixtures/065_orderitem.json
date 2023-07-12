@@ -1,0 +1,112 @@
+[
+{
+  "model": "orders.orderitem",
+  "pk": 1,
+  "fields": {
+    "order": 7,
+    "offer": 7,
+    "quantity": 2,
+    "date_added": "2023-05-13T19:24:45.374Z"
+  }
+},
+{
+  "model": "orders.orderitem",
+  "pk": 2,
+  "fields": {
+    "order": 7,
+    "offer": 3,
+    "quantity": 2,
+    "date_added": "2023-05-13T19:24:45.384Z"
+  }
+},
+{
+  "model": "orders.orderitem",
+  "pk": 3,
+  "fields": {
+    "order": 7,
+    "offer": 4,
+    "quantity": 2,
+    "date_added": "2023-05-13T19:24:45.389Z"
+  }
+},
+{
+  "model": "orders.orderitem",
+  "pk": 4,
+  "fields": {
+    "order": 6,
+    "offer": 3,
+    "quantity": 3,
+    "date_added": "2023-05-13T19:25:59.303Z"
+  }
+},
+{
+  "model": "orders.orderitem",
+  "pk": 5,
+  "fields": {
+    "order": 6,
+    "offer": 1,
+    "quantity": 4,
+    "date_added": "2023-05-13T19:25:59.307Z"
+  }
+},
+{
+  "model": "orders.orderitem",
+  "pk": 6,
+  "fields": {
+    "order": 4,
+    "offer": 9,
+    "quantity": 2,
+    "date_added": "2023-05-13T19:26:39.016Z"
+  }
+},
+{
+  "model": "orders.orderitem",
+  "pk": 7,
+  "fields": {
+    "order": 4,
+    "offer": 8,
+    "quantity": 2,
+    "date_added": "2023-05-13T19:26:39.021Z"
+  }
+},
+{
+  "model": "orders.orderitem",
+  "pk": 8,
+  "fields": {
+    "order": 8,
+    "offer": 10,
+    "quantity": 3,
+    "date_added": "2023-05-18T12:56:07.077Z"
+  }
+},
+{
+  "model": "orders.orderitem",
+  "pk": 9,
+  "fields": {
+    "order": 8,
+    "offer": 9,
+    "quantity": 2,
+    "date_added": "2023-05-18T12:56:07.080Z"
+  }
+},
+{
+  "model": "orders.orderitem",
+  "pk": 10,
+  "fields": {
+    "order": 9,
+    "offer": 7,
+    "quantity": 15,
+    "date_added": "2023-05-18T12:58:10.077Z"
+  }
+},
+{
+  "model": "orders.orderitem",
+  "pk": 11,
+  "fields": {
+    "order": 10,
+    "offer": 10,
+    "quantity": 20,
+    "date_added": "2023-05-18T13:23:47.111Z"
+  }
+}
+]

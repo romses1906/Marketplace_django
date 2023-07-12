@@ -1,0 +1,34 @@
+<div class="Section">
+  <div class="wrap">
+    <div class="BannersHome">
+    {% if hot_deals %}
+        {% for item in hot_deals %}
+          <a class="BannersHomeBlock" href="{{ url('products:product_detail', item.product.pk) }}">
+            <div class="BannersHomeBlock-row">
+              <div class="BannersHomeBlock-block">
+                <strong class="BannersHomeBlock-title">
+                  {{ item.product.name[:35] }}
+                </strong>
+                <div class="BannersHomeBlock-content">
+                  from&#32;
+                  <span class="BannersHomeBlock-price">
+                    {{ item.price }}
+                  </span>
+                </div>
+              </div>
+              <div class="BannersHomeBlock-block">
+                <div class="BannersHomeBlock-img">
+                {% if item.product.product_images.first() %}
+                <img src="{{ item.product.product_images.first().image.url }}" alt="card.jpg" />
+                {% else %}
+                <img src="{{ static('img/content/home/card.jpg') }}" alt="card.jpg" />
+                {% endif %}
+                </div>
+              </div>
+            </div>
+          </a>
+        {% endfor %}
+    {% endif %}
+    </div>
+  </div>
+</div>
