@@ -33,6 +33,8 @@ class SiteSettings(SingletonModel):
                                             verbose_name=_('количество горячих предложений'))
 
     product_cache_time = models.PositiveIntegerField(default=1, verbose_name=_('время кэширования, дней'))
+    categories_cache_time = models.PositiveIntegerField(default=1,
+                                                        verbose_name=_('время кэширования меню категорий, дней'))
 
     def __str__(self) -> str:
         return str(_('настройки сайта'))

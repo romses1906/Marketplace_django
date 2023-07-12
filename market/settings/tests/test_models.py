@@ -88,6 +88,18 @@ class DiscountModelTest(TestCase):
                                     start_date='2023-07-28T17:11:37Z', end_date='2023-06-28T17:11:37Z',
                                     value=10, value_type='percentage')
 
+    def test_percentage_in_discount_is_correct(self):
+        """
+        Тестирование ограничения для поля модели БД,
+        содержащего значение скидки на товар при условии, что тип скидки - percentage
+        """
+
+        constraint_name = "check_value_percentage_in_discount"
+        with self.assertRaisesMessage(IntegrityError, constraint_name):
+            Discount.objects.create(name='тестовая скидка на товар', description='тестовая скидка на товар',
+                                    start_date='2023-07-28T17:11:37Z', end_date='2023-08-28T17:11:37Z',
+                                    value=101, value_type='percentage')
+
 
 class DiscountOnCartModelTest(TestCase):
     """ Класс тестов модели Скидка на корзину """
@@ -174,6 +186,18 @@ class DiscountOnCartModelTest(TestCase):
                                           quantity_at=1, quantity_to=3,
                                           cart_total_price_at=500)
 
+    def test_percentage_in_discount_on_cart_is_correct(self):
+        """
+        Тестирование ограничения для поля модели БД,
+        содержащего значение скидки на корзину при условии, что тип скидки - percentage
+        """
+
+        constraint_name = "check_value_percentage_in_discount_on_cart"
+        with self.assertRaisesMessage(IntegrityError, constraint_name):
+            DiscountOnCart.objects.create(name='тестовая скидка на корзину', description='тестовая скидка на корзину',
+                                          start_date='2023-07-28T17:11:37Z', end_date='2023-08-28T17:11:37Z',
+                                          value=101, value_type='percentage')
+
 
 class DiscountOnSetModelTest(TestCase):
     """ Класс тестов модели Скидка на набор товаров """
@@ -247,11 +271,24 @@ class DiscountOnSetModelTest(TestCase):
 
         constraint_name = "check_dates_in_discount_on_set"
         with self.assertRaisesMessage(IntegrityError, constraint_name):
-            DiscountOnSet.objects.create(name='тестовая скидка на набо',
+            DiscountOnSet.objects.create(name='тестовая скидка на набор',
                                          description='тестовая скидка на набор',
                                          start_date='2023-07-28T17:11:37Z',
                                          end_date='2023-6-28T17:11:37Z', value=50,
                                          value_type='percentage')
+
+    def test_percentage_in_discount_on_set_is_correct(self):
+        """
+        Тестирование ограничения для поля модели БД,
+        содержащего значение скидки на набор товаров при условии, что тип скидки - percentage
+        """
+
+        constraint_name = "check_value_percentage_in_discount_on_set"
+        with self.assertRaisesMessage(IntegrityError, constraint_name):
+            DiscountOnSet.objects.create(name='тестовая скидка на набор товаров',
+                                         description='тестовая скидка на набор',
+                                         start_date='2023-07-28T17:11:37Z', end_date='2023-08-28T17:11:37Z',
+                                         value=101, value_type='percentage')
 
 
 class ProductInDiscountOnSetModelTest(TestCase):
