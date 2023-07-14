@@ -4,7 +4,7 @@ stages:
 
 variables:
   POSTGRES_DB: market
-  POSTGRES_USER: skillbox
+  POSTGRES_USER: pg_user
   POSTGRES_PASSWORD: secret
   POSTGRES_HOST_AUTH_METHOD: trust
 
@@ -46,6 +46,7 @@ test:
     EMAIL_HOST_USER: "service.megano@gmail.com"
     EMAIL_HOST_PASSWORD: "riuqnqydepsshhmj"
     SECRET_KEY: "django-insecure-=e-i4dlx_qq&ra7un4)u8bdr#08q)gc_*yyy4@7--kt(0(p#!("
+
   script:
     - echo "DATABASE_URL = $DATABASE_URL" >> .env
     - echo "REDIS_URL = $REDIS_URL" >> .env
