@@ -45,6 +45,7 @@ test:
     STRIPE_WEBHOOK_KEY: "whsec_53bfcc10727d4925a97b85d8554d24d39724d06cb638859e8ce2d13888bf0dba"
     EMAIL_HOST_USER: "service.megano@gmail.com"
     EMAIL_HOST_PASSWORD: "riuqnqydepsshhmj"
+    SECRET_KEY: "django-insecure-=e-i4dlx_qq&ra7un4)u8bdr#08q)gc_*yyy4@7--kt(0(p#!("
   script:
     - echo "DATABASE_URL = $DATABASE_URL" >> .env
     - echo "REDIS_URL = $REDIS_URL" >> .env
@@ -53,6 +54,7 @@ test:
     - echo "STRIPE_WEBHOOK_KEY = $STRIPE_WEBHOOK_KEY" >> .env
     - echo "EMAIL_HOST_USER = $EMAIL_HOST_USER" >> .env
     - echo "EMAIL_HOST_PASSWORD = $EMAIL_HOST_PASSWORD" >> .env
+    - echo "SECRET_KEY = $SECRET_KEY" >> .env
     - cd market
     - python manage.py makemigrations
     - python manage.py test
