@@ -1,20 +1,25 @@
-# Интернет-магазин MEGANO
-Владелец торгового центра во время COVID-карантина решил перевести своих арендодателей в онлайн. Сделать это он намерен с помощью создания платформы, на которой продавцы смогут разместить информацию о себе и своём товаре. Онлайновый торговый центр или, другими словами, интернет-магазин, являющийся агрегатором товаров различных продавцов.
+# Маркетплейс MEGANO
+Интернет-магазин, являющийся агрегатором товаров различных продавцов.
 
 ## Как установить
-Для работы микросервиса нужен Python версии не ниже 3.10 и установленное ПО для контейнеризации - [Docker](https://docs.docker.com/engine/install/).    
+Для работы микросервиса нужен Python версии не ниже 3.10 и установленное ПО для контейнеризации - [Docker](https://docs.docker.com/engine/install/). 
+
+Склонируйте репозиторий
+```shell
+git clone git@github.com:romses1906/Marketplace_django.git
+``` 
 
 Настройка переменных окружения  
-1. Скопируйте файл .env.dist в .env
-2. Заполните .env файл. Пример:  
+
+Создайте файл .env и заполните его по примеру env.dist:  
 ```yaml
-DATABASE_URL = postgresql://skillbox:secret@127.0.0.1:5434/market
+DATABASE_URL = postgresql://pg_user:secret@127.0.0.1:5434/market
 REDIS_URL = redis://127.0.0.1:6379/0
 ```
 
 Запуск СУБД Postgresql
 ```shell
-docker run --name skillbox-db -e POSTGRES_USER=skillbox -e POSTGRES_PASSWORD=secret -e POSTGRES_DB=market -p 5434:5432 -d postgres
+docker run --name market-db -e POSTGRES_USER=pg_user -e POSTGRES_PASSWORD=secret -e POSTGRES_DB=market -p 5434:5432 -d postgres
 ```
 Запуск брокера сообщений REDIS
 ```shell
@@ -35,12 +40,12 @@ pip install -r requirements/base.txt
 ### Как удалить контейнеры
 СУБД Postgres  
 ```
- docker rm -f -v skillbox-db
+ docker rm -f -v market-db
 ```
 
 Брокер сообщений REDIS  
 ```
- docker rm -f -v skillbox-db
+ docker rm -f -v redis-db
 ```
 
 ## Проверка форматирования кода
@@ -60,21 +65,18 @@ pylint --rcfile=.pylintrc market/*
 python manage.py runserver 0.0.0.0:8000
 ```
 
-# Цели проекта
-
-Код написан в учебных целях — это курс по Джанго на сайте [Skillbox](https://go.skillbox.ru/education/course/django-framework).  
 
 ## Разработка
 ### Работа в оболочке
 ```shell
 python manage.py shell_plus
 ```
-### Приложение users:
+### Загрузка фикстур
 
-Загрузка данных в модель User выполняется из папки `market/` следующей командой:
+Загрузка данных в модели проекта (фикстур) выполняется из папки `market/` следующей командой:
 
 ```shell
-python manage.py loaddata fixtures/005_users.json --app users.User
+python manage.py loaddata fixtures/*.json
 ```
 
 #### Данные cуперпользователя:
@@ -100,7 +102,7 @@ email: admin@admin.ru password: admin
 
 email: service.megano@gmail.com password: 2023Django
 
-### Приложение imports:
+### Приложение imports
 
 Команды для выполнения импорта:
 
