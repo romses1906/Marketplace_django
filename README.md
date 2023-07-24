@@ -98,9 +98,6 @@ email: admin@admin.ru password: admin
 4. email: glenn@test.ru password: 1304test
 5. email: keith@test.ru password: 1304test  
 
-#### Данные для доступа к серверной электронной почте:
-
-email: service.megano@gmail.com password: 2023Django
 
 ### Приложение imports
 
@@ -148,10 +145,6 @@ python manage.py runserver
 #### Система оплаты Stripe
 
 Система оплаты настроена на тестовый режим!
-
-Данные для доступа к личному кабинету [Stripe](https://dashboard.stripe.com/test/dashboard):
- - логин - service.megano@gmail.com
- - пароль - 2023Megano/
 
 Номер карты для тестирования оплаты - 
 4242 4242 4242 4242 4242, остальные данные рандомные.
